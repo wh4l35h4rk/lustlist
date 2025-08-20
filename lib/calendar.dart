@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/example_utils.dart';
 
@@ -11,11 +12,12 @@ class MyCalendar extends StatefulWidget {
 }
 
 class _MyCalendarState extends State<MyCalendar> {
+  late final PageController _pageController;
   final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
 
-  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
+  final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
 
   @override
   void dispose() {
@@ -24,7 +26,6 @@ class _MyCalendarState extends State<MyCalendar> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
     return kEvents[day] ?? [];
   }
 
@@ -33,12 +34,12 @@ class _MyCalendarState extends State<MyCalendar> {
     if (!isSameDay(_selectedDay, selectedDay)) {
       setState(() {
         _selectedDay = selectedDay;
-        _focusedDay = focusedDay;
+        _focusedDay.value = focusedDay;
       });
     } else {
       setState(() {
         _selectedDay = DateTime.now();
-        _focusedDay = DateTime.now();
+        _focusedDay.value = DateTime.now();
       });
     }
 
@@ -50,58 +51,85 @@ class _MyCalendarState extends State<MyCalendar> {
     return Scaffold(
       body: Column(
         children: [
-          TableCalendar<Event>(
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            calendarBuilders: CalendarBuilders(
-              markerBuilder: (context, day, events) {
-                if (events.isNotEmpty) {
-                  return Positioned(
-                    bottom: 1,
-                    child: Row(
-                        children: List<Icon>.filled(
-                          events.length,
-                          Icon(
-                            Icons.favorite,
-                            size: 12,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        )
-                    ),
+          ValueListenableBuilder<DateTime>(
+            valueListenable: _focusedDay,
+            builder: (context, value, _) {
+              return _CalendarHeader(
+                focusedDay: _focusedDay.value,
+                onTodayButtonTap: () {
+                  setState(() => _focusedDay.value = DateTime.now());
+                },
+                onLeftArrowTap: () {
+                  _pageController.previousPage(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
                   );
+                },
+                onRightArrowTap: () {
+                  _pageController.nextPage(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  );
+                },
+                onSelectDateButtonTap: (){
+                  null;
                 }
-                return const SizedBox();
-              },
-            ),
-            calendarStyle: CalendarStyle(
-              selectedDecoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              todayDecoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.primaryFixed,
-              ),
-            ),
-            eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
+              );
             },
-            onDaySelected: _onDaySelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-
+          ),
+          ValueListenableBuilder(
+            valueListenable: _focusedDay,
+            builder: (context, value, child) {
+              return TableCalendar<Event>(
+                firstDay: kFirstDay,
+                lastDay: kLastDay,
+                focusedDay: _focusedDay.value,
+                calendarFormat: _calendarFormat,
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, day, events) {
+                    if (events.isNotEmpty) {
+                      return Positioned(
+                        bottom: 1,
+                        child: Row(
+                            children: List<Icon>.filled(
+                              events.length,
+                              Icon(
+                                Icons.favorite,
+                                size: 12,
+                                color: (day.month == _focusedDay.value.month) ?
+                                  Theme.of(context).colorScheme.secondary :
+                                  Colors.black26
+                              ),
+                            )
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                calendarStyle: CalendarStyle(
+                  selectedDecoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  todayDecoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.primaryFixed,
+                  ),
+                ),
+                headerVisible: false,
+                eventLoader: _getEventsForDay,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onCalendarCreated: (controller) => _pageController = controller,
+                onDaySelected: _onDaySelected,
+                onPageChanged: (focusedDay) {
+                  _focusedDay.value = focusedDay;
+                },
+              );
+            }
           ),
 
           const SizedBox(height: 10.0),
@@ -131,6 +159,64 @@ class _MyCalendarState extends State<MyCalendar> {
                 );
               },
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class _CalendarHeader extends StatelessWidget {
+  final DateTime focusedDay;
+  final VoidCallback onLeftArrowTap;
+  final VoidCallback onRightArrowTap;
+  final VoidCallback onTodayButtonTap;
+  final VoidCallback onSelectDateButtonTap;
+
+  const _CalendarHeader({
+    super.key,
+    required this.focusedDay,
+    required this.onLeftArrowTap,
+    required this.onRightArrowTap,
+    required this.onTodayButtonTap,
+    required this.onSelectDateButtonTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final headerText = DateFormat.yMMMM().format(focusedDay);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        children: [
+          const SizedBox(width: 16.0),
+          IconButton(
+            icon: Icon(Icons.chevron_left),
+            onPressed: onLeftArrowTap,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          SizedBox(
+            width: 130.0,
+            child: TextButton(
+              onPressed: onSelectDateButtonTap,
+              child: Text(
+                headerText,
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          ),
+          const Spacer(),
+          IconButton(
+            icon: Icon(Icons.calendar_today, size: 16.0),
+            visualDensity: VisualDensity.compact,
+            onPressed: onTodayButtonTap,
+          ),
+          IconButton(
+            icon: Icon(Icons.chevron_right),
+            onPressed: onRightArrowTap,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ],
       ),
