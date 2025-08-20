@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -101,7 +100,11 @@ class _MyCalendarState extends State<MyCalendar> {
               _CalendarHeader(
                 focusedDay: _focusedDay.value,
                 onTodayButtonTap: () {
-                  setState(() => _focusedDay.value = DateTime.now());
+                  setState(() {
+                    _focusedDay.value = DateTime.now();
+                    _selectedDay = DateTime.now();
+                    _selectedEvents.value = _getEventsForDay(_selectedDay!);
+                  });
                 },
                 onLeftArrowTap: () {
                   _pageController.previousPage(
@@ -171,34 +174,42 @@ class _MyCalendarState extends State<MyCalendar> {
                 },
               ),
 
-              const SizedBox(height: 10.0),
-              Expanded(
-                child: ValueListenableBuilder<List<Event>>(
-                  valueListenable: _selectedEvents,
-                  builder: (context, value, _) {
-                    return ListView.builder(
-                      itemCount: value.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 4.0,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.symmetric(
-                                horizontal: BorderSide(color: Theme.of(context).colorScheme.primary)
+              const SizedBox(height: 15.0),
+              (_selectedEvents.value.isNotEmpty) ? 
+                Expanded(
+                  child: ValueListenableBuilder<List<Event>>(
+                    valueListenable: _selectedEvents,
+                    builder: (context, value, _) {
+                      return ListView.builder(
+                        itemCount: value.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 4.0,
                             ),
-                          ),
-                          child: ListTile(
-                            onTap: () => print('${value[index]}'),
-                            title: Text('${value[index]}'),
-                          ),
-                        );
-                      },
-                    );
-                  },
+                            decoration: BoxDecoration(
+                              border: Border.symmetric(
+                                  horizontal: BorderSide(color: Theme.of(context).colorScheme.primary)
+                              ),
+                            ),
+                            child: ListTile(
+                              onTap: () => print('${value[index]}'),
+                              title: Text('${value[index]}'),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ) :
+                Text(
+                  "There are no events this day!",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.outline,
+                    fontSize: 16
+                  ),
                 ),
-              ),
             ],
           );
         }
@@ -216,7 +227,6 @@ class _CalendarHeader extends StatelessWidget {
   final VoidCallback onSelectDateButtonTap;
 
   const _CalendarHeader({
-    super.key,
     required this.focusedDay,
     required this.onLeftArrowTap,
     required this.onRightArrowTap,
