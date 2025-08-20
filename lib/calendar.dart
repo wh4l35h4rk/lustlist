@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,7 +17,7 @@ class _MyCalendarState extends State<MyCalendar> {
   final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
   final CalendarFormat _calendarFormat = CalendarFormat.month;
 
-  DateTime _selectedDay = DateTime.now();
+  DateTime? _selectedDay = DateTime.now();
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
 
   @override
@@ -29,32 +30,75 @@ class _MyCalendarState extends State<MyCalendar> {
     return kEvents[day] ?? [];
   }
 
-
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, selectedDay)) {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay.value = focusedDay;
+        _selectedEvents.value = _getEventsForDay(_selectedDay!);
       });
     } else {
       setState(() {
-        _selectedDay = DateTime.now();
-        _focusedDay.value = DateTime.now();
+        _selectedDay = null;
+        _selectedEvents.value = [];
       });
     }
+  }
 
-    _selectedEvents.value = _getEventsForDay(_selectedDay);
+  void _showPopUp(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                "Select a month",
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              )),
+          content: Container(
+            height: 100,
+            child: CupertinoTheme(
+              data: CupertinoThemeData(
+                textTheme: CupertinoTextThemeData(
+                  dateTimePickerTextStyle: TextStyle(
+                    fontSize: 16,
+                  ),
+                )
+              ),
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.monthYear,
+                minimumDate: kFirstDay,
+                maximumDate: kLastDay,
+                initialDateTime: _focusedDay.value,
+                onDateTimeChanged: (DateTime newDate) {
+                  _selectedDay = newDate;
+                },
+              ),
+            ),
+          ),
+          actions: [
+            MaterialButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _focusedDay.value = _selectedDay!;
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          ValueListenableBuilder<DateTime>(
-            valueListenable: _focusedDay,
-            builder: (context, value, _) {
-              return _CalendarHeader(
+      body: ValueListenableBuilder(
+        valueListenable: _focusedDay,
+        builder: (context, value, child) {
+          return Column(
+            children: [
+              _CalendarHeader(
                 focusedDay: _focusedDay.value,
                 onTodayButtonTap: () {
                   setState(() => _focusedDay.value = DateTime.now());
@@ -71,16 +115,12 @@ class _MyCalendarState extends State<MyCalendar> {
                     curve: Curves.easeOut,
                   );
                 },
-                onSelectDateButtonTap: (){
-                  null;
-                }
-              );
-            },
-          ),
-          ValueListenableBuilder(
-            valueListenable: _focusedDay,
-            builder: (context, value, child) {
-              return TableCalendar<Event>(
+                onSelectDateButtonTap: () {
+                  _showPopUp(context);
+                },
+              ),
+
+              TableCalendar<Event>(
                 firstDay: kFirstDay,
                 lastDay: kLastDay,
                 focusedDay: _focusedDay.value,
@@ -117,6 +157,7 @@ class _MyCalendarState extends State<MyCalendar> {
                     color: Theme.of(context).colorScheme.primaryFixed,
                   ),
                 ),
+                pageJumpingEnabled: true,
                 headerVisible: false,
                 eventLoader: _getEventsForDay,
                 startingDayOfWeek: StartingDayOfWeek.monday,
@@ -128,39 +169,39 @@ class _MyCalendarState extends State<MyCalendar> {
                 onPageChanged: (focusedDay) {
                   _focusedDay.value = focusedDay;
                 },
-              );
-            }
-          ),
+              ),
 
-          const SizedBox(height: 10.0),
-          Expanded(
-            child: ValueListenableBuilder<List<Event>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.symmetric(
-                            horizontal: BorderSide(color: Theme.of(context).colorScheme.primary)
-                        ),
-                      ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
-                      ),
+              const SizedBox(height: 10.0),
+              Expanded(
+                child: ValueListenableBuilder<List<Event>>(
+                  valueListenable: _selectedEvents,
+                  builder: (context, value, _) {
+                    return ListView.builder(
+                      itemCount: value.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 4.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.symmetric(
+                                horizontal: BorderSide(color: Theme.of(context).colorScheme.primary)
+                            ),
+                          ),
+                          child: ListTile(
+                            onTap: () => print('${value[index]}'),
+                            title: Text('${value[index]}'),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        }
       ),
     );
   }
@@ -207,6 +248,7 @@ class _CalendarHeader extends StatelessWidget {
               ),
             ),
           ),
+
           const Spacer(),
           IconButton(
             icon: Icon(Icons.calendar_today, size: 16.0),
