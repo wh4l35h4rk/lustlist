@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/example_utils.dart';
-import 'package:lustlist/db/event.dart';
+import 'package:lustlist/db/test_event.dart';
 
 
 class Calendar extends StatefulWidget {
@@ -15,7 +15,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   late final PageController _pageController;
-  final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
+  final ValueNotifier<List<TestEvent>> _selectedEvents = ValueNotifier([]);
   final CalendarFormat _calendarFormat = CalendarFormat.month;
 
   DateTime? _selectedDay = DateTime.now();
@@ -27,7 +27,7 @@ class _CalendarState extends State<Calendar> {
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<TestEvent> _getEventsForDay(DateTime day) {
     return kEvents[day] ?? [];
   }
 
@@ -125,7 +125,7 @@ class _CalendarState extends State<Calendar> {
                 },
               ),
 
-              TableCalendar<Event>(
+              TableCalendar<TestEvent>(
                 firstDay: kFirstDay,
                 lastDay: kLastDay,
                 focusedDay: _focusedDay.value,
@@ -179,7 +179,7 @@ class _CalendarState extends State<Calendar> {
               const SizedBox(height: 15.0),
               (_selectedEvents.value.isNotEmpty) ? 
                 Expanded(
-                  child: ValueListenableBuilder<List<Event>>(
+                  child: ValueListenableBuilder<List<TestEvent>>(
                     valueListenable: _selectedEvents,
                     builder: (context, value, _) {
                       return ListView.builder(

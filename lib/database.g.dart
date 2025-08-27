@@ -3,7 +3,7 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $PartnerTable extends Partner with TableInfo<$PartnerTable, PartnerData> {
+class $PartnerTable extends Partners with TableInfo<$PartnerTable, PartnerData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -61,9 +61,10 @@ class $PartnerTable extends Partner with TableInfo<$PartnerTable, PartnerData> {
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
     'created_at',
     aliasedName,
-    true,
+    false,
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
   );
   @override
   List<GeneratedColumn> get $columns => [id, name, gender, birthday, createdAt];
@@ -132,7 +133,7 @@ class $PartnerTable extends Partner with TableInfo<$PartnerTable, PartnerData> {
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
-      ),
+      )!,
     );
   }
 
@@ -150,13 +151,13 @@ class PartnerData extends DataClass implements Insertable<PartnerData> {
   final String name;
   final Gender gender;
   final DateTime? birthday;
-  final DateTime? createdAt;
+  final DateTime createdAt;
   const PartnerData({
     required this.id,
     required this.name,
     required this.gender,
     this.birthday,
-    this.createdAt,
+    required this.createdAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -171,9 +172,7 @@ class PartnerData extends DataClass implements Insertable<PartnerData> {
     if (!nullToAbsent || birthday != null) {
       map['birthday'] = Variable<DateTime>(birthday);
     }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<DateTime>(createdAt);
-    }
+    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
@@ -185,9 +184,7 @@ class PartnerData extends DataClass implements Insertable<PartnerData> {
       birthday: birthday == null && nullToAbsent
           ? const Value.absent()
           : Value(birthday),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
+      createdAt: Value(createdAt),
     );
   }
 
@@ -203,7 +200,7 @@ class PartnerData extends DataClass implements Insertable<PartnerData> {
         serializer.fromJson<int>(json['gender']),
       ),
       birthday: serializer.fromJson<DateTime?>(json['birthday']),
-      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
@@ -216,7 +213,7 @@ class PartnerData extends DataClass implements Insertable<PartnerData> {
         $PartnerTable.$convertergender.toJson(gender),
       ),
       'birthday': serializer.toJson<DateTime?>(birthday),
-      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
@@ -225,13 +222,13 @@ class PartnerData extends DataClass implements Insertable<PartnerData> {
     String? name,
     Gender? gender,
     Value<DateTime?> birthday = const Value.absent(),
-    Value<DateTime?> createdAt = const Value.absent(),
+    DateTime? createdAt,
   }) => PartnerData(
     id: id ?? this.id,
     name: name ?? this.name,
     gender: gender ?? this.gender,
     birthday: birthday.present ? birthday.value : this.birthday,
-    createdAt: createdAt.present ? createdAt.value : this.createdAt,
+    createdAt: createdAt ?? this.createdAt,
   );
   PartnerData copyWithCompanion(PartnerCompanion data) {
     return PartnerData(
@@ -273,7 +270,7 @@ class PartnerCompanion extends UpdateCompanion<PartnerData> {
   final Value<String> name;
   final Value<Gender> gender;
   final Value<DateTime?> birthday;
-  final Value<DateTime?> createdAt;
+  final Value<DateTime> createdAt;
   const PartnerCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -310,7 +307,7 @@ class PartnerCompanion extends UpdateCompanion<PartnerData> {
     Value<String>? name,
     Value<Gender>? gender,
     Value<DateTime?>? birthday,
-    Value<DateTime?>? createdAt,
+    Value<DateTime>? createdAt,
   }) {
     return PartnerCompanion(
       id: id ?? this.id,
@@ -366,6 +363,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [partner];
+  @override
+  DriftDatabaseOptions get options =>
+      const DriftDatabaseOptions(storeDateTimeAsText: true);
 }
 
 typedef $$PartnerTableCreateCompanionBuilder =
@@ -374,7 +374,7 @@ typedef $$PartnerTableCreateCompanionBuilder =
       required String name,
       required Gender gender,
       Value<DateTime?> birthday,
-      Value<DateTime?> createdAt,
+      Value<DateTime> createdAt,
     });
 typedef $$PartnerTableUpdateCompanionBuilder =
     PartnerCompanion Function({
@@ -382,7 +382,7 @@ typedef $$PartnerTableUpdateCompanionBuilder =
       Value<String> name,
       Value<Gender> gender,
       Value<DateTime?> birthday,
-      Value<DateTime?> createdAt,
+      Value<DateTime> createdAt,
     });
 
 class $$PartnerTableFilterComposer
@@ -516,7 +516,7 @@ class $$PartnerTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<Gender> gender = const Value.absent(),
                 Value<DateTime?> birthday = const Value.absent(),
-                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
               }) => PartnerCompanion(
                 id: id,
                 name: name,
@@ -530,7 +530,7 @@ class $$PartnerTableTableManager
                 required String name,
                 required Gender gender,
                 Value<DateTime?> birthday = const Value.absent(),
-                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
               }) => PartnerCompanion.insert(
                 id: id,
                 name: name,

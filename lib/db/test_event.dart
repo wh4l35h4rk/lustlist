@@ -1,11 +1,8 @@
-import 'dart:collection';
-
-
-class Event {
+class TestEvent {
   final int id;
   final String notes;
 
-  const Event(this.id, this.notes);
+  const TestEvent(this.id, this.notes);
 
   @override
   String toString() => notes;

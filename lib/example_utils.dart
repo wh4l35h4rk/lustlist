@@ -1,10 +1,10 @@
 import 'dart:collection';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:lustlist/db/event.dart';
+import 'package:lustlist/db/test_event.dart';
 
 
 /// Example events.
-final kEvents = LinkedHashMap<DateTime, List<Event>>(
+final kEvents = LinkedHashMap<DateTime, List<TestEvent>>(
   equals: isSameDay,
   hashCode: getHashCode,
 )..addAll(_kEventSource);
@@ -13,12 +13,12 @@ final _kEventSource = {
   for (var item in List.generate(50, (index) => index))
     DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
       item % 4 + 1,
-          (index) => Event(index, 'Event $item | ${index + 1}'),
+          (index) => TestEvent(index, 'Event $item | ${index + 1}'),
     ),
 }..addAll({
   kToday: [
-    const Event(1, "Today's Event 1"),
-    const Event(2, "Today's Event 2"),
+    const TestEvent(1, "Today's Event 1"),
+    const TestEvent(2, "Today's Event 2"),
   ],
 });
 
