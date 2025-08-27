@@ -33,24 +33,42 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  // @override
-  // MigrationStrategy get migration {
-  //   return MigrationStrategy(
-  //     onUpgrade: stepByStep(
-  //       from1To2: (m, schema) async {
-  //         await m.createTable(schema.partners);
-  //         await m.createTable(schema.categories);
-  //         await m.createTable(schema.eOptions);
-  //         await m.createTable(schema.types);
-  //         await m.createTable(schema.sexualEvent);
-  //         await m.createTable(schema.events);
-  //       },
-  //       from2To3: (m, schema) async {
-  //         await m.createTable(schema.categoriesTypes);
-  //         await m.createTable(schema.eventsOptions);
-  //         await m.createTable(schema.eventsPartners);
-  //       },
-  //     ),
-  //   );
-  // }
+  Future<List<Type>> get allTypes => select(types).get();
+  Future<List<Category>> get allCategories => select(categories).get();
+  Future<List<EOption>> get allOptions => select(eOptions).get();
+  Future<List<Partner>> get allPartners => select(partners).get();
+  Future<List<SexualEventData>> get allSexualEvents => select(sexualEvent).get();
+  Future<List<Event>> get allEvents => select(events).get();
+
+  Future<List<CategoryType>> get allCategoriesTypes => select(categoriesTypes).get();
+  Future<List<EventOption>> get allEventsOptions => select(eventsOptions).get();
+  Future<List<EventPartner>> get allEventsPartners => select(eventsPartners).get();
+
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+        onCreate: (m) async {
+          await m.createAll();
+          await batch((batch) {
+            batch.insertAll(types, [
+              TypesCompanion.insert(name: 'Sex'),
+              TypesCompanion.insert(name: 'Masturbation'),
+              TypesCompanion.insert(name: 'Medical')
+            ]);
+          });
+          await batch((batch) {
+            batch.insertAll(categories, [
+              CategoriesCompanion.insert(name: 'Contraception'),
+              CategoriesCompanion.insert(name: 'Poses'),
+              CategoriesCompanion.insert(name: 'Practices'),
+              CategoriesCompanion.insert(name: 'Solo Practices'),
+              CategoriesCompanion.insert(name: 'Place'),
+              CategoriesCompanion.insert(name: 'Location'),
+              CategoriesCompanion.insert(name: 'Medical'),
+            ]);
+          });
+        }
+    );
+  }
 }

@@ -1,26 +1,52 @@
 import 'dart:collection';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/db/test_event.dart';
+import 'package:lustlist/database.dart';
+
+
+Future<Map<DateTime, List<TestEvent>>> getEventSource(AppDatabase db) async {
+  final typesFromDb = await db.allTypes;
+
+  final eventMap = {
+    for (var item in List.generate(50, (index) => index))
+      DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
+        item % 4 + 1,
+            (index) => TestEvent(index, typesFromDb[index % 3].name),
+      ),
+  };
+
+  return eventMap;
+}
+
+LinkedHashMap<DateTime, List<TestEvent>> kEvents = LinkedHashMap(
+  equals: isSameDay,
+  hashCode: getHashCode,
+);
+
+Future<void> loadEvents(AppDatabase db) async {
+  final data = await getEventSource(db);
+  kEvents.addAll(data);
+}
 
 
 /// Example events.
-final kEvents = LinkedHashMap<DateTime, List<TestEvent>>(
-  equals: isSameDay,
-  hashCode: getHashCode,
-)..addAll(_kEventSource);
-
-final _kEventSource = {
-  for (var item in List.generate(50, (index) => index))
-    DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
-      item % 4 + 1,
-          (index) => TestEvent(index, 'Event $item | ${index + 1}'),
-    ),
-}..addAll({
-  kToday: [
-    const TestEvent(1, "Today's Event 1"),
-    const TestEvent(2, "Today's Event 2"),
-  ],
-});
+// final kEvents = LinkedHashMap<DateTime, List<TestEvent>>(
+//   equals: isSameDay,
+//   hashCode: getHashCode,
+// )..addAll(_kEventSource);
+//
+// final _kEventSource = {
+//   for (var item in List.generate(50, (index) => index))
+//     DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
+//       item % 4 + 1,
+//           (index) => TestEvent(index, 'Event $item | ${index + 1}'),
+//     ),
+// }..addAll({
+//   kToday: [
+//     const TestEvent(1, "Today's Event 1"),
+//     const TestEvent(2, "Today's Event 2"),
+//   ],
+// });
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
