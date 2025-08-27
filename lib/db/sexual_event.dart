@@ -14,7 +14,6 @@ class SexualEvent extends Table {
   TextColumn get daytime => textEnum<DayTime>()();
   DateTimeColumn get time => dateTime().nullable()();
   IntColumn get duration => integer().nullable()();
-  IntColumn get userOrgasms => integer().withDefault(const Constant(1))
-                                        .customConstraint('CHECK(user_orgasms BETWEEN 0 AND 25)')();
+  IntColumn get userOrgasms => integer().customConstraint('NOT NULL DEFAULT 1 CHECK(user_orgasms BETWEEN 0 AND 25)')();
 }
 

@@ -12,9 +12,12 @@ final class Schema2 extends i0.VersionedSchema {
     categories,
     types,
     events,
-    eventOptions,
+    eOptions,
     partners,
     sexualEvent,
+    categoriesTypes,
+    eventsOptions,
+    eventsPartners,
   ];
   late final Shape0 categories = Shape0(
     source: i0.VersionedTable(
@@ -49,9 +52,9 @@ final class Schema2 extends i0.VersionedSchema {
     ),
     alias: null,
   );
-  late final Shape2 eventOptions = Shape2(
+  late final Shape2 eOptions = Shape2(
     source: i0.VersionedTable(
-      entityName: 'event_options',
+      entityName: 'e_options',
       withoutRowId: false,
       isStrict: false,
       tableConstraints: [],
@@ -85,6 +88,39 @@ final class Schema2 extends i0.VersionedSchema {
         _column_15,
         _column_16,
       ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape5 categoriesTypes = Shape5(
+    source: i0.VersionedTable(
+      entityName: 'categories_types',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(category_id, type_id)'],
+      columns: [_column_6, _column_2],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape6 eventsOptions = Shape6(
+    source: i0.VersionedTable(
+      entityName: 'events_options',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(event_id, option_id)'],
+      columns: [_column_17, _column_18],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 eventsPartners = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'events_partners',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(event_id, partner_id)'],
+      columns: [_column_17, _column_19, _column_20],
       attachedDatabase: database,
     ),
     alias: null,
@@ -314,8 +350,199 @@ i1.GeneratedColumn<int> _column_16(String aliasedName) =>
       $customConstraints: 'CHECK(user_orgasms BETWEEN 0 AND 25)',
       defaultValue: const Constant(1),
     );
+
+class Shape5 extends i0.VersionedTable {
+  Shape5({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<int> get categoryId =>
+      columnsByName['category_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get typeId =>
+      columnsByName['type_id']! as i1.GeneratedColumn<int>;
+}
+
+class Shape6 extends i0.VersionedTable {
+  Shape6({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<int> get eventId =>
+      columnsByName['event_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get optionId =>
+      columnsByName['option_id']! as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<int> _column_17(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'event_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES events (id)',
+      ),
+    );
+i1.GeneratedColumn<int> _column_18(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'option_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES e_options (id)',
+      ),
+    );
+
+class Shape7 extends i0.VersionedTable {
+  Shape7({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<int> get eventId =>
+      columnsByName['event_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get partnerId =>
+      columnsByName['partner_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get partnerOrgasms =>
+      columnsByName['partner_orgasms']! as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<int> _column_19(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'partner_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES partners (id)',
+      ),
+    );
+i1.GeneratedColumn<int> _column_20(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'partner_orgasms',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'CHECK(partner_orgasms BETWEEN 0 AND 25)',
+      defaultValue: const Constant(1),
+    );
+
+final class Schema3 extends i0.VersionedSchema {
+  Schema3({required super.database}) : super(version: 3);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    categories,
+    types,
+    events,
+    eOptions,
+    partners,
+    sexualEvent,
+    categoriesTypes,
+    eventsOptions,
+    eventsPartners,
+  ];
+  late final Shape0 categories = Shape0(
+    source: i0.VersionedTable(
+      entityName: 'categories',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_1],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape0 types = Shape0(
+    source: i0.VersionedTable(
+      entityName: 'types',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_1],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape1 events = Shape1(
+    source: i0.VersionedTable(
+      entityName: 'events',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_2, _column_3, _column_4, _column_5],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 eOptions = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'e_options',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_1, _column_6, _column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 partners = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'partners',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_9, _column_10, _column_11, _column_5],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape4 sexualEvent = Shape4(
+    source: i0.VersionedTable(
+      entityName: 'sexual_event',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_0,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_15,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape5 categoriesTypes = Shape5(
+    source: i0.VersionedTable(
+      entityName: 'categories_types',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(category_id, type_id)'],
+      columns: [_column_6, _column_2],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape6 eventsOptions = Shape6(
+    source: i0.VersionedTable(
+      entityName: 'events_options',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(event_id, option_id)'],
+      columns: [_column_17, _column_18],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 eventsPartners = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'events_partners',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(event_id, partner_id)'],
+      columns: [_column_17, _column_19, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+}
+
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -324,6 +551,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from1To2(migrator, schema);
         return 2;
+      case 2:
+        final schema = Schema3(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from2To3(migrator, schema);
+        return 3;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -332,6 +564,7 @@ i0.MigrationStepWithVersion migrationSteps({
 
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) => i0.VersionedSchema.stepByStepHelper(
-  step: migrationSteps(from1To2: from1To2),
+  step: migrationSteps(from1To2: from1To2, from2To3: from2To3),
 );
