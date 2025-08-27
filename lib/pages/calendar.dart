@@ -5,14 +5,15 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/example_utils.dart';
 import 'package:lustlist/db/event.dart';
 
-class MyCalendar extends StatefulWidget {
-  const MyCalendar({super.key});
+
+class Calendar extends StatefulWidget {
+  const Calendar({super.key});
 
   @override
-  State<MyCalendar> createState() => _MyCalendarState();
+  State<Calendar> createState() => _CalendarState();
 }
 
-class _MyCalendarState extends State<MyCalendar> {
+class _CalendarState extends State<Calendar> {
   late final PageController _pageController;
   final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
   final CalendarFormat _calendarFormat = CalendarFormat.month;
