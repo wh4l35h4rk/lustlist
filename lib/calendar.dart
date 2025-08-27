@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/example_utils.dart';
+import 'package:lustlist/db/event.dart';
 
 class MyCalendar extends StatefulWidget {
   const MyCalendar({super.key});
@@ -68,8 +69,8 @@ class _MyCalendarState extends State<MyCalendar> {
                 mode: CupertinoDatePickerMode.monthYear,
                 minimumDate: kFirstDay,
                 maximumDate: kLastDay,
-                initialDateTime: _focusedDay.value,
-                onDateTimeChanged: (DateTime newDate) {
+                initialDateTime: _focusedDay.value.isAfter(kLastDay) ? kLastDay : _focusedDay.value,
+              onDateTimeChanged: (DateTime newDate) {
                   _selectedDay = newDate;
                 },
               ),

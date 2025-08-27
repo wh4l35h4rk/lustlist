@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/calendar.dart';
+import 'package:lustlist/db/database.dart';
+
+
+late AppDatabase database;
 
 void main() {
+  database = AppDatabase();
   runApp(const MyApp());
 }
 
