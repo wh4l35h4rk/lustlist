@@ -3,198 +3,6 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $CategoriesTable extends Categories
-    with TableInfo<$CategoriesTable, Category> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $CategoriesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 1,
-      maxTextLength: 20,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, name];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'categories';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<Category> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Category map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Category(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-    );
-  }
-
-  @override
-  $CategoriesTable createAlias(String alias) {
-    return $CategoriesTable(attachedDatabase, alias);
-  }
-}
-
-class Category extends DataClass implements Insertable<Category> {
-  final int id;
-  final String name;
-  const Category({required this.id, required this.name});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    return map;
-  }
-
-  CategoriesCompanion toCompanion(bool nullToAbsent) {
-    return CategoriesCompanion(id: Value(id), name: Value(name));
-  }
-
-  factory Category.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Category(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-    };
-  }
-
-  Category copyWith({int? id, String? name}) =>
-      Category(id: id ?? this.id, name: name ?? this.name);
-  Category copyWithCompanion(CategoriesCompanion data) {
-    return Category(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Category(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, name);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Category && other.id == this.id && other.name == this.name);
-}
-
-class CategoriesCompanion extends UpdateCompanion<Category> {
-  final Value<int> id;
-  final Value<String> name;
-  const CategoriesCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-  });
-  CategoriesCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-  }) : name = Value(name);
-  static Insertable<Category> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    });
-  }
-
-  CategoriesCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return CategoriesCompanion(id: id ?? this.id, name: name ?? this.name);
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('CategoriesCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $TypesTable extends Types with TableInfo<$TypesTable, Type> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -227,8 +35,22 @@ class $TypesTable extends Types with TableInfo<$TypesTable, Type> {
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
+  static const VerificationMeta _slugMeta = const VerificationMeta('slug');
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  late final GeneratedColumn<String> slug = GeneratedColumn<String>(
+    'slug',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 20,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, slug];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -252,6 +74,14 @@ class $TypesTable extends Types with TableInfo<$TypesTable, Type> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('slug')) {
+      context.handle(
+        _slugMeta,
+        slug.isAcceptableOrUnknown(data['slug']!, _slugMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_slugMeta);
+    }
     return context;
   }
 
@@ -269,6 +99,10 @@ class $TypesTable extends Types with TableInfo<$TypesTable, Type> {
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
+      slug: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}slug'],
+      )!,
     );
   }
 
@@ -281,17 +115,19 @@ class $TypesTable extends Types with TableInfo<$TypesTable, Type> {
 class Type extends DataClass implements Insertable<Type> {
   final int id;
   final String name;
-  const Type({required this.id, required this.name});
+  final String slug;
+  const Type({required this.id, required this.name, required this.slug});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
+    map['slug'] = Variable<String>(slug);
     return map;
   }
 
   TypesCompanion toCompanion(bool nullToAbsent) {
-    return TypesCompanion(id: Value(id), name: Value(name));
+    return TypesCompanion(id: Value(id), name: Value(name), slug: Value(slug));
   }
 
   factory Type.fromJson(
@@ -302,6 +138,7 @@ class Type extends DataClass implements Insertable<Type> {
     return Type(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      slug: serializer.fromJson<String>(json['slug']),
     );
   }
   @override
@@ -310,15 +147,17 @@ class Type extends DataClass implements Insertable<Type> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
+      'slug': serializer.toJson<String>(slug),
     };
   }
 
-  Type copyWith({int? id, String? name}) =>
-      Type(id: id ?? this.id, name: name ?? this.name);
+  Type copyWith({int? id, String? name, String? slug}) =>
+      Type(id: id ?? this.id, name: name ?? this.name, slug: slug ?? this.slug);
   Type copyWithCompanion(TypesCompanion data) {
     return Type(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
+      slug: data.slug.present ? data.slug.value : this.slug,
     );
   }
 
@@ -326,40 +165,60 @@ class Type extends DataClass implements Insertable<Type> {
   String toString() {
     return (StringBuffer('Type(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('slug: $slug')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(id, name, slug);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Type && other.id == this.id && other.name == this.name);
+      (other is Type &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.slug == this.slug);
 }
 
 class TypesCompanion extends UpdateCompanion<Type> {
   final Value<int> id;
   final Value<String> name;
+  final Value<String> slug;
   const TypesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.slug = const Value.absent(),
   });
-  TypesCompanion.insert({this.id = const Value.absent(), required String name})
-    : name = Value(name);
+  TypesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String slug,
+  }) : name = Value(name),
+       slug = Value(slug);
   static Insertable<Type> custom({
     Expression<int>? id,
     Expression<String>? name,
+    Expression<String>? slug,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (slug != null) 'slug': slug,
     });
   }
 
-  TypesCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return TypesCompanion(id: id ?? this.id, name: name ?? this.name);
+  TypesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String>? slug,
+  }) {
+    return TypesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      slug: slug ?? this.slug,
+    );
   }
 
   @override
@@ -371,6 +230,9 @@ class TypesCompanion extends UpdateCompanion<Type> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (slug.present) {
+      map['slug'] = Variable<String>(slug.value);
+    }
     return map;
   }
 
@@ -378,360 +240,19 @@ class TypesCompanion extends UpdateCompanion<Type> {
   String toString() {
     return (StringBuffer('TypesCompanion(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('slug: $slug')
           ..write(')'))
         .toString();
   }
 }
 
-class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
+class $CategoriesTable extends Categories
+    with TableInfo<$CategoriesTable, Category> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $EventsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _typeIdMeta = const VerificationMeta('typeId');
-  @override
-  late final GeneratedColumn<int> typeId = GeneratedColumn<int>(
-    'type_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES types (id)',
-    ),
-  );
-  static const VerificationMeta _dataIdMeta = const VerificationMeta('dataId');
-  @override
-  late final GeneratedColumn<int> dataId = GeneratedColumn<int>(
-    'data_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    $customConstraints: 'REFERENCES sexual_event_data(id)',
-  );
-  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
-  @override
-  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-    'notes',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, typeId, dataId, notes, createdAt];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'events';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<Event> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('type_id')) {
-      context.handle(
-        _typeIdMeta,
-        typeId.isAcceptableOrUnknown(data['type_id']!, _typeIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_typeIdMeta);
-    }
-    if (data.containsKey('data_id')) {
-      context.handle(
-        _dataIdMeta,
-        dataId.isAcceptableOrUnknown(data['data_id']!, _dataIdMeta),
-      );
-    }
-    if (data.containsKey('notes')) {
-      context.handle(
-        _notesMeta,
-        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
-      );
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Event map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Event(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      typeId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}type_id'],
-      )!,
-      dataId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}data_id'],
-      ),
-      notes: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}notes'],
-      ),
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-    );
-  }
-
-  @override
-  $EventsTable createAlias(String alias) {
-    return $EventsTable(attachedDatabase, alias);
-  }
-}
-
-class Event extends DataClass implements Insertable<Event> {
-  final int id;
-  final int typeId;
-  final int? dataId;
-  final String? notes;
-  final DateTime createdAt;
-  const Event({
-    required this.id,
-    required this.typeId,
-    this.dataId,
-    this.notes,
-    required this.createdAt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['type_id'] = Variable<int>(typeId);
-    if (!nullToAbsent || dataId != null) {
-      map['data_id'] = Variable<int>(dataId);
-    }
-    if (!nullToAbsent || notes != null) {
-      map['notes'] = Variable<String>(notes);
-    }
-    map['created_at'] = Variable<DateTime>(createdAt);
-    return map;
-  }
-
-  EventsCompanion toCompanion(bool nullToAbsent) {
-    return EventsCompanion(
-      id: Value(id),
-      typeId: Value(typeId),
-      dataId: dataId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(dataId),
-      notes: notes == null && nullToAbsent
-          ? const Value.absent()
-          : Value(notes),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory Event.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Event(
-      id: serializer.fromJson<int>(json['id']),
-      typeId: serializer.fromJson<int>(json['typeId']),
-      dataId: serializer.fromJson<int?>(json['dataId']),
-      notes: serializer.fromJson<String?>(json['notes']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'typeId': serializer.toJson<int>(typeId),
-      'dataId': serializer.toJson<int?>(dataId),
-      'notes': serializer.toJson<String?>(notes),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-    };
-  }
-
-  Event copyWith({
-    int? id,
-    int? typeId,
-    Value<int?> dataId = const Value.absent(),
-    Value<String?> notes = const Value.absent(),
-    DateTime? createdAt,
-  }) => Event(
-    id: id ?? this.id,
-    typeId: typeId ?? this.typeId,
-    dataId: dataId.present ? dataId.value : this.dataId,
-    notes: notes.present ? notes.value : this.notes,
-    createdAt: createdAt ?? this.createdAt,
-  );
-  Event copyWithCompanion(EventsCompanion data) {
-    return Event(
-      id: data.id.present ? data.id.value : this.id,
-      typeId: data.typeId.present ? data.typeId.value : this.typeId,
-      dataId: data.dataId.present ? data.dataId.value : this.dataId,
-      notes: data.notes.present ? data.notes.value : this.notes,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Event(')
-          ..write('id: $id, ')
-          ..write('typeId: $typeId, ')
-          ..write('dataId: $dataId, ')
-          ..write('notes: $notes, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, typeId, dataId, notes, createdAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Event &&
-          other.id == this.id &&
-          other.typeId == this.typeId &&
-          other.dataId == this.dataId &&
-          other.notes == this.notes &&
-          other.createdAt == this.createdAt);
-}
-
-class EventsCompanion extends UpdateCompanion<Event> {
-  final Value<int> id;
-  final Value<int> typeId;
-  final Value<int?> dataId;
-  final Value<String?> notes;
-  final Value<DateTime> createdAt;
-  const EventsCompanion({
-    this.id = const Value.absent(),
-    this.typeId = const Value.absent(),
-    this.dataId = const Value.absent(),
-    this.notes = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  EventsCompanion.insert({
-    this.id = const Value.absent(),
-    required int typeId,
-    this.dataId = const Value.absent(),
-    this.notes = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  }) : typeId = Value(typeId);
-  static Insertable<Event> custom({
-    Expression<int>? id,
-    Expression<int>? typeId,
-    Expression<int>? dataId,
-    Expression<String>? notes,
-    Expression<DateTime>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (typeId != null) 'type_id': typeId,
-      if (dataId != null) 'data_id': dataId,
-      if (notes != null) 'notes': notes,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  EventsCompanion copyWith({
-    Value<int>? id,
-    Value<int>? typeId,
-    Value<int?>? dataId,
-    Value<String?>? notes,
-    Value<DateTime>? createdAt,
-  }) {
-    return EventsCompanion(
-      id: id ?? this.id,
-      typeId: typeId ?? this.typeId,
-      dataId: dataId ?? this.dataId,
-      notes: notes ?? this.notes,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (typeId.present) {
-      map['type_id'] = Variable<int>(typeId.value);
-    }
-    if (dataId.present) {
-      map['data_id'] = Variable<int>(dataId.value);
-    }
-    if (notes.present) {
-      map['notes'] = Variable<String>(notes.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EventsCompanion(')
-          ..write('id: $id, ')
-          ..write('typeId: $typeId, ')
-          ..write('dataId: $dataId, ')
-          ..write('notes: $notes, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $EOptionsTable(this.attachedDatabase, [this._alias]);
+  $CategoriesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -757,68 +278,31 @@ class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
     ),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _slugMeta = const VerificationMeta('slug');
+  @override
+  late final GeneratedColumn<String> slug = GeneratedColumn<String>(
+    'slug',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 20,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
-  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
-    'categoryId',
-  );
   @override
-  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
-    'category_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES categories (id)',
-    ),
-  );
-  static const VerificationMeta _isVisibleMeta = const VerificationMeta(
-    'isVisible',
-  );
-  @override
-  late final GeneratedColumn<bool> isVisible = GeneratedColumn<bool>(
-    'is_visible',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_visible" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
-  static const VerificationMeta _isBasicMeta = const VerificationMeta(
-    'isBasic',
-  );
-  @override
-  late final GeneratedColumn<bool> isBasic = GeneratedColumn<bool>(
-    'is_basic',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_basic" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    name,
-    categoryId,
-    isVisible,
-    isBasic,
-  ];
+  List<GeneratedColumn> get $columns => [id, name, slug];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'e_options';
+  static const String $name = 'categories';
   @override
   VerificationContext validateIntegrity(
-    Insertable<EOption> instance, {
+    Insertable<Category> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -834,25 +318,13 @@ class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('category_id')) {
+    if (data.containsKey('slug')) {
       context.handle(
-        _categoryIdMeta,
-        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
+        _slugMeta,
+        slug.isAcceptableOrUnknown(data['slug']!, _slugMeta),
       );
     } else if (isInserting) {
-      context.missing(_categoryIdMeta);
-    }
-    if (data.containsKey('is_visible')) {
-      context.handle(
-        _isVisibleMeta,
-        isVisible.isAcceptableOrUnknown(data['is_visible']!, _isVisibleMeta),
-      );
-    }
-    if (data.containsKey('is_basic')) {
-      context.handle(
-        _isBasicMeta,
-        isBasic.isAcceptableOrUnknown(data['is_basic']!, _isBasicMeta),
-      );
+      context.missing(_slugMeta);
     }
     return context;
   }
@@ -860,9 +332,9 @@ class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  EOption map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Category map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return EOption(
+    return Category(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -871,72 +343,50 @@ class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
-      categoryId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}category_id'],
-      )!,
-      isVisible: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_visible'],
-      )!,
-      isBasic: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_basic'],
+      slug: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}slug'],
       )!,
     );
   }
 
   @override
-  $EOptionsTable createAlias(String alias) {
-    return $EOptionsTable(attachedDatabase, alias);
+  $CategoriesTable createAlias(String alias) {
+    return $CategoriesTable(attachedDatabase, alias);
   }
 }
 
-class EOption extends DataClass implements Insertable<EOption> {
+class Category extends DataClass implements Insertable<Category> {
   final int id;
   final String name;
-  final int categoryId;
-  final bool isVisible;
-  final bool isBasic;
-  const EOption({
-    required this.id,
-    required this.name,
-    required this.categoryId,
-    required this.isVisible,
-    required this.isBasic,
-  });
+  final String slug;
+  const Category({required this.id, required this.name, required this.slug});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
-    map['category_id'] = Variable<int>(categoryId);
-    map['is_visible'] = Variable<bool>(isVisible);
-    map['is_basic'] = Variable<bool>(isBasic);
+    map['slug'] = Variable<String>(slug);
     return map;
   }
 
-  EOptionsCompanion toCompanion(bool nullToAbsent) {
-    return EOptionsCompanion(
+  CategoriesCompanion toCompanion(bool nullToAbsent) {
+    return CategoriesCompanion(
       id: Value(id),
       name: Value(name),
-      categoryId: Value(categoryId),
-      isVisible: Value(isVisible),
-      isBasic: Value(isBasic),
+      slug: Value(slug),
     );
   }
 
-  factory EOption.fromJson(
+  factory Category.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return EOption(
+    return Category(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      categoryId: serializer.fromJson<int>(json['categoryId']),
-      isVisible: serializer.fromJson<bool>(json['isVisible']),
-      isBasic: serializer.fromJson<bool>(json['isBasic']),
+      slug: serializer.fromJson<String>(json['slug']),
     );
   }
   @override
@@ -945,112 +395,80 @@ class EOption extends DataClass implements Insertable<EOption> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
-      'categoryId': serializer.toJson<int>(categoryId),
-      'isVisible': serializer.toJson<bool>(isVisible),
-      'isBasic': serializer.toJson<bool>(isBasic),
+      'slug': serializer.toJson<String>(slug),
     };
   }
 
-  EOption copyWith({
-    int? id,
-    String? name,
-    int? categoryId,
-    bool? isVisible,
-    bool? isBasic,
-  }) => EOption(
+  Category copyWith({int? id, String? name, String? slug}) => Category(
     id: id ?? this.id,
     name: name ?? this.name,
-    categoryId: categoryId ?? this.categoryId,
-    isVisible: isVisible ?? this.isVisible,
-    isBasic: isBasic ?? this.isBasic,
+    slug: slug ?? this.slug,
   );
-  EOption copyWithCompanion(EOptionsCompanion data) {
-    return EOption(
+  Category copyWithCompanion(CategoriesCompanion data) {
+    return Category(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
-      categoryId: data.categoryId.present
-          ? data.categoryId.value
-          : this.categoryId,
-      isVisible: data.isVisible.present ? data.isVisible.value : this.isVisible,
-      isBasic: data.isBasic.present ? data.isBasic.value : this.isBasic,
+      slug: data.slug.present ? data.slug.value : this.slug,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('EOption(')
+    return (StringBuffer('Category(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('categoryId: $categoryId, ')
-          ..write('isVisible: $isVisible, ')
-          ..write('isBasic: $isBasic')
+          ..write('slug: $slug')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, categoryId, isVisible, isBasic);
+  int get hashCode => Object.hash(id, name, slug);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is EOption &&
+      (other is Category &&
           other.id == this.id &&
           other.name == this.name &&
-          other.categoryId == this.categoryId &&
-          other.isVisible == this.isVisible &&
-          other.isBasic == this.isBasic);
+          other.slug == this.slug);
 }
 
-class EOptionsCompanion extends UpdateCompanion<EOption> {
+class CategoriesCompanion extends UpdateCompanion<Category> {
   final Value<int> id;
   final Value<String> name;
-  final Value<int> categoryId;
-  final Value<bool> isVisible;
-  final Value<bool> isBasic;
-  const EOptionsCompanion({
+  final Value<String> slug;
+  const CategoriesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
-    this.categoryId = const Value.absent(),
-    this.isVisible = const Value.absent(),
-    this.isBasic = const Value.absent(),
+    this.slug = const Value.absent(),
   });
-  EOptionsCompanion.insert({
+  CategoriesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
-    required int categoryId,
-    this.isVisible = const Value.absent(),
-    this.isBasic = const Value.absent(),
+    required String slug,
   }) : name = Value(name),
-       categoryId = Value(categoryId);
-  static Insertable<EOption> custom({
+       slug = Value(slug);
+  static Insertable<Category> custom({
     Expression<int>? id,
     Expression<String>? name,
-    Expression<int>? categoryId,
-    Expression<bool>? isVisible,
-    Expression<bool>? isBasic,
+    Expression<String>? slug,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (categoryId != null) 'category_id': categoryId,
-      if (isVisible != null) 'is_visible': isVisible,
-      if (isBasic != null) 'is_basic': isBasic,
+      if (slug != null) 'slug': slug,
     });
   }
 
-  EOptionsCompanion copyWith({
+  CategoriesCompanion copyWith({
     Value<int>? id,
     Value<String>? name,
-    Value<int>? categoryId,
-    Value<bool>? isVisible,
-    Value<bool>? isBasic,
+    Value<String>? slug,
   }) {
-    return EOptionsCompanion(
+    return CategoriesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
-      categoryId: categoryId ?? this.categoryId,
-      isVisible: isVisible ?? this.isVisible,
-      isBasic: isBasic ?? this.isBasic,
+      slug: slug ?? this.slug,
     );
   }
 
@@ -1063,26 +481,18 @@ class EOptionsCompanion extends UpdateCompanion<EOption> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
-    if (categoryId.present) {
-      map['category_id'] = Variable<int>(categoryId.value);
-    }
-    if (isVisible.present) {
-      map['is_visible'] = Variable<bool>(isVisible.value);
-    }
-    if (isBasic.present) {
-      map['is_basic'] = Variable<bool>(isBasic.value);
+    if (slug.present) {
+      map['slug'] = Variable<String>(slug.value);
     }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('EOptionsCompanion(')
+    return (StringBuffer('CategoriesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('categoryId: $categoryId, ')
-          ..write('isVisible: $isVisible, ')
-          ..write('isBasic: $isBasic')
+          ..write('slug: $slug')
           ..write(')'))
         .toString();
   }
@@ -1439,12 +849,12 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   }
 }
 
-class $SexualEventTable extends SexualEvent
-    with TableInfo<$SexualEventTable, SexualEventData> {
+class $EventDataTableTable extends EventDataTable
+    with TableInfo<$EventDataTableTable, EventData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $SexualEventTable(this.attachedDatabase, [this._alias]);
+  $EventDataTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -1476,7 +886,7 @@ class $SexualEventTable extends SexualEvent
         false,
         type: DriftSqlType.string,
         requiredDuringInsert: true,
-      ).withConverter<DayTime>($SexualEventTable.$converterdaytime);
+      ).withConverter<DayTime>($EventDataTableTable.$converterdaytime);
   static const VerificationMeta _timeMeta = const VerificationMeta('time');
   @override
   late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
@@ -1524,10 +934,10 @@ class $SexualEventTable extends SexualEvent
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'sexual_event';
+  static const String $name = 'event_data_table';
   @override
   VerificationContext validateIntegrity(
-    Insertable<SexualEventData> instance, {
+    Insertable<EventData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -1570,9 +980,9 @@ class $SexualEventTable extends SexualEvent
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  SexualEventData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  EventData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return SexualEventData(
+    return EventData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -1581,7 +991,7 @@ class $SexualEventTable extends SexualEvent
         DriftSqlType.int,
         data['${effectivePrefix}rating'],
       )!,
-      daytime: $SexualEventTable.$converterdaytime.fromSql(
+      daytime: $EventDataTableTable.$converterdaytime.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.string,
           data['${effectivePrefix}daytime'],
@@ -1603,22 +1013,22 @@ class $SexualEventTable extends SexualEvent
   }
 
   @override
-  $SexualEventTable createAlias(String alias) {
-    return $SexualEventTable(attachedDatabase, alias);
+  $EventDataTableTable createAlias(String alias) {
+    return $EventDataTableTable(attachedDatabase, alias);
   }
 
   static JsonTypeConverter2<DayTime, String, String> $converterdaytime =
       const EnumNameConverter<DayTime>(DayTime.values);
 }
 
-class SexualEventData extends DataClass implements Insertable<SexualEventData> {
+class EventData extends DataClass implements Insertable<EventData> {
   final int id;
   final int rating;
   final DayTime daytime;
   final DateTime? time;
   final int? duration;
   final int userOrgasms;
-  const SexualEventData({
+  const EventData({
     required this.id,
     required this.rating,
     required this.daytime,
@@ -1633,7 +1043,7 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
     map['rating'] = Variable<int>(rating);
     {
       map['daytime'] = Variable<String>(
-        $SexualEventTable.$converterdaytime.toSql(daytime),
+        $EventDataTableTable.$converterdaytime.toSql(daytime),
       );
     }
     if (!nullToAbsent || time != null) {
@@ -1646,8 +1056,8 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
     return map;
   }
 
-  SexualEventCompanion toCompanion(bool nullToAbsent) {
-    return SexualEventCompanion(
+  EventDataTableCompanion toCompanion(bool nullToAbsent) {
+    return EventDataTableCompanion(
       id: Value(id),
       rating: Value(rating),
       daytime: Value(daytime),
@@ -1659,15 +1069,15 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
     );
   }
 
-  factory SexualEventData.fromJson(
+  factory EventData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return SexualEventData(
+    return EventData(
       id: serializer.fromJson<int>(json['id']),
       rating: serializer.fromJson<int>(json['rating']),
-      daytime: $SexualEventTable.$converterdaytime.fromJson(
+      daytime: $EventDataTableTable.$converterdaytime.fromJson(
         serializer.fromJson<String>(json['daytime']),
       ),
       time: serializer.fromJson<DateTime?>(json['time']),
@@ -1682,7 +1092,7 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
       'id': serializer.toJson<int>(id),
       'rating': serializer.toJson<int>(rating),
       'daytime': serializer.toJson<String>(
-        $SexualEventTable.$converterdaytime.toJson(daytime),
+        $EventDataTableTable.$converterdaytime.toJson(daytime),
       ),
       'time': serializer.toJson<DateTime?>(time),
       'duration': serializer.toJson<int?>(duration),
@@ -1690,14 +1100,14 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
     };
   }
 
-  SexualEventData copyWith({
+  EventData copyWith({
     int? id,
     int? rating,
     DayTime? daytime,
     Value<DateTime?> time = const Value.absent(),
     Value<int?> duration = const Value.absent(),
     int? userOrgasms,
-  }) => SexualEventData(
+  }) => EventData(
     id: id ?? this.id,
     rating: rating ?? this.rating,
     daytime: daytime ?? this.daytime,
@@ -1705,8 +1115,8 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
     duration: duration.present ? duration.value : this.duration,
     userOrgasms: userOrgasms ?? this.userOrgasms,
   );
-  SexualEventData copyWithCompanion(SexualEventCompanion data) {
-    return SexualEventData(
+  EventData copyWithCompanion(EventDataTableCompanion data) {
+    return EventData(
       id: data.id.present ? data.id.value : this.id,
       rating: data.rating.present ? data.rating.value : this.rating,
       daytime: data.daytime.present ? data.daytime.value : this.daytime,
@@ -1720,7 +1130,7 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
 
   @override
   String toString() {
-    return (StringBuffer('SexualEventData(')
+    return (StringBuffer('EventData(')
           ..write('id: $id, ')
           ..write('rating: $rating, ')
           ..write('daytime: $daytime, ')
@@ -1737,7 +1147,7 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is SexualEventData &&
+      (other is EventData &&
           other.id == this.id &&
           other.rating == this.rating &&
           other.daytime == this.daytime &&
@@ -1746,14 +1156,14 @@ class SexualEventData extends DataClass implements Insertable<SexualEventData> {
           other.userOrgasms == this.userOrgasms);
 }
 
-class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
+class EventDataTableCompanion extends UpdateCompanion<EventData> {
   final Value<int> id;
   final Value<int> rating;
   final Value<DayTime> daytime;
   final Value<DateTime?> time;
   final Value<int?> duration;
   final Value<int> userOrgasms;
-  const SexualEventCompanion({
+  const EventDataTableCompanion({
     this.id = const Value.absent(),
     this.rating = const Value.absent(),
     this.daytime = const Value.absent(),
@@ -1761,7 +1171,7 @@ class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
     this.duration = const Value.absent(),
     this.userOrgasms = const Value.absent(),
   });
-  SexualEventCompanion.insert({
+  EventDataTableCompanion.insert({
     this.id = const Value.absent(),
     required int rating,
     required DayTime daytime,
@@ -1770,7 +1180,7 @@ class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
     this.userOrgasms = const Value.absent(),
   }) : rating = Value(rating),
        daytime = Value(daytime);
-  static Insertable<SexualEventData> custom({
+  static Insertable<EventData> custom({
     Expression<int>? id,
     Expression<int>? rating,
     Expression<String>? daytime,
@@ -1788,7 +1198,7 @@ class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
     });
   }
 
-  SexualEventCompanion copyWith({
+  EventDataTableCompanion copyWith({
     Value<int>? id,
     Value<int>? rating,
     Value<DayTime>? daytime,
@@ -1796,7 +1206,7 @@ class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
     Value<int?>? duration,
     Value<int>? userOrgasms,
   }) {
-    return SexualEventCompanion(
+    return EventDataTableCompanion(
       id: id ?? this.id,
       rating: rating ?? this.rating,
       daytime: daytime ?? this.daytime,
@@ -1817,7 +1227,7 @@ class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
     }
     if (daytime.present) {
       map['daytime'] = Variable<String>(
-        $SexualEventTable.$converterdaytime.toSql(daytime.value),
+        $EventDataTableTable.$converterdaytime.toSql(daytime.value),
       );
     }
     if (time.present) {
@@ -1834,13 +1244,767 @@ class SexualEventCompanion extends UpdateCompanion<SexualEventData> {
 
   @override
   String toString() {
-    return (StringBuffer('SexualEventCompanion(')
+    return (StringBuffer('EventDataTableCompanion(')
           ..write('id: $id, ')
           ..write('rating: $rating, ')
           ..write('daytime: $daytime, ')
           ..write('time: $time, ')
           ..write('duration: $duration, ')
           ..write('userOrgasms: $userOrgasms')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EventsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _typeIdMeta = const VerificationMeta('typeId');
+  @override
+  late final GeneratedColumn<int> typeId = GeneratedColumn<int>(
+    'type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES types (id)',
+    ),
+  );
+  static const VerificationMeta _dataIdMeta = const VerificationMeta('dataId');
+  @override
+  late final GeneratedColumn<int> dataId = GeneratedColumn<int>(
+    'data_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES event_data_table(id)',
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, typeId, dataId, notes, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'events';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Event> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('type_id')) {
+      context.handle(
+        _typeIdMeta,
+        typeId.isAcceptableOrUnknown(data['type_id']!, _typeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeIdMeta);
+    }
+    if (data.containsKey('data_id')) {
+      context.handle(
+        _dataIdMeta,
+        dataId.isAcceptableOrUnknown(data['data_id']!, _dataIdMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Event map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Event(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      typeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}type_id'],
+      )!,
+      dataId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}data_id'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $EventsTable createAlias(String alias) {
+    return $EventsTable(attachedDatabase, alias);
+  }
+}
+
+class Event extends DataClass implements Insertable<Event> {
+  final int id;
+  final int typeId;
+  final int? dataId;
+  final String? notes;
+  final DateTime createdAt;
+  const Event({
+    required this.id,
+    required this.typeId,
+    this.dataId,
+    this.notes,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['type_id'] = Variable<int>(typeId);
+    if (!nullToAbsent || dataId != null) {
+      map['data_id'] = Variable<int>(dataId);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  EventsCompanion toCompanion(bool nullToAbsent) {
+    return EventsCompanion(
+      id: Value(id),
+      typeId: Value(typeId),
+      dataId: dataId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataId),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Event.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Event(
+      id: serializer.fromJson<int>(json['id']),
+      typeId: serializer.fromJson<int>(json['typeId']),
+      dataId: serializer.fromJson<int?>(json['dataId']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'typeId': serializer.toJson<int>(typeId),
+      'dataId': serializer.toJson<int?>(dataId),
+      'notes': serializer.toJson<String?>(notes),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Event copyWith({
+    int? id,
+    int? typeId,
+    Value<int?> dataId = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    DateTime? createdAt,
+  }) => Event(
+    id: id ?? this.id,
+    typeId: typeId ?? this.typeId,
+    dataId: dataId.present ? dataId.value : this.dataId,
+    notes: notes.present ? notes.value : this.notes,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Event copyWithCompanion(EventsCompanion data) {
+    return Event(
+      id: data.id.present ? data.id.value : this.id,
+      typeId: data.typeId.present ? data.typeId.value : this.typeId,
+      dataId: data.dataId.present ? data.dataId.value : this.dataId,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Event(')
+          ..write('id: $id, ')
+          ..write('typeId: $typeId, ')
+          ..write('dataId: $dataId, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, typeId, dataId, notes, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Event &&
+          other.id == this.id &&
+          other.typeId == this.typeId &&
+          other.dataId == this.dataId &&
+          other.notes == this.notes &&
+          other.createdAt == this.createdAt);
+}
+
+class EventsCompanion extends UpdateCompanion<Event> {
+  final Value<int> id;
+  final Value<int> typeId;
+  final Value<int?> dataId;
+  final Value<String?> notes;
+  final Value<DateTime> createdAt;
+  const EventsCompanion({
+    this.id = const Value.absent(),
+    this.typeId = const Value.absent(),
+    this.dataId = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  EventsCompanion.insert({
+    this.id = const Value.absent(),
+    required int typeId,
+    this.dataId = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : typeId = Value(typeId);
+  static Insertable<Event> custom({
+    Expression<int>? id,
+    Expression<int>? typeId,
+    Expression<int>? dataId,
+    Expression<String>? notes,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (typeId != null) 'type_id': typeId,
+      if (dataId != null) 'data_id': dataId,
+      if (notes != null) 'notes': notes,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  EventsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? typeId,
+    Value<int?>? dataId,
+    Value<String?>? notes,
+    Value<DateTime>? createdAt,
+  }) {
+    return EventsCompanion(
+      id: id ?? this.id,
+      typeId: typeId ?? this.typeId,
+      dataId: dataId ?? this.dataId,
+      notes: notes ?? this.notes,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (typeId.present) {
+      map['type_id'] = Variable<int>(typeId.value);
+    }
+    if (dataId.present) {
+      map['data_id'] = Variable<int>(dataId.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EventsCompanion(')
+          ..write('id: $id, ')
+          ..write('typeId: $typeId, ')
+          ..write('dataId: $dataId, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EOptionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 20,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _slugMeta = const VerificationMeta('slug');
+  @override
+  late final GeneratedColumn<String> slug = GeneratedColumn<String>(
+    'slug',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 20,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
+    'categoryId',
+  );
+  @override
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+    'category_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES categories (id)',
+    ),
+  );
+  static const VerificationMeta _isVisibleMeta = const VerificationMeta(
+    'isVisible',
+  );
+  @override
+  late final GeneratedColumn<bool> isVisible = GeneratedColumn<bool>(
+    'is_visible',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_visible" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _isBasicMeta = const VerificationMeta(
+    'isBasic',
+  );
+  @override
+  late final GeneratedColumn<bool> isBasic = GeneratedColumn<bool>(
+    'is_basic',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_basic" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    slug,
+    categoryId,
+    isVisible,
+    isBasic,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'e_options';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EOption> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('slug')) {
+      context.handle(
+        _slugMeta,
+        slug.isAcceptableOrUnknown(data['slug']!, _slugMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_slugMeta);
+    }
+    if (data.containsKey('category_id')) {
+      context.handle(
+        _categoryIdMeta,
+        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryIdMeta);
+    }
+    if (data.containsKey('is_visible')) {
+      context.handle(
+        _isVisibleMeta,
+        isVisible.isAcceptableOrUnknown(data['is_visible']!, _isVisibleMeta),
+      );
+    }
+    if (data.containsKey('is_basic')) {
+      context.handle(
+        _isBasicMeta,
+        isBasic.isAcceptableOrUnknown(data['is_basic']!, _isBasicMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EOption map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EOption(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      slug: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}slug'],
+      )!,
+      categoryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}category_id'],
+      )!,
+      isVisible: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_visible'],
+      )!,
+      isBasic: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_basic'],
+      )!,
+    );
+  }
+
+  @override
+  $EOptionsTable createAlias(String alias) {
+    return $EOptionsTable(attachedDatabase, alias);
+  }
+}
+
+class EOption extends DataClass implements Insertable<EOption> {
+  final int id;
+  final String name;
+  final String slug;
+  final int categoryId;
+  final bool isVisible;
+  final bool isBasic;
+  const EOption({
+    required this.id,
+    required this.name,
+    required this.slug,
+    required this.categoryId,
+    required this.isVisible,
+    required this.isBasic,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['slug'] = Variable<String>(slug);
+    map['category_id'] = Variable<int>(categoryId);
+    map['is_visible'] = Variable<bool>(isVisible);
+    map['is_basic'] = Variable<bool>(isBasic);
+    return map;
+  }
+
+  EOptionsCompanion toCompanion(bool nullToAbsent) {
+    return EOptionsCompanion(
+      id: Value(id),
+      name: Value(name),
+      slug: Value(slug),
+      categoryId: Value(categoryId),
+      isVisible: Value(isVisible),
+      isBasic: Value(isBasic),
+    );
+  }
+
+  factory EOption.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EOption(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      slug: serializer.fromJson<String>(json['slug']),
+      categoryId: serializer.fromJson<int>(json['categoryId']),
+      isVisible: serializer.fromJson<bool>(json['isVisible']),
+      isBasic: serializer.fromJson<bool>(json['isBasic']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'slug': serializer.toJson<String>(slug),
+      'categoryId': serializer.toJson<int>(categoryId),
+      'isVisible': serializer.toJson<bool>(isVisible),
+      'isBasic': serializer.toJson<bool>(isBasic),
+    };
+  }
+
+  EOption copyWith({
+    int? id,
+    String? name,
+    String? slug,
+    int? categoryId,
+    bool? isVisible,
+    bool? isBasic,
+  }) => EOption(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    slug: slug ?? this.slug,
+    categoryId: categoryId ?? this.categoryId,
+    isVisible: isVisible ?? this.isVisible,
+    isBasic: isBasic ?? this.isBasic,
+  );
+  EOption copyWithCompanion(EOptionsCompanion data) {
+    return EOption(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      slug: data.slug.present ? data.slug.value : this.slug,
+      categoryId: data.categoryId.present
+          ? data.categoryId.value
+          : this.categoryId,
+      isVisible: data.isVisible.present ? data.isVisible.value : this.isVisible,
+      isBasic: data.isBasic.present ? data.isBasic.value : this.isBasic,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EOption(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('slug: $slug, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('isVisible: $isVisible, ')
+          ..write('isBasic: $isBasic')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, name, slug, categoryId, isVisible, isBasic);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EOption &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.slug == this.slug &&
+          other.categoryId == this.categoryId &&
+          other.isVisible == this.isVisible &&
+          other.isBasic == this.isBasic);
+}
+
+class EOptionsCompanion extends UpdateCompanion<EOption> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> slug;
+  final Value<int> categoryId;
+  final Value<bool> isVisible;
+  final Value<bool> isBasic;
+  const EOptionsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.slug = const Value.absent(),
+    this.categoryId = const Value.absent(),
+    this.isVisible = const Value.absent(),
+    this.isBasic = const Value.absent(),
+  });
+  EOptionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String slug,
+    required int categoryId,
+    this.isVisible = const Value.absent(),
+    this.isBasic = const Value.absent(),
+  }) : name = Value(name),
+       slug = Value(slug),
+       categoryId = Value(categoryId);
+  static Insertable<EOption> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? slug,
+    Expression<int>? categoryId,
+    Expression<bool>? isVisible,
+    Expression<bool>? isBasic,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (slug != null) 'slug': slug,
+      if (categoryId != null) 'category_id': categoryId,
+      if (isVisible != null) 'is_visible': isVisible,
+      if (isBasic != null) 'is_basic': isBasic,
+    });
+  }
+
+  EOptionsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String>? slug,
+    Value<int>? categoryId,
+    Value<bool>? isVisible,
+    Value<bool>? isBasic,
+  }) {
+    return EOptionsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      slug: slug ?? this.slug,
+      categoryId: categoryId ?? this.categoryId,
+      isVisible: isVisible ?? this.isVisible,
+      isBasic: isBasic ?? this.isBasic,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (slug.present) {
+      map['slug'] = Variable<String>(slug.value);
+    }
+    if (categoryId.present) {
+      map['category_id'] = Variable<int>(categoryId.value);
+    }
+    if (isVisible.present) {
+      map['is_visible'] = Variable<bool>(isVisible.value);
+    }
+    if (isBasic.present) {
+      map['is_basic'] = Variable<bool>(isBasic.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EOptionsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('slug: $slug, ')
+          ..write('categoryId: $categoryId, ')
+          ..write('isVisible: $isVisible, ')
+          ..write('isBasic: $isBasic')
           ..write(')'))
         .toString();
   }
@@ -2572,12 +2736,12 @@ class EventsPartnersCompanion extends UpdateCompanion<EventPartner> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $CategoriesTable categories = $CategoriesTable(this);
   late final $TypesTable types = $TypesTable(this);
+  late final $CategoriesTable categories = $CategoriesTable(this);
+  late final $PartnersTable partners = $PartnersTable(this);
+  late final $EventDataTableTable eventDataTable = $EventDataTableTable(this);
   late final $EventsTable events = $EventsTable(this);
   late final $EOptionsTable eOptions = $EOptionsTable(this);
-  late final $PartnersTable partners = $PartnersTable(this);
-  late final $SexualEventTable sexualEvent = $SexualEventTable(this);
   late final $CategoriesTypesTable categoriesTypes = $CategoriesTypesTable(
     this,
   );
@@ -2588,12 +2752,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    categories,
     types,
+    categories,
+    partners,
+    eventDataTable,
     events,
     eOptions,
-    partners,
-    sexualEvent,
     categoriesTypes,
     eventsOptions,
     eventsPartners,
@@ -2603,335 +2767,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       const DriftDatabaseOptions(storeDateTimeAsText: true);
 }
 
-typedef $$CategoriesTableCreateCompanionBuilder =
-    CategoriesCompanion Function({Value<int> id, required String name});
-typedef $$CategoriesTableUpdateCompanionBuilder =
-    CategoriesCompanion Function({Value<int> id, Value<String> name});
-
-final class $$CategoriesTableReferences
-    extends BaseReferences<_$AppDatabase, $CategoriesTable, Category> {
-  $$CategoriesTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<$EOptionsTable, List<EOption>> _eOptionsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.eOptions,
-    aliasName: $_aliasNameGenerator(db.categories.id, db.eOptions.categoryId),
-  );
-
-  $$EOptionsTableProcessedTableManager get eOptionsRefs {
-    final manager = $$EOptionsTableTableManager(
-      $_db,
-      $_db.eOptions,
-    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_eOptionsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<$CategoriesTypesTable, List<CategoryType>>
-  _categoriesTypesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.categoriesTypes,
-    aliasName: $_aliasNameGenerator(
-      db.categories.id,
-      db.categoriesTypes.categoryId,
-    ),
-  );
-
-  $$CategoriesTypesTableProcessedTableManager get categoriesTypesRefs {
-    final manager = $$CategoriesTypesTableTableManager(
-      $_db,
-      $_db.categoriesTypes,
-    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _categoriesTypesRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$CategoriesTableFilterComposer
-    extends Composer<_$AppDatabase, $CategoriesTable> {
-  $$CategoriesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> eOptionsRefs(
-    Expression<bool> Function($$EOptionsTableFilterComposer f) f,
-  ) {
-    final $$EOptionsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eOptions,
-      getReferencedColumn: (t) => t.categoryId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EOptionsTableFilterComposer(
-            $db: $db,
-            $table: $db.eOptions,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> categoriesTypesRefs(
-    Expression<bool> Function($$CategoriesTypesTableFilterComposer f) f,
-  ) {
-    final $$CategoriesTypesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.categoriesTypes,
-      getReferencedColumn: (t) => t.categoryId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTypesTableFilterComposer(
-            $db: $db,
-            $table: $db.categoriesTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$CategoriesTableOrderingComposer
-    extends Composer<_$AppDatabase, $CategoriesTable> {
-  $$CategoriesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$CategoriesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $CategoriesTable> {
-  $$CategoriesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  Expression<T> eOptionsRefs<T extends Object>(
-    Expression<T> Function($$EOptionsTableAnnotationComposer a) f,
-  ) {
-    final $$EOptionsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eOptions,
-      getReferencedColumn: (t) => t.categoryId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EOptionsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.eOptions,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> categoriesTypesRefs<T extends Object>(
-    Expression<T> Function($$CategoriesTypesTableAnnotationComposer a) f,
-  ) {
-    final $$CategoriesTypesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.categoriesTypes,
-      getReferencedColumn: (t) => t.categoryId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTypesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.categoriesTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$CategoriesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $CategoriesTable,
-          Category,
-          $$CategoriesTableFilterComposer,
-          $$CategoriesTableOrderingComposer,
-          $$CategoriesTableAnnotationComposer,
-          $$CategoriesTableCreateCompanionBuilder,
-          $$CategoriesTableUpdateCompanionBuilder,
-          (Category, $$CategoriesTableReferences),
-          Category,
-          PrefetchHooks Function({bool eOptionsRefs, bool categoriesTypesRefs})
-        > {
-  $$CategoriesTableTableManager(_$AppDatabase db, $CategoriesTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$CategoriesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$CategoriesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$CategoriesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-              }) => CategoriesCompanion(id: id, name: name),
-          createCompanionCallback:
-              ({Value<int> id = const Value.absent(), required String name}) =>
-                  CategoriesCompanion.insert(id: id, name: name),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$CategoriesTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({eOptionsRefs = false, categoriesTypesRefs = false}) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (eOptionsRefs) db.eOptions,
-                    if (categoriesTypesRefs) db.categoriesTypes,
-                  ],
-                  addJoins: null,
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (eOptionsRefs)
-                        await $_getPrefetchedData<
-                          Category,
-                          $CategoriesTable,
-                          EOption
-                        >(
-                          currentTable: table,
-                          referencedTable: $$CategoriesTableReferences
-                              ._eOptionsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$CategoriesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).eOptionsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.categoryId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (categoriesTypesRefs)
-                        await $_getPrefetchedData<
-                          Category,
-                          $CategoriesTable,
-                          CategoryType
-                        >(
-                          currentTable: table,
-                          referencedTable: $$CategoriesTableReferences
-                              ._categoriesTypesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$CategoriesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).categoriesTypesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.categoryId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$CategoriesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $CategoriesTable,
-      Category,
-      $$CategoriesTableFilterComposer,
-      $$CategoriesTableOrderingComposer,
-      $$CategoriesTableAnnotationComposer,
-      $$CategoriesTableCreateCompanionBuilder,
-      $$CategoriesTableUpdateCompanionBuilder,
-      (Category, $$CategoriesTableReferences),
-      Category,
-      PrefetchHooks Function({bool eOptionsRefs, bool categoriesTypesRefs})
-    >;
 typedef $$TypesTableCreateCompanionBuilder =
-    TypesCompanion Function({Value<int> id, required String name});
+    TypesCompanion Function({
+      Value<int> id,
+      required String name,
+      required String slug,
+    });
 typedef $$TypesTableUpdateCompanionBuilder =
-    TypesCompanion Function({Value<int> id, Value<String> name});
+    TypesCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String> slug,
+    });
 
 final class $$TypesTableReferences
     extends BaseReferences<_$AppDatabase, $TypesTable, Type> {
@@ -2992,6 +2839,11 @@ class $$TypesTableFilterComposer extends Composer<_$AppDatabase, $TypesTable> {
 
   ColumnFilters<String> get name => $composableBuilder(
     column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get slug => $composableBuilder(
+    column: $table.slug,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3064,6 +2916,11 @@ class $$TypesTableOrderingComposer
     column: $table.name,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get slug => $composableBuilder(
+    column: $table.slug,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TypesTableAnnotationComposer
@@ -3080,6 +2937,9 @@ class $$TypesTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get slug =>
+      $composableBuilder(column: $table.slug, builder: (column) => column);
 
   Expression<T> eventsRefs<T extends Object>(
     Expression<T> Function($$EventsTableAnnotationComposer a) f,
@@ -3162,10 +3022,14 @@ class $$TypesTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-              }) => TypesCompanion(id: id, name: name),
+                Value<String> slug = const Value.absent(),
+              }) => TypesCompanion(id: id, name: name, slug: slug),
           createCompanionCallback:
-              ({Value<int> id = const Value.absent(), required String name}) =>
-                  TypesCompanion.insert(id: id, name: name),
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required String slug,
+              }) => TypesCompanion.insert(id: id, name: name, slug: slug),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) =>
@@ -3239,572 +3103,69 @@ typedef $$TypesTableProcessedTableManager =
       Type,
       PrefetchHooks Function({bool eventsRefs, bool categoriesTypesRefs})
     >;
-typedef $$EventsTableCreateCompanionBuilder =
-    EventsCompanion Function({
-      Value<int> id,
-      required int typeId,
-      Value<int?> dataId,
-      Value<String?> notes,
-      Value<DateTime> createdAt,
-    });
-typedef $$EventsTableUpdateCompanionBuilder =
-    EventsCompanion Function({
-      Value<int> id,
-      Value<int> typeId,
-      Value<int?> dataId,
-      Value<String?> notes,
-      Value<DateTime> createdAt,
-    });
-
-final class $$EventsTableReferences
-    extends BaseReferences<_$AppDatabase, $EventsTable, Event> {
-  $$EventsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $TypesTable _typeIdTable(_$AppDatabase db) =>
-      db.types.createAlias($_aliasNameGenerator(db.events.typeId, db.types.id));
-
-  $$TypesTableProcessedTableManager get typeId {
-    final $_column = $_itemColumn<int>('type_id')!;
-
-    final manager = $$TypesTableTableManager(
-      $_db,
-      $_db.types,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_typeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static MultiTypedResultKey<$EventsOptionsTable, List<EventOption>>
-  _eventsOptionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.eventsOptions,
-    aliasName: $_aliasNameGenerator(db.events.id, db.eventsOptions.eventId),
-  );
-
-  $$EventsOptionsTableProcessedTableManager get eventsOptionsRefs {
-    final manager = $$EventsOptionsTableTableManager(
-      $_db,
-      $_db.eventsOptions,
-    ).filter((f) => f.eventId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_eventsOptionsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<$EventsPartnersTable, List<EventPartner>>
-  _eventsPartnersRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.eventsPartners,
-    aliasName: $_aliasNameGenerator(db.events.id, db.eventsPartners.eventId),
-  );
-
-  $$EventsPartnersTableProcessedTableManager get eventsPartnersRefs {
-    final manager = $$EventsPartnersTableTableManager(
-      $_db,
-      $_db.eventsPartners,
-    ).filter((f) => f.eventId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_eventsPartnersRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$EventsTableFilterComposer
-    extends Composer<_$AppDatabase, $EventsTable> {
-  $$EventsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get dataId => $composableBuilder(
-    column: $table.dataId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get notes => $composableBuilder(
-    column: $table.notes,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$TypesTableFilterComposer get typeId {
-    final $$TypesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableFilterComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<bool> eventsOptionsRefs(
-    Expression<bool> Function($$EventsOptionsTableFilterComposer f) f,
-  ) {
-    final $$EventsOptionsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eventsOptions,
-      getReferencedColumn: (t) => t.eventId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsOptionsTableFilterComposer(
-            $db: $db,
-            $table: $db.eventsOptions,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> eventsPartnersRefs(
-    Expression<bool> Function($$EventsPartnersTableFilterComposer f) f,
-  ) {
-    final $$EventsPartnersTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eventsPartners,
-      getReferencedColumn: (t) => t.eventId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsPartnersTableFilterComposer(
-            $db: $db,
-            $table: $db.eventsPartners,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EventsTableOrderingComposer
-    extends Composer<_$AppDatabase, $EventsTable> {
-  $$EventsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get dataId => $composableBuilder(
-    column: $table.dataId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get notes => $composableBuilder(
-    column: $table.notes,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$TypesTableOrderingComposer get typeId {
-    final $$TypesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableOrderingComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$EventsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $EventsTable> {
-  $$EventsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<int> get dataId =>
-      $composableBuilder(column: $table.dataId, builder: (column) => column);
-
-  GeneratedColumn<String> get notes =>
-      $composableBuilder(column: $table.notes, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  $$TypesTableAnnotationComposer get typeId {
-    final $$TypesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<T> eventsOptionsRefs<T extends Object>(
-    Expression<T> Function($$EventsOptionsTableAnnotationComposer a) f,
-  ) {
-    final $$EventsOptionsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eventsOptions,
-      getReferencedColumn: (t) => t.eventId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsOptionsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.eventsOptions,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> eventsPartnersRefs<T extends Object>(
-    Expression<T> Function($$EventsPartnersTableAnnotationComposer a) f,
-  ) {
-    final $$EventsPartnersTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eventsPartners,
-      getReferencedColumn: (t) => t.eventId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsPartnersTableAnnotationComposer(
-            $db: $db,
-            $table: $db.eventsPartners,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EventsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $EventsTable,
-          Event,
-          $$EventsTableFilterComposer,
-          $$EventsTableOrderingComposer,
-          $$EventsTableAnnotationComposer,
-          $$EventsTableCreateCompanionBuilder,
-          $$EventsTableUpdateCompanionBuilder,
-          (Event, $$EventsTableReferences),
-          Event,
-          PrefetchHooks Function({
-            bool typeId,
-            bool eventsOptionsRefs,
-            bool eventsPartnersRefs,
-          })
-        > {
-  $$EventsTableTableManager(_$AppDatabase db, $EventsTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$EventsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$EventsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$EventsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<int> typeId = const Value.absent(),
-                Value<int?> dataId = const Value.absent(),
-                Value<String?> notes = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-              }) => EventsCompanion(
-                id: id,
-                typeId: typeId,
-                dataId: dataId,
-                notes: notes,
-                createdAt: createdAt,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required int typeId,
-                Value<int?> dataId = const Value.absent(),
-                Value<String?> notes = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-              }) => EventsCompanion.insert(
-                id: id,
-                typeId: typeId,
-                dataId: dataId,
-                notes: notes,
-                createdAt: createdAt,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$EventsTableReferences(db, table, e)),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({
-                typeId = false,
-                eventsOptionsRefs = false,
-                eventsPartnersRefs = false,
-              }) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (eventsOptionsRefs) db.eventsOptions,
-                    if (eventsPartnersRefs) db.eventsPartners,
-                  ],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (typeId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.typeId,
-                                    referencedTable: $$EventsTableReferences
-                                        ._typeIdTable(db),
-                                    referencedColumn: $$EventsTableReferences
-                                        ._typeIdTable(db)
-                                        .id,
-                                  )
-                                  as T;
-                        }
-
-                        return state;
-                      },
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (eventsOptionsRefs)
-                        await $_getPrefetchedData<
-                          Event,
-                          $EventsTable,
-                          EventOption
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EventsTableReferences
-                              ._eventsOptionsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EventsTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).eventsOptionsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.eventId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (eventsPartnersRefs)
-                        await $_getPrefetchedData<
-                          Event,
-                          $EventsTable,
-                          EventPartner
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EventsTableReferences
-                              ._eventsPartnersRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EventsTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).eventsPartnersRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.eventId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$EventsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $EventsTable,
-      Event,
-      $$EventsTableFilterComposer,
-      $$EventsTableOrderingComposer,
-      $$EventsTableAnnotationComposer,
-      $$EventsTableCreateCompanionBuilder,
-      $$EventsTableUpdateCompanionBuilder,
-      (Event, $$EventsTableReferences),
-      Event,
-      PrefetchHooks Function({
-        bool typeId,
-        bool eventsOptionsRefs,
-        bool eventsPartnersRefs,
-      })
-    >;
-typedef $$EOptionsTableCreateCompanionBuilder =
-    EOptionsCompanion Function({
+typedef $$CategoriesTableCreateCompanionBuilder =
+    CategoriesCompanion Function({
       Value<int> id,
       required String name,
-      required int categoryId,
-      Value<bool> isVisible,
-      Value<bool> isBasic,
+      required String slug,
     });
-typedef $$EOptionsTableUpdateCompanionBuilder =
-    EOptionsCompanion Function({
+typedef $$CategoriesTableUpdateCompanionBuilder =
+    CategoriesCompanion Function({
       Value<int> id,
       Value<String> name,
-      Value<int> categoryId,
-      Value<bool> isVisible,
-      Value<bool> isBasic,
+      Value<String> slug,
     });
 
-final class $$EOptionsTableReferences
-    extends BaseReferences<_$AppDatabase, $EOptionsTable, EOption> {
-  $$EOptionsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+final class $$CategoriesTableReferences
+    extends BaseReferences<_$AppDatabase, $CategoriesTable, Category> {
+  $$CategoriesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $CategoriesTable _categoryIdTable(_$AppDatabase db) =>
-      db.categories.createAlias(
-        $_aliasNameGenerator(db.eOptions.categoryId, db.categories.id),
-      );
+  static MultiTypedResultKey<$EOptionsTable, List<EOption>> _eOptionsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.eOptions,
+    aliasName: $_aliasNameGenerator(db.categories.id, db.eOptions.categoryId),
+  );
 
-  $$CategoriesTableProcessedTableManager get categoryId {
-    final $_column = $_itemColumn<int>('category_id')!;
-
-    final manager = $$CategoriesTableTableManager(
+  $$EOptionsTableProcessedTableManager get eOptionsRefs {
+    final manager = $$EOptionsTableTableManager(
       $_db,
-      $_db.categories,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
-    if (item == null) return manager;
+      $_db.eOptions,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_eOptionsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 
-  static MultiTypedResultKey<$EventsOptionsTable, List<EventOption>>
-  _eventsOptionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.eventsOptions,
-    aliasName: $_aliasNameGenerator(db.eOptions.id, db.eventsOptions.optionId),
+  static MultiTypedResultKey<$CategoriesTypesTable, List<CategoryType>>
+  _categoriesTypesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.categoriesTypes,
+    aliasName: $_aliasNameGenerator(
+      db.categories.id,
+      db.categoriesTypes.categoryId,
+    ),
   );
 
-  $$EventsOptionsTableProcessedTableManager get eventsOptionsRefs {
-    final manager = $$EventsOptionsTableTableManager(
+  $$CategoriesTypesTableProcessedTableManager get categoriesTypesRefs {
+    final manager = $$CategoriesTypesTableTableManager(
       $_db,
-      $_db.eventsOptions,
-    ).filter((f) => f.optionId.id.sqlEquals($_itemColumn<int>('id')!));
+      $_db.categoriesTypes,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult.readTableOrNull(_eventsOptionsRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _categoriesTypesRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
 }
 
-class $$EOptionsTableFilterComposer
-    extends Composer<_$AppDatabase, $EOptionsTable> {
-  $$EOptionsTableFilterComposer({
+class $$CategoriesTableFilterComposer
+    extends Composer<_$AppDatabase, $CategoriesTable> {
+  $$CategoriesTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -3821,55 +3182,52 @@ class $$EOptionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<bool> get isVisible => $composableBuilder(
-    column: $table.isVisible,
+  ColumnFilters<String> get slug => $composableBuilder(
+    column: $table.slug,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<bool> get isBasic => $composableBuilder(
-    column: $table.isBasic,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$CategoriesTableFilterComposer get categoryId {
-    final $$CategoriesTableFilterComposer composer = $composerBuilder(
+  Expression<bool> eOptionsRefs(
+    Expression<bool> Function($$EOptionsTableFilterComposer f) f,
+  ) {
+    final $$EOptionsTableFilterComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.categoryId,
-      referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.id,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eOptions,
+      getReferencedColumn: (t) => t.categoryId,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTableFilterComposer(
+          }) => $$EOptionsTableFilterComposer(
             $db: $db,
-            $table: $db.categories,
+            $table: $db.eOptions,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
                 $removeJoinBuilderFromRootComposer,
           ),
     );
-    return composer;
+    return f(composer);
   }
 
-  Expression<bool> eventsOptionsRefs(
-    Expression<bool> Function($$EventsOptionsTableFilterComposer f) f,
+  Expression<bool> categoriesTypesRefs(
+    Expression<bool> Function($$CategoriesTypesTableFilterComposer f) f,
   ) {
-    final $$EventsOptionsTableFilterComposer composer = $composerBuilder(
+    final $$CategoriesTypesTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eventsOptions,
-      getReferencedColumn: (t) => t.optionId,
+      referencedTable: $db.categoriesTypes,
+      getReferencedColumn: (t) => t.categoryId,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$EventsOptionsTableFilterComposer(
+          }) => $$CategoriesTypesTableFilterComposer(
             $db: $db,
-            $table: $db.eventsOptions,
+            $table: $db.categoriesTypes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -3880,9 +3238,9 @@ class $$EOptionsTableFilterComposer
   }
 }
 
-class $$EOptionsTableOrderingComposer
-    extends Composer<_$AppDatabase, $EOptionsTable> {
-  $$EOptionsTableOrderingComposer({
+class $$CategoriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CategoriesTable> {
+  $$CategoriesTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -3899,43 +3257,15 @@ class $$EOptionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<bool> get isVisible => $composableBuilder(
-    column: $table.isVisible,
+  ColumnOrderings<String> get slug => $composableBuilder(
+    column: $table.slug,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<bool> get isBasic => $composableBuilder(
-    column: $table.isBasic,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$CategoriesTableOrderingComposer get categoryId {
-    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.categoryId,
-      referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTableOrderingComposer(
-            $db: $db,
-            $table: $db.categories,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
-class $$EOptionsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $EOptionsTable> {
-  $$EOptionsTableAnnotationComposer({
+class $$CategoriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CategoriesTable> {
+  $$CategoriesTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -3948,51 +3278,50 @@ class $$EOptionsTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
-  GeneratedColumn<bool> get isVisible =>
-      $composableBuilder(column: $table.isVisible, builder: (column) => column);
+  GeneratedColumn<String> get slug =>
+      $composableBuilder(column: $table.slug, builder: (column) => column);
 
-  GeneratedColumn<bool> get isBasic =>
-      $composableBuilder(column: $table.isBasic, builder: (column) => column);
-
-  $$CategoriesTableAnnotationComposer get categoryId {
-    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
+  Expression<T> eOptionsRefs<T extends Object>(
+    Expression<T> Function($$EOptionsTableAnnotationComposer a) f,
+  ) {
+    final $$EOptionsTableAnnotationComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.categoryId,
-      referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.id,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eOptions,
+      getReferencedColumn: (t) => t.categoryId,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTableAnnotationComposer(
+          }) => $$EOptionsTableAnnotationComposer(
             $db: $db,
-            $table: $db.categories,
+            $table: $db.eOptions,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
                 $removeJoinBuilderFromRootComposer,
           ),
     );
-    return composer;
+    return f(composer);
   }
 
-  Expression<T> eventsOptionsRefs<T extends Object>(
-    Expression<T> Function($$EventsOptionsTableAnnotationComposer a) f,
+  Expression<T> categoriesTypesRefs<T extends Object>(
+    Expression<T> Function($$CategoriesTypesTableAnnotationComposer a) f,
   ) {
-    final $$EventsOptionsTableAnnotationComposer composer = $composerBuilder(
+    final $$CategoriesTypesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.id,
-      referencedTable: $db.eventsOptions,
-      getReferencedColumn: (t) => t.optionId,
+      referencedTable: $db.categoriesTypes,
+      getReferencedColumn: (t) => t.categoryId,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$EventsOptionsTableAnnotationComposer(
+          }) => $$CategoriesTypesTableAnnotationComposer(
             $db: $db,
-            $table: $db.eventsOptions,
+            $table: $db.categoriesTypes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -4003,127 +3332,102 @@ class $$EOptionsTableAnnotationComposer
   }
 }
 
-class $$EOptionsTableTableManager
+class $$CategoriesTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $EOptionsTable,
-          EOption,
-          $$EOptionsTableFilterComposer,
-          $$EOptionsTableOrderingComposer,
-          $$EOptionsTableAnnotationComposer,
-          $$EOptionsTableCreateCompanionBuilder,
-          $$EOptionsTableUpdateCompanionBuilder,
-          (EOption, $$EOptionsTableReferences),
-          EOption,
-          PrefetchHooks Function({bool categoryId, bool eventsOptionsRefs})
+          $CategoriesTable,
+          Category,
+          $$CategoriesTableFilterComposer,
+          $$CategoriesTableOrderingComposer,
+          $$CategoriesTableAnnotationComposer,
+          $$CategoriesTableCreateCompanionBuilder,
+          $$CategoriesTableUpdateCompanionBuilder,
+          (Category, $$CategoriesTableReferences),
+          Category,
+          PrefetchHooks Function({bool eOptionsRefs, bool categoriesTypesRefs})
         > {
-  $$EOptionsTableTableManager(_$AppDatabase db, $EOptionsTable table)
+  $$CategoriesTableTableManager(_$AppDatabase db, $CategoriesTable table)
     : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$EOptionsTableFilterComposer($db: db, $table: table),
+              $$CategoriesTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$EOptionsTableOrderingComposer($db: db, $table: table),
+              $$CategoriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$EOptionsTableAnnotationComposer($db: db, $table: table),
+              $$CategoriesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<int> categoryId = const Value.absent(),
-                Value<bool> isVisible = const Value.absent(),
-                Value<bool> isBasic = const Value.absent(),
-              }) => EOptionsCompanion(
-                id: id,
-                name: name,
-                categoryId: categoryId,
-                isVisible: isVisible,
-                isBasic: isBasic,
-              ),
+                Value<String> slug = const Value.absent(),
+              }) => CategoriesCompanion(id: id, name: name, slug: slug),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String name,
-                required int categoryId,
-                Value<bool> isVisible = const Value.absent(),
-                Value<bool> isBasic = const Value.absent(),
-              }) => EOptionsCompanion.insert(
-                id: id,
-                name: name,
-                categoryId: categoryId,
-                isVisible: isVisible,
-                isBasic: isBasic,
-              ),
+                required String slug,
+              }) => CategoriesCompanion.insert(id: id, name: name, slug: slug),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
                   e.readTable(table),
-                  $$EOptionsTableReferences(db, table, e),
+                  $$CategoriesTableReferences(db, table, e),
                 ),
               )
               .toList(),
           prefetchHooksCallback:
-              ({categoryId = false, eventsOptionsRefs = false}) {
+              ({eOptionsRefs = false, categoriesTypesRefs = false}) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
-                    if (eventsOptionsRefs) db.eventsOptions,
+                    if (eOptionsRefs) db.eOptions,
+                    if (categoriesTypesRefs) db.categoriesTypes,
                   ],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (categoryId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.categoryId,
-                                    referencedTable: $$EOptionsTableReferences
-                                        ._categoryIdTable(db),
-                                    referencedColumn: $$EOptionsTableReferences
-                                        ._categoryIdTable(db)
-                                        .id,
-                                  )
-                                  as T;
-                        }
-
-                        return state;
-                      },
+                  addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
-                      if (eventsOptionsRefs)
+                      if (eOptionsRefs)
                         await $_getPrefetchedData<
-                          EOption,
-                          $EOptionsTable,
-                          EventOption
+                          Category,
+                          $CategoriesTable,
+                          EOption
                         >(
                           currentTable: table,
-                          referencedTable: $$EOptionsTableReferences
-                              ._eventsOptionsRefsTable(db),
+                          referencedTable: $$CategoriesTableReferences
+                              ._eOptionsRefsTable(db),
                           managerFromTypedResult: (p0) =>
-                              $$EOptionsTableReferences(
+                              $$CategoriesTableReferences(
                                 db,
                                 table,
                                 p0,
-                              ).eventsOptionsRefs,
+                              ).eOptionsRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
-                                (e) => e.optionId == item.id,
+                                (e) => e.categoryId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (categoriesTypesRefs)
+                        await $_getPrefetchedData<
+                          Category,
+                          $CategoriesTable,
+                          CategoryType
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CategoriesTableReferences
+                              ._categoriesTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CategoriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).categoriesTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.categoryId == item.id,
                               ),
                           typedResults: items,
                         ),
@@ -4135,19 +3439,19 @@ class $$EOptionsTableTableManager
       );
 }
 
-typedef $$EOptionsTableProcessedTableManager =
+typedef $$CategoriesTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $EOptionsTable,
-      EOption,
-      $$EOptionsTableFilterComposer,
-      $$EOptionsTableOrderingComposer,
-      $$EOptionsTableAnnotationComposer,
-      $$EOptionsTableCreateCompanionBuilder,
-      $$EOptionsTableUpdateCompanionBuilder,
-      (EOption, $$EOptionsTableReferences),
-      EOption,
-      PrefetchHooks Function({bool categoryId, bool eventsOptionsRefs})
+      $CategoriesTable,
+      Category,
+      $$CategoriesTableFilterComposer,
+      $$CategoriesTableOrderingComposer,
+      $$CategoriesTableAnnotationComposer,
+      $$CategoriesTableCreateCompanionBuilder,
+      $$CategoriesTableUpdateCompanionBuilder,
+      (Category, $$CategoriesTableReferences),
+      Category,
+      PrefetchHooks Function({bool eOptionsRefs, bool categoriesTypesRefs})
     >;
 typedef $$PartnersTableCreateCompanionBuilder =
     PartnersCompanion Function({
@@ -4449,8 +3753,8 @@ typedef $$PartnersTableProcessedTableManager =
       Partner,
       PrefetchHooks Function({bool eventsPartnersRefs})
     >;
-typedef $$SexualEventTableCreateCompanionBuilder =
-    SexualEventCompanion Function({
+typedef $$EventDataTableTableCreateCompanionBuilder =
+    EventDataTableCompanion Function({
       Value<int> id,
       required int rating,
       required DayTime daytime,
@@ -4458,8 +3762,8 @@ typedef $$SexualEventTableCreateCompanionBuilder =
       Value<int?> duration,
       Value<int> userOrgasms,
     });
-typedef $$SexualEventTableUpdateCompanionBuilder =
-    SexualEventCompanion Function({
+typedef $$EventDataTableTableUpdateCompanionBuilder =
+    EventDataTableCompanion Function({
       Value<int> id,
       Value<int> rating,
       Value<DayTime> daytime,
@@ -4468,9 +3772,37 @@ typedef $$SexualEventTableUpdateCompanionBuilder =
       Value<int> userOrgasms,
     });
 
-class $$SexualEventTableFilterComposer
-    extends Composer<_$AppDatabase, $SexualEventTable> {
-  $$SexualEventTableFilterComposer({
+final class $$EventDataTableTableReferences
+    extends BaseReferences<_$AppDatabase, $EventDataTableTable, EventData> {
+  $$EventDataTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$EventsTable, List<Event>> _eventsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.events,
+    aliasName: $_aliasNameGenerator(db.eventDataTable.id, db.events.dataId),
+  );
+
+  $$EventsTableProcessedTableManager get eventsRefs {
+    final manager = $$EventsTableTableManager(
+      $_db,
+      $_db.events,
+    ).filter((f) => f.dataId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_eventsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EventDataTableTableFilterComposer
+    extends Composer<_$AppDatabase, $EventDataTableTable> {
+  $$EventDataTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4507,11 +3839,36 @@ class $$SexualEventTableFilterComposer
     column: $table.userOrgasms,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> eventsRefs(
+    Expression<bool> Function($$EventsTableFilterComposer f) f,
+  ) {
+    final $$EventsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.events,
+      getReferencedColumn: (t) => t.dataId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsTableFilterComposer(
+            $db: $db,
+            $table: $db.events,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
-class $$SexualEventTableOrderingComposer
-    extends Composer<_$AppDatabase, $SexualEventTable> {
-  $$SexualEventTableOrderingComposer({
+class $$EventDataTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $EventDataTableTable> {
+  $$EventDataTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4549,9 +3906,9 @@ class $$SexualEventTableOrderingComposer
   );
 }
 
-class $$SexualEventTableAnnotationComposer
-    extends Composer<_$AppDatabase, $SexualEventTable> {
-  $$SexualEventTableAnnotationComposer({
+class $$EventDataTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EventDataTableTable> {
+  $$EventDataTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4577,37 +3934,61 @@ class $$SexualEventTableAnnotationComposer
     column: $table.userOrgasms,
     builder: (column) => column,
   );
+
+  Expression<T> eventsRefs<T extends Object>(
+    Expression<T> Function($$EventsTableAnnotationComposer a) f,
+  ) {
+    final $$EventsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.events,
+      getReferencedColumn: (t) => t.dataId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.events,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
-class $$SexualEventTableTableManager
+class $$EventDataTableTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $SexualEventTable,
-          SexualEventData,
-          $$SexualEventTableFilterComposer,
-          $$SexualEventTableOrderingComposer,
-          $$SexualEventTableAnnotationComposer,
-          $$SexualEventTableCreateCompanionBuilder,
-          $$SexualEventTableUpdateCompanionBuilder,
-          (
-            SexualEventData,
-            BaseReferences<_$AppDatabase, $SexualEventTable, SexualEventData>,
-          ),
-          SexualEventData,
-          PrefetchHooks Function()
+          $EventDataTableTable,
+          EventData,
+          $$EventDataTableTableFilterComposer,
+          $$EventDataTableTableOrderingComposer,
+          $$EventDataTableTableAnnotationComposer,
+          $$EventDataTableTableCreateCompanionBuilder,
+          $$EventDataTableTableUpdateCompanionBuilder,
+          (EventData, $$EventDataTableTableReferences),
+          EventData,
+          PrefetchHooks Function({bool eventsRefs})
         > {
-  $$SexualEventTableTableManager(_$AppDatabase db, $SexualEventTable table)
-    : super(
+  $$EventDataTableTableTableManager(
+    _$AppDatabase db,
+    $EventDataTableTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$SexualEventTableFilterComposer($db: db, $table: table),
+              $$EventDataTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$SexualEventTableOrderingComposer($db: db, $table: table),
+              $$EventDataTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$SexualEventTableAnnotationComposer($db: db, $table: table),
+              $$EventDataTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
@@ -4616,7 +3997,7 @@ class $$SexualEventTableTableManager
                 Value<DateTime?> time = const Value.absent(),
                 Value<int?> duration = const Value.absent(),
                 Value<int> userOrgasms = const Value.absent(),
-              }) => SexualEventCompanion(
+              }) => EventDataTableCompanion(
                 id: id,
                 rating: rating,
                 daytime: daytime,
@@ -4632,7 +4013,7 @@ class $$SexualEventTableTableManager
                 Value<DateTime?> time = const Value.absent(),
                 Value<int?> duration = const Value.absent(),
                 Value<int> userOrgasms = const Value.absent(),
-              }) => SexualEventCompanion.insert(
+              }) => EventDataTableCompanion.insert(
                 id: id,
                 rating: rating,
                 daytime: daytime,
@@ -4641,29 +4022,1080 @@ class $$SexualEventTableTableManager
                 userOrgasms: userOrgasms,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EventDataTableTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({eventsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (eventsRefs) db.events],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (eventsRefs)
+                    await $_getPrefetchedData<
+                      EventData,
+                      $EventDataTableTable,
+                      Event
+                    >(
+                      currentTable: table,
+                      referencedTable: $$EventDataTableTableReferences
+                          ._eventsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$EventDataTableTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).eventsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.dataId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
 
-typedef $$SexualEventTableProcessedTableManager =
+typedef $$EventDataTableTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $SexualEventTable,
-      SexualEventData,
-      $$SexualEventTableFilterComposer,
-      $$SexualEventTableOrderingComposer,
-      $$SexualEventTableAnnotationComposer,
-      $$SexualEventTableCreateCompanionBuilder,
-      $$SexualEventTableUpdateCompanionBuilder,
-      (
-        SexualEventData,
-        BaseReferences<_$AppDatabase, $SexualEventTable, SexualEventData>,
-      ),
-      SexualEventData,
-      PrefetchHooks Function()
+      $EventDataTableTable,
+      EventData,
+      $$EventDataTableTableFilterComposer,
+      $$EventDataTableTableOrderingComposer,
+      $$EventDataTableTableAnnotationComposer,
+      $$EventDataTableTableCreateCompanionBuilder,
+      $$EventDataTableTableUpdateCompanionBuilder,
+      (EventData, $$EventDataTableTableReferences),
+      EventData,
+      PrefetchHooks Function({bool eventsRefs})
+    >;
+typedef $$EventsTableCreateCompanionBuilder =
+    EventsCompanion Function({
+      Value<int> id,
+      required int typeId,
+      Value<int?> dataId,
+      Value<String?> notes,
+      Value<DateTime> createdAt,
+    });
+typedef $$EventsTableUpdateCompanionBuilder =
+    EventsCompanion Function({
+      Value<int> id,
+      Value<int> typeId,
+      Value<int?> dataId,
+      Value<String?> notes,
+      Value<DateTime> createdAt,
+    });
+
+final class $$EventsTableReferences
+    extends BaseReferences<_$AppDatabase, $EventsTable, Event> {
+  $$EventsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $TypesTable _typeIdTable(_$AppDatabase db) =>
+      db.types.createAlias($_aliasNameGenerator(db.events.typeId, db.types.id));
+
+  $$TypesTableProcessedTableManager get typeId {
+    final $_column = $_itemColumn<int>('type_id')!;
+
+    final manager = $$TypesTableTableManager(
+      $_db,
+      $_db.types,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_typeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $EventDataTableTable _dataIdTable(_$AppDatabase db) =>
+      db.eventDataTable.createAlias(
+        $_aliasNameGenerator(db.events.dataId, db.eventDataTable.id),
+      );
+
+  $$EventDataTableTableProcessedTableManager? get dataId {
+    final $_column = $_itemColumn<int>('data_id');
+    if ($_column == null) return null;
+    final manager = $$EventDataTableTableTableManager(
+      $_db,
+      $_db.eventDataTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_dataIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$EventsOptionsTable, List<EventOption>>
+  _eventsOptionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.eventsOptions,
+    aliasName: $_aliasNameGenerator(db.events.id, db.eventsOptions.eventId),
+  );
+
+  $$EventsOptionsTableProcessedTableManager get eventsOptionsRefs {
+    final manager = $$EventsOptionsTableTableManager(
+      $_db,
+      $_db.eventsOptions,
+    ).filter((f) => f.eventId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_eventsOptionsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$EventsPartnersTable, List<EventPartner>>
+  _eventsPartnersRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.eventsPartners,
+    aliasName: $_aliasNameGenerator(db.events.id, db.eventsPartners.eventId),
+  );
+
+  $$EventsPartnersTableProcessedTableManager get eventsPartnersRefs {
+    final manager = $$EventsPartnersTableTableManager(
+      $_db,
+      $_db.eventsPartners,
+    ).filter((f) => f.eventId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_eventsPartnersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EventsTableFilterComposer
+    extends Composer<_$AppDatabase, $EventsTable> {
+  $$EventsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$TypesTableFilterComposer get typeId {
+    final $$TypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.typeId,
+      referencedTable: $db.types,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TypesTableFilterComposer(
+            $db: $db,
+            $table: $db.types,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EventDataTableTableFilterComposer get dataId {
+    final $$EventDataTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.dataId,
+      referencedTable: $db.eventDataTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventDataTableTableFilterComposer(
+            $db: $db,
+            $table: $db.eventDataTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> eventsOptionsRefs(
+    Expression<bool> Function($$EventsOptionsTableFilterComposer f) f,
+  ) {
+    final $$EventsOptionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eventsOptions,
+      getReferencedColumn: (t) => t.eventId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsOptionsTableFilterComposer(
+            $db: $db,
+            $table: $db.eventsOptions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> eventsPartnersRefs(
+    Expression<bool> Function($$EventsPartnersTableFilterComposer f) f,
+  ) {
+    final $$EventsPartnersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eventsPartners,
+      getReferencedColumn: (t) => t.eventId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsPartnersTableFilterComposer(
+            $db: $db,
+            $table: $db.eventsPartners,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EventsTableOrderingComposer
+    extends Composer<_$AppDatabase, $EventsTable> {
+  $$EventsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$TypesTableOrderingComposer get typeId {
+    final $$TypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.typeId,
+      referencedTable: $db.types,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.types,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EventDataTableTableOrderingComposer get dataId {
+    final $$EventDataTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.dataId,
+      referencedTable: $db.eventDataTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventDataTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.eventDataTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EventsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EventsTable> {
+  $$EventsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$TypesTableAnnotationComposer get typeId {
+    final $$TypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.typeId,
+      referencedTable: $db.types,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.types,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EventDataTableTableAnnotationComposer get dataId {
+    final $$EventDataTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.dataId,
+      referencedTable: $db.eventDataTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventDataTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.eventDataTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> eventsOptionsRefs<T extends Object>(
+    Expression<T> Function($$EventsOptionsTableAnnotationComposer a) f,
+  ) {
+    final $$EventsOptionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eventsOptions,
+      getReferencedColumn: (t) => t.eventId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsOptionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.eventsOptions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> eventsPartnersRefs<T extends Object>(
+    Expression<T> Function($$EventsPartnersTableAnnotationComposer a) f,
+  ) {
+    final $$EventsPartnersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eventsPartners,
+      getReferencedColumn: (t) => t.eventId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsPartnersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.eventsPartners,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EventsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EventsTable,
+          Event,
+          $$EventsTableFilterComposer,
+          $$EventsTableOrderingComposer,
+          $$EventsTableAnnotationComposer,
+          $$EventsTableCreateCompanionBuilder,
+          $$EventsTableUpdateCompanionBuilder,
+          (Event, $$EventsTableReferences),
+          Event,
+          PrefetchHooks Function({
+            bool typeId,
+            bool dataId,
+            bool eventsOptionsRefs,
+            bool eventsPartnersRefs,
+          })
+        > {
+  $$EventsTableTableManager(_$AppDatabase db, $EventsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EventsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EventsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EventsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> typeId = const Value.absent(),
+                Value<int?> dataId = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => EventsCompanion(
+                id: id,
+                typeId: typeId,
+                dataId: dataId,
+                notes: notes,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int typeId,
+                Value<int?> dataId = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => EventsCompanion.insert(
+                id: id,
+                typeId: typeId,
+                dataId: dataId,
+                notes: notes,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$EventsTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                typeId = false,
+                dataId = false,
+                eventsOptionsRefs = false,
+                eventsPartnersRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (eventsOptionsRefs) db.eventsOptions,
+                    if (eventsPartnersRefs) db.eventsPartners,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (typeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.typeId,
+                                    referencedTable: $$EventsTableReferences
+                                        ._typeIdTable(db),
+                                    referencedColumn: $$EventsTableReferences
+                                        ._typeIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (dataId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.dataId,
+                                    referencedTable: $$EventsTableReferences
+                                        ._dataIdTable(db),
+                                    referencedColumn: $$EventsTableReferences
+                                        ._dataIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (eventsOptionsRefs)
+                        await $_getPrefetchedData<
+                          Event,
+                          $EventsTable,
+                          EventOption
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EventsTableReferences
+                              ._eventsOptionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EventsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).eventsOptionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.eventId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (eventsPartnersRefs)
+                        await $_getPrefetchedData<
+                          Event,
+                          $EventsTable,
+                          EventPartner
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EventsTableReferences
+                              ._eventsPartnersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EventsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).eventsPartnersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.eventId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$EventsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EventsTable,
+      Event,
+      $$EventsTableFilterComposer,
+      $$EventsTableOrderingComposer,
+      $$EventsTableAnnotationComposer,
+      $$EventsTableCreateCompanionBuilder,
+      $$EventsTableUpdateCompanionBuilder,
+      (Event, $$EventsTableReferences),
+      Event,
+      PrefetchHooks Function({
+        bool typeId,
+        bool dataId,
+        bool eventsOptionsRefs,
+        bool eventsPartnersRefs,
+      })
+    >;
+typedef $$EOptionsTableCreateCompanionBuilder =
+    EOptionsCompanion Function({
+      Value<int> id,
+      required String name,
+      required String slug,
+      required int categoryId,
+      Value<bool> isVisible,
+      Value<bool> isBasic,
+    });
+typedef $$EOptionsTableUpdateCompanionBuilder =
+    EOptionsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String> slug,
+      Value<int> categoryId,
+      Value<bool> isVisible,
+      Value<bool> isBasic,
+    });
+
+final class $$EOptionsTableReferences
+    extends BaseReferences<_$AppDatabase, $EOptionsTable, EOption> {
+  $$EOptionsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CategoriesTable _categoryIdTable(_$AppDatabase db) =>
+      db.categories.createAlias(
+        $_aliasNameGenerator(db.eOptions.categoryId, db.categories.id),
+      );
+
+  $$CategoriesTableProcessedTableManager get categoryId {
+    final $_column = $_itemColumn<int>('category_id')!;
+
+    final manager = $$CategoriesTableTableManager(
+      $_db,
+      $_db.categories,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$EventsOptionsTable, List<EventOption>>
+  _eventsOptionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.eventsOptions,
+    aliasName: $_aliasNameGenerator(db.eOptions.id, db.eventsOptions.optionId),
+  );
+
+  $$EventsOptionsTableProcessedTableManager get eventsOptionsRefs {
+    final manager = $$EventsOptionsTableTableManager(
+      $_db,
+      $_db.eventsOptions,
+    ).filter((f) => f.optionId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_eventsOptionsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EOptionsTableFilterComposer
+    extends Composer<_$AppDatabase, $EOptionsTable> {
+  $$EOptionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get slug => $composableBuilder(
+    column: $table.slug,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isVisible => $composableBuilder(
+    column: $table.isVisible,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isBasic => $composableBuilder(
+    column: $table.isBasic,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CategoriesTableFilterComposer get categoryId {
+    final $$CategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> eventsOptionsRefs(
+    Expression<bool> Function($$EventsOptionsTableFilterComposer f) f,
+  ) {
+    final $$EventsOptionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eventsOptions,
+      getReferencedColumn: (t) => t.optionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsOptionsTableFilterComposer(
+            $db: $db,
+            $table: $db.eventsOptions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EOptionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $EOptionsTable> {
+  $$EOptionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get slug => $composableBuilder(
+    column: $table.slug,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isVisible => $composableBuilder(
+    column: $table.isVisible,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isBasic => $composableBuilder(
+    column: $table.isBasic,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CategoriesTableOrderingComposer get categoryId {
+    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EOptionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EOptionsTable> {
+  $$EOptionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get slug =>
+      $composableBuilder(column: $table.slug, builder: (column) => column);
+
+  GeneratedColumn<bool> get isVisible =>
+      $composableBuilder(column: $table.isVisible, builder: (column) => column);
+
+  GeneratedColumn<bool> get isBasic =>
+      $composableBuilder(column: $table.isBasic, builder: (column) => column);
+
+  $$CategoriesTableAnnotationComposer get categoryId {
+    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> eventsOptionsRefs<T extends Object>(
+    Expression<T> Function($$EventsOptionsTableAnnotationComposer a) f,
+  ) {
+    final $$EventsOptionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.eventsOptions,
+      getReferencedColumn: (t) => t.optionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsOptionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.eventsOptions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EOptionsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EOptionsTable,
+          EOption,
+          $$EOptionsTableFilterComposer,
+          $$EOptionsTableOrderingComposer,
+          $$EOptionsTableAnnotationComposer,
+          $$EOptionsTableCreateCompanionBuilder,
+          $$EOptionsTableUpdateCompanionBuilder,
+          (EOption, $$EOptionsTableReferences),
+          EOption,
+          PrefetchHooks Function({bool categoryId, bool eventsOptionsRefs})
+        > {
+  $$EOptionsTableTableManager(_$AppDatabase db, $EOptionsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EOptionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EOptionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EOptionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> slug = const Value.absent(),
+                Value<int> categoryId = const Value.absent(),
+                Value<bool> isVisible = const Value.absent(),
+                Value<bool> isBasic = const Value.absent(),
+              }) => EOptionsCompanion(
+                id: id,
+                name: name,
+                slug: slug,
+                categoryId: categoryId,
+                isVisible: isVisible,
+                isBasic: isBasic,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required String slug,
+                required int categoryId,
+                Value<bool> isVisible = const Value.absent(),
+                Value<bool> isBasic = const Value.absent(),
+              }) => EOptionsCompanion.insert(
+                id: id,
+                name: name,
+                slug: slug,
+                categoryId: categoryId,
+                isVisible: isVisible,
+                isBasic: isBasic,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EOptionsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({categoryId = false, eventsOptionsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (eventsOptionsRefs) db.eventsOptions,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (categoryId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.categoryId,
+                                    referencedTable: $$EOptionsTableReferences
+                                        ._categoryIdTable(db),
+                                    referencedColumn: $$EOptionsTableReferences
+                                        ._categoryIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (eventsOptionsRefs)
+                        await $_getPrefetchedData<
+                          EOption,
+                          $EOptionsTable,
+                          EventOption
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EOptionsTableReferences
+                              ._eventsOptionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EOptionsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).eventsOptionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.optionId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$EOptionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EOptionsTable,
+      EOption,
+      $$EOptionsTableFilterComposer,
+      $$EOptionsTableOrderingComposer,
+      $$EOptionsTableAnnotationComposer,
+      $$EOptionsTableCreateCompanionBuilder,
+      $$EOptionsTableUpdateCompanionBuilder,
+      (EOption, $$EOptionsTableReferences),
+      EOption,
+      PrefetchHooks Function({bool categoryId, bool eventsOptionsRefs})
     >;
 typedef $$CategoriesTypesTableCreateCompanionBuilder =
     CategoriesTypesCompanion Function({
@@ -5759,18 +6191,18 @@ typedef $$EventsPartnersTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$CategoriesTableTableManager get categories =>
-      $$CategoriesTableTableManager(_db, _db.categories);
   $$TypesTableTableManager get types =>
       $$TypesTableTableManager(_db, _db.types);
+  $$CategoriesTableTableManager get categories =>
+      $$CategoriesTableTableManager(_db, _db.categories);
+  $$PartnersTableTableManager get partners =>
+      $$PartnersTableTableManager(_db, _db.partners);
+  $$EventDataTableTableTableManager get eventDataTable =>
+      $$EventDataTableTableTableManager(_db, _db.eventDataTable);
   $$EventsTableTableManager get events =>
       $$EventsTableTableManager(_db, _db.events);
   $$EOptionsTableTableManager get eOptions =>
       $$EOptionsTableTableManager(_db, _db.eOptions);
-  $$PartnersTableTableManager get partners =>
-      $$PartnersTableTableManager(_db, _db.partners);
-  $$SexualEventTableTableManager get sexualEvent =>
-      $$SexualEventTableTableManager(_db, _db.sexualEvent);
   $$CategoriesTypesTableTableManager get categoriesTypes =>
       $$CategoriesTypesTableTableManager(_db, _db.categoriesTypes);
   $$EventsOptionsTableTableManager get eventsOptions =>

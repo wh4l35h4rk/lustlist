@@ -8,7 +8,8 @@ enum DayTime {
   night
 }
 
-class SexualEvent extends Table {
+@DataClassName('EventData')
+class EventDataTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get rating => integer().check(rating.isBetweenValues(1, 5))();
   TextColumn get daytime => textEnum<DayTime>()();
