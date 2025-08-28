@@ -59,6 +59,12 @@ class AppDatabase extends _$AppDatabase {
     return result!.id;
   }
 
+  Future<int> getOptionIdBySlug(String name) async {
+    final query = select(eOptions)..where((t) => t.slug.equals(name));
+    final result = await query.getSingleOrNull();
+    return result!.id;
+  }
+
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
