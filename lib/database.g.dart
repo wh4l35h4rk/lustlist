@@ -849,413 +849,6 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   }
 }
 
-class $EventDataTableTable extends EventDataTable
-    with TableInfo<$EventDataTableTable, EventData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $EventDataTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
-  @override
-  late final GeneratedColumn<int> rating = GeneratedColumn<int>(
-    'rating',
-    aliasedName,
-    false,
-    check: () => ComparableExpr(rating).isBetweenValues(1, 5),
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  @override
-  late final GeneratedColumnWithTypeConverter<DayTime, String> daytime =
-      GeneratedColumn<String>(
-        'daytime',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-      ).withConverter<DayTime>($EventDataTableTable.$converterdaytime);
-  static const VerificationMeta _timeMeta = const VerificationMeta('time');
-  @override
-  late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
-    'time',
-    aliasedName,
-    true,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _durationMeta = const VerificationMeta(
-    'duration',
-  );
-  @override
-  late final GeneratedColumn<int> duration = GeneratedColumn<int>(
-    'duration',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _userOrgasmsMeta = const VerificationMeta(
-    'userOrgasms',
-  );
-  @override
-  late final GeneratedColumn<int> userOrgasms = GeneratedColumn<int>(
-    'user_orgasms',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT 1 CHECK(user_orgasms BETWEEN 0 AND 25)',
-    defaultValue: const CustomExpression('1'),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    rating,
-    daytime,
-    time,
-    duration,
-    userOrgasms,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'event_data_table';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<EventData> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('rating')) {
-      context.handle(
-        _ratingMeta,
-        rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_ratingMeta);
-    }
-    if (data.containsKey('time')) {
-      context.handle(
-        _timeMeta,
-        time.isAcceptableOrUnknown(data['time']!, _timeMeta),
-      );
-    }
-    if (data.containsKey('duration')) {
-      context.handle(
-        _durationMeta,
-        duration.isAcceptableOrUnknown(data['duration']!, _durationMeta),
-      );
-    }
-    if (data.containsKey('user_orgasms')) {
-      context.handle(
-        _userOrgasmsMeta,
-        userOrgasms.isAcceptableOrUnknown(
-          data['user_orgasms']!,
-          _userOrgasmsMeta,
-        ),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  EventData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return EventData(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      rating: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}rating'],
-      )!,
-      daytime: $EventDataTableTable.$converterdaytime.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}daytime'],
-        )!,
-      ),
-      time: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}time'],
-      ),
-      duration: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}duration'],
-      ),
-      userOrgasms: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}user_orgasms'],
-      )!,
-    );
-  }
-
-  @override
-  $EventDataTableTable createAlias(String alias) {
-    return $EventDataTableTable(attachedDatabase, alias);
-  }
-
-  static JsonTypeConverter2<DayTime, String, String> $converterdaytime =
-      const EnumNameConverter<DayTime>(DayTime.values);
-}
-
-class EventData extends DataClass implements Insertable<EventData> {
-  final int id;
-  final int rating;
-  final DayTime daytime;
-  final DateTime? time;
-  final int? duration;
-  final int userOrgasms;
-  const EventData({
-    required this.id,
-    required this.rating,
-    required this.daytime,
-    this.time,
-    this.duration,
-    required this.userOrgasms,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['rating'] = Variable<int>(rating);
-    {
-      map['daytime'] = Variable<String>(
-        $EventDataTableTable.$converterdaytime.toSql(daytime),
-      );
-    }
-    if (!nullToAbsent || time != null) {
-      map['time'] = Variable<DateTime>(time);
-    }
-    if (!nullToAbsent || duration != null) {
-      map['duration'] = Variable<int>(duration);
-    }
-    map['user_orgasms'] = Variable<int>(userOrgasms);
-    return map;
-  }
-
-  EventDataTableCompanion toCompanion(bool nullToAbsent) {
-    return EventDataTableCompanion(
-      id: Value(id),
-      rating: Value(rating),
-      daytime: Value(daytime),
-      time: time == null && nullToAbsent ? const Value.absent() : Value(time),
-      duration: duration == null && nullToAbsent
-          ? const Value.absent()
-          : Value(duration),
-      userOrgasms: Value(userOrgasms),
-    );
-  }
-
-  factory EventData.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return EventData(
-      id: serializer.fromJson<int>(json['id']),
-      rating: serializer.fromJson<int>(json['rating']),
-      daytime: $EventDataTableTable.$converterdaytime.fromJson(
-        serializer.fromJson<String>(json['daytime']),
-      ),
-      time: serializer.fromJson<DateTime?>(json['time']),
-      duration: serializer.fromJson<int?>(json['duration']),
-      userOrgasms: serializer.fromJson<int>(json['userOrgasms']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'rating': serializer.toJson<int>(rating),
-      'daytime': serializer.toJson<String>(
-        $EventDataTableTable.$converterdaytime.toJson(daytime),
-      ),
-      'time': serializer.toJson<DateTime?>(time),
-      'duration': serializer.toJson<int?>(duration),
-      'userOrgasms': serializer.toJson<int>(userOrgasms),
-    };
-  }
-
-  EventData copyWith({
-    int? id,
-    int? rating,
-    DayTime? daytime,
-    Value<DateTime?> time = const Value.absent(),
-    Value<int?> duration = const Value.absent(),
-    int? userOrgasms,
-  }) => EventData(
-    id: id ?? this.id,
-    rating: rating ?? this.rating,
-    daytime: daytime ?? this.daytime,
-    time: time.present ? time.value : this.time,
-    duration: duration.present ? duration.value : this.duration,
-    userOrgasms: userOrgasms ?? this.userOrgasms,
-  );
-  EventData copyWithCompanion(EventDataTableCompanion data) {
-    return EventData(
-      id: data.id.present ? data.id.value : this.id,
-      rating: data.rating.present ? data.rating.value : this.rating,
-      daytime: data.daytime.present ? data.daytime.value : this.daytime,
-      time: data.time.present ? data.time.value : this.time,
-      duration: data.duration.present ? data.duration.value : this.duration,
-      userOrgasms: data.userOrgasms.present
-          ? data.userOrgasms.value
-          : this.userOrgasms,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EventData(')
-          ..write('id: $id, ')
-          ..write('rating: $rating, ')
-          ..write('daytime: $daytime, ')
-          ..write('time: $time, ')
-          ..write('duration: $duration, ')
-          ..write('userOrgasms: $userOrgasms')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, rating, daytime, time, duration, userOrgasms);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is EventData &&
-          other.id == this.id &&
-          other.rating == this.rating &&
-          other.daytime == this.daytime &&
-          other.time == this.time &&
-          other.duration == this.duration &&
-          other.userOrgasms == this.userOrgasms);
-}
-
-class EventDataTableCompanion extends UpdateCompanion<EventData> {
-  final Value<int> id;
-  final Value<int> rating;
-  final Value<DayTime> daytime;
-  final Value<DateTime?> time;
-  final Value<int?> duration;
-  final Value<int> userOrgasms;
-  const EventDataTableCompanion({
-    this.id = const Value.absent(),
-    this.rating = const Value.absent(),
-    this.daytime = const Value.absent(),
-    this.time = const Value.absent(),
-    this.duration = const Value.absent(),
-    this.userOrgasms = const Value.absent(),
-  });
-  EventDataTableCompanion.insert({
-    this.id = const Value.absent(),
-    required int rating,
-    required DayTime daytime,
-    this.time = const Value.absent(),
-    this.duration = const Value.absent(),
-    this.userOrgasms = const Value.absent(),
-  }) : rating = Value(rating),
-       daytime = Value(daytime);
-  static Insertable<EventData> custom({
-    Expression<int>? id,
-    Expression<int>? rating,
-    Expression<String>? daytime,
-    Expression<DateTime>? time,
-    Expression<int>? duration,
-    Expression<int>? userOrgasms,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (rating != null) 'rating': rating,
-      if (daytime != null) 'daytime': daytime,
-      if (time != null) 'time': time,
-      if (duration != null) 'duration': duration,
-      if (userOrgasms != null) 'user_orgasms': userOrgasms,
-    });
-  }
-
-  EventDataTableCompanion copyWith({
-    Value<int>? id,
-    Value<int>? rating,
-    Value<DayTime>? daytime,
-    Value<DateTime?>? time,
-    Value<int?>? duration,
-    Value<int>? userOrgasms,
-  }) {
-    return EventDataTableCompanion(
-      id: id ?? this.id,
-      rating: rating ?? this.rating,
-      daytime: daytime ?? this.daytime,
-      time: time ?? this.time,
-      duration: duration ?? this.duration,
-      userOrgasms: userOrgasms ?? this.userOrgasms,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (rating.present) {
-      map['rating'] = Variable<int>(rating.value);
-    }
-    if (daytime.present) {
-      map['daytime'] = Variable<String>(
-        $EventDataTableTable.$converterdaytime.toSql(daytime.value),
-      );
-    }
-    if (time.present) {
-      map['time'] = Variable<DateTime>(time.value);
-    }
-    if (duration.present) {
-      map['duration'] = Variable<int>(duration.value);
-    }
-    if (userOrgasms.present) {
-      map['user_orgasms'] = Variable<int>(userOrgasms.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EventDataTableCompanion(')
-          ..write('id: $id, ')
-          ..write('rating: $rating, ')
-          ..write('daytime: $daytime, ')
-          ..write('time: $time, ')
-          ..write('duration: $duration, ')
-          ..write('userOrgasms: $userOrgasms')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1286,15 +879,32 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
       'REFERENCES types (id)',
     ),
   );
-  static const VerificationMeta _dataIdMeta = const VerificationMeta('dataId');
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<int> dataId = GeneratedColumn<int>(
-    'data_id',
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<DayTime, String> daytime =
+      GeneratedColumn<String>(
+        'daytime',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<DayTime>($EventsTable.$converterdaytime);
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
+    'time',
     aliasedName,
     true,
-    type: DriftSqlType.int,
+    type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
-    $customConstraints: 'REFERENCES event_data_table(id)',
   );
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
@@ -1318,7 +928,15 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
     defaultValue: currentDateAndTime,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, typeId, dataId, notes, createdAt];
+  List<GeneratedColumn> get $columns => [
+    id,
+    typeId,
+    date,
+    daytime,
+    time,
+    notes,
+    createdAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1342,10 +960,18 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
     } else if (isInserting) {
       context.missing(_typeIdMeta);
     }
-    if (data.containsKey('data_id')) {
+    if (data.containsKey('date')) {
       context.handle(
-        _dataIdMeta,
-        dataId.isAcceptableOrUnknown(data['data_id']!, _dataIdMeta),
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('time')) {
+      context.handle(
+        _timeMeta,
+        time.isAcceptableOrUnknown(data['time']!, _timeMeta),
       );
     }
     if (data.containsKey('notes')) {
@@ -1377,9 +1003,19 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
         DriftSqlType.int,
         data['${effectivePrefix}type_id'],
       )!,
-      dataId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}data_id'],
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}date'],
+      )!,
+      daytime: $EventsTable.$converterdaytime.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}daytime'],
+        )!,
+      ),
+      time: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}time'],
       ),
       notes: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -1396,18 +1032,25 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
   $EventsTable createAlias(String alias) {
     return $EventsTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<DayTime, String, String> $converterdaytime =
+      const EnumNameConverter<DayTime>(DayTime.values);
 }
 
 class Event extends DataClass implements Insertable<Event> {
   final int id;
   final int typeId;
-  final int? dataId;
+  final DateTime date;
+  final DayTime daytime;
+  final DateTime? time;
   final String? notes;
   final DateTime createdAt;
   const Event({
     required this.id,
     required this.typeId,
-    this.dataId,
+    required this.date,
+    required this.daytime,
+    this.time,
     this.notes,
     required this.createdAt,
   });
@@ -1416,8 +1059,14 @@ class Event extends DataClass implements Insertable<Event> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['type_id'] = Variable<int>(typeId);
-    if (!nullToAbsent || dataId != null) {
-      map['data_id'] = Variable<int>(dataId);
+    map['date'] = Variable<DateTime>(date);
+    {
+      map['daytime'] = Variable<String>(
+        $EventsTable.$converterdaytime.toSql(daytime),
+      );
+    }
+    if (!nullToAbsent || time != null) {
+      map['time'] = Variable<DateTime>(time);
     }
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
@@ -1430,9 +1079,9 @@ class Event extends DataClass implements Insertable<Event> {
     return EventsCompanion(
       id: Value(id),
       typeId: Value(typeId),
-      dataId: dataId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(dataId),
+      date: Value(date),
+      daytime: Value(daytime),
+      time: time == null && nullToAbsent ? const Value.absent() : Value(time),
       notes: notes == null && nullToAbsent
           ? const Value.absent()
           : Value(notes),
@@ -1448,7 +1097,11 @@ class Event extends DataClass implements Insertable<Event> {
     return Event(
       id: serializer.fromJson<int>(json['id']),
       typeId: serializer.fromJson<int>(json['typeId']),
-      dataId: serializer.fromJson<int?>(json['dataId']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      daytime: $EventsTable.$converterdaytime.fromJson(
+        serializer.fromJson<String>(json['daytime']),
+      ),
+      time: serializer.fromJson<DateTime?>(json['time']),
       notes: serializer.fromJson<String?>(json['notes']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -1459,7 +1112,11 @@ class Event extends DataClass implements Insertable<Event> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'typeId': serializer.toJson<int>(typeId),
-      'dataId': serializer.toJson<int?>(dataId),
+      'date': serializer.toJson<DateTime>(date),
+      'daytime': serializer.toJson<String>(
+        $EventsTable.$converterdaytime.toJson(daytime),
+      ),
+      'time': serializer.toJson<DateTime?>(time),
       'notes': serializer.toJson<String?>(notes),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -1468,13 +1125,17 @@ class Event extends DataClass implements Insertable<Event> {
   Event copyWith({
     int? id,
     int? typeId,
-    Value<int?> dataId = const Value.absent(),
+    DateTime? date,
+    DayTime? daytime,
+    Value<DateTime?> time = const Value.absent(),
     Value<String?> notes = const Value.absent(),
     DateTime? createdAt,
   }) => Event(
     id: id ?? this.id,
     typeId: typeId ?? this.typeId,
-    dataId: dataId.present ? dataId.value : this.dataId,
+    date: date ?? this.date,
+    daytime: daytime ?? this.daytime,
+    time: time.present ? time.value : this.time,
     notes: notes.present ? notes.value : this.notes,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -1482,7 +1143,9 @@ class Event extends DataClass implements Insertable<Event> {
     return Event(
       id: data.id.present ? data.id.value : this.id,
       typeId: data.typeId.present ? data.typeId.value : this.typeId,
-      dataId: data.dataId.present ? data.dataId.value : this.dataId,
+      date: data.date.present ? data.date.value : this.date,
+      daytime: data.daytime.present ? data.daytime.value : this.daytime,
+      time: data.time.present ? data.time.value : this.time,
       notes: data.notes.present ? data.notes.value : this.notes,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
@@ -1493,7 +1156,9 @@ class Event extends DataClass implements Insertable<Event> {
     return (StringBuffer('Event(')
           ..write('id: $id, ')
           ..write('typeId: $typeId, ')
-          ..write('dataId: $dataId, ')
+          ..write('date: $date, ')
+          ..write('daytime: $daytime, ')
+          ..write('time: $time, ')
           ..write('notes: $notes, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
@@ -1501,14 +1166,17 @@ class Event extends DataClass implements Insertable<Event> {
   }
 
   @override
-  int get hashCode => Object.hash(id, typeId, dataId, notes, createdAt);
+  int get hashCode =>
+      Object.hash(id, typeId, date, daytime, time, notes, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Event &&
           other.id == this.id &&
           other.typeId == this.typeId &&
-          other.dataId == this.dataId &&
+          other.date == this.date &&
+          other.daytime == this.daytime &&
+          other.time == this.time &&
           other.notes == this.notes &&
           other.createdAt == this.createdAt);
 }
@@ -1516,34 +1184,46 @@ class Event extends DataClass implements Insertable<Event> {
 class EventsCompanion extends UpdateCompanion<Event> {
   final Value<int> id;
   final Value<int> typeId;
-  final Value<int?> dataId;
+  final Value<DateTime> date;
+  final Value<DayTime> daytime;
+  final Value<DateTime?> time;
   final Value<String?> notes;
   final Value<DateTime> createdAt;
   const EventsCompanion({
     this.id = const Value.absent(),
     this.typeId = const Value.absent(),
-    this.dataId = const Value.absent(),
+    this.date = const Value.absent(),
+    this.daytime = const Value.absent(),
+    this.time = const Value.absent(),
     this.notes = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   EventsCompanion.insert({
     this.id = const Value.absent(),
     required int typeId,
-    this.dataId = const Value.absent(),
+    required DateTime date,
+    required DayTime daytime,
+    this.time = const Value.absent(),
     this.notes = const Value.absent(),
     this.createdAt = const Value.absent(),
-  }) : typeId = Value(typeId);
+  }) : typeId = Value(typeId),
+       date = Value(date),
+       daytime = Value(daytime);
   static Insertable<Event> custom({
     Expression<int>? id,
     Expression<int>? typeId,
-    Expression<int>? dataId,
+    Expression<DateTime>? date,
+    Expression<String>? daytime,
+    Expression<DateTime>? time,
     Expression<String>? notes,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (typeId != null) 'type_id': typeId,
-      if (dataId != null) 'data_id': dataId,
+      if (date != null) 'date': date,
+      if (daytime != null) 'daytime': daytime,
+      if (time != null) 'time': time,
       if (notes != null) 'notes': notes,
       if (createdAt != null) 'created_at': createdAt,
     });
@@ -1552,14 +1232,18 @@ class EventsCompanion extends UpdateCompanion<Event> {
   EventsCompanion copyWith({
     Value<int>? id,
     Value<int>? typeId,
-    Value<int?>? dataId,
+    Value<DateTime>? date,
+    Value<DayTime>? daytime,
+    Value<DateTime?>? time,
     Value<String?>? notes,
     Value<DateTime>? createdAt,
   }) {
     return EventsCompanion(
       id: id ?? this.id,
       typeId: typeId ?? this.typeId,
-      dataId: dataId ?? this.dataId,
+      date: date ?? this.date,
+      daytime: daytime ?? this.daytime,
+      time: time ?? this.time,
       notes: notes ?? this.notes,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -1574,8 +1258,16 @@ class EventsCompanion extends UpdateCompanion<Event> {
     if (typeId.present) {
       map['type_id'] = Variable<int>(typeId.value);
     }
-    if (dataId.present) {
-      map['data_id'] = Variable<int>(dataId.value);
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
+    }
+    if (daytime.present) {
+      map['daytime'] = Variable<String>(
+        $EventsTable.$converterdaytime.toSql(daytime.value),
+      );
+    }
+    if (time.present) {
+      map['time'] = Variable<DateTime>(time.value);
     }
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
@@ -1591,9 +1283,371 @@ class EventsCompanion extends UpdateCompanion<Event> {
     return (StringBuffer('EventsCompanion(')
           ..write('id: $id, ')
           ..write('typeId: $typeId, ')
-          ..write('dataId: $dataId, ')
+          ..write('date: $date, ')
+          ..write('daytime: $daytime, ')
+          ..write('time: $time, ')
           ..write('notes: $notes, ')
           ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EventDataTableTable extends EventDataTable
+    with TableInfo<$EventDataTableTable, EventData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EventDataTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _eventIdMeta = const VerificationMeta(
+    'eventId',
+  );
+  @override
+  late final GeneratedColumn<int> eventId = GeneratedColumn<int>(
+    'event_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES events (id)',
+    ),
+  );
+  static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
+  @override
+  late final GeneratedColumn<int> rating = GeneratedColumn<int>(
+    'rating',
+    aliasedName,
+    false,
+    check: () => ComparableExpr(rating).isBetweenValues(1, 5),
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _durationMeta = const VerificationMeta(
+    'duration',
+  );
+  @override
+  late final GeneratedColumn<DateTime> duration = GeneratedColumn<DateTime>(
+    'duration',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _userOrgasmsMeta = const VerificationMeta(
+    'userOrgasms',
+  );
+  @override
+  late final GeneratedColumn<int> userOrgasms = GeneratedColumn<int>(
+    'user_orgasms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT 1 CHECK(user_orgasms BETWEEN 0 AND 25)',
+    defaultValue: const CustomExpression('1'),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    eventId,
+    rating,
+    duration,
+    userOrgasms,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'event_data_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EventData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('event_id')) {
+      context.handle(
+        _eventIdMeta,
+        eventId.isAcceptableOrUnknown(data['event_id']!, _eventIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_eventIdMeta);
+    }
+    if (data.containsKey('rating')) {
+      context.handle(
+        _ratingMeta,
+        rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ratingMeta);
+    }
+    if (data.containsKey('duration')) {
+      context.handle(
+        _durationMeta,
+        duration.isAcceptableOrUnknown(data['duration']!, _durationMeta),
+      );
+    }
+    if (data.containsKey('user_orgasms')) {
+      context.handle(
+        _userOrgasmsMeta,
+        userOrgasms.isAcceptableOrUnknown(
+          data['user_orgasms']!,
+          _userOrgasmsMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EventData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EventData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      eventId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}event_id'],
+      )!,
+      rating: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rating'],
+      )!,
+      duration: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}duration'],
+      ),
+      userOrgasms: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_orgasms'],
+      )!,
+    );
+  }
+
+  @override
+  $EventDataTableTable createAlias(String alias) {
+    return $EventDataTableTable(attachedDatabase, alias);
+  }
+}
+
+class EventData extends DataClass implements Insertable<EventData> {
+  final int id;
+  final int eventId;
+  final int rating;
+  final DateTime? duration;
+  final int userOrgasms;
+  const EventData({
+    required this.id,
+    required this.eventId,
+    required this.rating,
+    this.duration,
+    required this.userOrgasms,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['event_id'] = Variable<int>(eventId);
+    map['rating'] = Variable<int>(rating);
+    if (!nullToAbsent || duration != null) {
+      map['duration'] = Variable<DateTime>(duration);
+    }
+    map['user_orgasms'] = Variable<int>(userOrgasms);
+    return map;
+  }
+
+  EventDataTableCompanion toCompanion(bool nullToAbsent) {
+    return EventDataTableCompanion(
+      id: Value(id),
+      eventId: Value(eventId),
+      rating: Value(rating),
+      duration: duration == null && nullToAbsent
+          ? const Value.absent()
+          : Value(duration),
+      userOrgasms: Value(userOrgasms),
+    );
+  }
+
+  factory EventData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EventData(
+      id: serializer.fromJson<int>(json['id']),
+      eventId: serializer.fromJson<int>(json['eventId']),
+      rating: serializer.fromJson<int>(json['rating']),
+      duration: serializer.fromJson<DateTime?>(json['duration']),
+      userOrgasms: serializer.fromJson<int>(json['userOrgasms']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'eventId': serializer.toJson<int>(eventId),
+      'rating': serializer.toJson<int>(rating),
+      'duration': serializer.toJson<DateTime?>(duration),
+      'userOrgasms': serializer.toJson<int>(userOrgasms),
+    };
+  }
+
+  EventData copyWith({
+    int? id,
+    int? eventId,
+    int? rating,
+    Value<DateTime?> duration = const Value.absent(),
+    int? userOrgasms,
+  }) => EventData(
+    id: id ?? this.id,
+    eventId: eventId ?? this.eventId,
+    rating: rating ?? this.rating,
+    duration: duration.present ? duration.value : this.duration,
+    userOrgasms: userOrgasms ?? this.userOrgasms,
+  );
+  EventData copyWithCompanion(EventDataTableCompanion data) {
+    return EventData(
+      id: data.id.present ? data.id.value : this.id,
+      eventId: data.eventId.present ? data.eventId.value : this.eventId,
+      rating: data.rating.present ? data.rating.value : this.rating,
+      duration: data.duration.present ? data.duration.value : this.duration,
+      userOrgasms: data.userOrgasms.present
+          ? data.userOrgasms.value
+          : this.userOrgasms,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EventData(')
+          ..write('id: $id, ')
+          ..write('eventId: $eventId, ')
+          ..write('rating: $rating, ')
+          ..write('duration: $duration, ')
+          ..write('userOrgasms: $userOrgasms')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, eventId, rating, duration, userOrgasms);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EventData &&
+          other.id == this.id &&
+          other.eventId == this.eventId &&
+          other.rating == this.rating &&
+          other.duration == this.duration &&
+          other.userOrgasms == this.userOrgasms);
+}
+
+class EventDataTableCompanion extends UpdateCompanion<EventData> {
+  final Value<int> id;
+  final Value<int> eventId;
+  final Value<int> rating;
+  final Value<DateTime?> duration;
+  final Value<int> userOrgasms;
+  const EventDataTableCompanion({
+    this.id = const Value.absent(),
+    this.eventId = const Value.absent(),
+    this.rating = const Value.absent(),
+    this.duration = const Value.absent(),
+    this.userOrgasms = const Value.absent(),
+  });
+  EventDataTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int eventId,
+    required int rating,
+    this.duration = const Value.absent(),
+    this.userOrgasms = const Value.absent(),
+  }) : eventId = Value(eventId),
+       rating = Value(rating);
+  static Insertable<EventData> custom({
+    Expression<int>? id,
+    Expression<int>? eventId,
+    Expression<int>? rating,
+    Expression<DateTime>? duration,
+    Expression<int>? userOrgasms,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (eventId != null) 'event_id': eventId,
+      if (rating != null) 'rating': rating,
+      if (duration != null) 'duration': duration,
+      if (userOrgasms != null) 'user_orgasms': userOrgasms,
+    });
+  }
+
+  EventDataTableCompanion copyWith({
+    Value<int>? id,
+    Value<int>? eventId,
+    Value<int>? rating,
+    Value<DateTime?>? duration,
+    Value<int>? userOrgasms,
+  }) {
+    return EventDataTableCompanion(
+      id: id ?? this.id,
+      eventId: eventId ?? this.eventId,
+      rating: rating ?? this.rating,
+      duration: duration ?? this.duration,
+      userOrgasms: userOrgasms ?? this.userOrgasms,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (eventId.present) {
+      map['event_id'] = Variable<int>(eventId.value);
+    }
+    if (rating.present) {
+      map['rating'] = Variable<int>(rating.value);
+    }
+    if (duration.present) {
+      map['duration'] = Variable<DateTime>(duration.value);
+    }
+    if (userOrgasms.present) {
+      map['user_orgasms'] = Variable<int>(userOrgasms.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EventDataTableCompanion(')
+          ..write('id: $id, ')
+          ..write('eventId: $eventId, ')
+          ..write('rating: $rating, ')
+          ..write('duration: $duration, ')
+          ..write('userOrgasms: $userOrgasms')
           ..write(')'))
         .toString();
   }
@@ -2739,8 +2793,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TypesTable types = $TypesTable(this);
   late final $CategoriesTable categories = $CategoriesTable(this);
   late final $PartnersTable partners = $PartnersTable(this);
-  late final $EventDataTableTable eventDataTable = $EventDataTableTable(this);
   late final $EventsTable events = $EventsTable(this);
+  late final $EventDataTableTable eventDataTable = $EventDataTableTable(this);
   late final $EOptionsTable eOptions = $EOptionsTable(this);
   late final $CategoriesTypesTable categoriesTypes = $CategoriesTypesTable(
     this,
@@ -2755,8 +2809,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     types,
     categories,
     partners,
-    eventDataTable,
     events,
+    eventDataTable,
     eOptions,
     categoriesTypes,
     eventsOptions,
@@ -3753,335 +3807,13 @@ typedef $$PartnersTableProcessedTableManager =
       Partner,
       PrefetchHooks Function({bool eventsPartnersRefs})
     >;
-typedef $$EventDataTableTableCreateCompanionBuilder =
-    EventDataTableCompanion Function({
-      Value<int> id,
-      required int rating,
-      required DayTime daytime,
-      Value<DateTime?> time,
-      Value<int?> duration,
-      Value<int> userOrgasms,
-    });
-typedef $$EventDataTableTableUpdateCompanionBuilder =
-    EventDataTableCompanion Function({
-      Value<int> id,
-      Value<int> rating,
-      Value<DayTime> daytime,
-      Value<DateTime?> time,
-      Value<int?> duration,
-      Value<int> userOrgasms,
-    });
-
-final class $$EventDataTableTableReferences
-    extends BaseReferences<_$AppDatabase, $EventDataTableTable, EventData> {
-  $$EventDataTableTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static MultiTypedResultKey<$EventsTable, List<Event>> _eventsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.events,
-    aliasName: $_aliasNameGenerator(db.eventDataTable.id, db.events.dataId),
-  );
-
-  $$EventsTableProcessedTableManager get eventsRefs {
-    final manager = $$EventsTableTableManager(
-      $_db,
-      $_db.events,
-    ).filter((f) => f.dataId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_eventsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$EventDataTableTableFilterComposer
-    extends Composer<_$AppDatabase, $EventDataTableTable> {
-  $$EventDataTableTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get rating => $composableBuilder(
-    column: $table.rating,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnWithTypeConverterFilters<DayTime, DayTime, String> get daytime =>
-      $composableBuilder(
-        column: $table.daytime,
-        builder: (column) => ColumnWithTypeConverterFilters(column),
-      );
-
-  ColumnFilters<DateTime> get time => $composableBuilder(
-    column: $table.time,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get duration => $composableBuilder(
-    column: $table.duration,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get userOrgasms => $composableBuilder(
-    column: $table.userOrgasms,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> eventsRefs(
-    Expression<bool> Function($$EventsTableFilterComposer f) f,
-  ) {
-    final $$EventsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.events,
-      getReferencedColumn: (t) => t.dataId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsTableFilterComposer(
-            $db: $db,
-            $table: $db.events,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EventDataTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $EventDataTableTable> {
-  $$EventDataTableTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get rating => $composableBuilder(
-    column: $table.rating,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get daytime => $composableBuilder(
-    column: $table.daytime,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get time => $composableBuilder(
-    column: $table.time,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get duration => $composableBuilder(
-    column: $table.duration,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get userOrgasms => $composableBuilder(
-    column: $table.userOrgasms,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$EventDataTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $EventDataTableTable> {
-  $$EventDataTableTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<int> get rating =>
-      $composableBuilder(column: $table.rating, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<DayTime, String> get daytime =>
-      $composableBuilder(column: $table.daytime, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get time =>
-      $composableBuilder(column: $table.time, builder: (column) => column);
-
-  GeneratedColumn<int> get duration =>
-      $composableBuilder(column: $table.duration, builder: (column) => column);
-
-  GeneratedColumn<int> get userOrgasms => $composableBuilder(
-    column: $table.userOrgasms,
-    builder: (column) => column,
-  );
-
-  Expression<T> eventsRefs<T extends Object>(
-    Expression<T> Function($$EventsTableAnnotationComposer a) f,
-  ) {
-    final $$EventsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.events,
-      getReferencedColumn: (t) => t.dataId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.events,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EventDataTableTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $EventDataTableTable,
-          EventData,
-          $$EventDataTableTableFilterComposer,
-          $$EventDataTableTableOrderingComposer,
-          $$EventDataTableTableAnnotationComposer,
-          $$EventDataTableTableCreateCompanionBuilder,
-          $$EventDataTableTableUpdateCompanionBuilder,
-          (EventData, $$EventDataTableTableReferences),
-          EventData,
-          PrefetchHooks Function({bool eventsRefs})
-        > {
-  $$EventDataTableTableTableManager(
-    _$AppDatabase db,
-    $EventDataTableTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$EventDataTableTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$EventDataTableTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$EventDataTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<int> rating = const Value.absent(),
-                Value<DayTime> daytime = const Value.absent(),
-                Value<DateTime?> time = const Value.absent(),
-                Value<int?> duration = const Value.absent(),
-                Value<int> userOrgasms = const Value.absent(),
-              }) => EventDataTableCompanion(
-                id: id,
-                rating: rating,
-                daytime: daytime,
-                time: time,
-                duration: duration,
-                userOrgasms: userOrgasms,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required int rating,
-                required DayTime daytime,
-                Value<DateTime?> time = const Value.absent(),
-                Value<int?> duration = const Value.absent(),
-                Value<int> userOrgasms = const Value.absent(),
-              }) => EventDataTableCompanion.insert(
-                id: id,
-                rating: rating,
-                daytime: daytime,
-                time: time,
-                duration: duration,
-                userOrgasms: userOrgasms,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$EventDataTableTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({eventsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (eventsRefs) db.events],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (eventsRefs)
-                    await $_getPrefetchedData<
-                      EventData,
-                      $EventDataTableTable,
-                      Event
-                    >(
-                      currentTable: table,
-                      referencedTable: $$EventDataTableTableReferences
-                          ._eventsRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$EventDataTableTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).eventsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.dataId == item.id),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$EventDataTableTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $EventDataTableTable,
-      EventData,
-      $$EventDataTableTableFilterComposer,
-      $$EventDataTableTableOrderingComposer,
-      $$EventDataTableTableAnnotationComposer,
-      $$EventDataTableTableCreateCompanionBuilder,
-      $$EventDataTableTableUpdateCompanionBuilder,
-      (EventData, $$EventDataTableTableReferences),
-      EventData,
-      PrefetchHooks Function({bool eventsRefs})
-    >;
 typedef $$EventsTableCreateCompanionBuilder =
     EventsCompanion Function({
       Value<int> id,
       required int typeId,
-      Value<int?> dataId,
+      required DateTime date,
+      required DayTime daytime,
+      Value<DateTime?> time,
       Value<String?> notes,
       Value<DateTime> createdAt,
     });
@@ -4089,7 +3821,9 @@ typedef $$EventsTableUpdateCompanionBuilder =
     EventsCompanion Function({
       Value<int> id,
       Value<int> typeId,
-      Value<int?> dataId,
+      Value<DateTime> date,
+      Value<DayTime> daytime,
+      Value<DateTime?> time,
       Value<String?> notes,
       Value<DateTime> createdAt,
     });
@@ -4115,22 +3849,21 @@ final class $$EventsTableReferences
     );
   }
 
-  static $EventDataTableTable _dataIdTable(_$AppDatabase db) =>
-      db.eventDataTable.createAlias(
-        $_aliasNameGenerator(db.events.dataId, db.eventDataTable.id),
-      );
+  static MultiTypedResultKey<$EventDataTableTable, List<EventData>>
+  _eventDataTableRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.eventDataTable,
+    aliasName: $_aliasNameGenerator(db.events.id, db.eventDataTable.eventId),
+  );
 
-  $$EventDataTableTableProcessedTableManager? get dataId {
-    final $_column = $_itemColumn<int>('data_id');
-    if ($_column == null) return null;
+  $$EventDataTableTableProcessedTableManager get eventDataTableRefs {
     final manager = $$EventDataTableTableTableManager(
       $_db,
       $_db.eventDataTable,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_dataIdTable($_db));
-    if (item == null) return manager;
+    ).filter((f) => f.eventId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_eventDataTableRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 
@@ -4185,6 +3918,22 @@ class $$EventsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<DateTime> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<DayTime, DayTime, String> get daytime =>
+      $composableBuilder(
+        column: $table.daytime,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<DateTime> get time => $composableBuilder(
+    column: $table.time,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get notes => $composableBuilder(
     column: $table.notes,
     builder: (column) => ColumnFilters(column),
@@ -4218,12 +3967,14 @@ class $$EventsTableFilterComposer
     return composer;
   }
 
-  $$EventDataTableTableFilterComposer get dataId {
+  Expression<bool> eventDataTableRefs(
+    Expression<bool> Function($$EventDataTableTableFilterComposer f) f,
+  ) {
     final $$EventDataTableTableFilterComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.dataId,
+      getCurrentColumn: (t) => t.id,
       referencedTable: $db.eventDataTable,
-      getReferencedColumn: (t) => t.id,
+      getReferencedColumn: (t) => t.eventId,
       builder:
           (
             joinBuilder, {
@@ -4238,7 +3989,7 @@ class $$EventsTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
-    return composer;
+    return f(composer);
   }
 
   Expression<bool> eventsOptionsRefs(
@@ -4306,6 +4057,21 @@ class $$EventsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<DateTime> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get daytime => $composableBuilder(
+    column: $table.daytime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get time => $composableBuilder(
+    column: $table.time,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get notes => $composableBuilder(
     column: $table.notes,
     builder: (column) => ColumnOrderings(column),
@@ -4338,29 +4104,6 @@ class $$EventsTableOrderingComposer
     );
     return composer;
   }
-
-  $$EventDataTableTableOrderingComposer get dataId {
-    final $$EventDataTableTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.dataId,
-      referencedTable: $db.eventDataTable,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventDataTableTableOrderingComposer(
-            $db: $db,
-            $table: $db.eventDataTable,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$EventsTableAnnotationComposer
@@ -4374,6 +4117,15 @@ class $$EventsTableAnnotationComposer
   });
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<DayTime, String> get daytime =>
+      $composableBuilder(column: $table.daytime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get time =>
+      $composableBuilder(column: $table.time, builder: (column) => column);
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
@@ -4404,12 +4156,14 @@ class $$EventsTableAnnotationComposer
     return composer;
   }
 
-  $$EventDataTableTableAnnotationComposer get dataId {
+  Expression<T> eventDataTableRefs<T extends Object>(
+    Expression<T> Function($$EventDataTableTableAnnotationComposer a) f,
+  ) {
     final $$EventDataTableTableAnnotationComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.dataId,
+      getCurrentColumn: (t) => t.id,
       referencedTable: $db.eventDataTable,
-      getReferencedColumn: (t) => t.id,
+      getReferencedColumn: (t) => t.eventId,
       builder:
           (
             joinBuilder, {
@@ -4424,7 +4178,7 @@ class $$EventsTableAnnotationComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
-    return composer;
+    return f(composer);
   }
 
   Expression<T> eventsOptionsRefs<T extends Object>(
@@ -4493,7 +4247,7 @@ class $$EventsTableTableManager
           Event,
           PrefetchHooks Function({
             bool typeId,
-            bool dataId,
+            bool eventDataTableRefs,
             bool eventsOptionsRefs,
             bool eventsPartnersRefs,
           })
@@ -4513,13 +4267,17 @@ class $$EventsTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<int> typeId = const Value.absent(),
-                Value<int?> dataId = const Value.absent(),
+                Value<DateTime> date = const Value.absent(),
+                Value<DayTime> daytime = const Value.absent(),
+                Value<DateTime?> time = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => EventsCompanion(
                 id: id,
                 typeId: typeId,
-                dataId: dataId,
+                date: date,
+                daytime: daytime,
+                time: time,
                 notes: notes,
                 createdAt: createdAt,
               ),
@@ -4527,13 +4285,17 @@ class $$EventsTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 required int typeId,
-                Value<int?> dataId = const Value.absent(),
+                required DateTime date,
+                required DayTime daytime,
+                Value<DateTime?> time = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => EventsCompanion.insert(
                 id: id,
                 typeId: typeId,
-                dataId: dataId,
+                date: date,
+                daytime: daytime,
+                time: time,
                 notes: notes,
                 createdAt: createdAt,
               ),
@@ -4546,13 +4308,14 @@ class $$EventsTableTableManager
           prefetchHooksCallback:
               ({
                 typeId = false,
-                dataId = false,
+                eventDataTableRefs = false,
                 eventsOptionsRefs = false,
                 eventsPartnersRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
+                    if (eventDataTableRefs) db.eventDataTable,
                     if (eventsOptionsRefs) db.eventsOptions,
                     if (eventsPartnersRefs) db.eventsPartners,
                   ],
@@ -4585,24 +4348,32 @@ class $$EventsTableTableManager
                                   )
                                   as T;
                         }
-                        if (dataId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.dataId,
-                                    referencedTable: $$EventsTableReferences
-                                        ._dataIdTable(db),
-                                    referencedColumn: $$EventsTableReferences
-                                        ._dataIdTable(db)
-                                        .id,
-                                  )
-                                  as T;
-                        }
 
                         return state;
                       },
                   getPrefetchedDataCallback: (items) async {
                     return [
+                      if (eventDataTableRefs)
+                        await $_getPrefetchedData<
+                          Event,
+                          $EventsTable,
+                          EventData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EventsTableReferences
+                              ._eventDataTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EventsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).eventDataTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.eventId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (eventsOptionsRefs)
                         await $_getPrefetchedData<
                           Event,
@@ -4667,10 +4438,331 @@ typedef $$EventsTableProcessedTableManager =
       Event,
       PrefetchHooks Function({
         bool typeId,
-        bool dataId,
+        bool eventDataTableRefs,
         bool eventsOptionsRefs,
         bool eventsPartnersRefs,
       })
+    >;
+typedef $$EventDataTableTableCreateCompanionBuilder =
+    EventDataTableCompanion Function({
+      Value<int> id,
+      required int eventId,
+      required int rating,
+      Value<DateTime?> duration,
+      Value<int> userOrgasms,
+    });
+typedef $$EventDataTableTableUpdateCompanionBuilder =
+    EventDataTableCompanion Function({
+      Value<int> id,
+      Value<int> eventId,
+      Value<int> rating,
+      Value<DateTime?> duration,
+      Value<int> userOrgasms,
+    });
+
+final class $$EventDataTableTableReferences
+    extends BaseReferences<_$AppDatabase, $EventDataTableTable, EventData> {
+  $$EventDataTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $EventsTable _eventIdTable(_$AppDatabase db) => db.events.createAlias(
+    $_aliasNameGenerator(db.eventDataTable.eventId, db.events.id),
+  );
+
+  $$EventsTableProcessedTableManager get eventId {
+    final $_column = $_itemColumn<int>('event_id')!;
+
+    final manager = $$EventsTableTableManager(
+      $_db,
+      $_db.events,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_eventIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$EventDataTableTableFilterComposer
+    extends Composer<_$AppDatabase, $EventDataTableTable> {
+  $$EventDataTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rating => $composableBuilder(
+    column: $table.rating,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get duration => $composableBuilder(
+    column: $table.duration,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get userOrgasms => $composableBuilder(
+    column: $table.userOrgasms,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$EventsTableFilterComposer get eventId {
+    final $$EventsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.eventId,
+      referencedTable: $db.events,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsTableFilterComposer(
+            $db: $db,
+            $table: $db.events,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EventDataTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $EventDataTableTable> {
+  $$EventDataTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rating => $composableBuilder(
+    column: $table.rating,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get duration => $composableBuilder(
+    column: $table.duration,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get userOrgasms => $composableBuilder(
+    column: $table.userOrgasms,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$EventsTableOrderingComposer get eventId {
+    final $$EventsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.eventId,
+      referencedTable: $db.events,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsTableOrderingComposer(
+            $db: $db,
+            $table: $db.events,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EventDataTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EventDataTableTable> {
+  $$EventDataTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get rating =>
+      $composableBuilder(column: $table.rating, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get duration =>
+      $composableBuilder(column: $table.duration, builder: (column) => column);
+
+  GeneratedColumn<int> get userOrgasms => $composableBuilder(
+    column: $table.userOrgasms,
+    builder: (column) => column,
+  );
+
+  $$EventsTableAnnotationComposer get eventId {
+    final $$EventsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.eventId,
+      referencedTable: $db.events,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EventsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.events,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EventDataTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EventDataTableTable,
+          EventData,
+          $$EventDataTableTableFilterComposer,
+          $$EventDataTableTableOrderingComposer,
+          $$EventDataTableTableAnnotationComposer,
+          $$EventDataTableTableCreateCompanionBuilder,
+          $$EventDataTableTableUpdateCompanionBuilder,
+          (EventData, $$EventDataTableTableReferences),
+          EventData,
+          PrefetchHooks Function({bool eventId})
+        > {
+  $$EventDataTableTableTableManager(
+    _$AppDatabase db,
+    $EventDataTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EventDataTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EventDataTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EventDataTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> eventId = const Value.absent(),
+                Value<int> rating = const Value.absent(),
+                Value<DateTime?> duration = const Value.absent(),
+                Value<int> userOrgasms = const Value.absent(),
+              }) => EventDataTableCompanion(
+                id: id,
+                eventId: eventId,
+                rating: rating,
+                duration: duration,
+                userOrgasms: userOrgasms,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int eventId,
+                required int rating,
+                Value<DateTime?> duration = const Value.absent(),
+                Value<int> userOrgasms = const Value.absent(),
+              }) => EventDataTableCompanion.insert(
+                id: id,
+                eventId: eventId,
+                rating: rating,
+                duration: duration,
+                userOrgasms: userOrgasms,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EventDataTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({eventId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (eventId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.eventId,
+                                referencedTable: $$EventDataTableTableReferences
+                                    ._eventIdTable(db),
+                                referencedColumn:
+                                    $$EventDataTableTableReferences
+                                        ._eventIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$EventDataTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EventDataTableTable,
+      EventData,
+      $$EventDataTableTableFilterComposer,
+      $$EventDataTableTableOrderingComposer,
+      $$EventDataTableTableAnnotationComposer,
+      $$EventDataTableTableCreateCompanionBuilder,
+      $$EventDataTableTableUpdateCompanionBuilder,
+      (EventData, $$EventDataTableTableReferences),
+      EventData,
+      PrefetchHooks Function({bool eventId})
     >;
 typedef $$EOptionsTableCreateCompanionBuilder =
     EOptionsCompanion Function({
@@ -6197,10 +6289,10 @@ class $AppDatabaseManager {
       $$CategoriesTableTableManager(_db, _db.categories);
   $$PartnersTableTableManager get partners =>
       $$PartnersTableTableManager(_db, _db.partners);
-  $$EventDataTableTableTableManager get eventDataTable =>
-      $$EventDataTableTableTableManager(_db, _db.eventDataTable);
   $$EventsTableTableManager get events =>
       $$EventsTableTableManager(_db, _db.events);
+  $$EventDataTableTableTableManager get eventDataTable =>
+      $$EventDataTableTableTableManager(_db, _db.eventDataTable);
   $$EOptionsTableTableManager get eOptions =>
       $$EOptionsTableTableManager(_db, _db.eOptions);
   $$CategoriesTypesTableTableManager get categoriesTypes =>

@@ -1,7 +1,7 @@
 class RowData {
   RowData();
 
-  List<String> get typeNames => ["Sex", "Masturbation", "Medical"];
+  List<String> get typeNames => ["Sex", "Solo", "Medical"];
   List<String> get typeSlugs => ["sex", "masturbation", "medical"];
 
   List<String> get categoryNames => ["Contraception", "Poses", "Practices", "Place", "Practices", "Medical"];

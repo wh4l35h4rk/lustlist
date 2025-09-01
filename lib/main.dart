@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 
 late AppDatabase database;
+Map<int, IconData> iconDataMap = {};
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
