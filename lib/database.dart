@@ -47,6 +47,24 @@ class AppDatabase extends _$AppDatabase {
   Future<List<EventPartner>> get allEventsPartners => select(eventsPartners).get();
 
 
+  Future<Event> getEventById(int id) async {
+    return (select(events)..where((t) => t.id.equals(id))).getSingle();
+  }
+
+  Future<Type> getTypeByEventId(Event event) async {
+    return (select(types)..where((t) => t.id.equals(event.typeId))).getSingle();
+  }
+
+  Future<EventData?> getDataById(int id) async {
+    return (select(eventDataTable)..where((t) => t.id.equals(id))).getSingleOrNull();
+  }
+
+  Future<List<Partner?>> getPartnerListById(List<int> partnersIdList) async {
+    return Future.wait(List.generate(partnersIdList.length, (ii) async =>
+      await (select(partners)..where((t) => t.id.equals(partnersIdList[ii]))).getSingleOrNull()));
+  }
+
+
   Future<int> getTypeIdBySlug(String name) async {
     final query = select(types)..where((t) => t.slug.equals(name));
     final result = await query.getSingleOrNull();
@@ -64,6 +82,16 @@ class AppDatabase extends _$AppDatabase {
     final result = await query.getSingleOrNull();
     return result!.id;
   }
+
+  Future<List<EOption>> getOptionsById(int eventId) async {
+    final query = select(eventsOptions).join([
+      innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
+      innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId))
+    ])..where(eventsOptions.eventId.equals(eventId));
+    final result = await query.get();
+    return result.map((row) => row.readTable(eOptions)).toList();
+  }
+
 
   @override
   MigrationStrategy get migration {

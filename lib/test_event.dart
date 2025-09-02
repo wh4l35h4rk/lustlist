@@ -6,12 +6,18 @@ class TestEvent {
   final int id;
   final Event event;
   final Type type;
-  final List<Partner?> partners;
+  final List<Partner?>? partners;
   final EventData? data;
 
   const TestEvent(this.id, this.event, this.type, this.partners, this.data);
 
-  List<String> getPartnerNames() => List.generate(partners.length, (index) => partners[index]!.name);
+  List<String> getPartnerNames() {
+    if (partners != null) {
+      return List.generate(partners!.length, (index) => partners![index]!.name);
+    } else {
+      return [];
+    }
+  }
 
   int getTypeId() => event.typeId;
   String getTypeSlug() => type.slug;

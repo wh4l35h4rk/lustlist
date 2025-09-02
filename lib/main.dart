@@ -29,8 +29,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Liberation Mono',
         colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.light,
             seedColor: Colors.pink,
-            brightness: Brightness.light
+            // seedColor: Colors.deepPurpleAccent,
         ),
       ),
       home: const MyHomePage(),

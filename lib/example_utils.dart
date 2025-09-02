@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:drift/drift.dart';
 import 'package:lustlist/db/events.dart';
-import 'package:lustlist/db/event_data.dart';
 import 'package:lustlist/db/partners.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/test_event.dart';
@@ -19,7 +18,6 @@ Future<void> loadEvents(AppDatabase db) async {
     print(stack);
   }
 
-
   final types = await db.allTypes;
   for (final type in types) {
     iconDataMap[type.id] = getTypeIconData(type.slug);
@@ -33,6 +31,7 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   final medTypeId = await db.getTypeIdBySlug("medical");
   final cuniOptionId = await db.getOptionIdBySlug("cunnilingus");
   final chairOptionId = await db.getOptionIdBySlug("chair");
+  final stiOptionId = await db.getOptionIdBySlug("sti test");
 
   final partnerId1 = await db.into(db.partners).insert(
     PartnersCompanion.insert(name: "Wowa", gender: Gender.male)
@@ -103,11 +102,16 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
         optionId: chairOptionId,
       )
   );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event3Id,
+        optionId: stiOptionId,
+      )
+  );
 
   final entriesList = [{"eventId": event1Id, "dataId": event1DataId, "partnersId": [partnerId1]},
-    {"eventId": event2Id, "dataId": event2DataId, "partnersId": []},
-    {"eventId": event3Id, "dataId": null, "partnersId": []}];
-  print(entriesList);
+    {"eventId": event2Id, "dataId": event2DataId, "partnersId": null},
+    {"eventId": event3Id, "dataId": null, "partnersId": null}];
   return entriesList;
 }
 
@@ -119,24 +123,29 @@ Future<Map<DateTime, List<TestEvent>>> getEventSource(AppDatabase db) async {
   List<Event> eventList = [];
   List<Type> typeList = [];
   List<EventData?> dataList = [];
-  List<List<Partner?>> partnersList = [];
+  List<List<Partner?>?> partnersList = [];
 
   for (var index = 0; index < N; index++){
-    final eventId = eventsFromDb[index]["eventId"];
-    final dataId = eventsFromDb[index]["dataId"];
-    final partnersId = eventsFromDb[index]["partnersId"];
+    final int eventId = eventsFromDb[index]["eventId"];
+    final int? dataId = eventsFromDb[index]["dataId"];
+    final List<int>? partnersId = eventsFromDb[index]["partnersId"];
 
     EventData? data;
-    final event = await (db.select(db.events)..where((t) => t.id.equals(eventId))).getSingle();
-    final type = await (db.select(db.types)..where((t) => t.id.equals(event.typeId))).getSingle();
+    List<Partner?>? partners;
+
+    final event = await db.getEventById(eventId);
+    final type = await db.getTypeByEventId(event);
     if (dataId != null) {
-      data = await (db.select(db.eventDataTable)..where((t) => t.id.equals(dataId))).getSingleOrNull();
+      data = await db.getDataById(dataId);
     } else {
       data = null;
     }
-    final partners = await Future.wait(List.generate(partnersId.length, (ii) async =>
-        await (db.select(db.partners)..where((t) => t.id.equals(partnersId[ii]))).getSingleOrNull()
-    ));
+    if (partnersId != null) {
+      partners = await db.getPartnerListById(partnersId);
+    } else {
+      partners = null;
+    }
+
 
     eventList.add(event);
     typeList.add(type);
@@ -168,7 +177,6 @@ IconData getTypeIconData(String slug)  {
       throw FormatException('Invalid type: $slug');
   }
 }
-
 
 
 LinkedHashMap<DateTime, List<TestEvent>> kEvents = LinkedHashMap(
