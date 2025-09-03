@@ -98,6 +98,15 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(eOptions)).toList();
   }
 
+  Future<List<EOption>> getOptionsByCategory(int eventId, int categoryId) async {
+    final query = select(eventsOptions).join([
+      innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
+      innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId)),
+    ])..where(eventsOptions.eventId.equals(eventId) & eOptions.categoryId.equals(categoryId));
+    final result = await query.get();
+    return result.map((row) => row.readTable(eOptions)).toList();
+  }
+
 
   @override
   MigrationStrategy get migration {

@@ -76,3 +76,6 @@ flutter:
     - family: CustomIcons
       fonts:
         - asset: fonts/CustomIcons.ttf
+    - family: CategoryIcons
+      fonts:
+        - asset: fonts/CategoryIcons.ttf

@@ -32,6 +32,8 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   final cuniOptionId = await db.getOptionIdBySlug("cunnilingus");
   final chairOptionId = await db.getOptionIdBySlug("chair");
   final stiOptionId = await db.getOptionIdBySlug("sti test");
+  final condomOptionId = await db.getOptionIdBySlug("condom");
+  final noContraceptionOptionId = await db.getOptionIdBySlug("none");
 
   final partnerId1 = await db.into(db.partners).insert(
     PartnersCompanion.insert(name: "Wowa", gender: Gender.male)
@@ -147,6 +149,13 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
         optionId: stiOptionId,
       )
   );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event4Id,
+        optionId: condomOptionId,
+      )
+  );
+
 
   final entriesList = [{"eventId": event1Id, "dataId": event1DataId, "partnersId": [partnerId1]},
     {"eventId": event2Id, "dataId": event2DataId, "partnersId": null},

@@ -30,5 +30,25 @@ class CustomIcons {
   static const String? _kFontPkg = null;
 
   static const IconData genderless_1 = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData tree = IconData(0xf1bb, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData genderless = IconData(0xf22d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData hand_lizard = IconData(0xf258, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+}
+
+
+// Place fonts/CategoryIcons.ttf in your fonts/ directory and
+// add the following to your pubspec.yaml
+// flutter:
+//   fonts:
+//    - family: CategoryIcons
+//      fonts:
+//       - asset: fonts/CategoryIcons.ttf
+
+class CategoryIcons {
+  CategoryIcons._();
+
+  static const String _fontFamily = 'CategoryIcons';
+
+  static const IconData sexMove = IconData(0xe900, fontFamily: _fontFamily);
+  static const IconData condom = IconData(0xe901, fontFamily: _fontFamily);
 }
