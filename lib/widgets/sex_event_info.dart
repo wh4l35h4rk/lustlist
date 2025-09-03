@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
@@ -16,67 +17,218 @@ class SexEventInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Expanded(
+      child: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(18.0),
             margin: const EdgeInsets.all(10.0),
             width: double.infinity,
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.all(
                 Radius.circular(12.0),
               ),
             ),
-            child: Row(
+            child: Column(
               children: [
-                Icon(iconDataMap[event.getTypeId()]),
-                Spacer(),
-                Text(
-                  "Event",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+                DataColumn(event: event),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Divider()
                 ),
-                Spacer(),
+                _PartnersColumn(event: event),
               ],
             ),
-          ),
-          Expanded(child:
-          Column(children: [
-            Container(
-              padding: const EdgeInsets.all(18.0),
-              margin: const EdgeInsets.all(10.0),
-              width: double.infinity,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Text("smth"),
-                  Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Divider()),
-                  PartnersColumn(event: event),
-                ],
-              ),
-            )
-          ],)
           )
-        ]
+        ],
+      ),
     );
   }
 }
 
 
-class PartnersColumn extends StatelessWidget {
-  const PartnersColumn({
+class DataColumn extends StatelessWidget {
+  const DataColumn({
     super.key,
+    required this.event,
+  });
+
+  final TestEvent event;
+
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.star, color: Theme.of(context).colorScheme.primaryFixed,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        "Rating:",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primaryFixed,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16
+                        ),
+                      ),
+                    ),
+                    _getRatingIcons(event, context)
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.timelapse, color: Theme.of(context).colorScheme.primaryFixed,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        "Duration:",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primaryFixed,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16
+                        ),
+                      ),
+                    ),
+                    Text(
+                      _getDurationString(event),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.surface,
+                      )
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.auto_awesome, color: Theme.of(context).colorScheme.primaryFixed,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        "My orgasms:",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primaryFixed,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16
+                        ),
+                      ),
+                    ),
+                    Text(
+                        _getOrgasmsText(event),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.surface,
+                        )
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                iconDataMap[event.getTypeId()],
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getDurationString(TestEvent event) {
+    final DateTime? duration = event.data!.duration;
+    if (duration != null) {
+      int hours = event.data!.duration!.hour;
+      int minutes = event.data!.duration!.minute;
+
+      String? hoursString;
+      String? minutesString;
+
+      switch (hours) {
+        case 0:
+          hoursString = null;
+        case 1:
+          hoursString = "$hours hour";
+        default:
+          hoursString = "$hours hours";
+      }
+      switch (minutes) {
+        case 0:
+          minutesString = null;
+        case 1:
+          minutesString = "$minutes minute";
+        default:
+          minutesString = "$minutes minutes";
+      }
+      List<String> list = [?hoursString, ?minutesString];
+      return list.join(" ");
+    } else {
+      return "duration unknown";
+    }
+  }
+
+  String _getOrgasmsText(TestEvent event) {
+    final int orgasmsAmount = event.data!.userOrgasms;
+    final String amountString = orgasmsAmount.toString();
+
+    final String orgasmsString;
+    if (orgasmsAmount == 1) {
+      orgasmsString = "orgasm";
+    } else {
+      orgasmsString = "orgasms";
+    }
+    return "$amountString $orgasmsString";
+  }
+
+  Row _getRatingIcons(TestEvent event, context) {
+    final int rating = event.data!.rating;
+    return Row(
+      children: [
+        Row(
+          children: [
+            for (var index = 0; index < rating; index++)
+              Icon(
+                Icons.star,
+                size: 14,
+                color: Theme.of(context).colorScheme.surface
+              )
+            ]
+        ),
+        Row(
+          children: [
+            for (var index = 0; index < 5 - rating; index++)
+              Icon(
+                  Icons.star_border,
+                  size: 14,
+                  color: Theme.of(context).colorScheme.surface
+              )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+
+class _PartnersColumn extends StatelessWidget {
+  const _PartnersColumn({
     required this.event,
   });
 
@@ -99,8 +251,8 @@ class PartnersColumn extends StatelessWidget {
             ),
             Spacer(),
             Icon(
-              iconDataMap[event.getTypeId()],
-              color: Theme.of(context).colorScheme.primaryFixed,
+              Icons.person,
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
           ],
         ),
@@ -174,7 +326,7 @@ class PartnersColumn extends StatelessWidget {
     final partners = event.partners;
     if (partners!.length > 1) {
       return "Partners:";
-    } else if (partners!.length == 1) {
+    } else if (partners.length == 1) {
       return "Partner:";
     } else {
       throw FormatException("No partners passed");

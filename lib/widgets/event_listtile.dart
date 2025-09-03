@@ -59,7 +59,7 @@ class EventListTile extends StatelessWidget {
             minutesString = "$minutes minutes";
         }
         List<String> list = [time, ?hoursString, ?minutesString];
-        return list.join(", ");
+        return list.join(" ");
       } else {
         return "$time, duration unknown";
       }
@@ -123,7 +123,6 @@ class EventListTile extends StatelessWidget {
         ),
         title: Text(_getTitle(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        // subtitle: Text(_getSubtitle()),
         subtitle: FutureBuilder<String>(
           future: _getSubtitle(database),
           builder: (context, snapshot) {
