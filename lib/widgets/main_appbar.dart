@@ -19,13 +19,26 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       centerTitle: true,
       backgroundColor: Theme.of(context).colorScheme.primary,
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: title != appTitle ? 20 : 25,
-          color: Theme.of(context).colorScheme.surface
-        ),
-      ),
+      title: editButton == null ?
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: title != appTitle ? 20 : 25,
+            color: Theme.of(context).colorScheme.surface
+          ),
+        ) :
+        Row(children: [
+          Spacer(),
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: title != appTitle ? 20 : 25,
+                color: Theme.of(context).colorScheme.surface
+            ),
+          ),
+          Spacer(),
+          editButton!,
+        ],),
       leading: backButton,
     );
   }

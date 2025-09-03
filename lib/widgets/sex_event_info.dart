@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/test_event.dart';
+import 'package:lustlist/widgets/notes_tile.dart';
 import 'eventdata_tile.dart';
 import 'package:lustlist/widgets/category_tile.dart';
 
@@ -15,7 +16,7 @@ class SexEventInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         EventDataTile(event: event),
         CategoryTile(
@@ -44,7 +45,9 @@ class SexEventInfo extends StatelessWidget {
           title: "Place:",
           categorySlug: "place",
           iconData: Icons.bed
-        )
+        ),
+        NotesTile(event: event),
+        SizedBox(height: 10,)
       ],
     );
   }

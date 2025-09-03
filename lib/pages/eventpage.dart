@@ -25,6 +25,13 @@ class EventPage extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Theme.of(context).colorScheme.surface,
         ),
+        editButton: IconButton(
+          onPressed: () {
+            //TODO: edit event page
+          },
+          icon: Icon(Icons.edit),
+          color: Theme.of(context).colorScheme.surface,
+        ),
       ),
       body: _getEventTypeWidget(event),
       bottomNavigationBar: MainBottomNavigationBar()
