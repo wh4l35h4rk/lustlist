@@ -29,14 +29,97 @@ class EventDataTile extends StatelessWidget {
       child: Column(
         children: [
           DataColumn(event: event),
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Divider()
-          ),
-          _PartnersColumn(event: event),
+          buildTileBottom(),
         ],
       ),
     );
+  }
+
+  Widget buildTileBottom() {
+    String type = event.type.slug;
+    switch (type) {
+      case "sex":
+        return Column(
+          children: [
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Divider()
+            ),
+            _PartnersColumn(event: event),
+          ],
+        );
+      case "masturbation":
+        return _PornTile(event: event);
+      default:
+        throw FormatException("Unsuitable type: $type");
+    }
+  }
+}
+
+
+class _PornTile extends StatelessWidget{
+  const _PornTile({
+    required this.event,
+  });
+
+  final TestEvent event;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Icon(Icons.play_circle, color: Theme.of(context).colorScheme.primaryFixed,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              "Porn:",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primaryFixed,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+              ),
+            ),
+          ),
+          FutureBuilder<String>(
+            future: _checkOption(database, context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading...",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("Error loading data",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                );
+              } else {
+                return Text(snapshot.data ?? "No data",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String> _checkOption(AppDatabase db, context) async {
+    int optionId = await db.getOptionIdBySlug("porn");
+    bool check = await db.checkOptionEvent(event.event.id, optionId);
+
+    if (check){
+      return "Did watch";
+    } else {
+      return "Did not watch";
+    }
   }
 }
 
@@ -172,7 +255,7 @@ class DataColumn extends StatelessWidget {
       List<String> list = [?hoursString, ?minutesString];
       return list.join(" ");
     } else {
-      return "duration unknown";
+      return "unknown";
     }
   }
 

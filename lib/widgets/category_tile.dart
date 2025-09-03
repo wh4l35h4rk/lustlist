@@ -58,7 +58,7 @@ class CategoryTile extends StatelessWidget {
           ),
           SizedBox(height: 5,),
           FutureBuilder<Widget>(
-            future: _getPractices(database, context),
+            future: _getOptions(database, context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Text("Loading...");
@@ -76,7 +76,7 @@ class CategoryTile extends StatelessWidget {
     );
   }
 
-  Future<Widget> _getPractices(AppDatabase db, context) async {
+  Future<Widget> _getOptions(AppDatabase db, context) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getOptionsByCategory(event.event.id, categoryId);
 

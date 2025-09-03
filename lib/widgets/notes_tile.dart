@@ -41,7 +41,7 @@ class NotesTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Notes",
+                    "Notes:",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,

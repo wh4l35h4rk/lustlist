@@ -58,13 +58,13 @@ class EventListTile extends StatelessWidget {
           default:
             minutesString = "$minutes minutes";
         }
-        List<String> list = [time, ?hoursString, ?minutesString];
-        return list.join(" ");
+        final String timeString = [?hoursString, ?minutesString].join(" ");
+        return [time, timeString].join(", ");
       } else {
         return "$time, duration unknown";
       }
     } else if (type == "medical") {
-      List<EOption> options = await db.getOptionsById(event.event.id);
+      List<EOption> options = await db.getOptionsByEventId(event.event.id);
       String optionsNames = List.generate(options.length, (index) => options[index].name).join(", ");
       return "$time, $optionsNames";
     } else {

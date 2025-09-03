@@ -33,7 +33,11 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   final chairOptionId = await db.getOptionIdBySlug("chair");
   final stiOptionId = await db.getOptionIdBySlug("sti test");
   final condomOptionId = await db.getOptionIdBySlug("condom");
-  final noContraceptionOptionId = await db.getOptionIdBySlug("none");
+  final mutualOptionId = await db.getOptionIdBySlug("mutual masturbation");
+  final vaginalOptionId = await db.getOptionIdBySlug("vaginal");
+  final dryOptionId = await db.getOptionIdBySlug("dry humping");
+  final soloFingeringOptionId = await db.getOptionIdBySlug("solo fingering");
+  final soloFrottageOptionId = await db.getOptionIdBySlug("solo frottage");
 
   final partnerId1 = await db.into(db.partners).insert(
     PartnersCompanion.insert(name: "Wowa", gender: Gender.male)
@@ -48,6 +52,7 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
         date: DateTime.now(),
         daytime: DayTime.day,
         time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20)),
+        notes: Value("The following is a partial list of minor planets, running from minor-planet number 571001 through 572000, inclusive. The primary data for this and other partial lists is based on JPL's Small-Body Orbital Elements and data available from the Minor Planet Center. Critical list information is also provided by the MPC, unless otherwise specified from Lowell Observatory. A detailed description of the table's columns and additional sources are given on the main page including a complete list of every page in this series, and a statistical break-up on the dynamical classification of minor planets."),
       )
   );
   final event2Id = await db.into(db.events).insert(
@@ -153,6 +158,36 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
       EventsOptionsCompanion.insert(
         eventId: event4Id,
         optionId: condomOptionId,
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event4Id,
+        optionId: dryOptionId,
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event4Id,
+        optionId: mutualOptionId,
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event4Id,
+        optionId: vaginalOptionId,
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event2Id,
+        optionId: soloFingeringOptionId,
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event2Id,
+        optionId: soloFrottageOptionId,
       )
   );
 

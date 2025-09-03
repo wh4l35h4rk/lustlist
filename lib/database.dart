@@ -89,7 +89,7 @@ class AppDatabase extends _$AppDatabase {
     return result!.id;
   }
 
-  Future<List<EOption>> getOptionsById(int eventId) async {
+  Future<List<EOption>> getOptionsByEventId(int eventId) async {
     final query = select(eventsOptions).join([
       innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
       innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId))
@@ -105,6 +105,13 @@ class AppDatabase extends _$AppDatabase {
     ])..where(eventsOptions.eventId.equals(eventId) & eOptions.categoryId.equals(categoryId));
     final result = await query.get();
     return result.map((row) => row.readTable(eOptions)).toList();
+  }
+
+  Future<bool> checkOptionEvent(int eventId, int optionId) async {
+    final query = select(eventsOptions)..where(
+        (t) => t.eventId.equals(eventId) & t.optionId.equals(optionId));
+    final result = await query.getSingleOrNull();
+    return result != null;
   }
 
 

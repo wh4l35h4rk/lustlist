@@ -40,8 +40,10 @@ class RowData {
     "school", "university", "my place", "partner's place", "public space"
   ];
 
-  List<String> get soloPracticesOptionNames => ["Porn", "Toys", "Frottage", "Anal"];
-  List<String> get soloPracticesOptionSlugs => ["porn", "solo toys", "solo frottage", "solo anal"];
+  List<String> get soloPracticesOptionNames => ["Porn", "Fingering", "Handjob", "Toys", "Frottage", "Anal"];
+  List<String> get soloPracticesOptionSlugs => [
+    "porn", "solo fingering", "solo handjob", "solo toys", "solo frottage", "solo anal"
+  ];
 
   List<String> get medicalOptionNames => ["STI test", "Pregnancy test"];
   List<String> get medicalOptionSlugs => ["sti test", "pregnancy test"];

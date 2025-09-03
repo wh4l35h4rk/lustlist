@@ -5,6 +5,7 @@ import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/test_event.dart';
 import 'package:lustlist/widgets/sex_event_info.dart';
+import 'package:lustlist/widgets/mstb_event_info.dart';
 
 
 class EventPage extends StatelessWidget {
@@ -61,7 +62,7 @@ class EventPage extends StatelessWidget {
       case "sex":
         return SexEventInfo(event: event);
       case "masturbation":
-        return Text("No page yet!");
+        return MstbEventInfo(event: event);
       case "medical":
         return Text("No page yet!");
       default:
