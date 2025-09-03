@@ -5,6 +5,7 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/db/events.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
+import 'package:lustlist/pages/eventpage.dart';
 
 
 class EventListTile extends StatelessWidget {
@@ -97,7 +98,15 @@ class EventListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        onTap: () => print('$event'),
+        onTap: () {
+          TestEvent event = this.event;
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (context) => EventPage(event: event),
+            ),
+          );
+        },
         leading: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

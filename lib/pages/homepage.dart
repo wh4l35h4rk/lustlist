@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/pages/calendar.dart';
+import 'package:lustlist/widgets/calendar.dart';
+import 'package:lustlist/widgets/main_bnb.dart';
+import 'package:lustlist/widgets/main_appbar.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -14,15 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(
-          "ll",
-          style: TextStyle(color: Theme.of(context).colorScheme.surface),
-        ),
-      ),
-
+      appBar: MainAppBar(),
       body: Calendar(),
 
       floatingActionButton: FloatingActionButton(
@@ -30,15 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Add event',
         child: const Icon(Icons.add),
       ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Calendar'),
-          BottomNavigationBarItem(icon: Icon(Icons.stacked_bar_chart), label: 'Info'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-      ),
+      bottomNavigationBar: MainBottomNavigationBar(),
     );
   }
 }

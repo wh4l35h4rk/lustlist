@@ -7,9 +7,10 @@ class TestEvent {
   final Event event;
   final Type type;
   final List<Partner?>? partners;
+  final List<int>? partnerOrgasms;
   final EventData? data;
 
-  const TestEvent(this.id, this.event, this.type, this.partners, this.data);
+  const TestEvent(this.id, this.event, this.type, this.partners, this.partnerOrgasms, this.data);
 
   List<String> getPartnerNames() {
     if (partners != null) {

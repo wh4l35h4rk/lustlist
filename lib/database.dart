@@ -59,11 +59,17 @@ class AppDatabase extends _$AppDatabase {
     return (select(eventDataTable)..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
-  Future<List<Partner?>> getPartnerListById(List<int> partnersIdList) async {
+  Future<List<Partner?>> getPartnerListByPartnerIds(List<int> partnersIdList) async {
     return Future.wait(List.generate(partnersIdList.length, (ii) async =>
       await (select(partners)..where((t) => t.id.equals(partnersIdList[ii]))).getSingleOrNull()));
   }
 
+  Future<List<int>> getPartnerOrgasmsListByIdsList(int eventId, List<int> partnersIdList) async {
+    final result = await Future.wait(List.generate(partnersIdList.length, (ii) async =>
+      await (select(eventsPartners)..where((t) =>
+      t.eventId.equals(eventId) & t.partnerId.equals(partnersIdList[ii]))).getSingle()));
+    return List.generate(partnersIdList.length, (ii) => result[ii].partnerOrgasms);
+  }
 
   Future<int> getTypeIdBySlug(String name) async {
     final query = select(types)..where((t) => t.slug.equals(name));

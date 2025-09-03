@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lustlist/db/events.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/example_utils.dart';
 import 'package:lustlist/test_event.dart';
-import 'package:lustlist/pages/event_listtile.dart';
+import 'package:lustlist/widgets/event_listtile.dart';
 
 
 class Calendar extends StatefulWidget {
