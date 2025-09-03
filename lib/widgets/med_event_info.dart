@@ -73,13 +73,13 @@ class MedTile extends StatelessWidget{
             future: _getOptions(database, context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text("Loading...");
+                return Text("Loading...", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
               } else if (snapshot.hasError) {
-                return const Text("Error loading data");
+                return Text("Error loading data", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
               } else if (snapshot.hasData) {
                 return snapshot.data!;
               } else {
-                return const Text("No data");
+                return Text("No data", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
               }
             },
           ),
@@ -93,7 +93,7 @@ class MedTile extends StatelessWidget{
     List<EOption> options = await db.getOptionsByCategory(event.event.id, categoryId);
 
     if (options.isEmpty){
-      return Text("Not stated");
+      return Text("Not stated", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
     } else {
       return Wrap(
         spacing: 8,
