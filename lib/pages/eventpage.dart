@@ -4,6 +4,7 @@ import 'package:lustlist/db/events.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/test_event.dart';
+import 'package:lustlist/widgets/med_event_info.dart';
 import 'package:lustlist/widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/mstb_event_info.dart';
 
@@ -64,7 +65,7 @@ class EventPage extends StatelessWidget {
       case "masturbation":
         return MstbEventInfo(event: event);
       case "medical":
-        return Text("No page yet!");
+        return MedEventInfo(event: event);
       default:
         throw FormatException("Wrong type: $type");
     }
