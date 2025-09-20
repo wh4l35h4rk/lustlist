@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/test_event.dart';
+import 'package:lustlist/example_utils.dart';
 
 class NotesTile extends StatelessWidget {
   const NotesTile({
@@ -68,9 +69,10 @@ class NotesTile extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: _blend(
+            color: colorBlend(
               Theme.of(context).colorScheme.secondaryContainer,
               Theme.of(context).colorScheme.surface,
+              0.5
             ),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12.0),
@@ -95,11 +97,6 @@ class NotesTile extends StatelessWidget {
         ),
       );
     }
-  }
-
-  Color? _blend(Color color1, color2) {
-    final double amount = 0.5;
-    return Color.lerp(color1, color2, amount)!;
   }
 }
 

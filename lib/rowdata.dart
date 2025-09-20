@@ -4,15 +4,15 @@ class RowData {
   List<String> get typeNames => ["Sex", "Solo", "Medical"];
   List<String> get typeSlugs => ["sex", "masturbation", "medical"];
 
-  List<String> get categoryNames => ["Contraception", "Poses", "Practices", "Place", "Practices", "Medical"];
-  List<String> get categorySlugs => ["contraception", "poses", "practices", "place", "solo practices", "medical"];
+  List<String> get categoryNames => ["Contraception", "Poses", "Practices", "Place", "Practices", "STI test", "OB-GYN visit"];
+  List<String> get categorySlugs => ["contraception", "poses", "practices", "place", "solo practices", "sti", "obgyn"];
 
 
   List<String> get contraceptionOptionNames => [
-    "None", "Pulling out", "Condom",  "Pill", "Latex napkin", "IUD", "Spermicides", "Hormonal ring"
+    "Pulling out", "Condom",  "Pill", "Latex napkin", "IUD", "Spermicides", "Hormonal ring"
   ];
   List<String> get contraceptionOptionSlugs => [
-    "none", "pulling out", "condom",  "pill", "latex napkin", "iud", "spermicides", "hormonal ring"
+    "pulling out", "condom",  "pill", "latex napkin", "iud", "spermicides", "hormonal ring"
   ];
 
   List<String> get posesOptionNames => [
@@ -45,6 +45,19 @@ class RowData {
     "porn", "solo fingering", "solo handjob", "solo toys", "solo frottage", "solo anal"
   ];
 
-  List<String> get medicalOptionNames => ["STI test", "Pregnancy test"];
-  List<String> get medicalOptionSlugs => ["sti test", "pregnancy test"];
+  List<String> get stiOptionNames => [
+    "HIV", "Syphilis", "HPV", "Chlamydia", "Gonorrhea", "Trichomoniasis", "Mycoplasma", "Hepatitis B",
+    "Molluscum contagiosum", "Herpes"
+  ];
+  List<String> get stiOptionSlugs => [
+    "hiv", "syphilis", "hpv", "chlamydia", "honorrhea", "trichomoniasis", "mycoplasma", "hepatitis b",
+    "molluscum contagiosum", "herpes"
+  ];
+
+  List<String> get obgynOptionNames => [
+    "Pregnancy test", "Ultrasonography", "Pelvic exam"
+  ];
+  List<String> get obgynOptionSlugs => [
+    "pregnancy test", "ultrasonography", "pelvic exam"
+  ];
 }

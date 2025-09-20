@@ -1679,7 +1679,7 @@ class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
     false,
     additionalChecks: GeneratedColumn.checkTextLength(
       minTextLength: 1,
-      maxTextLength: 20,
+      maxTextLength: 40,
     ),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
@@ -1692,7 +1692,7 @@ class $EOptionsTable extends EOptions with TableInfo<$EOptionsTable, EOption> {
     false,
     additionalChecks: GeneratedColumn.checkTextLength(
       minTextLength: 1,
-      maxTextLength: 20,
+      maxTextLength: 40,
     ),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
@@ -2322,7 +2322,16 @@ class $EventsOptionsTable extends EventsOptions
     ),
   );
   @override
-  List<GeneratedColumn> get $columns => [eventId, optionId];
+  late final GeneratedColumnWithTypeConverter<TestStatus?, String> testStatus =
+      GeneratedColumn<String>(
+        'test_status',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<TestStatus?>($EventsOptionsTable.$convertertestStatusn);
+  @override
+  List<GeneratedColumn> get $columns => [eventId, optionId, testStatus];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2368,6 +2377,12 @@ class $EventsOptionsTable extends EventsOptions
         DriftSqlType.int,
         data['${effectivePrefix}option_id'],
       )!,
+      testStatus: $EventsOptionsTable.$convertertestStatusn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}test_status'],
+        ),
+      ),
     );
   }
 
@@ -2375,17 +2390,32 @@ class $EventsOptionsTable extends EventsOptions
   $EventsOptionsTable createAlias(String alias) {
     return $EventsOptionsTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<TestStatus, String, String> $convertertestStatus =
+      const EnumNameConverter<TestStatus>(TestStatus.values);
+  static JsonTypeConverter2<TestStatus?, String?, String?>
+  $convertertestStatusn = JsonTypeConverter2.asNullable($convertertestStatus);
 }
 
 class EventOption extends DataClass implements Insertable<EventOption> {
   final int eventId;
   final int optionId;
-  const EventOption({required this.eventId, required this.optionId});
+  final TestStatus? testStatus;
+  const EventOption({
+    required this.eventId,
+    required this.optionId,
+    this.testStatus,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['event_id'] = Variable<int>(eventId);
     map['option_id'] = Variable<int>(optionId);
+    if (!nullToAbsent || testStatus != null) {
+      map['test_status'] = Variable<String>(
+        $EventsOptionsTable.$convertertestStatusn.toSql(testStatus),
+      );
+    }
     return map;
   }
 
@@ -2393,6 +2423,9 @@ class EventOption extends DataClass implements Insertable<EventOption> {
     return EventsOptionsCompanion(
       eventId: Value(eventId),
       optionId: Value(optionId),
+      testStatus: testStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(testStatus),
     );
   }
 
@@ -2404,6 +2437,9 @@ class EventOption extends DataClass implements Insertable<EventOption> {
     return EventOption(
       eventId: serializer.fromJson<int>(json['eventId']),
       optionId: serializer.fromJson<int>(json['optionId']),
+      testStatus: $EventsOptionsTable.$convertertestStatusn.fromJson(
+        serializer.fromJson<String?>(json['testStatus']),
+      ),
     );
   }
   @override
@@ -2412,17 +2448,28 @@ class EventOption extends DataClass implements Insertable<EventOption> {
     return <String, dynamic>{
       'eventId': serializer.toJson<int>(eventId),
       'optionId': serializer.toJson<int>(optionId),
+      'testStatus': serializer.toJson<String?>(
+        $EventsOptionsTable.$convertertestStatusn.toJson(testStatus),
+      ),
     };
   }
 
-  EventOption copyWith({int? eventId, int? optionId}) => EventOption(
+  EventOption copyWith({
+    int? eventId,
+    int? optionId,
+    Value<TestStatus?> testStatus = const Value.absent(),
+  }) => EventOption(
     eventId: eventId ?? this.eventId,
     optionId: optionId ?? this.optionId,
+    testStatus: testStatus.present ? testStatus.value : this.testStatus,
   );
   EventOption copyWithCompanion(EventsOptionsCompanion data) {
     return EventOption(
       eventId: data.eventId.present ? data.eventId.value : this.eventId,
       optionId: data.optionId.present ? data.optionId.value : this.optionId,
+      testStatus: data.testStatus.present
+          ? data.testStatus.value
+          : this.testStatus,
     );
   }
 
@@ -2430,44 +2477,51 @@ class EventOption extends DataClass implements Insertable<EventOption> {
   String toString() {
     return (StringBuffer('EventOption(')
           ..write('eventId: $eventId, ')
-          ..write('optionId: $optionId')
+          ..write('optionId: $optionId, ')
+          ..write('testStatus: $testStatus')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(eventId, optionId);
+  int get hashCode => Object.hash(eventId, optionId, testStatus);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is EventOption &&
           other.eventId == this.eventId &&
-          other.optionId == this.optionId);
+          other.optionId == this.optionId &&
+          other.testStatus == this.testStatus);
 }
 
 class EventsOptionsCompanion extends UpdateCompanion<EventOption> {
   final Value<int> eventId;
   final Value<int> optionId;
+  final Value<TestStatus?> testStatus;
   final Value<int> rowid;
   const EventsOptionsCompanion({
     this.eventId = const Value.absent(),
     this.optionId = const Value.absent(),
+    this.testStatus = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   EventsOptionsCompanion.insert({
     required int eventId,
     required int optionId,
+    this.testStatus = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : eventId = Value(eventId),
        optionId = Value(optionId);
   static Insertable<EventOption> custom({
     Expression<int>? eventId,
     Expression<int>? optionId,
+    Expression<String>? testStatus,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (eventId != null) 'event_id': eventId,
       if (optionId != null) 'option_id': optionId,
+      if (testStatus != null) 'test_status': testStatus,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2475,11 +2529,13 @@ class EventsOptionsCompanion extends UpdateCompanion<EventOption> {
   EventsOptionsCompanion copyWith({
     Value<int>? eventId,
     Value<int>? optionId,
+    Value<TestStatus?>? testStatus,
     Value<int>? rowid,
   }) {
     return EventsOptionsCompanion(
       eventId: eventId ?? this.eventId,
       optionId: optionId ?? this.optionId,
+      testStatus: testStatus ?? this.testStatus,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2493,6 +2549,11 @@ class EventsOptionsCompanion extends UpdateCompanion<EventOption> {
     if (optionId.present) {
       map['option_id'] = Variable<int>(optionId.value);
     }
+    if (testStatus.present) {
+      map['test_status'] = Variable<String>(
+        $EventsOptionsTable.$convertertestStatusn.toSql(testStatus.value),
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2504,6 +2565,7 @@ class EventsOptionsCompanion extends UpdateCompanion<EventOption> {
     return (StringBuffer('EventsOptionsCompanion(')
           ..write('eventId: $eventId, ')
           ..write('optionId: $optionId, ')
+          ..write('testStatus: $testStatus, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -5552,12 +5614,14 @@ typedef $$EventsOptionsTableCreateCompanionBuilder =
     EventsOptionsCompanion Function({
       required int eventId,
       required int optionId,
+      Value<TestStatus?> testStatus,
       Value<int> rowid,
     });
 typedef $$EventsOptionsTableUpdateCompanionBuilder =
     EventsOptionsCompanion Function({
       Value<int> eventId,
       Value<int> optionId,
+      Value<TestStatus?> testStatus,
       Value<int> rowid,
     });
 
@@ -5616,6 +5680,12 @@ class $$EventsOptionsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnWithTypeConverterFilters<TestStatus?, TestStatus, String>
+  get testStatus => $composableBuilder(
+    column: $table.testStatus,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
   $$EventsTableFilterComposer get eventId {
     final $$EventsTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -5672,6 +5742,11 @@ class $$EventsOptionsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<String> get testStatus => $composableBuilder(
+    column: $table.testStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EventsTableOrderingComposer get eventId {
     final $$EventsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -5728,6 +5803,12 @@ class $$EventsOptionsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumnWithTypeConverter<TestStatus?, String> get testStatus =>
+      $composableBuilder(
+        column: $table.testStatus,
+        builder: (column) => column,
+      );
+
   $$EventsTableAnnotationComposer get eventId {
     final $$EventsTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -5805,20 +5886,24 @@ class $$EventsOptionsTableTableManager
               ({
                 Value<int> eventId = const Value.absent(),
                 Value<int> optionId = const Value.absent(),
+                Value<TestStatus?> testStatus = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => EventsOptionsCompanion(
                 eventId: eventId,
                 optionId: optionId,
+                testStatus: testStatus,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required int eventId,
                 required int optionId,
+                Value<TestStatus?> testStatus = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => EventsOptionsCompanion.insert(
                 eventId: eventId,
                 optionId: optionId,
+                testStatus: testStatus,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

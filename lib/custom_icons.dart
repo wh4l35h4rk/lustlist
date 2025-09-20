@@ -21,6 +21,7 @@
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
+library;
 import 'package:flutter/widgets.dart';
 
 class CustomIcons {
@@ -36,13 +37,6 @@ class CustomIcons {
 }
 
 
-// Place fonts/CategoryIcons.ttf in your fonts/ directory and
-// add the following to your pubspec.yaml
-// flutter:
-//   fonts:
-//    - family: CategoryIcons
-//      fonts:
-//       - asset: fonts/CategoryIcons.ttf
 
 class CategoryIcons {
   CategoryIcons._();

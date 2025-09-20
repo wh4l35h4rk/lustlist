@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:lustlist/db/categories.dart';
@@ -71,6 +72,11 @@ class AppDatabase extends _$AppDatabase {
     return List.generate(partnersIdList.length, (ii) => result[ii].partnerOrgasms);
   }
 
+  Future<String> getCategoryName(int id) async {
+    final result = await (select(categories)..where((t) => t.id.equals(id))).getSingle();
+    return result.name;
+  }
+
   Future<int> getTypeIdBySlug(String name) async {
     final query = select(types)..where((t) => t.slug.equals(name));
     final result = await query.getSingleOrNull();
@@ -114,6 +120,25 @@ class AppDatabase extends _$AppDatabase {
     return result != null;
   }
 
+  Future<List<String>?> getCategoryNamesOfEvent(int eventId) async {
+    final options = await getOptionsByEventId(eventId);
+    if (options.isNotEmpty){
+      final categoryNames = await Future.wait(
+          List.generate(options.length, (index) async => await getCategoryName(options[index].categoryId))
+      );
+      final distinctCategoryNames = categoryNames.toSet().toList();
+      return distinctCategoryNames;
+    } else {
+      return null;
+    }
+  }
+
+  Future<TestStatus?> getTestResult(int eventId, int optionId) async {
+    final result = await (select(eventsOptions)..where((t) =>
+      t.eventId.equals(eventId) & t.optionId.equals(optionId))).getSingle();
+    return result.testStatus;
+  }
+
 
   @override
   MigrationStrategy get migration {
@@ -142,7 +167,8 @@ class AppDatabase extends _$AppDatabase {
           final practicesCategoryId = await getCategoryIdBySlug('practices');
           final soloPracticesCategoryId = await getCategoryIdBySlug('solo practices');
           final placeCategoryId = await getCategoryIdBySlug('place');
-          final medicalCategoryId = await getCategoryIdBySlug('medical');
+          final stiCategoryId = await getCategoryIdBySlug('sti');
+          final obgynCategoryId = await getCategoryIdBySlug('obgyn');
 
 
           await batch((batch) {
@@ -153,7 +179,8 @@ class AppDatabase extends _$AppDatabase {
               CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: soloPracticesCategoryId, typeId: masturbationTypeId),
               CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: masturbationTypeId),
-              CategoriesTypesCompanion.insert(categoryId: medicalCategoryId, typeId: medicalTypeId),
+              CategoriesTypesCompanion.insert(categoryId: stiCategoryId, typeId: medicalTypeId),
+              CategoriesTypesCompanion.insert(categoryId: obgynCategoryId, typeId: medicalTypeId),
             ]);
 
             assert (rowData.contraceptionOptionNames.length == rowData.contraceptionOptionSlugs.length);
@@ -206,14 +233,24 @@ class AppDatabase extends _$AppDatabase {
                 )),
             );
 
-            assert (rowData.medicalOptionNames.length == rowData.medicalOptionSlugs.length);
+            assert (rowData.stiOptionNames.length == rowData.stiOptionSlugs.length);
             batch.insertAll(eOptions,
-              List<Insertable<EOption>>.generate(rowData.medicalOptionNames.length, (int index) =>
+              List<Insertable<EOption>>.generate(rowData.stiOptionNames.length, (int index) =>
                 EOptionsCompanion.insert(
-                    name: rowData.medicalOptionNames[index],
-                    slug: rowData.medicalOptionSlugs[index],
-                    categoryId: medicalCategoryId
+                    name: rowData.stiOptionNames[index],
+                    slug: rowData.stiOptionSlugs[index],
+                    categoryId: stiCategoryId
                 )),
+            );
+
+            assert (rowData.obgynOptionNames.length == rowData.obgynOptionSlugs.length);
+            batch.insertAll(eOptions,
+              List<Insertable<EOption>>.generate(rowData.obgynOptionNames.length, (int index) =>
+                  EOptionsCompanion.insert(
+                      name: rowData.obgynOptionNames[index],
+                      slug: rowData.obgynOptionSlugs[index],
+                      categoryId: obgynCategoryId
+                  )),
             );
           });
         }

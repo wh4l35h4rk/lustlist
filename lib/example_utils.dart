@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:drift/drift.dart';
 import 'package:lustlist/db/events.dart';
+import 'package:lustlist/db/events_options.dart';
 import 'package:lustlist/db/partners.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/test_event.dart';
@@ -31,7 +32,9 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   final medTypeId = await db.getTypeIdBySlug("medical");
   final cuniOptionId = await db.getOptionIdBySlug("cunnilingus");
   final chairOptionId = await db.getOptionIdBySlug("chair");
-  final stiOptionId = await db.getOptionIdBySlug("sti test");
+  final chlamydiaOptionId = await db.getOptionIdBySlug("chlamydia");
+  final hpvOptionId = await db.getOptionIdBySlug("hpv");
+  final herpesOptionId = await db.getOptionIdBySlug("herpes");
   final condomOptionId = await db.getOptionIdBySlug("condom");
   final mutualOptionId = await db.getOptionIdBySlug("mutual masturbation");
   final vaginalOptionId = await db.getOptionIdBySlug("vaginal");
@@ -151,7 +154,22 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   await db.into(db.eventsOptions).insert(
       EventsOptionsCompanion.insert(
         eventId: event3Id,
-        optionId: stiOptionId,
+        optionId: chlamydiaOptionId,
+        testStatus: Value(TestStatus.negative),
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event3Id,
+        optionId: hpvOptionId,
+        testStatus: Value(TestStatus.positive),
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event3Id,
+        optionId: herpesOptionId,
+        testStatus: Value(TestStatus.waiting),
       )
   );
   await db.into(db.eventsOptions).insert(
@@ -285,6 +303,11 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
     dayCount,
         (index) => DateTime.utc(first.year, first.month, first.day + index),
   );
+}
+
+
+Color? colorBlend(Color color1, color2, double amount) {
+  return Color.lerp(color1, color2, amount)!;
 }
 
 

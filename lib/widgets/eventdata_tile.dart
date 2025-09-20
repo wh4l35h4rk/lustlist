@@ -26,12 +26,7 @@ class EventDataTile extends StatelessWidget {
           Radius.circular(12.0),
         ),
       ),
-      child: Column(
-        children: [
-          DataColumn(event: event),
-          buildTileBottom(),
-        ],
-      ),
+      child: buildTileBottom(),
     );
   }
 
@@ -41,6 +36,7 @@ class EventDataTile extends StatelessWidget {
       case "sex":
         return Column(
           children: [
+            DataColumn(event: event),
             Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Divider()
@@ -49,10 +45,76 @@ class EventDataTile extends StatelessWidget {
           ],
         );
       case "masturbation":
-        return _PornTile(event: event);
+        return Column(
+          children: [
+            DataColumn(event: event),
+            _PornTile(event: event)
+          ]);
+      case "medical":
+        return _MedicalData(event: event);
       default:
-        throw FormatException("Unsuitable type: $type");
+        throw FormatException("Wrong type: $type");
     }
+  }
+}
+
+
+
+class _MedicalData extends StatelessWidget{
+  const _MedicalData({
+    required this.event,
+  });
+
+  final TestEvent event;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(Icons.medical_services, color: Theme.of(context).colorScheme.primaryFixed,),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Text(
+            "Type:",
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primaryFixed,
+                fontWeight: FontWeight.bold,
+                fontSize: 16
+            ),
+          ),
+        ),
+        Wrap(
+          children: [
+            FutureBuilder<Widget>(
+              future: getCategoryList(database, context),
+              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading...", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+                } else if (snapshot.hasError) {
+                  return Text("Error loading data", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+                } else if (snapshot.hasData) {
+                  return snapshot.data!;
+                } else {
+                  return Text("No data", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+                }
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Future<Widget> getCategoryList(AppDatabase db, context) async {
+    final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
+    String categoryString;
+    if (categoryNames!.isNotEmpty) {
+      categoryString = categoryNames.join(", ");
+    } else {
+      categoryString = "Unknown";
+    }
+    return Text(categoryString, style: TextStyle(color: Theme.of(context).colorScheme.surface),);
   }
 }
 

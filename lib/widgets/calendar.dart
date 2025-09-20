@@ -58,7 +58,7 @@ class _CalendarState extends State<Calendar> {
                 "Select a month",
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               )),
-          content: Container(
+          content: SizedBox(
             height: 100,
             child: CupertinoTheme(
               data: CupertinoThemeData(

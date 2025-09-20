@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/database.dart';
@@ -64,9 +63,12 @@ class EventListTile extends StatelessWidget {
         return "$time, duration unknown";
       }
     } else if (type == "medical") {
-      List<EOption> options = await db.getOptionsByEventId(event.event.id);
-      String optionsNames = List.generate(options.length, (index) => options[index].name).join(", ");
-      return "$time, $optionsNames";
+      final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
+      if (categoryNames!.isNotEmpty) {
+        return "$time, ${categoryNames.join(", ")}";
+      } else {
+        return time;
+      }
     } else {
       throw FormatException("Wrong type: ${event.type.slug}");
     }
