@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/db/events_options.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
@@ -42,7 +43,7 @@ class StiTile extends StatelessWidget{
                 ),
               ),
               Icon(
-                Icons.water_drop,
+                CustomIcons.viruses,
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ],

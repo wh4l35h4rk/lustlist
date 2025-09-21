@@ -87,7 +87,7 @@ class _MedicalData extends StatelessWidget{
         Wrap(
           children: [
             FutureBuilder<Widget>(
-              future: getCategoryList(database, context),
+              future: getCategoryListText(database, context),
               builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Text("Loading...", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
@@ -106,7 +106,7 @@ class _MedicalData extends StatelessWidget{
     );
   }
 
-  Future<Widget> getCategoryList(AppDatabase db, context) async {
+  Future<Widget> getCategoryListText(AppDatabase db, context) async {
     final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
     String categoryString;
     if (categoryNames!.isNotEmpty) {

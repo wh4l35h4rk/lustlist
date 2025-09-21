@@ -41,6 +41,9 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   final dryOptionId = await db.getOptionIdBySlug("dry humping");
   final soloFingeringOptionId = await db.getOptionIdBySlug("solo fingering");
   final soloFrottageOptionId = await db.getOptionIdBySlug("solo frottage");
+  final pregOptionId = await db.getOptionIdBySlug("pregnancy test");
+  final sonoOptionId = await db.getOptionIdBySlug("ultrasonography");
+  final molluscumOptionId = await db.getOptionIdBySlug("molluscum contagiosum");
 
   final partnerId1 = await db.into(db.partners).insert(
     PartnersCompanion.insert(name: "Wowa", gender: Gender.male)
@@ -78,6 +81,14 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
         date: DateTime.now(),
         daytime: DayTime.morning,
         time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 31)),
+      )
+  );
+  final event5Id = await db.into(db.events).insert(
+      EventsCompanion.insert(
+        typeId: medTypeId,
+        date: DateTime.now(),
+        daytime: DayTime.evening,
+        time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 19, 31)),
       )
   );
 
@@ -208,12 +219,32 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
         optionId: soloFrottageOptionId,
       )
   );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event5Id,
+        optionId: pregOptionId,
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event5Id,
+        optionId: molluscumOptionId,
+        testStatus: Value(TestStatus.waiting)
+      )
+  );
+  await db.into(db.eventsOptions).insert(
+      EventsOptionsCompanion.insert(
+        eventId: event5Id,
+        optionId: sonoOptionId,
+      )
+  );
 
 
   final entriesList = [{"eventId": event1Id, "dataId": event1DataId, "partnersId": [partnerId1]},
     {"eventId": event2Id, "dataId": event2DataId, "partnersId": null},
     {"eventId": event3Id, "dataId": null, "partnersId": null},
     {"eventId": event4Id, "dataId": event4DataId, "partnersId": [partnerId1, partnerId2]},
+    {"eventId": event5Id, "dataId": null, "partnersId": null},
   ];
   return entriesList;
 }

@@ -20,7 +20,7 @@
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
-///
+
 library;
 import 'package:flutter/widgets.dart';
 
@@ -31,9 +31,9 @@ class CustomIcons {
   static const String? _kFontPkg = null;
 
   static const IconData genderless_1 = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData tree = IconData(0xf1bb, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData genderless = IconData(0xf22d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hand_lizard = IconData(0xf258, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData viruses = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
 
 
@@ -45,4 +45,5 @@ class CategoryIcons {
 
   static const IconData sexMove = IconData(0xe900, fontFamily: _fontFamily);
   static const IconData condom = IconData(0xe901, fontFamily: _fontFamily);
+  static const IconData uterus = IconData(0xe902, fontFamily: _fontFamily);
 }

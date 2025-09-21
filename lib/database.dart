@@ -77,6 +77,11 @@ class AppDatabase extends _$AppDatabase {
     return result.name;
   }
 
+  Future<String> getCategorySlug(int id) async {
+    final result = await (select(categories)..where((t) => t.id.equals(id))).getSingle();
+    return result.slug;
+  }
+
   Future<int> getTypeIdBySlug(String name) async {
     final query = select(types)..where((t) => t.slug.equals(name));
     final result = await query.getSingleOrNull();
@@ -127,6 +132,19 @@ class AppDatabase extends _$AppDatabase {
           List.generate(options.length, (index) async => await getCategoryName(options[index].categoryId))
       );
       final distinctCategoryNames = categoryNames.toSet().toList();
+      return distinctCategoryNames;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<String>?> getCategorySlugsOfEvent(int eventId) async {
+    final options = await getOptionsByEventId(eventId);
+    if (options.isNotEmpty){
+      final categorySlugs = await Future.wait(
+          List.generate(options.length, (index) async => await getCategorySlug(options[index].categoryId))
+      );
+      final distinctCategoryNames = categorySlugs.toSet().toList();
       return distinctCategoryNames;
     } else {
       return null;
