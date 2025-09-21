@@ -79,16 +79,16 @@ class NotesTile extends StatelessWidget {
               bottomRight: Radius.circular(12.0),
             ),
           ),
-          child: Expanded(child: _getNotes()),
+          child: _getNotes(),
         ),
       ],
     );
   }
 
-  Text _getNotes() {
+  Widget _getNotes() {
     final String? notes = event.event.notes;
     if (notes != null) {
-      return Text(notes);
+      return Wrap(children: [Text(notes)]);
     } else {
       return Text(
         "There are no notes yet.",
