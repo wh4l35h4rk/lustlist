@@ -3,7 +3,7 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
 import 'package:lustlist/custom_icons.dart';
-import '../db/partners.dart';
+import '../../db/partners.dart';
 
 class EventDataTile extends StatelessWidget {
   const EventDataTile({
@@ -343,7 +343,7 @@ class DataColumn extends StatelessWidget {
               for (var index = 0; index < rating; index++)
                 Icon(
                     Icons.star,
-                    size: 14,
+                    size: 16,
                     color: Theme.of(context).colorScheme.surface
                 )
             ]
@@ -353,7 +353,7 @@ class DataColumn extends StatelessWidget {
             for (var index = 0; index < 5 - rating; index++)
               Icon(
                   Icons.star_border,
-                  size: 14,
+                  size: 16,
                   color: Theme.of(context).colorScheme.surface
               )
           ],

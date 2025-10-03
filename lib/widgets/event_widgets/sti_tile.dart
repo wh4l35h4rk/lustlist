@@ -3,8 +3,8 @@ import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/db/events_options.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
-import '../database.dart';
-import '../example_utils.dart';
+import '../../database.dart';
+import '../../example_utils.dart';
 
 class StiTile extends StatelessWidget{
   final TestEvent event;

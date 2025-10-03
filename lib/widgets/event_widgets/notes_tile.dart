@@ -88,7 +88,7 @@ class NotesTile extends StatelessWidget {
   Widget _getNotes() {
     final String? notes = event.event.notes;
     if (notes != null) {
-      return Wrap(children: [Text(notes)]);
+      return Wrap(children: [Text(notes, textAlign: TextAlign.justify)]);
     } else {
       return Text(
         "There are no notes yet.",

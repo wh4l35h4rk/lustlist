@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/test_event.dart';
-import 'package:lustlist/widgets/category_tile.dart';
-import 'package:lustlist/widgets/eventdata_tile.dart';
-import 'package:lustlist/widgets/notes_tile.dart';
-import 'package:lustlist/widgets/sti_tile.dart';
+import 'package:lustlist/widgets/event_widgets/category_tile.dart';
+import 'package:lustlist/widgets/event_widgets/eventdata_tile.dart';
+import 'package:lustlist/widgets/event_widgets/notes_tile.dart';
+import 'package:lustlist/widgets/event_widgets/sti_tile.dart';
 
-import '../database.dart';
+import '../../database.dart';
 
 
 class MedEventInfo extends StatelessWidget {
