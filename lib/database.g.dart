@@ -561,8 +561,28 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
+  static const VerificationMeta _lastEventDateMeta = const VerificationMeta(
+    'lastEventDate',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, gender, birthday, createdAt];
+  late final GeneratedColumn<DateTime> lastEventDate =
+      GeneratedColumn<DateTime>(
+        'last_event_date',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+        defaultValue: Constant(DateTime(1970, 1, 1)),
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    gender,
+    birthday,
+    createdAt,
+    lastEventDate,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -598,6 +618,15 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
       );
     }
+    if (data.containsKey('last_event_date')) {
+      context.handle(
+        _lastEventDateMeta,
+        lastEventDate.isAcceptableOrUnknown(
+          data['last_event_date']!,
+          _lastEventDateMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -629,6 +658,10 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      lastEventDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_event_date'],
+      )!,
     );
   }
 
@@ -647,12 +680,14 @@ class Partner extends DataClass implements Insertable<Partner> {
   final Gender gender;
   final DateTime? birthday;
   final DateTime createdAt;
+  final DateTime lastEventDate;
   const Partner({
     required this.id,
     required this.name,
     required this.gender,
     this.birthday,
     required this.createdAt,
+    required this.lastEventDate,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -668,6 +703,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       map['birthday'] = Variable<DateTime>(birthday);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
+    map['last_event_date'] = Variable<DateTime>(lastEventDate);
     return map;
   }
 
@@ -680,6 +716,7 @@ class Partner extends DataClass implements Insertable<Partner> {
           ? const Value.absent()
           : Value(birthday),
       createdAt: Value(createdAt),
+      lastEventDate: Value(lastEventDate),
     );
   }
 
@@ -696,6 +733,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       ),
       birthday: serializer.fromJson<DateTime?>(json['birthday']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      lastEventDate: serializer.fromJson<DateTime>(json['lastEventDate']),
     );
   }
   @override
@@ -709,6 +747,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       ),
       'birthday': serializer.toJson<DateTime?>(birthday),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'lastEventDate': serializer.toJson<DateTime>(lastEventDate),
     };
   }
 
@@ -718,12 +757,14 @@ class Partner extends DataClass implements Insertable<Partner> {
     Gender? gender,
     Value<DateTime?> birthday = const Value.absent(),
     DateTime? createdAt,
+    DateTime? lastEventDate,
   }) => Partner(
     id: id ?? this.id,
     name: name ?? this.name,
     gender: gender ?? this.gender,
     birthday: birthday.present ? birthday.value : this.birthday,
     createdAt: createdAt ?? this.createdAt,
+    lastEventDate: lastEventDate ?? this.lastEventDate,
   );
   Partner copyWithCompanion(PartnersCompanion data) {
     return Partner(
@@ -732,6 +773,9 @@ class Partner extends DataClass implements Insertable<Partner> {
       gender: data.gender.present ? data.gender.value : this.gender,
       birthday: data.birthday.present ? data.birthday.value : this.birthday,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      lastEventDate: data.lastEventDate.present
+          ? data.lastEventDate.value
+          : this.lastEventDate,
     );
   }
 
@@ -742,13 +786,15 @@ class Partner extends DataClass implements Insertable<Partner> {
           ..write('name: $name, ')
           ..write('gender: $gender, ')
           ..write('birthday: $birthday, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('lastEventDate: $lastEventDate')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, gender, birthday, createdAt);
+  int get hashCode =>
+      Object.hash(id, name, gender, birthday, createdAt, lastEventDate);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -757,7 +803,8 @@ class Partner extends DataClass implements Insertable<Partner> {
           other.name == this.name &&
           other.gender == this.gender &&
           other.birthday == this.birthday &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.lastEventDate == this.lastEventDate);
 }
 
 class PartnersCompanion extends UpdateCompanion<Partner> {
@@ -766,12 +813,14 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   final Value<Gender> gender;
   final Value<DateTime?> birthday;
   final Value<DateTime> createdAt;
+  final Value<DateTime> lastEventDate;
   const PartnersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.gender = const Value.absent(),
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.lastEventDate = const Value.absent(),
   });
   PartnersCompanion.insert({
     this.id = const Value.absent(),
@@ -779,6 +828,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     required Gender gender,
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.lastEventDate = const Value.absent(),
   }) : name = Value(name),
        gender = Value(gender);
   static Insertable<Partner> custom({
@@ -787,6 +837,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Expression<int>? gender,
     Expression<DateTime>? birthday,
     Expression<DateTime>? createdAt,
+    Expression<DateTime>? lastEventDate,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -794,6 +845,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       if (gender != null) 'gender': gender,
       if (birthday != null) 'birthday': birthday,
       if (createdAt != null) 'created_at': createdAt,
+      if (lastEventDate != null) 'last_event_date': lastEventDate,
     });
   }
 
@@ -803,6 +855,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Value<Gender>? gender,
     Value<DateTime?>? birthday,
     Value<DateTime>? createdAt,
+    Value<DateTime>? lastEventDate,
   }) {
     return PartnersCompanion(
       id: id ?? this.id,
@@ -810,6 +863,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       gender: gender ?? this.gender,
       birthday: birthday ?? this.birthday,
       createdAt: createdAt ?? this.createdAt,
+      lastEventDate: lastEventDate ?? this.lastEventDate,
     );
   }
 
@@ -833,6 +887,9 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (lastEventDate.present) {
+      map['last_event_date'] = Variable<DateTime>(lastEventDate.value);
+    }
     return map;
   }
 
@@ -843,7 +900,8 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
           ..write('name: $name, ')
           ..write('gender: $gender, ')
           ..write('birthday: $birthday, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('lastEventDate: $lastEventDate')
           ..write(')'))
         .toString();
   }
@@ -888,23 +946,15 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
-  @override
-  late final GeneratedColumnWithTypeConverter<DayTime, String> daytime =
-      GeneratedColumn<String>(
-        'daytime',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-      ).withConverter<DayTime>($EventsTable.$converterdaytime);
   static const VerificationMeta _timeMeta = const VerificationMeta('time');
   @override
   late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
     'time',
     aliasedName,
-    true,
+    false,
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
+    defaultValue: Constant(DateTime(2006, 01, 01, 12, 0, 0)),
   );
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
@@ -932,7 +982,6 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
     id,
     typeId,
     date,
-    daytime,
     time,
     notes,
     createdAt,
@@ -1007,16 +1056,10 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}date'],
       )!,
-      daytime: $EventsTable.$converterdaytime.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}daytime'],
-        )!,
-      ),
       time: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}time'],
-      ),
+      )!,
       notes: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
@@ -1032,25 +1075,20 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
   $EventsTable createAlias(String alias) {
     return $EventsTable(attachedDatabase, alias);
   }
-
-  static JsonTypeConverter2<DayTime, String, String> $converterdaytime =
-      const EnumNameConverter<DayTime>(DayTime.values);
 }
 
 class Event extends DataClass implements Insertable<Event> {
   final int id;
   final int typeId;
   final DateTime date;
-  final DayTime daytime;
-  final DateTime? time;
+  final DateTime time;
   final String? notes;
   final DateTime createdAt;
   const Event({
     required this.id,
     required this.typeId,
     required this.date,
-    required this.daytime,
-    this.time,
+    required this.time,
     this.notes,
     required this.createdAt,
   });
@@ -1060,14 +1098,7 @@ class Event extends DataClass implements Insertable<Event> {
     map['id'] = Variable<int>(id);
     map['type_id'] = Variable<int>(typeId);
     map['date'] = Variable<DateTime>(date);
-    {
-      map['daytime'] = Variable<String>(
-        $EventsTable.$converterdaytime.toSql(daytime),
-      );
-    }
-    if (!nullToAbsent || time != null) {
-      map['time'] = Variable<DateTime>(time);
-    }
+    map['time'] = Variable<DateTime>(time);
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
     }
@@ -1080,8 +1111,7 @@ class Event extends DataClass implements Insertable<Event> {
       id: Value(id),
       typeId: Value(typeId),
       date: Value(date),
-      daytime: Value(daytime),
-      time: time == null && nullToAbsent ? const Value.absent() : Value(time),
+      time: Value(time),
       notes: notes == null && nullToAbsent
           ? const Value.absent()
           : Value(notes),
@@ -1098,10 +1128,7 @@ class Event extends DataClass implements Insertable<Event> {
       id: serializer.fromJson<int>(json['id']),
       typeId: serializer.fromJson<int>(json['typeId']),
       date: serializer.fromJson<DateTime>(json['date']),
-      daytime: $EventsTable.$converterdaytime.fromJson(
-        serializer.fromJson<String>(json['daytime']),
-      ),
-      time: serializer.fromJson<DateTime?>(json['time']),
+      time: serializer.fromJson<DateTime>(json['time']),
       notes: serializer.fromJson<String?>(json['notes']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -1113,10 +1140,7 @@ class Event extends DataClass implements Insertable<Event> {
       'id': serializer.toJson<int>(id),
       'typeId': serializer.toJson<int>(typeId),
       'date': serializer.toJson<DateTime>(date),
-      'daytime': serializer.toJson<String>(
-        $EventsTable.$converterdaytime.toJson(daytime),
-      ),
-      'time': serializer.toJson<DateTime?>(time),
+      'time': serializer.toJson<DateTime>(time),
       'notes': serializer.toJson<String?>(notes),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -1126,16 +1150,14 @@ class Event extends DataClass implements Insertable<Event> {
     int? id,
     int? typeId,
     DateTime? date,
-    DayTime? daytime,
-    Value<DateTime?> time = const Value.absent(),
+    DateTime? time,
     Value<String?> notes = const Value.absent(),
     DateTime? createdAt,
   }) => Event(
     id: id ?? this.id,
     typeId: typeId ?? this.typeId,
     date: date ?? this.date,
-    daytime: daytime ?? this.daytime,
-    time: time.present ? time.value : this.time,
+    time: time ?? this.time,
     notes: notes.present ? notes.value : this.notes,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -1144,7 +1166,6 @@ class Event extends DataClass implements Insertable<Event> {
       id: data.id.present ? data.id.value : this.id,
       typeId: data.typeId.present ? data.typeId.value : this.typeId,
       date: data.date.present ? data.date.value : this.date,
-      daytime: data.daytime.present ? data.daytime.value : this.daytime,
       time: data.time.present ? data.time.value : this.time,
       notes: data.notes.present ? data.notes.value : this.notes,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -1157,7 +1178,6 @@ class Event extends DataClass implements Insertable<Event> {
           ..write('id: $id, ')
           ..write('typeId: $typeId, ')
           ..write('date: $date, ')
-          ..write('daytime: $daytime, ')
           ..write('time: $time, ')
           ..write('notes: $notes, ')
           ..write('createdAt: $createdAt')
@@ -1166,8 +1186,7 @@ class Event extends DataClass implements Insertable<Event> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, typeId, date, daytime, time, notes, createdAt);
+  int get hashCode => Object.hash(id, typeId, date, time, notes, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1175,7 +1194,6 @@ class Event extends DataClass implements Insertable<Event> {
           other.id == this.id &&
           other.typeId == this.typeId &&
           other.date == this.date &&
-          other.daytime == this.daytime &&
           other.time == this.time &&
           other.notes == this.notes &&
           other.createdAt == this.createdAt);
@@ -1185,15 +1203,13 @@ class EventsCompanion extends UpdateCompanion<Event> {
   final Value<int> id;
   final Value<int> typeId;
   final Value<DateTime> date;
-  final Value<DayTime> daytime;
-  final Value<DateTime?> time;
+  final Value<DateTime> time;
   final Value<String?> notes;
   final Value<DateTime> createdAt;
   const EventsCompanion({
     this.id = const Value.absent(),
     this.typeId = const Value.absent(),
     this.date = const Value.absent(),
-    this.daytime = const Value.absent(),
     this.time = const Value.absent(),
     this.notes = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1202,18 +1218,15 @@ class EventsCompanion extends UpdateCompanion<Event> {
     this.id = const Value.absent(),
     required int typeId,
     required DateTime date,
-    required DayTime daytime,
     this.time = const Value.absent(),
     this.notes = const Value.absent(),
     this.createdAt = const Value.absent(),
   }) : typeId = Value(typeId),
-       date = Value(date),
-       daytime = Value(daytime);
+       date = Value(date);
   static Insertable<Event> custom({
     Expression<int>? id,
     Expression<int>? typeId,
     Expression<DateTime>? date,
-    Expression<String>? daytime,
     Expression<DateTime>? time,
     Expression<String>? notes,
     Expression<DateTime>? createdAt,
@@ -1222,7 +1235,6 @@ class EventsCompanion extends UpdateCompanion<Event> {
       if (id != null) 'id': id,
       if (typeId != null) 'type_id': typeId,
       if (date != null) 'date': date,
-      if (daytime != null) 'daytime': daytime,
       if (time != null) 'time': time,
       if (notes != null) 'notes': notes,
       if (createdAt != null) 'created_at': createdAt,
@@ -1233,8 +1245,7 @@ class EventsCompanion extends UpdateCompanion<Event> {
     Value<int>? id,
     Value<int>? typeId,
     Value<DateTime>? date,
-    Value<DayTime>? daytime,
-    Value<DateTime?>? time,
+    Value<DateTime>? time,
     Value<String?>? notes,
     Value<DateTime>? createdAt,
   }) {
@@ -1242,7 +1253,6 @@ class EventsCompanion extends UpdateCompanion<Event> {
       id: id ?? this.id,
       typeId: typeId ?? this.typeId,
       date: date ?? this.date,
-      daytime: daytime ?? this.daytime,
       time: time ?? this.time,
       notes: notes ?? this.notes,
       createdAt: createdAt ?? this.createdAt,
@@ -1260,11 +1270,6 @@ class EventsCompanion extends UpdateCompanion<Event> {
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
-    }
-    if (daytime.present) {
-      map['daytime'] = Variable<String>(
-        $EventsTable.$converterdaytime.toSql(daytime.value),
-      );
     }
     if (time.present) {
       map['time'] = Variable<DateTime>(time.value);
@@ -1284,7 +1289,6 @@ class EventsCompanion extends UpdateCompanion<Event> {
           ..write('id: $id, ')
           ..write('typeId: $typeId, ')
           ..write('date: $date, ')
-          ..write('daytime: $daytime, ')
           ..write('time: $time, ')
           ..write('notes: $notes, ')
           ..write('createdAt: $createdAt')
@@ -3576,6 +3580,7 @@ typedef $$PartnersTableCreateCompanionBuilder =
       required Gender gender,
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
+      Value<DateTime> lastEventDate,
     });
 typedef $$PartnersTableUpdateCompanionBuilder =
     PartnersCompanion Function({
@@ -3584,6 +3589,7 @@ typedef $$PartnersTableUpdateCompanionBuilder =
       Value<Gender> gender,
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
+      Value<DateTime> lastEventDate,
     });
 
 final class $$PartnersTableReferences
@@ -3647,6 +3653,11 @@ class $$PartnersTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<DateTime> get lastEventDate => $composableBuilder(
+    column: $table.lastEventDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> eventsPartnersRefs(
     Expression<bool> Function($$EventsPartnersTableFilterComposer f) f,
   ) {
@@ -3706,6 +3717,11 @@ class $$PartnersTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<DateTime> get lastEventDate => $composableBuilder(
+    column: $table.lastEventDate,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PartnersTableAnnotationComposer
@@ -3731,6 +3747,11 @@ class $$PartnersTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastEventDate => $composableBuilder(
+    column: $table.lastEventDate,
+    builder: (column) => column,
+  );
 
   Expression<T> eventsPartnersRefs<T extends Object>(
     Expression<T> Function($$EventsPartnersTableAnnotationComposer a) f,
@@ -3791,12 +3812,14 @@ class $$PartnersTableTableManager
                 Value<Gender> gender = const Value.absent(),
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> lastEventDate = const Value.absent(),
               }) => PartnersCompanion(
                 id: id,
                 name: name,
                 gender: gender,
                 birthday: birthday,
                 createdAt: createdAt,
+                lastEventDate: lastEventDate,
               ),
           createCompanionCallback:
               ({
@@ -3805,12 +3828,14 @@ class $$PartnersTableTableManager
                 required Gender gender,
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> lastEventDate = const Value.absent(),
               }) => PartnersCompanion.insert(
                 id: id,
                 name: name,
                 gender: gender,
                 birthday: birthday,
                 createdAt: createdAt,
+                lastEventDate: lastEventDate,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -3874,8 +3899,7 @@ typedef $$EventsTableCreateCompanionBuilder =
       Value<int> id,
       required int typeId,
       required DateTime date,
-      required DayTime daytime,
-      Value<DateTime?> time,
+      Value<DateTime> time,
       Value<String?> notes,
       Value<DateTime> createdAt,
     });
@@ -3884,8 +3908,7 @@ typedef $$EventsTableUpdateCompanionBuilder =
       Value<int> id,
       Value<int> typeId,
       Value<DateTime> date,
-      Value<DayTime> daytime,
-      Value<DateTime?> time,
+      Value<DateTime> time,
       Value<String?> notes,
       Value<DateTime> createdAt,
     });
@@ -3984,12 +4007,6 @@ class $$EventsTableFilterComposer
     column: $table.date,
     builder: (column) => ColumnFilters(column),
   );
-
-  ColumnWithTypeConverterFilters<DayTime, DayTime, String> get daytime =>
-      $composableBuilder(
-        column: $table.daytime,
-        builder: (column) => ColumnWithTypeConverterFilters(column),
-      );
 
   ColumnFilters<DateTime> get time => $composableBuilder(
     column: $table.time,
@@ -4124,11 +4141,6 @@ class $$EventsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get daytime => $composableBuilder(
-    column: $table.daytime,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<DateTime> get time => $composableBuilder(
     column: $table.time,
     builder: (column) => ColumnOrderings(column),
@@ -4182,9 +4194,6 @@ class $$EventsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get date =>
       $composableBuilder(column: $table.date, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<DayTime, String> get daytime =>
-      $composableBuilder(column: $table.daytime, builder: (column) => column);
 
   GeneratedColumn<DateTime> get time =>
       $composableBuilder(column: $table.time, builder: (column) => column);
@@ -4330,15 +4339,13 @@ class $$EventsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<int> typeId = const Value.absent(),
                 Value<DateTime> date = const Value.absent(),
-                Value<DayTime> daytime = const Value.absent(),
-                Value<DateTime?> time = const Value.absent(),
+                Value<DateTime> time = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => EventsCompanion(
                 id: id,
                 typeId: typeId,
                 date: date,
-                daytime: daytime,
                 time: time,
                 notes: notes,
                 createdAt: createdAt,
@@ -4348,15 +4355,13 @@ class $$EventsTableTableManager
                 Value<int> id = const Value.absent(),
                 required int typeId,
                 required DateTime date,
-                required DayTime daytime,
-                Value<DateTime?> time = const Value.absent(),
+                Value<DateTime> time = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => EventsCompanion.insert(
                 id: id,
                 typeId: typeId,
                 date: date,
-                daytime: daytime,
                 time: time,
                 notes: notes,
                 createdAt: createdAt,

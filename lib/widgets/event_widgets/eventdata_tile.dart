@@ -37,7 +37,7 @@ class EventDataTile extends StatelessWidget {
       case "sex":
         return Column(
           children: [
-            DataColumn(event: event),
+            _DataColumn(event: event),
             Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Divider()
@@ -48,7 +48,7 @@ class EventDataTile extends StatelessWidget {
       case "masturbation":
         return Column(
           children: [
-            DataColumn(event: event),
+            _DataColumn(event: event),
             _PornTile(event: event)
           ]);
       case "medical":
@@ -60,136 +60,8 @@ class EventDataTile extends StatelessWidget {
 }
 
 
-
-class _MedicalData extends StatelessWidget{
-  const _MedicalData({
-    required this.event,
-  });
-
-  final TestEvent event;
-  
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Icon(Icons.medical_services, color: AppColors.eventData.icon(context),),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Text(
-            "Type:",
-            style: TextStyle(
-                color: AppColors.eventData.title(context),
-                fontWeight: FontWeight.bold,
-                fontSize: 16
-            ),
-          ),
-        ),
-        Wrap(
-          children: [
-            FutureBuilder<Widget>(
-              future: getCategoryListText(database, context),
-              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading...", style: TextStyle(color: AppColors.eventData.text(context)),);
-                } else if (snapshot.hasError) {
-                  return Text("Error loading data", style: TextStyle(color: AppColors.eventData.text(context)),);
-                } else if (snapshot.hasData) {
-                  return snapshot.data!;
-                } else {
-                  return Text("No data", style: TextStyle(color: AppColors.eventData.text(context)),);
-                }
-              },
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  Future<Widget> getCategoryListText(AppDatabase db, context) async {
-    final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
-    String categoryString;
-    if (categoryNames!.isNotEmpty) {
-      categoryString = categoryNames.join(", ");
-    } else {
-      categoryString = "Unknown";
-    }
-    return Text(categoryString, style: TextStyle(color: AppColors.eventData.text(context)),);
-  }
-}
-
-
-class _PornTile extends StatelessWidget{
-  const _PornTile({
-    required this.event,
-  });
-
-  final TestEvent event;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        children: [
-          Icon(Icons.play_circle, color: AppColors.eventData.icon(context),),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: Text(
-              "Porn:",
-              style: TextStyle(
-                  color: AppColors.eventData.title(context),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16
-              ),
-            ),
-          ),
-          FutureBuilder<String>(
-            future: _checkOption(database, context),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading...",
-                  style: TextStyle(
-                    color: AppColors.eventData.text(context),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text("Error loading data",
-                  style: TextStyle(
-                    color: AppColors.eventData.text(context),
-                  ),
-                );
-              } else {
-                return Text(snapshot.data ?? "No data",
-                  style: TextStyle(
-                    color: AppColors.eventData.text(context),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<String> _checkOption(AppDatabase db, context) async {
-    int optionId = await db.getOptionIdBySlug("porn");
-    bool check = await db.checkOptionEvent(event.event.id, optionId);
-
-    if (check){
-      return "Did watch";
-    } else {
-      return "Did not watch";
-    }
-  }
-}
-
-
-class DataColumn extends StatelessWidget {
-  const DataColumn({
-    super.key,
+class _DataColumn extends StatelessWidget {
+  const _DataColumn({
     required this.event,
   });
 
@@ -365,6 +237,7 @@ class DataColumn extends StatelessWidget {
 }
 
 
+
 class _PartnersColumn extends StatelessWidget {
   const _PartnersColumn({
     required this.event,
@@ -483,5 +356,131 @@ class _PartnersColumn extends StatelessWidget {
       orgasmsString = "orgasms";
     }
     return "$amountString $orgasmsString";
+  }
+}
+
+
+class _PornTile extends StatelessWidget{
+  const _PornTile({
+    required this.event,
+  });
+
+  final TestEvent event;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Icon(Icons.play_circle, color: AppColors.eventData.icon(context),),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              "Porn:",
+              style: TextStyle(
+                  color: AppColors.eventData.title(context),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+              ),
+            ),
+          ),
+          FutureBuilder<String>(
+            future: _checkOption(database, context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading...",
+                  style: TextStyle(
+                    color: AppColors.eventData.text(context),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("Error loading data",
+                  style: TextStyle(
+                    color: AppColors.eventData.text(context),
+                  ),
+                );
+              } else {
+                return Text(snapshot.data ?? "No data",
+                  style: TextStyle(
+                    color: AppColors.eventData.text(context),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String> _checkOption(AppDatabase db, context) async {
+    int optionId = await db.getOptionIdBySlug("porn");
+    bool check = await db.checkOptionEvent(event.event.id, optionId);
+
+    if (check){
+      return "Did watch";
+    } else {
+      return "Did not watch";
+    }
+  }
+}
+
+
+class _MedicalData extends StatelessWidget{
+  const _MedicalData({
+    required this.event,
+  });
+
+  final TestEvent event;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(Icons.medical_services, color: AppColors.eventData.icon(context),),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Text(
+            "Type:",
+            style: TextStyle(
+                color: AppColors.eventData.title(context),
+                fontWeight: FontWeight.bold,
+                fontSize: 16
+            ),
+          ),
+        ),
+        Wrap(
+          children: [
+            FutureBuilder<Widget>(
+              future: getCategoryListText(database, context),
+              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading...", style: TextStyle(color: AppColors.eventData.text(context)),);
+                } else if (snapshot.hasError) {
+                  return Text("Error loading data", style: TextStyle(color: AppColors.eventData.text(context)),);
+                } else if (snapshot.hasData) {
+                  return snapshot.data!;
+                } else {
+                  return Text("No data", style: TextStyle(color: AppColors.eventData.text(context)),);
+                }
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Future<Widget> getCategoryListText(AppDatabase db, context) async {
+    final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
+    String categoryString;
+    if (categoryNames!.isNotEmpty) {
+      categoryString = categoryNames.join(", ");
+    } else {
+      categoryString = "Unknown";
+    }
+    return Text(categoryString, style: TextStyle(color: AppColors.eventData.text(context)),);
   }
 }

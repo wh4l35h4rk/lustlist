@@ -45,18 +45,20 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
   final sonoOptionId = await db.getOptionIdBySlug("ultrasonography");
   final molluscumOptionId = await db.getOptionIdBySlug("molluscum contagiosum");
 
-  final partnerId1 = await db.into(db.partners).insert(
-    PartnersCompanion.insert(name: "Wowa", gender: Gender.male)
-  );
   final partnerId2 = await db.into(db.partners).insert(
       PartnersCompanion.insert(name: "Sonya", gender: Gender.female)
+  );
+
+  final partnerId1 = await db.into(db.partners).insert(
+    PartnersCompanion.insert(name: "Wowa", gender: Gender.male,
+        lastEventDate: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20))
+    )
   );
 
   final event1Id = await db.into(db.events).insert(
       EventsCompanion.insert(
         typeId: sexTypeId,
         date: DateTime.now(),
-        daytime: DayTime.day,
         time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20)),
         notes: Value("The following is a partial list of minor planets, running from minor-planet number 571001 through 572000, inclusive. The primary data for this and other partial lists is based on JPL's Small-Body Orbital Elements and data available from the Minor Planet Center. Critical list information is also provided by the MPC, unless otherwise specified from Lowell Observatory. A detailed description of the table's columns and additional sources are given on the main page including a complete list of every page in this series, and a statistical break-up on the dynamical classification of minor planets."),
       )
@@ -65,21 +67,20 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
       EventsCompanion.insert(
         typeId: mstbTypeId,
         date: DateTime.now(),
-        daytime: DayTime.morning,
+        time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 8, 10))
       )
   );
   final event3Id = await db.into(db.events).insert(
       EventsCompanion.insert(
         typeId: medTypeId,
         date: DateTime.now(),
-        daytime: DayTime.day,
+        time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 1)),
       )
   );
   final event4Id = await db.into(db.events).insert(
       EventsCompanion.insert(
         typeId: sexTypeId,
         date: DateTime.now(),
-        daytime: DayTime.morning,
         time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 31)),
       )
   );
@@ -87,7 +88,6 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
       EventsCompanion.insert(
         typeId: medTypeId,
         date: DateTime.now(),
-        daytime: DayTime.evening,
         time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 19, 31)),
       )
   );

@@ -23,7 +23,6 @@ class TestEvent {
   int getTypeId() => event.typeId;
   String getTypeSlug() => type.slug;
   DateTime getDate() => event.date;
-  DayTime? getDayTime() => event.daytime;
   DateTime? getTime() => event.time;
   DateTime? getDuration() => data?.duration;
 

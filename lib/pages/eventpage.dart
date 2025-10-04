@@ -44,16 +44,9 @@ class EventPage extends StatelessWidget {
   String _getTitle() {
     final date = event.event.date;
     final time = event.event.time;
-    final daytime = event.event.daytime;
 
     final dateFormatted = DateFormat.yMMMMd().format(date);
-
-    final String timeFormatted;
-    if (time != null){
-      timeFormatted = DateFormat.Hm().format(time);
-    } else {
-      timeFormatted = daytime.label;
-    }
+    final timeFormatted = DateFormat.Hm().format(time);
 
     return "$dateFormatted, $timeFormatted";
   }

@@ -32,7 +32,7 @@ class EventListTile extends StatelessWidget {
 
   Future<String> _getSubtitle(AppDatabase db) async {
     final type = event.getTypeSlug();
-    String time = event.event.time != null ? DateFormat("HH:mm").format(event.event.time!) : event.event.daytime.label;
+    String time = DateFormat("HH:mm").format(event.event.time);
 
     if ((type == "sex" || type == "masturbation") && event.data != null) {
       if (event.data!.duration != null) {

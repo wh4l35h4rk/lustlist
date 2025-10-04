@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
+import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import '../../widgets/add_widgets/sex_event_header.dart';
@@ -31,7 +32,8 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
           ),
         ),
         body: ListView(children: [
-          AddSexEventData()
+          AddSexEventData(),
+          SelectPartnersTile()
         ],),
         bottomNavigationBar: MainBottomNavigationBar()
     );

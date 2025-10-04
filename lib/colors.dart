@@ -32,6 +32,9 @@ class AppColors {
 class AddEventColors {
   Color surface(BuildContext context) => categoryTile.surface(context);
 
+  Color selectedSurface(BuildContext context) =>
+      Theme.of(context).colorScheme.secondaryContainer;
+
   Color text(BuildContext context) => categoryTile.text(context);
 
   Color title(BuildContext context) =>
@@ -46,7 +49,11 @@ class AddEventColors {
       Theme.of(context).colorScheme.secondaryContainer;
 
   Color border(BuildContext context) =>
-      Theme.of(context).colorScheme.primary;
+      colorBlend(
+          selectedSurface(context),
+          Theme.of(context).colorScheme.secondary,
+          0.5
+      )!;
 
   static CategoryTileColors categoryTile = CategoryTileColors();
 }
