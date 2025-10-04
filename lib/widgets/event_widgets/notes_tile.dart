@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/test_event.dart';
 import 'package:lustlist/example_utils.dart';
 
+import '../../colors.dart';
+
 class NotesTile extends StatelessWidget {
   const NotesTile({
     super.key,
@@ -29,7 +31,7 @@ class NotesTile extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: AppColors.categoryTile.surface(context),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12.0),
               topRight: Radius.circular(12.0),
@@ -45,14 +47,14 @@ class NotesTile extends StatelessWidget {
                     "Notes:",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: AppColors.categoryTile.title(context),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     Icons.notes,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: AppColors.categoryTile.leadingIcon(context)
                   ),
                 ],
               ),
@@ -70,8 +72,8 @@ class NotesTile extends StatelessWidget {
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: colorBlend(
-              Theme.of(context).colorScheme.secondaryContainer,
-              Theme.of(context).colorScheme.surface,
+              AppColors.categoryTile.surface(context),
+              AppColors.surface(context),
               0.5
             ),
             borderRadius: BorderRadius.only(

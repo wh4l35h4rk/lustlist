@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
@@ -29,7 +30,7 @@ class CategoryTile extends StatelessWidget {
       width: double.infinity,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
+        color: AppColors.categoryTile.surface(context),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
@@ -44,7 +45,7 @@ class CategoryTile extends StatelessWidget {
                 title,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: AppColors.categoryTile.title(context),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -52,7 +53,7 @@ class CategoryTile extends StatelessWidget {
               Icon(
                 iconData,
                 size: iconSize,
-                color: Theme.of(context).colorScheme.secondary,
+                color: AppColors.categoryTile.leadingIcon(context),
               ),
             ],
           ),
@@ -91,7 +92,7 @@ class CategoryTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Theme.of(context).colorScheme.secondaryFixedDim,
+                color: AppColors.categoryTile.border(context),
               ),
               borderRadius: BorderRadius.circular(20),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/example_utils.dart';
 
 
@@ -18,13 +19,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: AppColors.appBar.surface(context),
       title: editButton == null ?
         Text(
           title,
           style: TextStyle(
             fontSize: title != appTitle ? 20 : 25,
-            color: Theme.of(context).colorScheme.surface
+            color: AppColors.appBar.title(context),
           ),
         ) :
         Row(children: [
@@ -33,7 +34,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
             title,
             style: TextStyle(
                 fontSize: title != appTitle ? 20 : 25,
-                color: Theme.of(context).colorScheme.surface
+                color: AppColors.appBar.text(context),
             ),
           ),
           Spacer(),

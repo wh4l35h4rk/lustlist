@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/db/events.dart';
 import 'package:lustlist/main.dart';
@@ -90,10 +91,10 @@ class EventListTile extends StatelessWidget {
         case 5:
           return Colors.green;
         default:
-          return Theme.of(context).colorScheme.outline;
+          return AppColors.defaultTile(context);
       }
     } else {
-      return Theme.of(context).colorScheme.outline;
+      return AppColors.defaultTile(context);
     }
   }
 

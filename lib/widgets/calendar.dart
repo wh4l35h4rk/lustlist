@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lustlist/colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/example_utils.dart';
@@ -56,7 +57,7 @@ class _CalendarState extends State<Calendar> {
           title: Center(
               child: Text(
                 "Select a month",
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                style: TextStyle(color: AppColors.calendar.title(context)),
               )),
           content: SizedBox(
             height: 100,
@@ -143,8 +144,8 @@ class _CalendarState extends State<Calendar> {
                                 iconDataMap[events[index].getTypeId()],
                                 size: 12,
                                 color: (day.month == _focusedDay.value.month) ?
-                                  Theme.of(context).colorScheme.secondary :
-                                  Colors.black26
+                                  AppColors.calendar.eventIcon(context) :
+                                  AppColors.calendar.eventOtherMonthIcon(context)
                               ),
                             )
                         ),
@@ -156,11 +157,11 @@ class _CalendarState extends State<Calendar> {
                 calendarStyle: CalendarStyle(
                   selectedDecoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: AppColors.calendar.selectedEvent(context),
                   ),
                   todayDecoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.primaryFixed,
+                    color: AppColors.calendar.todayEvent(context),
                   ),
                 ),
                 pageJumpingEnabled: true,
@@ -178,7 +179,7 @@ class _CalendarState extends State<Calendar> {
               ),
 
               const SizedBox(height: 15.0),
-              (_selectedEvents.value.isNotEmpty) ? 
+              (_selectedEvents.value.isNotEmpty) ?
                 Expanded(
                   child: ValueListenableBuilder<List<TestEvent>>(
                     valueListenable: _selectedEvents,
@@ -193,7 +194,7 @@ class _CalendarState extends State<Calendar> {
                               ),
                               decoration: BoxDecoration(
                                 border: Border.symmetric(
-                                    horizontal: BorderSide(color: Theme.of(context).colorScheme.primary)
+                                    horizontal: BorderSide(color: AppColors.calendar.border(context))
                                 ),
                               ),
                               child: EventListTile(event: value[index],)
@@ -209,7 +210,7 @@ class _CalendarState extends State<Calendar> {
                     Text(
                       "There are no events this day!",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.outline,
+                        color: AppColors.defaultTile(context),
                         fontSize: 16
                       ),
                     ),
@@ -252,7 +253,7 @@ class _CalendarHeader extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.chevron_left),
             onPressed: onLeftArrowTap,
-            color: Theme.of(context).colorScheme.primary,
+            color: AppColors.calendar.navigationIcon(context),
           ),
           SizedBox(
             width: 130.0,
@@ -274,7 +275,7 @@ class _CalendarHeader extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.chevron_right),
             onPressed: onRightArrowTap,
-            color: Theme.of(context).colorScheme.primary,
+            color: AppColors.calendar.navigationIcon(context),
           ),
         ],
       ),

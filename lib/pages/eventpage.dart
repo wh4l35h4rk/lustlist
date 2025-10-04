@@ -4,6 +4,7 @@ import 'package:lustlist/db/events.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/test_event.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/event_widgets/med_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
@@ -25,14 +26,14 @@ class EventPage extends StatelessWidget {
         backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back_ios),
-            color: Theme.of(context).colorScheme.surface,
+            color: AppColors.appBar.icon(context),
         ),
         editButton: IconButton(
           onPressed: () {
             //TODO: edit event page
           },
           icon: Icon(Icons.edit),
-          color: Theme.of(context).colorScheme.surface,
+          color: AppColors.appBar.icon(context),
         ),
       ),
       body: _getEventTypeWidget(event),

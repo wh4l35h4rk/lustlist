@@ -337,10 +337,6 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 }
 
 
-Color? colorBlend(Color color1, color2, double amount) {
-  return Color.lerp(color1, color2, amount)!;
-}
-
 
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);

@@ -3,6 +3,7 @@ import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/db/events_options.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
+import '../../colors.dart';
 import '../../database.dart';
 import '../../example_utils.dart';
 
@@ -22,7 +23,7 @@ class StiTile extends StatelessWidget{
       width: double.infinity,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
+        color: AppColors.categoryTile.surface(context),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
@@ -37,14 +38,14 @@ class StiTile extends StatelessWidget{
                 "STI:",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: AppColors.categoryTile.title(context),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Icon(
                 CustomIcons.viruses,
-                color: Theme.of(context).colorScheme.secondary,
+                color: AppColors.categoryTile.leadingIcon(context),
               ),
             ],
           ),
@@ -53,11 +54,11 @@ class StiTile extends StatelessWidget{
             future: _getOptions(database, context, "sti"),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text("Loading...");
+                return Text("Loading...", style: TextStyle(color: AppColors.categoryTile.text(context)),);
               } else if (snapshot.hasError) {
-                return const Text("Error loading data");
+                return Text("Error loading data", style: TextStyle(color: AppColors.categoryTile.text(context)),);
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text("Not stated", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),);
+                return Text("Not stated", style: TextStyle(color: AppColors.categoryTile.text(context)),);
               } else {
                 final options = snapshot.data!;
                 return IntrinsicHeight(
@@ -74,17 +75,13 @@ class StiTile extends StatelessWidget{
                                 padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: colorBlend(
-                                        Theme.of(context).colorScheme.onPrimaryContainer,
-                                        Theme.of(context).colorScheme.primaryContainer,
-                                        0.8
-                                    )!,
+                                    color: AppColors.categoryTile.border(context),
                                   ),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
                                   option.name,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                                  style: TextStyle(color: AppColors.categoryTile.text(context)),
                                 ),
                               ),
                             ),
@@ -103,12 +100,16 @@ class StiTile extends StatelessWidget{
                                   if (snapshot.connectionState == ConnectionState.waiting) {
                                     return Row(
                                       children: [
-                                        Icon(Icons.question_mark, size: 15),
+                                        Icon(
+                                          Icons.question_mark,
+                                          size: 15,
+                                          color: AppColors.categoryTile.icon(context),
+                                        ),
                                         const SizedBox(width: 5),
                                         Text(
                                           "Loading...",
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                            color: AppColors.categoryTile.text(context),
                                           ),
                                         ),
                                       ],
@@ -117,12 +118,12 @@ class StiTile extends StatelessWidget{
                                   else if (!snapshot.hasData) {
                                     return Row(
                                       children: [
-                                        Icon(Icons.question_mark, size: 15,),
+                                        Icon(Icons.question_mark, size: 15, color: AppColors.categoryTile.icon(context),),
                                         const SizedBox(width: 5),
                                         Text(
                                           "No data",
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                            color: AppColors.categoryTile.text(context),
                                           ),
                                         ),
                                       ],
@@ -135,7 +136,7 @@ class StiTile extends StatelessWidget{
                                         Text(
                                           "No data",
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                            color: AppColors.categoryTile.text(context),
                                           ),
                                         ),
                                       ],
@@ -162,7 +163,7 @@ class StiTile extends StatelessWidget{
                                       Text(
                                         label,
                                         style: TextStyle(
-                                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                          color: AppColors.categoryTile.text(context),
                                         ),
                                       ),
                                     ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../colors.dart';
+
 
 
 class TimePicker extends StatefulWidget {
@@ -26,7 +28,7 @@ class _TimePickerState extends State<TimePicker> {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: Theme.of(context).colorScheme.surfaceContainer,
+        color: AppColors.addEvent.pickerSurface(context),
         child: SafeArea(top: false, child: child),
       ),
     );
@@ -83,7 +85,7 @@ class _TimePickerState extends State<TimePicker> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: Theme.of(context).colorScheme.primary)
+              bottom: BorderSide(color: AppColors.addEvent.border(context))
           )
       ),
       child: SizedBox(

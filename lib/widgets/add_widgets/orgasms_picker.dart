@@ -1,22 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lustlist/colors.dart';
 
 const double _kItemExtent = 32.0;
 List<int> _orgasmAmount = List.generate(12, (index) => index);
-
-void main() => runApp(const CupertinoPickerApp());
-
-class CupertinoPickerApp extends StatelessWidget {
-  const CupertinoPickerApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const CupertinoApp(
-      theme: CupertinoThemeData(brightness: Brightness.light),
-      home: OrgasmsAmountPicker(),
-    );
-  }
-}
 
 class OrgasmsAmountPicker extends StatefulWidget {
   const OrgasmsAmountPicker({super.key});
@@ -35,7 +22,7 @@ class _OrgasmsAmountPickerState extends State<OrgasmsAmountPicker> {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: Theme.of(context).colorScheme.surfaceContainer,
+        color: AppColors.addEvent.pickerSurface(context),
         child: SafeArea(top: false, child: child),
       ),
     );
@@ -57,7 +44,7 @@ class _OrgasmsAmountPickerState extends State<OrgasmsAmountPicker> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: Theme.of(context).colorScheme.primary)
+              bottom: BorderSide(color: AppColors.addEvent.border(context))
           )
       ),
       child: SizedBox(

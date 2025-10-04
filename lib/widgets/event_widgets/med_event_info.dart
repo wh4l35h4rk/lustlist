@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/test_event.dart';
@@ -27,19 +28,17 @@ class MedEventInfo extends StatelessWidget {
             future: getCategoryList(database, event.event),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading...", style: TextStyle(color: Theme
-                    .of(context)
-                    .colorScheme
-                    .onSurface),);
+                return Text(
+                  "Loading...",
+                  style: TextStyle(color: AppColors.categoryTile.text(context)));
               } else if (snapshot.hasError) {
-                return Text("Error loading data", style: TextStyle(color: Theme
-                    .of(context)
-                    .colorScheme
-                    .onSurface),);
+                return Text(
+                    "Error loading data",
+                    style: TextStyle(color: AppColors.categoryTile.text(context)));
               } else if (!snapshot.hasData) {
                 return Text(
                   "No data",
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  style: TextStyle(color: AppColors.categoryTile.text(context)),
                 );
               }
 
@@ -70,7 +69,7 @@ class MedEventInfo extends StatelessWidget {
               } else {
                 return Text(
                   "No data",
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  style: TextStyle(color: AppColors.text(context),)
                 );
               }
             }

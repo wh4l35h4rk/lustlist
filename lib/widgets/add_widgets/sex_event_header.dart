@@ -5,6 +5,7 @@ import 'package:lustlist/test_event.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/widgets/add_widgets/orgasms_picker.dart';
 import 'package:lustlist/widgets/add_widgets/time_picker.dart';
+import '../../colors.dart';
 import '../../db/partners.dart';
 
 class AddSexEventData extends StatelessWidget {
@@ -21,7 +22,7 @@ class AddSexEventData extends StatelessWidget {
       width: double.infinity,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: AppColors.addEvent.surface(context),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
@@ -70,19 +71,19 @@ class _DataColumnState extends State<DataColumn> {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.access_time, color: Theme.of(context).colorScheme.onPrimaryContainer,),
+                    Icon(Icons.access_time, color: AppColors.addEvent.icon(context)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "Time:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            color: AppColors.addEvent.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
                       ),
                     ),
-                    TimePicker(type: 0,)
+                    TimePicker(type: 0)
                   ],
                 ),
               ),
@@ -90,13 +91,13 @@ class _DataColumnState extends State<DataColumn> {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.star, color: Theme.of(context).colorScheme.onPrimaryContainer,),
+                    Icon(Icons.star, color: AppColors.addEvent.icon(context)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "Rating:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            color: AppColors.addEvent.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
@@ -110,13 +111,13 @@ class _DataColumnState extends State<DataColumn> {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.timelapse, color: Theme.of(context).colorScheme.onPrimaryContainer,),
+                    Icon(Icons.timelapse, color: AppColors.addEvent.icon(context)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "Duration:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            color: AppColors.addEvent.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
@@ -130,13 +131,13 @@ class _DataColumnState extends State<DataColumn> {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.auto_awesome, color: Theme.of(context).colorScheme.onPrimaryContainer,),
+                    Icon(Icons.auto_awesome, color: AppColors.addEvent.icon(context)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "My orgasms:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            color: AppColors.addEvent.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
@@ -154,7 +155,7 @@ class _DataColumnState extends State<DataColumn> {
             children: [
               Icon(
                 Icons.favorite,
-                color: Theme.of(context).colorScheme.primary,
+                color: AppColors.addEvent.leadingIcon(context),
               ),
             ],
           ),
@@ -184,7 +185,7 @@ class _DataColumnState extends State<DataColumn> {
               icon: Icon(
                 index <= rating ? Icons.star : Icons.star_border,
                 size: 16,
-                color: Theme.of(context).colorScheme.primary,
+                color: AppColors.addEvent.leadingIcon(context),
               ),
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(),

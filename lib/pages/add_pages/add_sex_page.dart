@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import '../../widgets/add_widgets/sex_event_header.dart';
@@ -19,14 +20,14 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
           backButton: IconButton(
             onPressed: () => _showPopUp(context),
             icon: Icon(Icons.arrow_back_ios),
-            color: Theme.of(context).colorScheme.surface,
+            color: AppColors.surface(context)
           ),
           editButton: IconButton(
             onPressed: () {
               //TODO: save event
             },
             icon: Icon(Icons.check),
-            color: Theme.of(context).colorScheme.surface,
+            color: AppColors.surface(context)
           ),
         ),
         body: ListView(children: [

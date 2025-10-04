@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/colors.dart';
 import 'package:lustlist/test_event.dart';
 import 'package:lustlist/custom_icons.dart';
 import '../../db/partners.dart';
@@ -21,7 +22,7 @@ class EventDataTile extends StatelessWidget {
       width: double.infinity,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: AppColors.eventData.surface(context),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
@@ -72,13 +73,13 @@ class _MedicalData extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.medical_services, color: Theme.of(context).colorScheme.primaryFixed,),
+        Icon(Icons.medical_services, color: AppColors.eventData.icon(context),),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: Text(
             "Type:",
             style: TextStyle(
-                color: Theme.of(context).colorScheme.primaryFixed,
+                color: AppColors.eventData.title(context),
                 fontWeight: FontWeight.bold,
                 fontSize: 16
             ),
@@ -90,13 +91,13 @@ class _MedicalData extends StatelessWidget{
               future: getCategoryListText(database, context),
               builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading...", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+                  return Text("Loading...", style: TextStyle(color: AppColors.eventData.text(context)),);
                 } else if (snapshot.hasError) {
-                  return Text("Error loading data", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+                  return Text("Error loading data", style: TextStyle(color: AppColors.eventData.text(context)),);
                 } else if (snapshot.hasData) {
                   return snapshot.data!;
                 } else {
-                  return Text("No data", style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+                  return Text("No data", style: TextStyle(color: AppColors.eventData.text(context)),);
                 }
               },
             ),
@@ -114,7 +115,7 @@ class _MedicalData extends StatelessWidget{
     } else {
       categoryString = "Unknown";
     }
-    return Text(categoryString, style: TextStyle(color: Theme.of(context).colorScheme.surface),);
+    return Text(categoryString, style: TextStyle(color: AppColors.eventData.text(context)),);
   }
 }
 
@@ -132,13 +133,13 @@ class _PornTile extends StatelessWidget{
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Row(
         children: [
-          Icon(Icons.play_circle, color: Theme.of(context).colorScheme.primaryFixed,),
+          Icon(Icons.play_circle, color: AppColors.eventData.icon(context),),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Text(
               "Porn:",
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.primaryFixed,
+                  color: AppColors.eventData.title(context),
                   fontWeight: FontWeight.bold,
                   fontSize: 16
               ),
@@ -150,19 +151,19 @@ class _PornTile extends StatelessWidget{
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text("Loading...",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: AppColors.eventData.text(context),
                   ),
                 );
               } else if (snapshot.hasError) {
                 return Text("Error loading data",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: AppColors.eventData.text(context),
                   ),
                 );
               } else {
                 return Text(snapshot.data ?? "No data",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: AppColors.eventData.text(context),
                   ),
                 );
               }
@@ -206,13 +207,13 @@ class DataColumn extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.star, color: Theme.of(context).colorScheme.primaryFixed,),
+                    Icon(Icons.star, color: AppColors.eventData.icon(context),),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "Rating:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.primaryFixed,
+                            color: AppColors.eventData.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
@@ -226,13 +227,13 @@ class DataColumn extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.timelapse, color: Theme.of(context).colorScheme.primaryFixed,),
+                    Icon(Icons.timelapse, color: AppColors.eventData.icon(context),),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "Duration:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.primaryFixed,
+                            color: AppColors.eventData.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
@@ -241,7 +242,7 @@ class DataColumn extends StatelessWidget {
                     Text(
                         _getDurationString(event),
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: AppColors.eventData.text(context),
                         )
                     )
                   ],
@@ -251,13 +252,13 @@ class DataColumn extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(
                   children: [
-                    Icon(Icons.auto_awesome, color: Theme.of(context).colorScheme.primaryFixed,),
+                    Icon(Icons.auto_awesome, color: AppColors.eventData.icon(context),),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         "My orgasms:",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.primaryFixed,
+                            color: AppColors.eventData.title(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 16
                         ),
@@ -266,7 +267,7 @@ class DataColumn extends StatelessWidget {
                     Text(
                         _getOrgasmsText(event),
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: AppColors.eventData.text(context),
                         )
                     )
                   ],
@@ -280,7 +281,7 @@ class DataColumn extends StatelessWidget {
             children: [
               Icon(
                 iconDataMap[event.getTypeId()],
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: AppColors.eventData.leadingIcon(context),
               ),
             ],
           ),
@@ -344,7 +345,7 @@ class DataColumn extends StatelessWidget {
                 Icon(
                     Icons.star,
                     size: 16,
-                    color: Theme.of(context).colorScheme.surface
+                    color: AppColors.eventData.text(context)
                 )
             ]
         ),
@@ -354,7 +355,7 @@ class DataColumn extends StatelessWidget {
               Icon(
                   Icons.star_border,
                   size: 16,
-                  color: Theme.of(context).colorScheme.surface
+                  color: AppColors.eventData.text(context)
               )
           ],
         ),
@@ -381,7 +382,7 @@ class _PartnersColumn extends StatelessWidget {
               _getPartnersTitle(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primaryFixed,
+                color: AppColors.eventData.title(context),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -389,7 +390,7 @@ class _PartnersColumn extends StatelessWidget {
             Spacer(),
             Icon(
               Icons.person,
-              color: Theme.of(context).colorScheme.inversePrimary,
+              color: AppColors.eventData.leadingIcon(context),
             ),
           ],
         ),
@@ -407,7 +408,7 @@ class _PartnersColumn extends StatelessWidget {
                         //TODO: partner page routing
                       },
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(width: 1.2, color: Theme.of(context).colorScheme.onPrimaryFixedVariant),
+                        side: BorderSide(width: 1.2, color: AppColors.eventData.border(context)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -417,11 +418,14 @@ class _PartnersColumn extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               // fontSize: 16,
-                                color: Theme.of(context).colorScheme.surface
+                                color: AppColors.eventData.text(context)
                             ),
                           ),
                           SizedBox(width: 5,),
-                          Icon(getGenderIconData(partner), color: Theme.of(context).colorScheme.primaryFixed,)
+                          Icon(
+                            getGenderIconData(partner),
+                            color: AppColors.eventData.icon(context),
+                          )
                         ],
                       ),
                     )
@@ -435,7 +439,7 @@ class _PartnersColumn extends StatelessWidget {
                   for (var index = 0; index < event.partnerOrgasms!.length; index++)
                     Text(
                       _getOrgasmsText(event.partnerOrgasms![index]),
-                      style: TextStyle(color: Theme.of(context).colorScheme.surface),
+                      style: TextStyle(color: AppColors.eventData.text(context)),
                     )
                 ],
               )
