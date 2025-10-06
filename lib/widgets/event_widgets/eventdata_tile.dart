@@ -290,7 +290,6 @@ class _PartnersColumn extends StatelessWidget {
                             partner!.name,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              // fontSize: 16,
                                 color: AppColors.eventData.text(context)
                             ),
                           ),

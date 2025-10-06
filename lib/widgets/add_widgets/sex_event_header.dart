@@ -11,7 +11,7 @@ class AddSexEventData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(18.0),
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
       width: double.infinity,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(

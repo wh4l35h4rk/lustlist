@@ -55,6 +55,10 @@ Future<List<Map<String, dynamic>>> insertTestEntries(AppDatabase db) async{
     )
   );
 
+  final partnerId3 = await db.into(db.partners).insert(PartnersCompanion.insert(name: "Alexander II", gender: Gender.male));
+  final partnerId4 = await db.into(db.partners).insert(PartnersCompanion.insert(name: "Phoenix", gender: Gender.nonbinary));
+
+
   final event1Id = await db.into(db.events).insert(
       EventsCompanion.insert(
         typeId: sexTypeId,

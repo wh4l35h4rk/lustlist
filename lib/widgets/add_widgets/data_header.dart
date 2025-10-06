@@ -18,6 +18,7 @@ class AddEventDataColumn extends StatefulWidget {
 
 class _AddEventDataColumnState extends State<AddEventDataColumn> {
   int rating = 0;
+  late var orgasmAmount = 0;
   late final IconData iconData = widget.iconData;
 
   @override
@@ -104,7 +105,14 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
                         ),
                       ),
                     ),
-                    OrgasmsAmountPicker()
+                    OrgasmsAmountPicker(
+                      amount: orgasmAmount,
+                      onChanged: (newValue) {
+                        setState(() {
+                          orgasmAmount = newValue;
+                        });
+                      },
+                    )
                   ],
                 ),
               ),

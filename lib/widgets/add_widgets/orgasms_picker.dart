@@ -1,21 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
+import '../../database.dart';
 
 const double _kItemExtent = 32.0;
 List<int> _orgasmAmount = List.generate(12, (index) => index);
 
-class OrgasmsAmountPicker extends StatefulWidget {
-  const OrgasmsAmountPicker({super.key});
+class OrgasmsAmountPicker extends StatelessWidget {
+  final int amount;
+  final ValueChanged<int> onChanged;
 
-  @override
-  State<OrgasmsAmountPicker> createState() => _OrgasmsAmountPickerState();
-}
+  const OrgasmsAmountPicker({
+    super.key,
+    required this.amount,
+    required this.onChanged
+  });
 
-class _OrgasmsAmountPickerState extends State<OrgasmsAmountPicker> {
-  int _selectedAmount = 0;
-
-  void _showDialog(Widget child) {
+  void _showDialog(BuildContext context) {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => Container(
@@ -23,7 +24,21 @@ class _OrgasmsAmountPickerState extends State<OrgasmsAmountPicker> {
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         color: AppColors.addEvent.pickerSurface(context),
-        child: SafeArea(top: false, child: child),
+        child: SafeArea(
+            top: false,
+            child: CupertinoPicker(
+              magnification: 1.22,
+              squeeze: 1.2,
+              useMagnifier: true,
+              itemExtent: _kItemExtent,
+              scrollController: FixedExtentScrollController(initialItem: amount),
+              onSelectedItemChanged: (int selectedItem) {
+                onChanged(selectedItem);
+              },
+              children: List<Widget>.generate(_orgasmAmount.length, (int index) {
+                return Center(child: Text(_orgasmAmount[index].toString()));
+              }),
+            ),),
       ),
     );
   }
@@ -50,26 +65,10 @@ class _OrgasmsAmountPickerState extends State<OrgasmsAmountPicker> {
       child: SizedBox(
         height: 24,
         child: CupertinoButton(
-          onPressed: () => _showDialog(
-            CupertinoPicker(
-              magnification: 1.22,
-              squeeze: 1.2,
-              useMagnifier: true,
-              itemExtent: _kItemExtent,
-              scrollController: FixedExtentScrollController(initialItem: _selectedAmount),
-              onSelectedItemChanged: (int selectedItem) {
-                setState(() {
-                  _selectedAmount = selectedItem;
-                });
-              },
-              children: List<Widget>.generate(_orgasmAmount.length, (int index) {
-                return Center(child: Text(_orgasmAmount[index].toString()));
-              }),
-            ),
-          ),
+          onPressed: () => _showDialog(context),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            _getOrgasmsText(_selectedAmount),
+            _getOrgasmsText(amount),
             style: const TextStyle(fontSize: 14.0),
           ),
         ),
