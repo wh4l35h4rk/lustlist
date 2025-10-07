@@ -5,6 +5,7 @@ import '../../colors.dart';
 import '../../map_notifier.dart';
 import '../../main.dart';
 import '../../db/partners.dart';
+import '../basic_tile.dart';
 import 'orgasms_picker.dart';
 
 class SelectPartnersTile extends StatefulWidget {
@@ -22,17 +23,8 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18.0),
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-      width: double.infinity,
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        color: AppColors.addEvent.surface(context),
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-      ),
+    return BasicTile(
+      surfaceColor: AppColors.addEvent.surface(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

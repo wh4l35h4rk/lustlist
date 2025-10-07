@@ -6,6 +6,7 @@ import 'package:lustlist/test_event.dart';
 import '../../colors.dart';
 import '../../database.dart';
 import '../../example_utils.dart';
+import '../basic_tile.dart';
 
 class StiTile extends StatelessWidget{
   final TestEvent event;
@@ -17,17 +18,8 @@ class StiTile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18.0),
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-      width: double.infinity,
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        color: AppColors.categoryTile.surface(context),
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-      ),
+    return BasicTile(
+      surfaceColor: AppColors.eventData.surface(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

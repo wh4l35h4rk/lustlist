@@ -4,6 +4,7 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/test_event.dart';
 import 'package:lustlist/custom_icons.dart';
+import 'package:lustlist/widgets/basic_tile.dart';
 import '../../db/partners.dart';
 
 class EventDataTile extends StatelessWidget {
@@ -16,17 +17,9 @@ class EventDataTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18.0),
-      margin: const EdgeInsets.all(10.0),
-      width: double.infinity,
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        color: AppColors.eventData.surface(context),
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-      ),
+    return BasicTile(
+      surfaceColor: AppColors.eventData.surface(context),
+      margin: const EdgeInsets.all(10),
       child: buildTileBottom(),
     );
   }

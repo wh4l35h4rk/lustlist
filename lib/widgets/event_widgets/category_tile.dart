@@ -4,6 +4,8 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/test_event.dart';
 
+import '../basic_tile.dart';
+
 class CategoryTile extends StatelessWidget {
   const CategoryTile({
     super.key,
@@ -24,17 +26,8 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18.0),
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-      width: double.infinity,
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        color: AppColors.categoryTile.surface(context),
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-      ),
+    return BasicTile(
+      surfaceColor: AppColors.categoryTile.surface(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
