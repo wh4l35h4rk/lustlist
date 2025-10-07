@@ -155,7 +155,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
                 icon: Icon(
                   index <= rating ? Icons.star : Icons.star_border,
                   size: 16,
-                  color: AppColors.addEvent.leadingIcon(context),
+                  color: AppColors.addEvent.coloredText(context),
                 ),
                 padding: EdgeInsets.zero,
                 constraints: BoxConstraints(),

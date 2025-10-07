@@ -37,6 +37,9 @@ class AddEventColors {
 
   Color text(BuildContext context) => categoryTile.text(context);
 
+  Color coloredText(BuildContext context) =>
+      Theme.of(context).colorScheme.secondary;
+
   Color title(BuildContext context) =>
       Theme.of(context).colorScheme.onSecondaryContainer;
 

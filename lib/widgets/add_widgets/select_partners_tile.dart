@@ -34,6 +34,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         ),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           listAllTile(context),
           Padding(
@@ -77,28 +78,32 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Text("Loading partners...",
                       style: TextStyle(
-                        color: AppColors.addEvent.text(context),
+                        color: AppColors.addEvent.coloredText(context),
                       ),
                     );
                   } else if (snapshot.hasError) {
                     return Text("Error loading data",
                       style: TextStyle(
-                        color: AppColors.addEvent.text(context),
+                        color: AppColors.addEvent.coloredText(context),
                       ),
                     );
                   } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                     return Text("No partners yet!",
                       style: TextStyle(
-                        color: AppColors.addEvent.text(context),
+                        color: AppColors.addEvent.coloredText(context),
                       ),
                     );
                   } else {
-                    return ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(
-                          snapshot.data!.length, (index) =>
-                          partnersListButton(context, snapshot.data![index])
-                      )
+                    return Scrollbar(
+                      thickness: 1,
+                      radius: Radius.circular(20),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: List.generate(
+                            snapshot.data!.length, (index) =>
+                            partnersListButton(context, snapshot.data![index])
+                        )
+                      ),
                     );
                   }
                 }
@@ -114,33 +119,37 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
     return ValueListenableBuilder(
       valueListenable: _selectedPartners,
       builder: (context, partners, child) {
-        return IntrinsicHeight(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  for (var partner in partners.keys)
-                    partnersListTile(context, partner)
-                ],
-              ),
-              SizedBox(width: 10,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (var partner in _selectedPartners.value.keys)
-                    OrgasmsAmountPicker(
-                      amount: partners[partner]!,
-                      onChanged: (newValue) {
-                        _selectedPartners.updateValue(partner, newValue);
-                      },
-                    )
-                ],
-              )
-            ],
-          ),
+        return _selectedPartners.value.isNotEmpty ?
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    for (var partner in partners.keys)
+                      partnersListTile(context, partner)
+                  ],
+                ),
+                SizedBox(width: 10,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (var partner in _selectedPartners.value.keys)
+                      OrgasmsAmountPicker(
+                        amount: partners[partner]!,
+                        onChanged: (newValue) {
+                          _selectedPartners.updateValue(partner, newValue);
+                        },
+                      )
+                  ],
+                )
+              ],
+            ),
+          ) :
+        Text("Select partner(s) for the event.",
+          style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.addEvent.coloredText(context),),
         );
       }
     );
@@ -176,7 +185,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               ),
             ),
             SizedBox(width: 5,),
-            Icon(getGenderIconData(partner), color: AppColors.addEvent.icon(context))
+            Icon(getGenderIconData(partner), color: AppColors.addEvent.coloredText(context))
           ],
         ),
       ),
@@ -207,7 +216,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
             Icon(
               getGenderIconData(partner),
               size: 16,
-              color: AppColors.addEvent.icon(context),
+              color: AppColors.addEvent.coloredText(context),
             )
           ],
         ),

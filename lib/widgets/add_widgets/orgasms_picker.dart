@@ -36,7 +36,9 @@ class OrgasmsAmountPicker extends StatelessWidget {
                 onChanged(selectedItem);
               },
               children: List<Widget>.generate(_orgasmAmount.length, (int index) {
-                return Center(child: Text(_orgasmAmount[index].toString()));
+                return Center(
+                    child: Text(_orgasmAmount[index].toString())
+                );
               }),
             ),),
       ),
@@ -69,7 +71,10 @@ class OrgasmsAmountPicker extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
             _getOrgasmsText(amount),
-            style: const TextStyle(fontSize: 14.0),
+            style: TextStyle(
+                fontSize: 14.0,
+                color: AppColors.addEvent.coloredText(context)
+            ),
           ),
         ),
       ),

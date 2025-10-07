@@ -105,7 +105,10 @@ class _TimePickerState extends State<TimePicker> {
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
             type == 1 ? _getDurationString() : _getTimeString(),
-            style: const TextStyle(fontSize: 14.0),
+            style: TextStyle(
+                fontSize: 14.0,
+                color: AppColors.addEvent.coloredText(context)
+            ),
           ),
         ),
       ),
