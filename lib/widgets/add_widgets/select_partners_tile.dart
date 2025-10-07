@@ -19,7 +19,13 @@ class SelectPartnersTile extends StatefulWidget {
 
 class _SelectPartnersTileState extends State<SelectPartnersTile> {
   final _selectedPartners = MapNotifier<Partner>();
+  late Future<List<Partner>> _partnersListFuture;
 
+  @override
+  void initState() {
+    super.initState();
+    _partnersListFuture = _getPartnersList(database);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +71,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
           height: 50,
           child: Center(
             child: FutureBuilder(
-                future: _getPartnersList(database),
+                future: _partnersListFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Text("Loading partners...",
@@ -80,21 +86,31 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                       ),
                     );
                   } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    return Text("No partners yet!",
-                      style: TextStyle(
-                        color: AppColors.addEvent.coloredText(context),
-                      ),
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        addPartnersButton(context),
+                        Text("No partners yet!",
+                          style: TextStyle(
+                            color: AppColors.addEvent.coloredText(context),
+                          ),
+                        ),
+                      ],
                     );
                   } else {
+                    Widget button = addPartnersButton(context);
+                    List<Widget> buttonList = List.generate(
+                        snapshot.data!.length, (index) =>
+                        partnersListButton(context, snapshot.data![index])
+                    );
+                    buttonList.add(button);
+
                     return Scrollbar(
                       thickness: 1,
                       radius: Radius.circular(20),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: List.generate(
-                            snapshot.data!.length, (index) =>
-                            partnersListButton(context, snapshot.data![index])
-                        )
+                        children: buttonList
                       ),
                     );
                   }
@@ -140,13 +156,42 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               ],
             ),
           ) :
-        Text("Select partner(s) for the event.",
-          style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.addEvent.coloredText(context),),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Text("Select partner(s) for the event.",
+            style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.addEvent.coloredText(context),),
+          ),
         );
       }
     );
   }
 
+  Widget addPartnersButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: InkWell(
+        onTap: () {
+          // TODO: add partner routing
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.addEvent.surface(context),
+            border: Border.all(
+              width: 1.2,
+              color: AppColors.addEvent.border(context),
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(
+            Icons.add,
+            size: 20,
+            color: AppColors.addEvent.icon(context),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget partnersListButton(BuildContext context, Partner partner) {
     return Padding(
@@ -228,8 +273,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
     }
   }
 
-
-  Future? _getPartnersList(AppDatabase db) async {
+  Future<List<Partner>> _getPartnersList(AppDatabase db) async {
     List<Partner> partners = await db.allPartners;
     if (partners.isNotEmpty){
       partners.sort((a, b) => -1 * a.lastEventDate.compareTo(b.lastEventDate));
