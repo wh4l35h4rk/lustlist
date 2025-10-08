@@ -68,76 +68,25 @@ class _DataColumn extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.star, color: AppColors.eventData.icon(context),),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "Rating:",
-                        style: TextStyle(
-                            color: AppColors.eventData.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    _getRatingIcons(event, context)
-                  ],
-                ),
+              infoRow(context, event, Icons.star, "Rating:",
+                _getRatingIcons(event, context)
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.timelapse, color: AppColors.eventData.icon(context),),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "Duration:",
-                        style: TextStyle(
-                            color: AppColors.eventData.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    Text(
-                        _getDurationString(event),
-                        style: TextStyle(
-                          color: AppColors.eventData.text(context),
-                        )
-                    )
-                  ],
-                ),
+              infoRow(context, event, Icons.timelapse, "Duration:",
+                Text(
+                  _getDurationString(event),
+                  style: TextStyle(
+                    color: AppColors.eventData.text(context),
+                  )
+                )
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.auto_awesome, color: AppColors.eventData.icon(context),),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "My orgasms:",
-                        style: TextStyle(
-                            color: AppColors.eventData.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    Text(
-                        _getOrgasmsText(event),
-                        style: TextStyle(
-                          color: AppColors.eventData.text(context),
-                        )
-                    )
-                  ],
-                ),
-              )
+              infoRow(context, event, Icons.auto_awesome, "My orgasms:",
+                Text(
+                  _getOrgasmsText(event),
+                  style: TextStyle(
+                    color: AppColors.eventData.text(context),
+                  )
+                )
+              ),
             ],
           ),
           Spacer(),
@@ -150,6 +99,30 @@ class _DataColumn extends StatelessWidget {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+
+  Widget infoRow(BuildContext context, TestEvent event, IconData iconData, String title, Widget child) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Icon(iconData, color: AppColors.eventData.icon(context),),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: AppColors.eventData.title(context),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+              ),
+            ),
+          ),
+          child
         ],
       ),
     );

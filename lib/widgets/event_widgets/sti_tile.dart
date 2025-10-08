@@ -180,7 +180,7 @@ class StiTile extends StatelessWidget{
 
   Future<List<EOption>> _getOptions(AppDatabase db, context, String slug) async {
     int categoryId = await db.getCategoryIdBySlug(slug);
-    List<EOption> options = await db.getOptionsByCategory(event.event.id, categoryId);
+    List<EOption> options = await db.getEventOptionsByCategory(event.event.id, categoryId);
     return options;
   }
 

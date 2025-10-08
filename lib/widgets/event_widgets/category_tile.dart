@@ -72,7 +72,7 @@ class CategoryTile extends StatelessWidget {
 
   Future<Widget> _getOptions(AppDatabase db, context) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
-    List<EOption> options = await db.getOptionsByCategory(event.event.id, categoryId);
+    List<EOption> options = await db.getEventOptionsByCategory(event.event.id, categoryId);
 
     if (options.isEmpty){
       return Text(onNoResultsText);

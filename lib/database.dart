@@ -108,13 +108,19 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(eOptions)).toList();
   }
 
-  Future<List<EOption>> getOptionsByCategory(int eventId, int categoryId) async {
+  Future<List<EOption>> getEventOptionsByCategory(int eventId, int categoryId) async {
     final query = select(eventsOptions).join([
       innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
       innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId)),
     ])..where(eventsOptions.eventId.equals(eventId) & eOptions.categoryId.equals(categoryId));
     final result = await query.get();
     return result.map((row) => row.readTable(eOptions)).toList();
+  }
+
+  Future<List<EOption>> getOptionsByCategory(int categoryId) async {
+    final query = select(eOptions)..where((t) => t.categoryId.equals(categoryId));
+    final result = await query.get();
+    return result;
   }
 
   Future<bool> checkOptionEvent(int eventId, int optionId) async {
