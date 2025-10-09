@@ -53,6 +53,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
               onPressed: () {
                 final rating = _dataController.rating;
                 final orgasmAmount = _dataController.orgasmAmount;
+                final date = _dataController.dateController.date;
                 final time = _dataController.timeController.time;
                 final duration = _dataController.durationController.time;
                 final partners = _partnersController.getSelectedPartners();
@@ -64,6 +65,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
 
                 print("Rating: $rating");
                 print("O's: $orgasmAmount");
+                print("Date: $date");
                 print("Time: $time");
                 print("Duration: $duration");
                 print("Partners: $partners");

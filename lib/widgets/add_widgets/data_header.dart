@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/widgets/add_widgets/date_picker.dart';
 import 'package:lustlist/widgets/add_widgets/orgasms_picker.dart';
 import 'package:lustlist/widgets/add_widgets/time_picker.dart';
 import '../../colors.dart';
 
 
 class AddEventDataController {
+  final DateController dateController = DateController();
   final TimeController timeController = TimeController();
   final TimeController durationController = TimeController();
 
@@ -49,98 +51,35 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.access_time, color: AppColors.addEvent.icon(context)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "Time:",
-                        style: TextStyle(
-                            color: AppColors.addEvent.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    TimePicker(
-                      type: 0,
-                      controller: widget.controller.timeController,
-                    )
-                  ],
-                ),
+              dataRow(context, Icons.calendar_month, "Date",
+                DatePicker(
+                  controller: widget.controller.dateController,
+                )
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.star, color: AppColors.addEvent.icon(context)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "Rating:",
-                        style: TextStyle(
-                            color: AppColors.addEvent.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    ratingRow(context)
-                  ],
-                ),
+              dataRow(context, Icons.access_time, "Time",
+                TimePicker(
+                  type: 0,
+                  controller: widget.controller.timeController,
+                )
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.timelapse, color: AppColors.addEvent.icon(context)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "Duration:",
-                        style: TextStyle(
-                            color: AppColors.addEvent.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    TimePicker(
-                      type: 1,
-                      controller: widget.controller.durationController,
-                    )
-                  ],
-                ),
+              dataRow(context, Icons.star, "Rating",
+                ratingRow(context)
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.auto_awesome, color: AppColors.addEvent.icon(context)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "My orgasms:",
-                        style: TextStyle(
-                            color: AppColors.addEvent.title(context),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                        ),
-                      ),
-                    ),
-                    OrgasmsAmountPicker(
-                      amount: orgasmAmount,
-                      onChanged: (newValue) {
-                        setState(() {
-                          widget.controller.setOrgasmAmount(newValue);
-                        });
-                      },
-                    )
-                  ],
-                ),
+              dataRow(context, Icons.timelapse, "Duration",
+                TimePicker(
+                  type: 1,
+                  controller: widget.controller.durationController,
+                )
+              ),
+              dataRow(context, Icons.auto_awesome, "My orgasms",
+                OrgasmsAmountPicker(
+                  amount: orgasmAmount,
+                  onChanged: (newValue) {
+                    setState(() {
+                      widget.controller.setOrgasmAmount(newValue);
+                    });
+                  },
+                )
               ),
             ],
           ),
@@ -159,6 +98,29 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
     );
   }
 
+
+  Widget dataRow(BuildContext context, IconData iconData, String title, Widget child){
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Icon(iconData, color: AppColors.addEvent.icon(context)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              "$title:",
+              style: TextStyle(
+                  color: AppColors.addEvent.title(context),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+              ),
+            ),
+          ),
+          child
+        ],
+      ),
+    );
+  }
 
   Widget ratingRow(BuildContext context) {
     return Row(
