@@ -3,6 +3,7 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
+import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
@@ -27,67 +28,74 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: MainAppBar(
-          title: "Add new event",
-          backButton: IconButton(
-            onPressed: () => _showPopUp(context),
-            icon: Icon(Icons.arrow_back_ios),
-            color: AppColors.surface(context)
+    return GestureDetector(
+      onTap:() {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+          appBar: MainAppBar(
+            title: "Add new event",
+            backButton: IconButton(
+              onPressed: () => _showPopUp(context),
+              icon: Icon(Icons.arrow_back_ios),
+              color: AppColors.surface(context)
+            ),
+            editButton: IconButton(
+              onPressed: () {
+                //TODO: save event
+              },
+              icon: Icon(Icons.check),
+              color: AppColors.surface(context)
+            ),
           ),
-          editButton: IconButton(
-            onPressed: () {
-              //TODO: save event
-            },
-            icon: Icon(Icons.check),
-            color: AppColors.surface(context)
-          ),
-        ),
-        body: FutureBuilder<Map<String, Category>>(
-          future: _categoriesMapFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError || !snapshot.hasData) {
-              return Center(
-                child: Text(
-                  "Error loading data.",
-                  style: TextStyle(
-                    color: AppColors.addEvent.text(context),
+          body: FutureBuilder<Map<String, Category>>(
+            future: _categoriesMapFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError || !snapshot.hasData) {
+                return Center(
+                  child: Text(
+                    "Error loading data.",
+                    style: TextStyle(
+                      color: AppColors.addEvent.text(context),
+                    ),
+                  )
+                );
+              }
+
+              final categoriesMap = snapshot.data!;
+
+              return ListView(
+                children: [
+                  AddSexEventData(),
+                  SelectPartnersTile(),
+                  AddCategoryTile(
+                    category: categoriesMap['contraception']!,
+                    iconData: CategoryIcons.condom,
                   ),
-                )
+                  AddCategoryTile(
+                    category: categoriesMap['practices']!,
+                    iconData: CustomIcons.hand_lizard,
+                    iconSize: 22,
+                  ),
+                  AddCategoryTile(
+                    category: categoriesMap['poses']!,
+                    iconData: CategoryIcons.sexMove,
+                    iconSize: 27,
+                  ),
+                  AddCategoryTile(
+                    category: categoriesMap['place']!,
+                    iconData: Icons.bed,
+                  ),
+                  AddNotesTile(),
+                  SizedBox(height: 20,)
+                ],
               );
-            }
-
-            final categoriesMap = snapshot.data!;
-
-            return ListView(
-              children: [
-                AddSexEventData(),
-                SelectPartnersTile(),
-                AddCategoryTile(
-                  category: categoriesMap['contraception']!,
-                  iconData: CategoryIcons.condom,
-                ),
-                AddCategoryTile(
-                  category: categoriesMap['practices']!,
-                  iconData: CustomIcons.hand_lizard,
-                  iconSize: 22,
-                ),
-                AddCategoryTile(
-                  category: categoriesMap['poses']!,
-                  iconData: CategoryIcons.sexMove,
-                  iconSize: 27,
-                ),
-                AddCategoryTile(
-                  category: categoriesMap['place']!,
-                  iconData: Icons.bed,
-                ),
-              ],
-            );
-          },
-        ),
-        bottomNavigationBar: MainBottomNavigationBar()
+            },
+          ),
+          bottomNavigationBar: MainBottomNavigationBar()
+      ),
     );
   }
 
@@ -103,17 +111,24 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
           ),
           actions: [
             MaterialButton(
-              child: const Text("Leave"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              }
-            ),
-            MaterialButton(
-              child: const Text("Return"),
+              child: const Text("Return to event"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              color: AppColors.appBar.surface(context),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Text(
+                "Leave",
+                style: TextStyle(color: AppColors.appBar.text(context)),
+              ),
             ),
           ],
         );

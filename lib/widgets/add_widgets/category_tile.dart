@@ -79,14 +79,16 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                       ),
                     );
                   } else {
-                    return Wrap(
-                      alignment: WrapAlignment.spaceAround,
-                      spacing: 6,
-                      children: List.generate(
-                        snapshot.data!.length, (index) =>
-                            optionListButton(context, snapshot.data![index])
+                    return Center(
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceAround,
+                        spacing: 6,
+                        children: List.generate(
+                          snapshot.data!.length, (index) =>
+                              optionListButton(context, snapshot.data![index])
+                          ),
                         ),
-                      );
+                    );
                   }
                 }
             ),
@@ -130,7 +132,6 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
         ],
       ),
     );
-
   }
 
 

@@ -118,7 +118,7 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<List<EOption>> getOptionsByCategory(int categoryId) async {
-    final query = select(eOptions)..where((t) => t.categoryId.equals(categoryId));
+    final query = select(eOptions)..where((t) => t.categoryId.equals(categoryId) & t.isVisible);
     final result = await query.get();
     return result;
   }
