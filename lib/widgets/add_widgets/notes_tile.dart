@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import '../../colors.dart';
 import 'notes_form.dart';
 
+
+class NotesTileController {
+  final TextEditingController notesController = TextEditingController();
+}
+
+
 class AddNotesTile extends StatefulWidget {
+  final NotesTileController controller;
+
   const AddNotesTile({
     super.key,
+    required this.controller
   });
 
   @override
@@ -85,7 +94,8 @@ class _AddNotesTileState extends State<AddNotesTile> {
           ),
           child: Form(
               key: _formKey,
-              child: NotesForm()
+              child: NotesForm(controller: widget.controller.notesController,
+            )
           )
         ),
       ],

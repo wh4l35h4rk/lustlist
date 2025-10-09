@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
 import '../../colors.dart';
 import '../../list_notifier.dart';
 import '../../main.dart';
 import '../basic_tile.dart';
 
+
+class AddCategoryController {
+  final ListNotifier<EOption> selectedOptions = ListNotifier<EOption>();
+
+  List<EOption> getSelectedOptions() => selectedOptions.value;
+}
+
+
 class AddCategoryTile extends StatefulWidget {
   final Category category;
+  final AddCategoryController controller;
   final IconData iconData;
   final double iconSize;
 
   const AddCategoryTile({
     super.key,
     required this.category,
+    required this.controller,
     required this.iconData,
     this.iconSize = 24,
   });
@@ -24,11 +33,13 @@ class AddCategoryTile extends StatefulWidget {
 }
 
 class _AddCategoryTileState  extends State<AddCategoryTile> {
-  final _selectedOptions = ListNotifier<EOption>();
-  late final Category category = widget.category;
-  late final IconData iconData = widget.iconData;
-  late final double iconSize = widget.iconSize;
   late Future<List<EOption>> _optionsListFuture;
+
+  ListNotifier<EOption> get _selectedOptions => widget.controller.selectedOptions;
+  Category get category => widget.category;
+  IconData get iconData => widget.iconData;
+  double get iconSize => widget.iconSize;
+
 
   @override
   void initState() {

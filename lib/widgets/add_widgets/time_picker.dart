@@ -3,14 +3,23 @@ import 'package:flutter/cupertino.dart';
 
 import '../../colors.dart';
 
+class TimeController {
+  DateTime time = DateTime(2016, 5, 10, 0, 0);
+  
+  void setTime(DateTime newValue) {
+    time = newValue;
+  }
+}
 
 
 class TimePicker extends StatefulWidget {
   final int type;
+  final TimeController controller;
 
   const TimePicker({
     super.key,
-    required this.type,
+    required this.type, 
+    required this.controller,
   });
 
   @override
@@ -18,8 +27,8 @@ class TimePicker extends StatefulWidget {
 }
 
 class _TimePickerState extends State<TimePicker> {
-  DateTime time = DateTime(2016, 5, 10, 0, 0);
-  late final int type = widget.type;
+  DateTime get time => widget.controller.time;
+  int get type => widget.type;
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -97,8 +106,8 @@ class _TimePickerState extends State<TimePicker> {
               minuteInterval: 5,
               mode: CupertinoDatePickerMode.time,
               use24hFormat: true,
-              onDateTimeChanged: (DateTime newTime) {
-                setState(() => time = newTime);
+              onDateTimeChanged: (DateTime newValue) {
+                setState(() => widget.controller.setTime(newValue));
               },
             ),
           ),

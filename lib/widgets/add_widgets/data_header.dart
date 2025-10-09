@@ -4,11 +4,30 @@ import 'package:lustlist/widgets/add_widgets/time_picker.dart';
 import '../../colors.dart';
 
 
+class AddEventDataController {
+  final TimeController timeController = TimeController();
+  final TimeController durationController = TimeController();
+
+  int rating = 0;
+  int orgasmAmount = 0;
+
+  void setRating(int newValue) {
+    rating = newValue;
+  }
+
+  void setOrgasmAmount(int newValue) {
+    orgasmAmount = newValue;
+  }
+}
+
+
 class AddEventDataColumn extends StatefulWidget {
   final IconData iconData;
+  final AddEventDataController controller;
 
   const AddEventDataColumn({
     super.key,
+    required this.controller,
     required this.iconData
   });
 
@@ -17,9 +36,10 @@ class AddEventDataColumn extends StatefulWidget {
 }
 
 class _AddEventDataColumnState extends State<AddEventDataColumn> {
-  int rating = 0;
-  late var orgasmAmount = 0;
-  late final IconData iconData = widget.iconData;
+
+  int get rating => widget.controller.rating;
+  int get orgasmAmount => widget.controller.orgasmAmount;
+  IconData get iconData => widget.iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +65,10 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
                         ),
                       ),
                     ),
-                    TimePicker(type: 0)
+                    TimePicker(
+                      type: 0,
+                      controller: widget.controller.timeController,
+                    )
                   ],
                 ),
               ),
@@ -85,7 +108,10 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
                         ),
                       ),
                     ),
-                    TimePicker(type: 1,)
+                    TimePicker(
+                      type: 1,
+                      controller: widget.controller.durationController,
+                    )
                   ],
                 ),
               ),
@@ -109,7 +135,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
                       amount: orgasmAmount,
                       onChanged: (newValue) {
                         setState(() {
-                          orgasmAmount = newValue;
+                          widget.controller.setOrgasmAmount(newValue);
                         });
                       },
                     )
@@ -145,11 +171,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
               child: IconButton(
                 onPressed: (){
                   setState(() {
-                    if (rating < index) {
-                      rating += index - rating;
-                    } else if (rating >= index) {
-                      rating -= rating - index;
-                    }
+                    widget.controller.setRating(index);
                   });
                 },
                 icon: Icon(

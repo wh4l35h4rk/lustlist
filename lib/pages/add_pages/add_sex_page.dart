@@ -8,7 +8,8 @@ import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import '../../main.dart';
-import '../../widgets/add_widgets/sex_event_header.dart';
+import '../../widgets/add_widgets/data_header.dart';
+import '../../widgets/basic_tile.dart';
 
 class AddSexEventPage extends StatefulWidget{
   const AddSexEventPage({super.key});
@@ -19,6 +20,14 @@ class AddSexEventPage extends StatefulWidget{
 
 class _AddSexEventPageState extends State<AddSexEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
+
+  final _dataController = AddEventDataController();
+  final _partnersController = SelectPartnersController();
+  final _contraceptionController = AddCategoryController();
+  final _practicesController = AddCategoryController();
+  final _posesController = AddCategoryController();
+  final _placeController = AddCategoryController();
+  final _notesController = NotesTileController();
 
   @override
   void initState() {
@@ -42,7 +51,27 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
             ),
             editButton: IconButton(
               onPressed: () {
-                //TODO: save event
+                final rating = _dataController.rating;
+                final orgasmAmount = _dataController.orgasmAmount;
+                final time = _dataController.timeController.time;
+                final duration = _dataController.durationController.time;
+                final partners = _partnersController.getSelectedPartners();
+                final contraceptionOptions = _contraceptionController.getSelectedOptions();
+                final practicesOptions = _practicesController.getSelectedOptions();
+                final posesOptions = _posesController.getSelectedOptions();
+                final placeOptions = _placeController.getSelectedOptions();
+                final notes = _notesController.notesController.text;
+
+                print("Rating: $rating");
+                print("O's: $orgasmAmount");
+                print("Time: $time");
+                print("Duration: $duration");
+                print("Partners: $partners");
+                print("Contraception: ${contraceptionOptions.map((o) => o.name)}");
+                print("Practices: ${practicesOptions.map((o) => o.name)}");
+                print("Poses: ${posesOptions.map((o) => o.name)}");
+                print("Place: ${placeOptions.map((o) => o.name)}");
+                print("Notes: $notes");
               },
               icon: Icon(Icons.check),
               color: AppColors.surface(context)
@@ -68,27 +97,42 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
 
               return ListView(
                 children: [
-                  AddSexEventData(),
-                  SelectPartnersTile(),
+                  BasicTile(
+                    surfaceColor: AppColors.addEvent.surface(context),
+                    margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
+                    child: AddEventDataColumn(
+                      controller: _dataController,
+                      iconData: Icons.favorite
+                    )
+                  ),
+                  SelectPartnersTile(
+                    controller: _partnersController,
+                  ),
                   AddCategoryTile(
                     category: categoriesMap['contraception']!,
+                    controller: _contraceptionController,
                     iconData: CategoryIcons.condom,
                   ),
                   AddCategoryTile(
                     category: categoriesMap['practices']!,
+                    controller: _practicesController,
                     iconData: CustomIcons.hand_lizard,
                     iconSize: 22,
                   ),
                   AddCategoryTile(
                     category: categoriesMap['poses']!,
+                    controller: _posesController,
                     iconData: CategoryIcons.sexMove,
                     iconSize: 27,
                   ),
                   AddCategoryTile(
                     category: categoriesMap['place']!,
+                    controller: _placeController,
                     iconData: Icons.bed,
                   ),
-                  AddNotesTile(),
+                  AddNotesTile(
+                    controller: _notesController,
+                  ),
                   SizedBox(height: 20,)
                 ],
               );

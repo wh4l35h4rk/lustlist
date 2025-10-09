@@ -8,8 +8,19 @@ import '../../db/partners.dart';
 import '../basic_tile.dart';
 import 'orgasms_picker.dart';
 
+
+class SelectPartnersController {
+  final MapNotifier<Partner> selectedPartners = MapNotifier<Partner> ();
+
+  Map<Partner, int> getSelectedPartners() => selectedPartners.value;
+}
+
+
 class SelectPartnersTile extends StatefulWidget {
+  final SelectPartnersController controller;
+
   const SelectPartnersTile({
+    required this.controller,
     super.key,
   });
 
@@ -18,8 +29,9 @@ class SelectPartnersTile extends StatefulWidget {
 }
 
 class _SelectPartnersTileState extends State<SelectPartnersTile> {
-  final _selectedPartners = MapNotifier<Partner>();
   late Future<List<Partner>> _partnersListFuture;
+
+  MapNotifier<Partner> get _selectedPartners => widget.controller.selectedPartners;
 
   @override
   void initState() {

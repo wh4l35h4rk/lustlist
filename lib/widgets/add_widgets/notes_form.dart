@@ -3,26 +3,36 @@ import 'package:lustlist/colors.dart';
 
 
 class NotesForm extends StatefulWidget {
-  const NotesForm({super.key});
+  final TextEditingController controller;
+
+  const NotesForm({
+    super.key,
+    required this.controller
+  });
 
   @override
   State<NotesForm> createState() => _NotesFormState();
 }
 
 class _NotesFormState extends State<NotesForm> {
-  final controller = TextEditingController();
+  TextEditingController get controller => widget.controller;
+  late VoidCallback _controllerListener;
 
   @override
   void dispose() {
-    controller.dispose();
+    controller.removeListener(_controllerListener);
     super.dispose();
   }
 
   @override
   void initState() {
-    controller.addListener(() {
-      setState(() {});
-    });
+    _controllerListener = () {
+      if (mounted) {
+        setState(() {});
+      }
+    };
+
+    controller.addListener(_controllerListener);
     super.initState();
   }
 
