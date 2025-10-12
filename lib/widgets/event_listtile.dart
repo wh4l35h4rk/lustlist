@@ -4,7 +4,7 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/db/events.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/test_event.dart';
+import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/pages/eventpage.dart';
 
 
@@ -14,7 +14,7 @@ class EventListTile extends StatelessWidget {
     super.key,
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
 
   String _getTitle() {
     final typeSlug = event.getTypeSlug();
@@ -102,7 +102,7 @@ class EventListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         onTap: () {
-          TestEvent event = this.event;
+          CalendarEvent event = this.event;
           Navigator.push(
             context,
             MaterialPageRoute<void>(
@@ -124,7 +124,9 @@ class EventListTile extends StatelessWidget {
             )
           ],
         ),
-        title: Text(_getTitle(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        title: Wrap(
+          children: [Text(_getTitle(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          )],
         ),
         subtitle: FutureBuilder<String>(
           future: _getSubtitle(database),

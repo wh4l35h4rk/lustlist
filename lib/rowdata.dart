@@ -23,11 +23,11 @@ class RowData {
   ];
 
   List<String> get practicesOptionNames => [
-    "Vaginal", "Petting", "Frottage", "Dry humping", "Cunnilingus", "Blowjob", "Fingering", "Handjob", "Mutual masturbation",
+    "Vaginal", "Petting", "Frottage", "Cunnilingus", "Blowjob", "Fingering", "Handjob", "Mutual masturbation",
     "Intermammary", "Intercrural", "Anal", "Rimming", "Pegging", "Bondage", "Chocking", "Toys", "Roleplay", "Waxplay",
   ];
   List<String> get practicesOptionSlugs => [
-    "vaginal", "petting", "frottage", "dry humping", "cunnilingus", "blowjob", "fingering", "handjob", "mutual masturbation",
+    "vaginal", "petting", "frottage", "cunnilingus", "blowjob", "fingering", "handjob", "mutual masturbation",
     "intermammary", "intercrural", "anal", "rimming", "pegging", "bondage", "chocking", "toys", "roleplay", "waxplay",
   ];
 

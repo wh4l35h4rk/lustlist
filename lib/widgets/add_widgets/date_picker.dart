@@ -19,7 +19,7 @@ class DatePicker extends StatefulWidget {
 
   const DatePicker({
     super.key,
-    required this.controller,
+    required this.controller
   });
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/test_event.dart';
+import 'package:lustlist/calendar_event.dart';
 
 import '../basic_tile.dart';
 
@@ -17,7 +17,7 @@ class CategoryTile extends StatelessWidget {
     this.onNoResultsText = "Not stated",
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
   final String title;
   final String categorySlug;
   final IconData iconData;

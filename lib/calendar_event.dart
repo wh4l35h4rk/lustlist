@@ -1,8 +1,7 @@
 import 'package:lustlist/database.dart';
-import 'package:lustlist/db/events.dart';
 
 
-class TestEvent {
+class CalendarEvent {
   final int id;
   final Event event;
   final Type type;
@@ -10,7 +9,7 @@ class TestEvent {
   final List<int>? partnerOrgasms;
   final EventData? data;
 
-  const TestEvent(this.id, this.event, this.type, this.partners, this.partnerOrgasms, this.data);
+  const CalendarEvent(this.id, this.event, this.type, this.partners, this.partnerOrgasms, this.data);
 
   List<String> getPartnerNames() {
     if (partners != null) {

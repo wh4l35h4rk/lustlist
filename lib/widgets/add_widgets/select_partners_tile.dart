@@ -10,9 +10,20 @@ import 'orgasms_picker.dart';
 
 
 class SelectPartnersController {
-  final MapNotifier<Partner> selectedPartners = MapNotifier<Partner> ();
+  final MapNotifier<Partner> selectedPartners = MapNotifier<Partner>();
+  final ValueNotifier<bool> isValid = ValueNotifier<bool>(true);
 
   Map<Partner, int> getSelectedPartners() => selectedPartners.value;
+
+  SelectPartnersController() {
+    selectedPartners.addListener(() {
+      isValid.value = selectedPartners.value.isNotEmpty;
+    });
+  }
+
+  void setValidation (bool newValue) {
+    isValid.value = newValue;
+  }
 }
 
 
@@ -41,19 +52,25 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
 
   @override
   Widget build(BuildContext context) {
-    return BasicTile(
-      surfaceColor: AppColors.addEvent.surface(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          listAllTile(context),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: Divider(),
+    return ValueListenableBuilder(
+      valueListenable: widget.controller.isValid,
+      builder: (context, isValid, child) {
+        return BasicTile(
+          surfaceColor: AppColors.addEvent.surface(context),
+          border: !isValid ? Border.all(color: AppColors.primary(context)) : null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              listAllTile(context),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: Divider(),
+              ),
+              listSelectedTile(context)
+            ],
           ),
-          listSelectedTile(context)
-        ],
-      ),
+        );
+      }
     );
   }
 
@@ -102,9 +119,12 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         addPartnersButton(context),
-                        Text("No partners yet!",
-                          style: TextStyle(
-                            color: AppColors.addEvent.coloredText(context),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: Text("No partners yet!",
+                            style: TextStyle(
+                              color: AppColors.addEvent.coloredText(context),
+                            ),
                           ),
                         ),
                       ],
@@ -170,7 +190,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
           ) :
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Text("Select partner(s) for the event.",
+          child: Text("You need to select at least one partner.",
             style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.addEvent.coloredText(context),),
           ),
         );

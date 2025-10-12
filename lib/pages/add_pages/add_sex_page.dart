@@ -7,12 +7,15 @@ import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
+import '../../load2db_methods.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
 
 class AddSexEventPage extends StatefulWidget{
-  const AddSexEventPage({super.key});
+  final DateTime? initDay;
+
+  const AddSexEventPage(this.initDay, {super.key});
 
   @override
   State<AddSexEventPage> createState() => _AddSexEventPageState();
@@ -20,6 +23,7 @@ class AddSexEventPage extends StatefulWidget{
 
 class _AddSexEventPageState extends State<AddSexEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
+  late final DateTime? _initDay = widget.initDay;
 
   final _dataController = AddEventDataController();
   final _partnersController = SelectPartnersController();
@@ -50,30 +54,39 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
               color: AppColors.surface(context)
             ),
             editButton: IconButton(
-              onPressed: () {
-                final rating = _dataController.rating;
-                final orgasmAmount = _dataController.orgasmAmount;
+              onPressed: () async {
                 final date = _dataController.dateController.date;
                 final time = _dataController.timeController.time;
+                final notes = _notesController.notesController.text;
+                final rating = _dataController.rating;
+                final orgasmAmount = _dataController.orgasmAmount;
                 final duration = _dataController.durationController.time;
                 final partners = _partnersController.getSelectedPartners();
                 final contraceptionOptions = _contraceptionController.getSelectedOptions();
                 final practicesOptions = _practicesController.getSelectedOptions();
                 final posesOptions = _posesController.getSelectedOptions();
                 final placeOptions = _placeController.getSelectedOptions();
-                final notes = _notesController.notesController.text;
 
-                print("Rating: $rating");
-                print("O's: $orgasmAmount");
-                print("Date: $date");
-                print("Time: $time");
-                print("Duration: $duration");
-                print("Partners: $partners");
-                print("Contraception: ${contraceptionOptions.map((o) => o.name)}");
-                print("Practices: ${practicesOptions.map((o) => o.name)}");
-                print("Poses: ${posesOptions.map((o) => o.name)}");
-                print("Place: ${placeOptions.map((o) => o.name)}");
-                print("Notes: $notes");
+                if (partners.isEmpty){
+                  _partnersController.setValidation(false);
+                } else {
+                  var id = loadEvent(database, "sex", date, time, notes);
+                  loadEventData(database, id, rating, duration, orgasmAmount);
+
+                  for (var p in partners.keys) {
+                    loadEventPartner(database, id, p.id, partners[p]);
+                  }
+
+                  var allOptionsList = [
+                    contraceptionOptions, practicesOptions,
+                    posesOptions, placeOptions
+                  ].expand((x) => x).toList();
+                  for (var o in allOptionsList) {
+                    loadOptions(database, id, o.id);
+                  }
+
+                  Navigator.of(context).pop(true);
+                }
               },
               icon: Icon(Icons.check),
               color: AppColors.surface(context)
@@ -104,7 +117,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
                     margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
                     child: AddEventDataColumn(
                       controller: _dataController,
-                      iconData: Icons.favorite
+                      iconData: Icons.favorite,
                     )
                   ),
                   SelectPartnersTile(

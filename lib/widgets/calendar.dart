@@ -1,16 +1,26 @@
+import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/colors.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
 import 'package:lustlist/example_utils.dart';
-import 'package:lustlist/test_event.dart';
+import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/widgets/event_listtile.dart';
 
 
 class Calendar extends StatefulWidget {
-  const Calendar({super.key});
+  final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> events;
+  final ValueNotifier<List<CalendarEvent>> selectedEvents;
+  final ValueNotifier<DateTime?> selectedDay;
+
+  const Calendar({
+    super.key,
+    required this.events,
+    required this.selectedEvents,
+    required this.selectedDay,
+  });
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -18,32 +28,41 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   late final PageController _pageController;
-  final ValueNotifier<List<TestEvent>> _selectedEvents = ValueNotifier([]);
+  late final ValueNotifier<List<CalendarEvent>> _selectedEvents = widget.selectedEvents;
+  late final ValueNotifier<DateTime?> _selectedDay = widget.selectedDay;
+  
   final CalendarFormat _calendarFormat = CalendarFormat.month;
-
-  DateTime? _selectedDay = DateTime.now();
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
+
+
+  @override
+  void initState() {
+    super.initState();
+    _onDaySelected(DateTime.now(), _focusedDay.value);
+  }
 
   @override
   void dispose() {
-    _selectedEvents.dispose();
     super.dispose();
   }
 
-  List<TestEvent> _getEventsForDay(DateTime day) {
-    return kEvents[day] ?? [];
+  List<CalendarEvent> _getEventsForDay(DateTime day) {
+    final normalizedDay = normalizeDate(day);
+    return widget.events.value[normalizedDay] ?? [];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectedDay)) {
+    final normalizedSelectedDay = normalizeDate(selectedDay);
+
+    if (!isSameDay(_selectedDay.value, normalizedSelectedDay)) {
       setState(() {
-        _selectedDay = selectedDay;
+        _selectedDay.value = normalizedSelectedDay;
         _focusedDay.value = focusedDay;
-        _selectedEvents.value = _getEventsForDay(_selectedDay!);
+        _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
       });
     } else {
       setState(() {
-        _selectedDay = null;
+        _selectedDay.value = null;
         _selectedEvents.value = [];
       });
     }
@@ -75,7 +94,7 @@ class _CalendarState extends State<Calendar> {
                 maximumDate: kLastDay,
                 initialDateTime: _focusedDay.value.isAfter(kLastDay) ? kLastDay : _focusedDay.value,
               onDateTimeChanged: (DateTime newDate) {
-                  _selectedDay = newDate;
+                  _selectedDay.value = newDate;
                 },
               ),
             ),
@@ -85,7 +104,7 @@ class _CalendarState extends State<Calendar> {
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
-                _focusedDay.value = _selectedDay!;
+                _focusedDay.value = _selectedDay.value!;
               },
             ),
           ],
@@ -107,8 +126,8 @@ class _CalendarState extends State<Calendar> {
                 onTodayButtonTap: () {
                   setState(() {
                     _focusedDay.value = DateTime.now();
-                    _selectedDay = DateTime.now();
-                    _selectedEvents.value = _getEventsForDay(_selectedDay!);
+                    _selectedDay.value = DateTime.now();
+                    _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
                   });
                 },
                 onLeftArrowTap: () {
@@ -128,60 +147,65 @@ class _CalendarState extends State<Calendar> {
                 },
               ),
 
-              TableCalendar<TestEvent>(
-                firstDay: kFirstDay,
-                lastDay: kLastDay,
-                focusedDay: _focusedDay.value,
-                calendarFormat: _calendarFormat,
-                calendarBuilders: CalendarBuilders(
-                  markerBuilder: (context, day, events) {
-                    if (events.isNotEmpty) {
-                      return Positioned(
-                        bottom: 1,
-                        child: Row(
-                            children: List<Icon>.generate(events.length, (index) =>
-                              Icon(
-                                iconDataMap[events[index].getTypeId()],
-                                size: 12,
-                                color: (day.month == _focusedDay.value.month) ?
-                                  AppColors.calendar.eventIcon(context) :
-                                  AppColors.calendar.eventOtherMonthIcon(context)
-                              ),
-                            )
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-                calendarStyle: CalendarStyle(
-                  selectedDecoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.calendar.selectedEvent(context),
-                  ),
-                  todayDecoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.calendar.todayEvent(context),
-                  ),
-                ),
-                pageJumpingEnabled: true,
-                headerVisible: false,
-                eventLoader: _getEventsForDay,
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                onCalendarCreated: (controller) => _pageController = controller,
-                onDaySelected: _onDaySelected,
-                onPageChanged: (focusedDay) {
-                  _focusedDay.value = focusedDay;
-                },
+              ValueListenableBuilder(
+                valueListenable: widget.events,
+                builder: (context, value, child) {
+                  return TableCalendar<CalendarEvent>(
+                    firstDay: kFirstDay,
+                    lastDay: kLastDay,
+                    focusedDay: _focusedDay.value,
+                    calendarFormat: _calendarFormat,
+                    calendarBuilders: CalendarBuilders(
+                      markerBuilder: (context, day, events) {
+                        if (events.isNotEmpty) {
+                          return Positioned(
+                            bottom: 1,
+                            child: Row(
+                                children: List<Icon>.generate(events.length, (index) =>
+                                  Icon(
+                                    iconDataMap[events[index].getTypeId()],
+                                    size: 12,
+                                    color: (day.month == _focusedDay.value.month) ?
+                                      AppColors.calendar.eventIcon(context) :
+                                      AppColors.calendar.eventOtherMonthIcon(context)
+                                  ),
+                                )
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                    calendarStyle: CalendarStyle(
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.calendar.selectedEvent(context),
+                      ),
+                      todayDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.calendar.todayEvent(context),
+                      ),
+                    ),
+                    pageJumpingEnabled: true,
+                    headerVisible: false,
+                    eventLoader: _getEventsForDay,
+                    startingDayOfWeek: StartingDayOfWeek.monday,
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay.value, day);
+                    },
+                    onCalendarCreated: (controller) => _pageController = controller,
+                    onDaySelected: _onDaySelected,
+                    onPageChanged: (focusedDay) {
+                      _focusedDay.value = focusedDay;
+                    },
+                  );
+                }
               ),
 
               const SizedBox(height: 15.0),
               (_selectedEvents.value.isNotEmpty) ?
                 Expanded(
-                  child: ValueListenableBuilder<List<TestEvent>>(
+                  child: ValueListenableBuilder<List<CalendarEvent>>(
                     valueListenable: _selectedEvents,
                     builder: (context, value, _) {
                       return ListView.builder(
@@ -256,7 +280,7 @@ class _CalendarHeader extends StatelessWidget {
             color: AppColors.calendar.navigationIcon(context),
           ),
           SizedBox(
-            width: 130.0,
+            width: 170,
             child: TextButton(
               onPressed: onSelectDateButtonTap,
               child: Text(

@@ -1336,7 +1336,7 @@ class $EventDataTableTable extends EventDataTable
     'rating',
     aliasedName,
     false,
-    check: () => ComparableExpr(rating).isBetweenValues(1, 5),
+    check: () => ComparableExpr(rating).isBetweenValues(0, 5),
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );

@@ -35,6 +35,8 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  Stream<List<Event>> watchAllEvents() => select(events).watch();
+
   Future<List<Type>> get allTypes => select(types).get();
   Future<List<Category>> get allCategories => select(categories).get();
   Future<List<EOption>> get allOptions => select(eOptions).get();
@@ -57,6 +59,19 @@ class AppDatabase extends _$AppDatabase {
 
   Future<EventData?> getDataById(int id) async {
     return (select(eventDataTable)..where((t) => t.id.equals(id))).getSingleOrNull();
+  }
+
+  Future<EventData?> getDataByEventId(int id) async {
+    return await (select(eventDataTable)..where((t) => t.eventId.equals(id))).getSingleOrNull();
+  }
+
+  Future<List<Partner>> getPartnersByEventId(int eventId) async {
+    final query = select(eventsPartners).join([
+      innerJoin(events, events.id.equalsExp(eventsPartners.eventId)),
+      innerJoin(partners, partners.id.equalsExp(eventsPartners.partnerId))
+    ])..where(eventsPartners.eventId.equals(eventId));
+    final result = await query.get();
+    return result.map((row) => row.readTable(partners)).toList();
   }
 
   Future<List<Partner?>> getPartnerListByPartnerIds(List<int> partnersIdList) async {

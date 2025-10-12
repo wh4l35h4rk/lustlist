@@ -14,7 +14,7 @@ void main() async {
 
   await deleteDatabase();
   database = AppDatabase();
-  await loadEvents(database);
+  await insertMockEntries(database);
   runApp(const MyApp());
 }
 
@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             brightness: Brightness.light,
             seedColor: Colors.pink,
+            // brightness: Brightness.dark,
             // seedColor: Colors.deepPurpleAccent,
         ),
       ),

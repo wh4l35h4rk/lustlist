@@ -30,7 +30,7 @@ class AddEventDataColumn extends StatefulWidget {
   const AddEventDataColumn({
     super.key,
     required this.controller,
-    required this.iconData
+    required this.iconData,
   });
 
   @override
@@ -53,7 +53,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
             children: [
               dataRow(context, Icons.calendar_month, "Date",
                 DatePicker(
-                  controller: widget.controller.dateController,
+                  controller: widget.controller.dateController
                 )
               ),
               dataRow(context, Icons.access_time, "Time",

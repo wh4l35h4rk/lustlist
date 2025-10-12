@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/db/events_options.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/test_event.dart';
+import 'package:lustlist/calendar_event.dart';
 import '../../colors.dart';
 import '../../database.dart';
 import '../../example_utils.dart';
 import '../basic_tile.dart';
 
 class StiTile extends StatelessWidget{
-  final TestEvent event;
+  final CalendarEvent event;
 
   const StiTile({
     super.key,

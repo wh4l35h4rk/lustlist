@@ -100,7 +100,11 @@ class CalendarColors {
       Colors.black26;
 
   Color todayEvent(BuildContext context) =>
-      Theme.of(context).colorScheme.primaryFixed;
+      colorBlend(
+        selectedEvent(context),
+        Theme.of(context).colorScheme.surface,
+        0.4
+      )!;
 
   Color selectedEvent(BuildContext context) =>
       Theme.of(context).colorScheme.inversePrimary;
@@ -114,7 +118,11 @@ class AppBarColors {
       Theme.of(context).colorScheme.primary;
 
   Color title(BuildContext context) =>
-      Theme.of(context).colorScheme.primaryFixed;
+      colorBlend(
+          Theme.of(context).colorScheme.inversePrimary,
+          Theme.of(context).colorScheme.surface,
+          0.4
+      )!;
 
   Color text(BuildContext context) =>
       Theme.of(context).colorScheme.surface;
@@ -133,7 +141,11 @@ class EventDataColors {
       appBarColors.text(context);
 
   Color icon(BuildContext context) =>
-      Theme.of(context).colorScheme.primaryFixed;
+      colorBlend(
+          Theme.of(context).colorScheme.inversePrimary,
+          Theme.of(context).colorScheme.surface,
+          0.4
+      )!;
 
   Color leadingIcon(BuildContext context) =>
       Theme.of(context).colorScheme.inversePrimary;

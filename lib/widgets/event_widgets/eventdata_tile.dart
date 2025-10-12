@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/colors.dart';
-import 'package:lustlist/test_event.dart';
+import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/widgets/basic_tile.dart';
 import '../../db/partners.dart';
@@ -13,7 +13,7 @@ class EventDataTile extends StatelessWidget {
     required this.event,
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _DataColumn extends StatelessWidget {
     required this.event,
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class _DataColumn extends StatelessWidget {
   }
 
 
-  Widget infoRow(BuildContext context, TestEvent event, IconData iconData, String title, Widget child) {
+  Widget infoRow(BuildContext context, CalendarEvent event, IconData iconData, String title, Widget child) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Row(
@@ -128,7 +128,7 @@ class _DataColumn extends StatelessWidget {
     );
   }
 
-  String _getDurationString(TestEvent event) {
+  String _getDurationString(CalendarEvent event) {
     final DateTime? duration = event.data!.duration;
     if (duration != null) {
       int hours = event.data!.duration!.hour;
@@ -160,7 +160,7 @@ class _DataColumn extends StatelessWidget {
     }
   }
 
-  String _getOrgasmsText(TestEvent event) {
+  String _getOrgasmsText(CalendarEvent event) {
     final int orgasmsAmount = event.data!.userOrgasms;
     final String amountString = orgasmsAmount.toString();
 
@@ -173,7 +173,7 @@ class _DataColumn extends StatelessWidget {
     return "$amountString $orgasmsString";
   }
 
-  Row _getRatingIcons(TestEvent event, context) {
+  Row _getRatingIcons(CalendarEvent event, context) {
     final int rating = event.data!.rating;
     return Row(
       children: [
@@ -209,7 +209,7 @@ class _PartnersColumn extends StatelessWidget {
     required this.event,
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +330,7 @@ class _PornTile extends StatelessWidget{
     required this.event,
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +397,7 @@ class _MedicalData extends StatelessWidget{
     required this.event,
   });
 
-  final TestEvent event;
+  final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,12 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:lustlist/widgets/calendar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
-import '../test_event.dart';
+import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
+import '../example_utils.dart';
+import '../main.dart';
+import '../calendar_event.dart';
 import 'add_pages/add_med_page.dart';
 import 'add_pages/add_mstb_page.dart';
 import 'add_pages/add_sex_page.dart';
@@ -20,11 +24,86 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
+  final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> _events = ValueNotifier(
+    LinkedHashMap(equals: isSameDay, hashCode: getHashCode),
+  );
+
+  final ValueNotifier<List<CalendarEvent>> _selectedEvents = ValueNotifier([]);
+  final ValueNotifier<DateTime?> _selectedDay = ValueNotifier(null);
+  final ValueNotifier<bool> _isLoading = ValueNotifier(true);
+
+
+  Future<void> _loadEvents() async {
+    final data = await getEventSource(database);
+    _events.value = LinkedHashMap<DateTime, List<CalendarEvent>>(equals: isSameDay, hashCode: getHashCode)..addAll(data);
+
+    final types = await database.allTypes;
+    for (final type in types) {
+      iconDataMap[type.id] = getTypeIconData(type.slug);
+    }
+  }
+
+  List<CalendarEvent> _getEventsForDay(DateTime day) {
+    final normalizedDay = normalizeDate(day);
+    return _events.value[normalizedDay] ?? [];
+  }
+
+  Future<void> _onAddEventTap(int index) async {
+    StatefulWidget widget;
+    if (index == 0) {
+      widget = AddSexEventPage(_selectedDay.value);
+    } else if (index == 1) {
+      widget = AddMstbEventPage();
+    } else {
+      widget = AddMedEventPage();
+    }
+
+    final result = await Navigator.push(context,
+      MaterialPageRoute(builder: (_) => widget),
+    );
+    if (result == true) {
+      await Future.delayed(Duration(milliseconds: 200));
+      await _loadEvents();
+      if (mounted && _selectedDay.value != null) {
+        _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
+      }
+      setState(() {});
+    }
+  }
+
+  Future<void> _init() async {
+    await _loadEvents();
+    if (mounted && _selectedDay.value != null) {
+      _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
+    }
+    _isLoading.value = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(),
-      body: Calendar(),
+      body: ValueListenableBuilder(
+        valueListenable: _isLoading,
+        builder: (context, isLoading, child) {
+          if (!isLoading) {
+            return Calendar(
+              events: _events,
+              selectedEvents: _selectedEvents,
+              selectedDay: _selectedDay,
+            );
+          } else {
+            return const Center(
+                child: CircularProgressIndicator());
+          }
+        }
+      ),
 
       floatingActionButton: MenuAnchor(
         builder: (BuildContext context, MenuController controller, Widget? child) {
@@ -38,27 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             tooltip: 'Show menu',
             child: const Icon(Icons.add),
-
           );
         },
         menuChildren: List<MenuItemButton>.generate(
             3,
             (int index) => MenuItemButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (context) {
-                      if (index == 0) {
-                        return AddSexEventPage();
-                      } else if (index == 1) {
-                        return AddMstbEventPage();
-                      } else {
-                        return AddMedEventPage();
-                      }
-                    },
-                  ),
-                );
+                _onAddEventTap(index);
               },
               child: Icon(iconsData[index])
             ),
@@ -67,4 +132,9 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: MainBottomNavigationBar(),
     );
   }
+}
+
+
+int getHashCode(DateTime key) {
+  return key.day * 1000000 + key.month * 10000 + key.year;
 }
