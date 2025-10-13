@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/widgets/add_widgets/date_picker.dart';
 import 'package:lustlist/widgets/add_widgets/orgasms_picker.dart';
+import 'package:lustlist/widgets/add_widgets/switch.dart';
 import 'package:lustlist/widgets/add_widgets/time_picker.dart';
 import '../../colors.dart';
 
@@ -9,6 +10,7 @@ class AddEventDataController {
   final DateController dateController = DateController();
   final TimeController timeController = TimeController();
   final TimeController durationController = TimeController();
+  final SwitchController pornController = SwitchController();
 
   int rating = 0;
   int orgasmAmount = 0;
@@ -24,13 +26,13 @@ class AddEventDataController {
 
 
 class AddEventDataColumn extends StatefulWidget {
-  final IconData iconData;
   final AddEventDataController controller;
+  final bool isMstb;
 
   const AddEventDataColumn({
     super.key,
     required this.controller,
-    required this.iconData,
+    required this.isMstb,
   });
 
   @override
@@ -41,65 +43,72 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
 
   int get rating => widget.controller.rating;
   int get orgasmAmount => widget.controller.orgasmAmount;
-  IconData get iconData => widget.iconData;
+  
+  late bool isMstb = widget.isMstb;
+  late IconData iconData = isMstb ? Icons.front_hand : Icons.favorite;
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        IntrinsicHeight(
+          child: Row(
             children: [
-              dataRow(context, Icons.calendar_month, "Date",
-                DatePicker(
-                  controller: widget.controller.dateController
-                )
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  dataRow(Icons.calendar_month, "Date",
+                    DatePicker(
+                      controller: widget.controller.dateController
+                    )
+                  ),
+                  dataRow(Icons.access_time, "Time",
+                    TimePicker(
+                      type: 0,
+                      controller: widget.controller.timeController,
+                    )
+                  ),
+                  dataRow(Icons.star, "Rating",
+                    ratingRow()
+                  ),
+                  dataRow(Icons.timelapse, "Duration",
+                    TimePicker(
+                      type: 1,
+                      controller: widget.controller.durationController,
+                    )
+                  ),
+                  dataRow(Icons.auto_awesome, "My orgasms",
+                    OrgasmsAmountPicker(
+                      amount: orgasmAmount,
+                      onChanged: (newValue) {
+                        setState(() {
+                          widget.controller.setOrgasmAmount(newValue);
+                        });
+                      },
+                    )
+                  ),
+                ],
               ),
-              dataRow(context, Icons.access_time, "Time",
-                TimePicker(
-                  type: 0,
-                  controller: widget.controller.timeController,
-                )
-              ),
-              dataRow(context, Icons.star, "Rating",
-                ratingRow(context)
-              ),
-              dataRow(context, Icons.timelapse, "Duration",
-                TimePicker(
-                  type: 1,
-                  controller: widget.controller.durationController,
-                )
-              ),
-              dataRow(context, Icons.auto_awesome, "My orgasms",
-                OrgasmsAmountPicker(
-                  amount: orgasmAmount,
-                  onChanged: (newValue) {
-                    setState(() {
-                      widget.controller.setOrgasmAmount(newValue);
-                    });
-                  },
-                )
+              Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    iconData,
+                    color: AppColors.addEvent.leadingIcon(context),
+                  ),
+                ],
               ),
             ],
           ),
-          Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                iconData,
-                color: AppColors.addEvent.leadingIcon(context),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+        ?isMstb ? pornColumn() : null
+      ],
     );
   }
 
 
-  Widget dataRow(BuildContext context, IconData iconData, String title, Widget child){
+  Widget dataRow(IconData iconData, String title, Widget child){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Row(
@@ -122,7 +131,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
     );
   }
 
-  Widget ratingRow(BuildContext context) {
+  Widget ratingRow() {
     return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -146,6 +155,36 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
               ),
             )
         ]
+    );
+  }
+
+  Widget pornColumn() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Divider(),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Porn:",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: AppColors.addEvent.title(context),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Icon(
+              Icons.play_circle,
+              color: AppColors.addEvent.leadingIcon(context),
+            ),
+          ],
+        ),
+        AppSwitch(widget.controller.pornController)
+      ],
     );
   }
 }

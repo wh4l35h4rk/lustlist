@@ -16,7 +16,7 @@ Future<int> loadEvent(AppDatabase db, String slug, DateTime date, DateTime time,
 }
 
 
-Future<void> loadEventData(AppDatabase db, Future<int> id, int rating, DateTime? duration, int orgasmAmount) async {
+Future<void> loadEventData(AppDatabase db, Future<int> id, int rating, DateTime? duration, int orgasmAmount, bool? didWatchPorn) async {
   if (duration != null && duration.hour == 0 && duration.minute == 0) {
     duration = null;
   }
@@ -26,6 +26,7 @@ Future<void> loadEventData(AppDatabase db, Future<int> id, int rating, DateTime?
         rating: rating,
         duration: Value(duration),
         userOrgasms: Value(orgasmAmount),
+        didWatchPorn: Value(didWatchPorn),
       )
   );
 }

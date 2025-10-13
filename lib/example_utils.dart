@@ -124,6 +124,7 @@ Future<void> insertMockEntries(AppDatabase db) async{
         eventId: event2Id,
         rating: 5,
         userOrgasms: Value(2),
+        didWatchPorn: Value(false),
       )
   );
 

@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 0) {
       widget = AddSexEventPage(_selectedDay.value);
     } else if (index == 1) {
-      widget = AddMstbEventPage();
+      widget = AddMstbEventPage(_selectedDay.value);
     } else {
       widget = AddMedEventPage();
     }

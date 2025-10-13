@@ -350,44 +350,16 @@ class _PornTile extends StatelessWidget{
               ),
             ),
           ),
-          FutureBuilder<String>(
-            future: _checkOption(database, context),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading...",
-                  style: TextStyle(
-                    color: AppColors.eventData.text(context),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text("Error loading data",
-                  style: TextStyle(
-                    color: AppColors.eventData.text(context),
-                  ),
-                );
-              } else {
-                return Text(snapshot.data ?? "No data",
-                  style: TextStyle(
-                    color: AppColors.eventData.text(context),
-                  ),
-                );
-              }
-            },
-          ),
+          Text(
+            event.data!.didWatchPorn! ? "Did watch" : "Did not watch",
+            style: TextStyle(
+              fontSize: 14,
+              color: AppColors.eventData.text(context)
+            ),
+          )
         ],
       ),
     );
-  }
-
-  Future<String> _checkOption(AppDatabase db, context) async {
-    int optionId = await db.getOptionIdBySlug("porn");
-    bool check = await db.checkOptionEvent(event.event.id, optionId);
-
-    if (check){
-      return "Did watch";
-    } else {
-      return "Did not watch";
-    }
   }
 }
 

@@ -1365,6 +1365,20 @@ class $EventDataTableTable extends EventDataTable
         'NOT NULL DEFAULT 1 CHECK(user_orgasms BETWEEN 0 AND 25)',
     defaultValue: const CustomExpression('1'),
   );
+  static const VerificationMeta _didWatchPornMeta = const VerificationMeta(
+    'didWatchPorn',
+  );
+  @override
+  late final GeneratedColumn<bool> didWatchPorn = GeneratedColumn<bool>(
+    'did_watch_porn',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("did_watch_porn" IN (0, 1))',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1372,6 +1386,7 @@ class $EventDataTableTable extends EventDataTable
     rating,
     duration,
     userOrgasms,
+    didWatchPorn,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1419,6 +1434,15 @@ class $EventDataTableTable extends EventDataTable
         ),
       );
     }
+    if (data.containsKey('did_watch_porn')) {
+      context.handle(
+        _didWatchPornMeta,
+        didWatchPorn.isAcceptableOrUnknown(
+          data['did_watch_porn']!,
+          _didWatchPornMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1448,6 +1472,10 @@ class $EventDataTableTable extends EventDataTable
         DriftSqlType.int,
         data['${effectivePrefix}user_orgasms'],
       )!,
+      didWatchPorn: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}did_watch_porn'],
+      ),
     );
   }
 
@@ -1463,12 +1491,14 @@ class EventData extends DataClass implements Insertable<EventData> {
   final int rating;
   final DateTime? duration;
   final int userOrgasms;
+  final bool? didWatchPorn;
   const EventData({
     required this.id,
     required this.eventId,
     required this.rating,
     this.duration,
     required this.userOrgasms,
+    this.didWatchPorn,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1480,6 +1510,9 @@ class EventData extends DataClass implements Insertable<EventData> {
       map['duration'] = Variable<DateTime>(duration);
     }
     map['user_orgasms'] = Variable<int>(userOrgasms);
+    if (!nullToAbsent || didWatchPorn != null) {
+      map['did_watch_porn'] = Variable<bool>(didWatchPorn);
+    }
     return map;
   }
 
@@ -1492,6 +1525,9 @@ class EventData extends DataClass implements Insertable<EventData> {
           ? const Value.absent()
           : Value(duration),
       userOrgasms: Value(userOrgasms),
+      didWatchPorn: didWatchPorn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(didWatchPorn),
     );
   }
 
@@ -1506,6 +1542,7 @@ class EventData extends DataClass implements Insertable<EventData> {
       rating: serializer.fromJson<int>(json['rating']),
       duration: serializer.fromJson<DateTime?>(json['duration']),
       userOrgasms: serializer.fromJson<int>(json['userOrgasms']),
+      didWatchPorn: serializer.fromJson<bool?>(json['didWatchPorn']),
     );
   }
   @override
@@ -1517,6 +1554,7 @@ class EventData extends DataClass implements Insertable<EventData> {
       'rating': serializer.toJson<int>(rating),
       'duration': serializer.toJson<DateTime?>(duration),
       'userOrgasms': serializer.toJson<int>(userOrgasms),
+      'didWatchPorn': serializer.toJson<bool?>(didWatchPorn),
     };
   }
 
@@ -1526,12 +1564,14 @@ class EventData extends DataClass implements Insertable<EventData> {
     int? rating,
     Value<DateTime?> duration = const Value.absent(),
     int? userOrgasms,
+    Value<bool?> didWatchPorn = const Value.absent(),
   }) => EventData(
     id: id ?? this.id,
     eventId: eventId ?? this.eventId,
     rating: rating ?? this.rating,
     duration: duration.present ? duration.value : this.duration,
     userOrgasms: userOrgasms ?? this.userOrgasms,
+    didWatchPorn: didWatchPorn.present ? didWatchPorn.value : this.didWatchPorn,
   );
   EventData copyWithCompanion(EventDataTableCompanion data) {
     return EventData(
@@ -1542,6 +1582,9 @@ class EventData extends DataClass implements Insertable<EventData> {
       userOrgasms: data.userOrgasms.present
           ? data.userOrgasms.value
           : this.userOrgasms,
+      didWatchPorn: data.didWatchPorn.present
+          ? data.didWatchPorn.value
+          : this.didWatchPorn,
     );
   }
 
@@ -1552,13 +1595,15 @@ class EventData extends DataClass implements Insertable<EventData> {
           ..write('eventId: $eventId, ')
           ..write('rating: $rating, ')
           ..write('duration: $duration, ')
-          ..write('userOrgasms: $userOrgasms')
+          ..write('userOrgasms: $userOrgasms, ')
+          ..write('didWatchPorn: $didWatchPorn')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, eventId, rating, duration, userOrgasms);
+  int get hashCode =>
+      Object.hash(id, eventId, rating, duration, userOrgasms, didWatchPorn);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1567,7 +1612,8 @@ class EventData extends DataClass implements Insertable<EventData> {
           other.eventId == this.eventId &&
           other.rating == this.rating &&
           other.duration == this.duration &&
-          other.userOrgasms == this.userOrgasms);
+          other.userOrgasms == this.userOrgasms &&
+          other.didWatchPorn == this.didWatchPorn);
 }
 
 class EventDataTableCompanion extends UpdateCompanion<EventData> {
@@ -1576,12 +1622,14 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
   final Value<int> rating;
   final Value<DateTime?> duration;
   final Value<int> userOrgasms;
+  final Value<bool?> didWatchPorn;
   const EventDataTableCompanion({
     this.id = const Value.absent(),
     this.eventId = const Value.absent(),
     this.rating = const Value.absent(),
     this.duration = const Value.absent(),
     this.userOrgasms = const Value.absent(),
+    this.didWatchPorn = const Value.absent(),
   });
   EventDataTableCompanion.insert({
     this.id = const Value.absent(),
@@ -1589,6 +1637,7 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
     required int rating,
     this.duration = const Value.absent(),
     this.userOrgasms = const Value.absent(),
+    this.didWatchPorn = const Value.absent(),
   }) : eventId = Value(eventId),
        rating = Value(rating);
   static Insertable<EventData> custom({
@@ -1597,6 +1646,7 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
     Expression<int>? rating,
     Expression<DateTime>? duration,
     Expression<int>? userOrgasms,
+    Expression<bool>? didWatchPorn,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1604,6 +1654,7 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
       if (rating != null) 'rating': rating,
       if (duration != null) 'duration': duration,
       if (userOrgasms != null) 'user_orgasms': userOrgasms,
+      if (didWatchPorn != null) 'did_watch_porn': didWatchPorn,
     });
   }
 
@@ -1613,6 +1664,7 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
     Value<int>? rating,
     Value<DateTime?>? duration,
     Value<int>? userOrgasms,
+    Value<bool?>? didWatchPorn,
   }) {
     return EventDataTableCompanion(
       id: id ?? this.id,
@@ -1620,6 +1672,7 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
       rating: rating ?? this.rating,
       duration: duration ?? this.duration,
       userOrgasms: userOrgasms ?? this.userOrgasms,
+      didWatchPorn: didWatchPorn ?? this.didWatchPorn,
     );
   }
 
@@ -1641,6 +1694,9 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
     if (userOrgasms.present) {
       map['user_orgasms'] = Variable<int>(userOrgasms.value);
     }
+    if (didWatchPorn.present) {
+      map['did_watch_porn'] = Variable<bool>(didWatchPorn.value);
+    }
     return map;
   }
 
@@ -1651,7 +1707,8 @@ class EventDataTableCompanion extends UpdateCompanion<EventData> {
           ..write('eventId: $eventId, ')
           ..write('rating: $rating, ')
           ..write('duration: $duration, ')
-          ..write('userOrgasms: $userOrgasms')
+          ..write('userOrgasms: $userOrgasms, ')
+          ..write('didWatchPorn: $didWatchPorn')
           ..write(')'))
         .toString();
   }
@@ -4517,6 +4574,7 @@ typedef $$EventDataTableTableCreateCompanionBuilder =
       required int rating,
       Value<DateTime?> duration,
       Value<int> userOrgasms,
+      Value<bool?> didWatchPorn,
     });
 typedef $$EventDataTableTableUpdateCompanionBuilder =
     EventDataTableCompanion Function({
@@ -4525,6 +4583,7 @@ typedef $$EventDataTableTableUpdateCompanionBuilder =
       Value<int> rating,
       Value<DateTime?> duration,
       Value<int> userOrgasms,
+      Value<bool?> didWatchPorn,
     });
 
 final class $$EventDataTableTableReferences
@@ -4583,6 +4642,11 @@ class $$EventDataTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<bool> get didWatchPorn => $composableBuilder(
+    column: $table.didWatchPorn,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$EventsTableFilterComposer get eventId {
     final $$EventsTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -4636,6 +4700,11 @@ class $$EventDataTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get didWatchPorn => $composableBuilder(
+    column: $table.didWatchPorn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EventsTableOrderingComposer get eventId {
     final $$EventsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -4680,6 +4749,11 @@ class $$EventDataTableTableAnnotationComposer
 
   GeneratedColumn<int> get userOrgasms => $composableBuilder(
     column: $table.userOrgasms,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get didWatchPorn => $composableBuilder(
+    column: $table.didWatchPorn,
     builder: (column) => column,
   );
 
@@ -4742,12 +4816,14 @@ class $$EventDataTableTableTableManager
                 Value<int> rating = const Value.absent(),
                 Value<DateTime?> duration = const Value.absent(),
                 Value<int> userOrgasms = const Value.absent(),
+                Value<bool?> didWatchPorn = const Value.absent(),
               }) => EventDataTableCompanion(
                 id: id,
                 eventId: eventId,
                 rating: rating,
                 duration: duration,
                 userOrgasms: userOrgasms,
+                didWatchPorn: didWatchPorn,
               ),
           createCompanionCallback:
               ({
@@ -4756,12 +4832,14 @@ class $$EventDataTableTableTableManager
                 required int rating,
                 Value<DateTime?> duration = const Value.absent(),
                 Value<int> userOrgasms = const Value.absent(),
+                Value<bool?> didWatchPorn = const Value.absent(),
               }) => EventDataTableCompanion.insert(
                 id: id,
                 eventId: eventId,
                 rating: rating,
                 duration: duration,
                 userOrgasms: userOrgasms,
+                didWatchPorn: didWatchPorn,
               ),
           withReferenceMapper: (p0) => p0
               .map(
