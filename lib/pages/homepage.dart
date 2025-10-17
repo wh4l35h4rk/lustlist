@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (index == 1) {
       widget = AddMstbEventPage(_selectedDay.value);
     } else {
-      widget = AddMedEventPage();
+      widget = AddMedEventPage(_selectedDay.value);
     }
 
     final result = await Navigator.push(context,

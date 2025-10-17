@@ -54,34 +54,42 @@ class _AddEventPageBaseState extends State<AddEventPageBase> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text(
-            "Are you sure you want to leave this menu? Your event won't be saved.",
-            style: TextStyle(fontSize: 15, ),
-            textAlign: TextAlign.justify,
+        return GestureDetector(
+          onTap:() {
+            Navigator.of(context).pop();
+          },
+          child: AlertDialog(
+            content: Text(
+              "Are you sure you want to leave this menu? Your event won't be saved.",
+              style: TextStyle(fontSize: 15, ),
+              textAlign: TextAlign.justify,
+            ),
+            actions: [
+              MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: const Text("Return to event"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                color: AppColors.appBar.surface(context),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Text(
+                  "Leave",
+                  style: TextStyle(color: AppColors.appBar.text(context)),
+                ),
+              ),
+            ],
           ),
-          actions: [
-            MaterialButton(
-              child: const Text("Return to event"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            MaterialButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              color: AppColors.appBar.surface(context),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Text(
-                "Leave",
-                style: TextStyle(color: AppColors.appBar.text(context)),
-              ),
-            ),
-          ],
         );
       },
     );

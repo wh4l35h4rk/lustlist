@@ -44,7 +44,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
     
     var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
     for (var o in allOptionsList) {
-      loadOptions(database, id, o.id);
+      loadOptions(database, id, o.id, null);
     }
     
     Navigator.of(context).pop(true);

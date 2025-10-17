@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/widgets/add_widgets/date_picker.dart';
 import 'package:lustlist/widgets/add_widgets/orgasms_picker.dart';
-import 'package:lustlist/widgets/add_widgets/switch.dart';
+import 'package:lustlist/widgets/add_widgets/mstb_switch.dart';
 import 'package:lustlist/widgets/add_widgets/time_picker.dart';
 import '../../colors.dart';
 
@@ -10,7 +10,7 @@ class AddEventDataController {
   final DateController dateController = DateController();
   final TimeController timeController = TimeController();
   final TimeController durationController = TimeController();
-  final SwitchController pornController = SwitchController();
+  final SwitchController pornController = SwitchController(value: false);
 
   int rating = 0;
   int orgasmAmount = 0;
@@ -183,7 +183,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
             ),
           ],
         ),
-        AppSwitch(widget.controller.pornController)
+        MstbSwitch(widget.controller.pornController)
       ],
     );
   }

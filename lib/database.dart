@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:lustlist/test_status.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:lustlist/db/categories.dart';

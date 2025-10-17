@@ -60,7 +60,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
         posesOptions, placeOptions
       ].expand((x) => x).toList();
       for (var o in allOptionsList) {
-        loadOptions(database, id, o.id);
+        loadOptions(database, id, o.id, null);
       }
 
       Navigator.of(context).pop(true);

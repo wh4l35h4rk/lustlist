@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
+import 'package:lustlist/test_status.dart';
 import '../../colors.dart';
 import '../../list_notifier.dart';
 import '../../main.dart';
@@ -8,8 +9,13 @@ import '../basic_tile.dart';
 
 class AddCategoryController {
   final ListNotifier<EOption> selectedOptions = ListNotifier<EOption>();
+  final Map<EOption, TestStatus> statusMap = {};
 
   List<EOption> getSelectedOptions() => selectedOptions.value;
+
+  void setStatus(EOption option, TestStatus status) {
+    statusMap[option] = status;
+  }
 }
 
 
@@ -18,6 +24,7 @@ class AddCategoryTile extends StatefulWidget {
   final AddCategoryController controller;
   final IconData iconData;
   final double iconSize;
+  final Widget? body;
 
   const AddCategoryTile({
     super.key,
@@ -25,6 +32,7 @@ class AddCategoryTile extends StatefulWidget {
     required this.controller,
     required this.iconData,
     this.iconSize = 24,
+    this.body,
   });
 
   @override
@@ -39,6 +47,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   Category get category => widget.category;
   IconData get iconData => widget.iconData;
   double get iconSize => widget.iconSize;
+  Widget? get body => widget.body;
 
 
   @override
@@ -50,61 +59,64 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-        surfaceColor: AppColors.addEvent.surface(context),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${category.name}:",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: AppColors.addEvent.title(context),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+      surfaceColor: AppColors.addEvent.surface(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "${category.name}:",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: AppColors.addEvent.title(context),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                Icon(
-                  iconData,
-                  size: iconSize,
-                  color: AppColors.addEvent.leadingIcon(context),
-                ),
-              ],
-            ),
-            SizedBox(height: 5,),
-            FutureBuilder(
-                future: _optionsListFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text("Loading data...",
-                      style: TextStyle(
-                        color: AppColors.addEvent.coloredText(context),
-                      ),
-                    );
-                  } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
-                    return Text("Error loading data",
-                      style: TextStyle(
-                        color: AppColors.addEvent.coloredText(context),
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceAround,
-                        spacing: 6,
-                        children: List.generate(
+              ),
+              Icon(
+                iconData,
+                size: iconSize,
+                color: AppColors.addEvent.leadingIcon(context),
+              ),
+            ],
+          ),
+          SizedBox(height: 5,),
+          body ?? FutureBuilder(
+              future: _optionsListFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading data...",
+                    style: TextStyle(
+                      color: AppColors.addEvent.coloredText(context),
+                    ),
+                  );
+                } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
+                  return Text("Error loading data",
+                    style: TextStyle(
+                      color: AppColors.addEvent.coloredText(context),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceAround,
+                      spacing: 6,
+                      children: List.generate(
                           snapshot.data!.length, (index) =>
-                              optionListButton(context, snapshot.data![index])
-                          ),
-                        ),
-                    );
-                  }
+                          optionListButton(
+                              context,
+                              snapshot.data![index],
+                          )
+                      ),
+                    ),
+                  );
                 }
-            ),
-          ],
-        ),
+              }
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import '../../colors.dart';
 
-class SwitchController {
-  bool value = false;
+class SwitchController extends ValueNotifier<bool> {
+  SwitchController({
+    required bool value
+  }) : super(value);
 
   void setValue(bool newValue) {
     value = newValue;
   }
 }
 
-class AppSwitch extends StatefulWidget {
+
+class MstbSwitch extends StatefulWidget {
   final SwitchController controller;
 
-  const AppSwitch(
+  const MstbSwitch(
     this.controller,
     {super.key}
   );
 
   @override
-  State<AppSwitch> createState() => _AppSwitchState();
+  State<MstbSwitch> createState() => _MstbSwitchState();
 }
 
-class _AppSwitchState extends State<AppSwitch> {
+class _MstbSwitchState extends State<MstbSwitch> {
   late bool value = widget.controller.value;
 
   @override

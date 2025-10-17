@@ -1,25 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:lustlist/db/events.dart';
 import 'package:lustlist/db/options.dart';
+import '../test_status.dart';
 
-extension TestStatusLabel on TestStatus {
-  String get label {
-    switch (this) {
-      case TestStatus.positive:
-        return "Positive";
-      case TestStatus.negative:
-        return "Negative";
-      case TestStatus.waiting:
-        return "Waiting for result";
-    }
-  }
-}
-
-enum TestStatus {
-  positive,
-  negative,
-  waiting,
-}
 
 @DataClassName('EventOption')
 class EventsOptions extends Table {
