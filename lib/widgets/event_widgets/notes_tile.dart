@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/calendar_event.dart';
-import 'package:lustlist/example_utils.dart';
-
 import '../../colors.dart';
 
 class NotesTile extends StatelessWidget {

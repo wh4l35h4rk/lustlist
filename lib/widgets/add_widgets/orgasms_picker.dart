@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
-import '../../database.dart';
 
 const double _kItemExtent = 32.0;
 List<int> _orgasmAmount = List.generate(12, (index) => index);

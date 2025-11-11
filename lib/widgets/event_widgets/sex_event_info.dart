@@ -30,7 +30,7 @@ class SexEventInfo extends StatelessWidget {
           event: event,
           title: "Practices:",
           categorySlug: "practices",
-          iconData: CustomIcons.hand_lizard,
+          iconData: CustomIcons.handLizard,
           iconSize: 22,
         ),
         CategoryTile(

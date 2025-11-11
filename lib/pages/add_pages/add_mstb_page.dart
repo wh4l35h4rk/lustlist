@@ -91,7 +91,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
               AddCategoryTile(
                 category: categoriesMap['solo practices']!,
                 controller: _practicesController,
-                iconData: CustomIcons.hand_lizard,
+                iconData: CustomIcons.handLizard,
                 iconSize: 22,
               ),
               AddCategoryTile(

@@ -116,7 +116,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
               AddCategoryTile(
                 category: categoriesMap['practices']!,
                 controller: _practicesController,
-                iconData: CustomIcons.hand_lizard,
+                iconData: CustomIcons.handLizard,
                 iconSize: 22,
               ),
               AddCategoryTile(

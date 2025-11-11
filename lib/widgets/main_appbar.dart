@@ -6,12 +6,14 @@ import 'package:lustlist/example_utils.dart';
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   final Widget? backButton;
   final Widget? editButton;
+  final Widget? deleteButton;
   final String title;
 
   const MainAppBar({
     super.key,
     this.backButton,
     this.editButton,
+    this.deleteButton,
     this.title = appTitle,
   });
 
@@ -20,27 +22,18 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       centerTitle: true,
       backgroundColor: AppColors.appBar.surface(context),
-      title: editButton == null ?
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: title != appTitle ? 20 : 25,
-            color: AppColors.appBar.title(context),
-          ),
-        ) :
-        Row(children: [
-          Spacer(),
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: title != appTitle ? 20 : 25,
-                color: AppColors.appBar.text(context),
-            ),
-          ),
-          Spacer(),
-          editButton!,
-        ],),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: title != appTitle ? 19 : 25,
+          color: editButton == null ? AppColors.appBar.title(context) : AppColors.appBar.text(context),
+        ),
+      ),
       leading: backButton,
+      actions: [
+        deleteButton ?? SizedBox.shrink(),
+        editButton ?? SizedBox.shrink(),
+      ],
     );
   }
 

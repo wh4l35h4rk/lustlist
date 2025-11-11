@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/db/events.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/pages/eventpage.dart';

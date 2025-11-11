@@ -182,29 +182,4 @@ class StiTile extends StatelessWidget{
     List<EOption> options = await db.getEventOptionsByCategory(event.event.id, categoryId);
     return options;
   }
-
-  Future<IconData> _getIcon(AppDatabase db, EOption option) async {
-    TestStatus? statusData = await db.getTestResult(event.event.id, option.id);
-    IconData iconsData;
-    switch (statusData){
-      case TestStatus.positive:
-        iconsData = Icons.check;
-      case TestStatus.negative:
-        iconsData = Icons.close;
-      case TestStatus.waiting:
-        iconsData = Icons.autorenew;
-      default:
-        iconsData = Icons.question_mark;
-    }
-    return iconsData;
-  }
-
-  Future<String> _getStatusLabel(AppDatabase db, EOption option) async {
-    TestStatus? statusData = await db.getTestResult(event.event.id, option.id);
-    if (statusData != null) {
-      return statusData.label;
-    } else {
-      return "No data";
-    }
-  }
 }

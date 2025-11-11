@@ -32,7 +32,7 @@ class CustomIcons {
 
   static const IconData genderless_1 = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData genderless = IconData(0xf22d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData hand_lizard = IconData(0xf258, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData handLizard = IconData(0xf258, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData viruses = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
 

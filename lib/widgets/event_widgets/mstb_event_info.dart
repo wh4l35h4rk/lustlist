@@ -23,7 +23,7 @@ class MstbEventInfo extends StatelessWidget {
           event: event,
           title: "Practices:",
           categorySlug: "solo practices",
-          iconData: CustomIcons.hand_lizard,
+          iconData: CustomIcons.handLizard,
           iconSize: 22,
         ),
         CategoryTile(
