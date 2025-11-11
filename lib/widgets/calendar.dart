@@ -238,7 +238,7 @@ class _CalendarState extends State<Calendar> {
                   children: [
                     const SizedBox(height: 15.0),
                     Text(
-                      "There are no events this day!",
+                      _selectedDay.value != null ? "There are no events this day!" : "No days selected!",
                       style: TextStyle(
                         color: AppColors.defaultTile(context),
                         fontSize: 16

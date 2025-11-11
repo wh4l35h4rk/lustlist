@@ -36,10 +36,7 @@ class EventPage extends StatelessWidget {
           color: AppColors.appBar.icon(context),
         ),
         deleteButton: IconButton(
-          onPressed: () {
-            deleteEvent(event);
-            Navigator.of(context).pop(true);
-          }, 
+          onPressed: () => _showPopUp(context),
           icon: Icon(Icons.delete),
           color: AppColors.appBar.icon(context),
         ),
@@ -75,5 +72,51 @@ class EventPage extends StatelessWidget {
 
   Future<void> deleteEvent(CalendarEvent event) async {
     await database.deleteEvent(event.event.id);
+  }
+
+  void _showPopUp(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap:() {
+            Navigator.of(context).pop();
+          },
+          child: AlertDialog(
+            content: Text(
+              "Are you sure you want to delete this event? This action can't be undone.",
+              style: TextStyle(fontSize: 15, ),
+              textAlign: TextAlign.justify,
+            ),
+            actions: [
+              MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: const Text("Return to event"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              MaterialButton(
+                onPressed: () {
+                  deleteEvent(event);
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
+                },
+                color: AppColors.appBar.surface(context),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Text(
+                  "Delete",
+                  style: TextStyle(color: AppColors.appBar.text(context)),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
