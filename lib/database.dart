@@ -178,6 +178,15 @@ class AppDatabase extends _$AppDatabase {
     return result.testStatus;
   }
 
+  Future deleteEvent(int eventId) async {
+    try {
+      final deleted = await (delete(events)..where((t) => t.id.equals(eventId))).go();
+      print('Deleted $deleted row(s)');
+    } catch (e) {
+      print('Error while deleting event: $e');
+    }
+  }
+
 
   @override
   MigrationStrategy get migration {

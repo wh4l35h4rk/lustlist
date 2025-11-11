@@ -1327,7 +1327,7 @@ class $EventDataTableTable extends EventDataTable
     type: DriftSqlType.int,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES events (id)',
+      'REFERENCES events (id) ON DELETE CASCADE',
     ),
   );
   static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
@@ -2365,7 +2365,7 @@ class $EventsOptionsTable extends EventsOptions
     type: DriftSqlType.int,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES events (id)',
+      'REFERENCES events (id) ON DELETE CASCADE',
     ),
   );
   static const VerificationMeta _optionIdMeta = const VerificationMeta(
@@ -2650,7 +2650,7 @@ class $EventsPartnersTable extends EventsPartners
     type: DriftSqlType.int,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES events (id)',
+      'REFERENCES events (id) ON DELETE CASCADE',
     ),
   );
   static const VerificationMeta _partnerIdMeta = const VerificationMeta(
@@ -2939,6 +2939,30 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     eventsOptions,
     eventsPartners,
   ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'events',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('event_data_table', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'events',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('events_options', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'events',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('events_partners', kind: UpdateKind.delete)],
+    ),
+  ]);
   @override
   DriftDatabaseOptions get options =>
       const DriftDatabaseOptions(storeDateTimeAsText: true);

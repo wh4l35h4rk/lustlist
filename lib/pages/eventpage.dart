@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lustlist/db/events.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/calendar_event.dart';
@@ -8,6 +7,7 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/event_widgets/med_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
+import '../main.dart';
 
 
 class EventPage extends StatelessWidget {
@@ -34,6 +34,18 @@ class EventPage extends StatelessWidget {
           },
           icon: Icon(Icons.edit),
           color: AppColors.appBar.icon(context),
+          padding: EdgeInsets.all(0.0),
+          constraints: BoxConstraints(),
+        ),
+        deleteButton: IconButton(
+          onPressed: () {
+            deleteEvent(event);
+            Navigator.of(context).pop(true);
+          }, 
+          icon: Icon(Icons.delete),
+          color: AppColors.appBar.icon(context),
+          padding: EdgeInsets.all(0.0),
+          constraints: BoxConstraints(),
         ),
       ),
       body: _getEventTypeWidget(event),
@@ -63,5 +75,9 @@ class EventPage extends StatelessWidget {
       default:
         throw FormatException("Wrong type: $type");
     }
+  }
+
+  Future<void> deleteEvent(CalendarEvent event) async {
+    await database.deleteEvent(event.event.id);
   }
 }

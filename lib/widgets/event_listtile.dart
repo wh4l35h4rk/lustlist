@@ -4,16 +4,17 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/calendar_event.dart';
-import 'package:lustlist/pages/eventpage.dart';
 
 
 class EventListTile extends StatelessWidget {
   const EventListTile({
     required this.event,
     super.key,
+    required this.onTap,
   });
 
   final CalendarEvent event;
+  final GestureTapCallback onTap;
 
   String _getTitle() {
     final typeSlug = event.getTypeSlug();
@@ -100,15 +101,7 @@ class EventListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        onTap: () {
-          CalendarEvent event = this.event;
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (context) => EventPage(event: event),
-            ),
-          );
-        },
+        onTap: onTap,
         leading: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

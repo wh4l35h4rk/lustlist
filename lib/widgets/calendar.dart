@@ -8,18 +8,21 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/example_utils.dart';
 import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/widgets/event_listtile.dart';
+import '../pages/eventpage.dart';
 
 
 class Calendar extends StatefulWidget {
   final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> events;
   final ValueNotifier<List<CalendarEvent>> selectedEvents;
   final ValueNotifier<DateTime?> selectedDay;
+  final Future<void> Function()? onReload;
 
   const Calendar({
     super.key,
     required this.events,
     required this.selectedEvents,
     required this.selectedDay,
+    this.onReload,
   });
 
   @override
@@ -221,7 +224,10 @@ class _CalendarState extends State<Calendar> {
                                     horizontal: BorderSide(color: AppColors.calendar.border(context))
                                 ),
                               ),
-                              child: EventListTile(event: value[index],)
+                              child: EventListTile(
+                                onTap: () => _onEventListTileTap(value[index]),
+                                event: value[index],
+                              )
                           );
                         },
                       );
@@ -245,6 +251,23 @@ class _CalendarState extends State<Calendar> {
         }
       ),
     );
+  }
+
+  Future<void> _onEventListTileTap(CalendarEvent event) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EventPage(event: event),
+      ),
+    );
+    if (result == true) {
+      await Future.delayed(Duration(milliseconds: 200));
+      await widget.onReload!();
+      if (mounted && _selectedDay.value != null) {
+        _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
+      }
+      setState(() {});
+    }
   }
 }
 

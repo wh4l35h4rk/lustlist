@@ -97,10 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
               events: _events,
               selectedEvents: _selectedEvents,
               selectedDay: _selectedDay,
+              onReload: _loadEvents,
             );
           } else {
-            return const Center(
-                child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         }
       ),

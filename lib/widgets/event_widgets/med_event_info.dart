@@ -9,6 +9,7 @@ import 'package:lustlist/widgets/event_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/event_widgets/sti_tile.dart';
 
 import '../../database.dart';
+import 'error_tile.dart';
 
 
 class MedEventInfo extends StatelessWidget {
@@ -28,17 +29,19 @@ class MedEventInfo extends StatelessWidget {
             future: getCategoryList(database, event.event),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text(
-                  "Loading...",
-                  style: TextStyle(color: AppColors.categoryTile.text(context)));
+                return ErrorTile(
+                  iconData: Icons.autorenew,
+                  title: "Loading...",
+                );
               } else if (snapshot.hasError) {
-                return Text(
-                    "Error loading data",
-                    style: TextStyle(color: AppColors.categoryTile.text(context)));
+                  return ErrorTile(
+                    iconData: Icons.bug_report,
+                    title: "Error loading data",
+                  );
               } else if (!snapshot.hasData) {
-                return Text(
-                  "No data",
-                  style: TextStyle(color: AppColors.categoryTile.text(context)),
+                return ErrorTile(
+                  iconData: Icons.close,
+                  title: "No data",
                 );
               }
 
@@ -54,27 +57,37 @@ class MedEventInfo extends StatelessWidget {
                       iconData: CategoryIcons.uterus,
                       iconSize: 29,
                     ),
+                    NotesTile(event: event),
                   ]
                 );
               } else if (categoryList.contains("sti")){
-                return StiTile(event: event);
+                return Column(
+                  children: [
+                    StiTile(event: event),
+                    NotesTile(event: event),
+                  ],
+                );
               } else if (categoryList.contains("obgyn")){
-                return CategoryTile(
-                  event: event,
-                  title: "OB-GYN visit:",
-                  categorySlug: "obgyn",
-                  iconData: CategoryIcons.uterus,
-                  iconSize: 29,
+                return Column(
+                  children: [
+                    CategoryTile(
+                      event: event,
+                      title: "OB-GYN visit:",
+                      categorySlug: "obgyn",
+                      iconData: CategoryIcons.uterus,
+                      iconSize: 29,
+                    ),
+                    NotesTile(event: event),
+                  ],
                 );
               } else {
-                return Text(
-                  "No data",
-                  style: TextStyle(color: AppColors.text(context),)
+                return ErrorTile(
+                  iconData: Icons.close,
+                  title: "No data",
                 );
               }
             }
         ),
-        NotesTile(event: event),
         SizedBox(height: 10,)
       ],
     );
