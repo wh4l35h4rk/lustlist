@@ -34,8 +34,6 @@ class EventPage extends StatelessWidget {
           },
           icon: Icon(Icons.edit),
           color: AppColors.appBar.icon(context),
-          padding: EdgeInsets.all(0.0),
-          constraints: BoxConstraints(),
         ),
         deleteButton: IconButton(
           onPressed: () {
@@ -44,8 +42,6 @@ class EventPage extends StatelessWidget {
           }, 
           icon: Icon(Icons.delete),
           color: AppColors.appBar.icon(context),
-          padding: EdgeInsets.all(0.0),
-          constraints: BoxConstraints(),
         ),
       ),
       body: _getEventTypeWidget(event),

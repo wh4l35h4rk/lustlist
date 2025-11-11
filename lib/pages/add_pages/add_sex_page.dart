@@ -6,6 +6,7 @@ import 'package:lustlist/pages/add_event_page_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
+import '../../example_utils.dart';
 import '../../load2db_methods.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
@@ -13,7 +14,6 @@ import '../../widgets/basic_tile.dart';
 
 class AddSexEventPage extends StatefulWidget{
   final DateTime? initDay;
-
   const AddSexEventPage(this.initDay, {super.key});
 
   @override
@@ -22,9 +22,10 @@ class AddSexEventPage extends StatefulWidget{
 
 class _AddSexEventPageState extends State<AddSexEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-  late final DateTime? _initDay = widget.initDay;
 
-  final _dataController = AddEventDataController();
+  late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
+  late final _dataController = AddEventDataController(date: _initDay);
+
   final _partnersController = SelectPartnersController();
   final _contraceptionController = AddCategoryController();
   final _practicesController = AddCategoryController();
@@ -98,12 +99,12 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
           return ListView(
             children: [
               BasicTile(
-                  surfaceColor: AppColors.addEvent.surface(context),
-                  margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
-                  child: AddEventDataColumn(
-                    controller: _dataController,
-                    isMstb: false,
-                  )
+                surfaceColor: AppColors.addEvent.surface(context),
+                margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
+                child: AddEventDataColumn(
+                  controller: _dataController,
+                  isMstb: false
+                )
               ),
               SelectPartnersTile(
                 controller: _partnersController,

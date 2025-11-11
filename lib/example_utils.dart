@@ -260,10 +260,12 @@ IconData getTypeIconData(String slug)  {
   }
 }
 
-
+DateTime toDate(DateTime dateTime) {
+  return DateTime(dateTime.year, dateTime.month, dateTime.day);
+}
 
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+final kLastDay = toDate(DateTime.now());
 
 const appTitle = "LustList";

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
+import 'package:lustlist/example_utils.dart';
 import 'package:lustlist/pages/add_event_page_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
@@ -21,9 +22,9 @@ class AddMedEventPage extends StatefulWidget{
 
 class _AddMedEventPageState extends State<AddMedEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-  late final DateTime? _initDay = widget.initDay;
+  late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
+  late final _dataController = AddMedEventDataController(date: _initDay);
 
-  final _dataController = AddMedEventDataController();
   final _stiController = AddCategoryController();
   final _obgynController = AddCategoryController();
   final _notesController = NotesTileController();

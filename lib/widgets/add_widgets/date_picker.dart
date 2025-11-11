@@ -4,7 +4,9 @@ import '../../colors.dart';
 import '../../example_utils.dart';
 
 class DateController {
-  DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+  DateTime date;
+
+  DateController(this.date);
 
   void setDate(DateTime newValue) {
     date = newValue;

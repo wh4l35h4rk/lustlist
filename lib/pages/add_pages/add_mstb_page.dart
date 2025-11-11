@@ -5,6 +5,7 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/add_event_page_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
+import '../../example_utils.dart';
 import '../../load2db_methods.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
@@ -21,9 +22,9 @@ class AddMstbEventPage extends StatefulWidget{
 
 class _AddMstbEventPageState extends State<AddMstbEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-  late final DateTime? _initDay = widget.initDay;
+  late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
+  late final _dataController = AddEventDataController(date: _initDay);
 
-  final _dataController = AddEventDataController();
   final _practicesController = AddCategoryController();
   final _placeController = AddCategoryController();
   final _notesController = NotesTileController();

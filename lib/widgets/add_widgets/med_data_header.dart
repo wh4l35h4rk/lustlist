@@ -9,7 +9,13 @@ import '../../main.dart';
 
 
 class AddMedEventDataController {
-  final DateController dateController = DateController();
+  DateTime date;
+
+  AddMedEventDataController({
+    required this.date
+  });
+
+  late final DateController dateController = DateController(date);
   final TimeController timeController = TimeController();
   final SwitchController stiController = SwitchController(value: true);
   final SwitchController obgynController = SwitchController(value: true);

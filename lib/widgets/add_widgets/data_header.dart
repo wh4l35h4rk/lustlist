@@ -7,7 +7,13 @@ import '../../colors.dart';
 
 
 class AddEventDataController {
-  final DateController dateController = DateController();
+  DateTime date;
+
+  AddEventDataController({
+    required this.date
+  });
+
+  late final DateController dateController = DateController(date);
   final TimeController timeController = TimeController();
   final TimeController durationController = TimeController();
   final SwitchController pornController = SwitchController(value: false);
@@ -40,7 +46,6 @@ class AddEventDataColumn extends StatefulWidget {
 }
 
 class _AddEventDataColumnState extends State<AddEventDataColumn> {
-
   int get rating => widget.controller.rating;
   int get orgasmAmount => widget.controller.orgasmAmount;
   
@@ -59,7 +64,7 @@ class _AddEventDataColumnState extends State<AddEventDataColumn> {
                 children: [
                   dataRow(Icons.calendar_month, "Date",
                     DatePicker(
-                      controller: widget.controller.dateController
+                      controller: widget.controller.dateController,
                     )
                   ),
                   dataRow(Icons.access_time, "Time",
