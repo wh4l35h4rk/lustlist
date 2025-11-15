@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/pages/add_event_page_base.dart';
+import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import '../../example_utils.dart';
 import '../../load2db_methods.dart';
 import '../../main.dart';
+import '../../add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
 
@@ -40,7 +41,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
     final practicesOptions = _practicesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();
     
-    var id = loadEvent(database, "masturbation", date, time, notes);
+    var id = await loadEvent(database, "masturbation", date, time, notes);
     loadEventData(database, id, rating, duration, orgasmAmount, didWatchPorn);
     
     var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
@@ -59,8 +60,9 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AddEventPageBase(
+    return AddEditEventPageBase(
       _onPressed,
+      "Add new event",
       FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {
@@ -84,7 +86,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
               BasicTile(
                 surfaceColor: AppColors.addEvent.surface(context),
                 margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
-                child: AddEventDataColumn(
+                child: AddEditEventDataColumn(
                   controller: _dataController,
                   isMstb: true,
                 )

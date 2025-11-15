@@ -3,7 +3,7 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/example_utils.dart';
-import 'package:lustlist/pages/add_event_page_base.dart';
+import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/sti_tile.dart';
@@ -39,7 +39,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
 
     print(stiStatuses);
 
-    var id = loadEvent(database, "medical", date, time, notes);
+    var id = await loadEvent(database, "medical", date, time, notes);
 
     for (var o in obgynOptions) {
       loadOptions(database, id, o.id, null);
@@ -59,8 +59,9 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AddEventPageBase(
+    return AddEditEventPageBase(
       _onPressed,
+      "Add new event",
       FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {

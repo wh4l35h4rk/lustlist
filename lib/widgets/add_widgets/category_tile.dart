@@ -11,6 +11,12 @@ class AddCategoryController {
   final ListNotifier<EOption> selectedOptions = ListNotifier<EOption>();
   final Map<EOption, TestStatus> statusMap = {};
 
+  AddCategoryController({
+    List<EOption>? selectedOptionsList,
+  }) {
+    selectedOptions.value = selectedOptionsList ?? [];
+  }
+
   List<EOption> getSelectedOptions() => selectedOptions.value;
 
   void setStatus(EOption option, TestStatus status) {

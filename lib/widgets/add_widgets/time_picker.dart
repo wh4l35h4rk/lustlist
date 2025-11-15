@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import '../../colors.dart';
 
 class TimeController {
-  DateTime time = DateTime(2016, 5, 10, 0, 0);
+  DateTime time;
+
+  TimeController({DateTime? time}) : time = time ?? DateTime(2016, 5, 10, 0, 0);
   
   void setTime(DateTime newValue) {
     time = newValue;

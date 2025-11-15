@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/pages/add_event_page_base.dart';
+import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
 import '../../example_utils.dart';
 import '../../load2db_methods.dart';
 import '../../main.dart';
+import '../../add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
 
@@ -49,11 +50,11 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     if (partners.isEmpty){
       _partnersController.setValidation(false);
     } else {
-      var id = loadEvent(database, "sex", date, time, notes);
+      var id = await loadEvent(database, "sex", date, time, notes);
       loadEventData(database, id, rating, duration, orgasmAmount, null);
 
       for (var p in partners.keys) {
-        loadEventPartner(database, id, p.id, partners[p]);
+        loadEventPartner(database, await id, p.id, partners[p]);
       }
 
       var allOptionsList = [
@@ -76,8 +77,9 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AddEventPageBase(
+    return AddEditEventPageBase(
       _onPressed,
+      "Add new event",
       FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {
@@ -101,7 +103,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
               BasicTile(
                 surfaceColor: AppColors.addEvent.surface(context),
                 margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
-                child: AddEventDataColumn(
+                child: AddEditEventDataColumn(
                   controller: _dataController,
                   isMstb: false
                 )

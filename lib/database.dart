@@ -179,12 +179,7 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future deleteEvent(int eventId) async {
-    try {
-      final deleted = await (delete(events)..where((t) => t.id.equals(eventId))).go();
-      print('Deleted $deleted row(s)');
-    } catch (e) {
-      print('Error while deleting event: $e');
-    }
+    await (delete(events)..where((t) => t.id.equals(eventId))).go();
   }
 
 

@@ -13,18 +13,22 @@ class SelectPartnersController {
   final MapNotifier<Partner> selectedPartners = MapNotifier<Partner>();
   final ValueNotifier<bool> isValid = ValueNotifier<bool>(true);
 
-  Map<Partner, int> getSelectedPartners() => selectedPartners.value;
-
-  SelectPartnersController() {
+  SelectPartnersController({
+    Map<Partner, int>? selectedPartnersMap,
+  }) {
+    selectedPartners.value = selectedPartnersMap ?? {};
     selectedPartners.addListener(() {
       isValid.value = selectedPartners.value.isNotEmpty;
     });
   }
 
-  void setValidation (bool newValue) {
+  Map<Partner, int> getSelectedPartners() => selectedPartners.value;
+
+  void setValidation(bool newValue) {
     isValid.value = newValue;
   }
 }
+
 
 
 class SelectPartnersTile extends StatefulWidget {

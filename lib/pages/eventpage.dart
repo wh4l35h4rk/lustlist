@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lustlist/database.dart';
+import 'package:lustlist/example_utils.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/calendar_event.dart';
@@ -8,10 +10,11 @@ import 'package:lustlist/widgets/event_widgets/med_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
 import '../main.dart';
+import 'edit_pages/edit_sex_page.dart';
 
 
-class EventPage extends StatelessWidget {
-  const EventPage({
+class EventPage extends StatefulWidget {
+   const EventPage({
     required this.event,
     super.key
   });
@@ -19,18 +22,43 @@ class EventPage extends StatelessWidget {
   final CalendarEvent event;
 
   @override
+  State<EventPage> createState() => _EventPageState();
+}
+
+class _EventPageState extends State<EventPage> {
+  late CalendarEvent event;
+  bool eventChanged = false;
+
+  @override
+  void initState() {
+    super.initState();
+    event = widget.event;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
         title: _getTitle(),
         backButton: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).pop(eventChanged ? true : null),
             icon: Icon(Icons.arrow_back_ios),
             color: AppColors.appBar.icon(context),
         ),
         editButton: IconButton(
-          onPressed: () {
-            //TODO: edit event page
+          onPressed: () async {
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => _getEditEventTypeWidget(event)
+              ),
+            );
+            if (result == true) {
+              eventChanged = true;
+              await Future.delayed(Duration(milliseconds: 100));
+              await reloadEvent(database);
+              setState(() {});
+            }
           },
           icon: Icon(Icons.edit),
           color: AppColors.appBar.icon(context),
@@ -65,6 +93,20 @@ class EventPage extends StatelessWidget {
         return MstbEventInfo(event: event);
       case "medical":
         return MedEventInfo(event: event);
+      default:
+        throw FormatException("Wrong type: $type");
+    }
+  }
+
+  Widget _getEditEventTypeWidget(CalendarEvent event) {
+    final String type = event.type.slug;
+    switch (type) {
+      case "sex":
+        return EditSexEventPage(event: event);
+      case "masturbation":
+        throw UnimplementedError();
+      case "medical":
+        throw UnimplementedError();
       default:
         throw FormatException("Wrong type: $type");
     }
@@ -118,5 +160,12 @@ class EventPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> reloadEvent(AppDatabase db) async {
+    Event dbEvent = await db.getEventById(event.event.id);
+    CalendarEvent calendarEvent = await dbToCalendarEvent(db, dbEvent);
+
+    event = calendarEvent;
   }
 }

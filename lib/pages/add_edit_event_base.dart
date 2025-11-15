@@ -3,21 +3,23 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 
-class AddEventPageBase extends StatefulWidget{
+class AddEditEventPageBase extends StatefulWidget{
   final Function onPressed;
   final Widget body;
+  final String title;
 
-  const AddEventPageBase(
+  const AddEditEventPageBase(
     this.onPressed,
+    this.title,
     this.body,
     {super.key}
   );
 
   @override
-  State<AddEventPageBase> createState() => _AddEventPageBaseState();
+  State<AddEditEventPageBase> createState() => _AddEditEventPageBaseState();
 }
 
-class _AddEventPageBaseState extends State<AddEventPageBase> {
+class _AddEditEventPageBaseState extends State<AddEditEventPageBase> {
 
   @override
   void initState() {
@@ -32,7 +34,7 @@ class _AddEventPageBaseState extends State<AddEventPageBase> {
       },
       child: Scaffold(
           appBar: MainAppBar(
-            title: "Add new event",
+            title: widget.title,
             backButton: IconButton(
                 onPressed: () => _showPopUp(context),
                 icon: Icon(Icons.arrow_back_ios),

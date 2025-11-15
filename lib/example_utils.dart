@@ -14,14 +14,7 @@ Future getEventSource(AppDatabase db) async {
   List<CalendarEvent> testEventList = [];
 
   for (var e in allEvents) {
-    int eventId = e.id;
-    Type type = await db.getTypeByEventId(e);
-    List<Partner> partners = await db.getPartnersByEventId(eventId);
-    List<int> partnerIds = List.generate(partners.length, (index) => partners[index].id);
-    List<int> partnerOrgasms = await db.getPartnerOrgasmsListByIdsList(eventId, partnerIds);
-    EventData? data = await db.getDataByEventId(eventId);
-
-    CalendarEvent event = CalendarEvent(eventId, e, type, partners, partnerOrgasms, data);
+    CalendarEvent event = await dbToCalendarEvent(db, e);
     testEventList.add(event);
   }
   final eventDates = List.generate(testEventList.length, (index) => normalizeDate(testEventList[index].event.date));
@@ -31,6 +24,19 @@ Future getEventSource(AppDatabase db) async {
       date : testEventList.where((element) => normalizeDate(element.event.date) == date).toList()
   };
   return eventMap;
+}
+
+//TODO: change partner orgasms list to map
+Future<CalendarEvent> dbToCalendarEvent(AppDatabase db, Event dbEvent) async {
+  int eventId = dbEvent.id;
+  Type type = await db.getTypeByEventId(dbEvent);
+  List<Partner> partners = await db.getPartnersByEventId(eventId);
+  List<int> partnerIds = List.generate(partners.length, (index) => partners[index].id);
+  List<int> partnerOrgasms = await db.getPartnerOrgasmsListByIdsList(eventId, partnerIds);
+  EventData? data = await db.getDataByEventId(eventId);
+
+  CalendarEvent calendarEvent = CalendarEvent(eventId, dbEvent, type, partners, partnerOrgasms, data);
+  return calendarEvent;
 }
 
 
