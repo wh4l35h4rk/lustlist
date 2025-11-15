@@ -153,6 +153,11 @@ class _DataColumn extends StatelessWidget {
         default:
           minutesString = "$minutes minutes";
       }
+
+      if (hoursString == null && minutesString == null) {
+        return "unknown";
+      }
+
       List<String> list = [?hoursString, ?minutesString];
       return list.join(" ");
     } else {
@@ -241,7 +246,7 @@ class _PartnersColumn extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  for (var partner in event.partners!)
+                  for (var partner in event.partnersMap!.keys)
                     OutlinedButton(
                       onPressed: () {
                         //TODO: partner page routing
@@ -253,7 +258,7 @@ class _PartnersColumn extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            partner!.name,
+                            partner.name,
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 color: AppColors.eventData.text(context)
@@ -274,9 +279,9 @@ class _PartnersColumn extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var index = 0; index < event.partnerOrgasms!.length; index++)
+                  for (var amount in event.partnersMap!.values)
                     Text(
-                      _getOrgasmsText(event.partnerOrgasms![index]),
+                      _getOrgasmsText(amount),
                       style: TextStyle(color: AppColors.eventData.text(context)),
                     )
                 ],
@@ -302,8 +307,8 @@ class _PartnersColumn extends StatelessWidget {
   }
 
   String _getPartnersTitle() {
-    final partners = event.partners;
-    if (partners!.length > 1) {
+    final partners = event.partnersMap!.keys;
+    if (partners.length > 1) {
       return "Partners:";
     } else if (partners.length == 1) {
       return "Partner:";

@@ -31,11 +31,13 @@ Future<CalendarEvent> dbToCalendarEvent(AppDatabase db, Event dbEvent) async {
   int eventId = dbEvent.id;
   Type type = await db.getTypeByEventId(dbEvent);
   List<Partner> partners = await db.getPartnersByEventId(eventId);
-  List<int> partnerIds = List.generate(partners.length, (index) => partners[index].id);
-  List<int> partnerOrgasms = await db.getPartnerOrgasmsListByIdsList(eventId, partnerIds);
+  List<int> partnerOrgasms = await db.getPartnerOrgasmsListByPartnersList(eventId, partners);
+  Map<Partner, int> partnersMap = Map.fromEntries(List.generate(partners.length, (index) =>
+    MapEntry(partners[index], partnerOrgasms[index])
+  ));
   EventData? data = await db.getDataByEventId(eventId);
 
-  CalendarEvent calendarEvent = CalendarEvent(eventId, dbEvent, type, partners, partnerOrgasms, data);
+  CalendarEvent calendarEvent = CalendarEvent(eventId, dbEvent, type, partnersMap, data);
   return calendarEvent;
 }
 

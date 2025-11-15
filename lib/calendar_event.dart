@@ -5,15 +5,14 @@ class CalendarEvent {
   final int id;
   final Event event;
   final Type type;
-  final List<Partner?>? partners;
-  final List<int>? partnerOrgasms;
+  final Map<Partner, int>? partnersMap;
   final EventData? data;
 
-  const CalendarEvent(this.id, this.event, this.type, this.partners, this.partnerOrgasms, this.data);
+  const CalendarEvent(this.id, this.event, this.type, this.partnersMap, this.data);
 
   List<String> getPartnerNames() {
-    if (partners != null) {
-      return List.generate(partners!.length, (index) => partners![index]!.name);
+    if (partnersMap != null) {
+      return List.generate(partnersMap!.length, (index) => partnersMap!.keys.elementAt(index).name);
     } else {
       return [];
     }
@@ -27,6 +26,6 @@ class CalendarEvent {
 
   @override
   String toString() {
-    return '$partners, $event, $data';
+    return '$partnersMap, $event, $data';
   }
 }

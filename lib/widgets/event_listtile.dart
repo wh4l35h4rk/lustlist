@@ -20,7 +20,7 @@ class EventListTile extends StatelessWidget {
     final typeSlug = event.getTypeSlug();
     switch (typeSlug) {
       case "sex":
-        return List.generate(event.partners!.length, (index) => event.partners![index]!.name).join(", ");
+        return event.getPartnerNames().join(", ");
       case "masturbation":
         return event.type.name;
       case "medical":

@@ -40,9 +40,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   );
 
   late final _partnersController = SelectPartnersController(
-    selectedPartnersMap:
-      (event.partners != null && event.partnerOrgasms != null) ?
-        _getPartnerMap(event.partners!, event.partnerOrgasms!) : {}
+    selectedPartnersMap: event.partnersMap ?? {}
   );
 
   late final _notesController = NotesTileController(notes: event.event.notes);
@@ -175,12 +173,6 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     List<Category> categories = await db.allCategories;
     var categoriesMap = { for (var v in categories) v.slug: v };
     return categoriesMap;
-  }
-
-  Map<Partner, int> _getPartnerMap(List<Partner?> partners, List<int> orgasms) {
-    assert (partners.length == orgasms.length);
-    var partnersMap = {for (var i = 0; i < partners.length; i++) partners[i]!: orgasms[i]};
-    return partnersMap;
   }
 
   Future<void> _initControllers() async {

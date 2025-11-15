@@ -80,11 +80,11 @@ class AppDatabase extends _$AppDatabase {
       await (select(partners)..where((t) => t.id.equals(partnersIdList[ii]))).getSingleOrNull()));
   }
 
-  Future<List<int>> getPartnerOrgasmsListByIdsList(int eventId, List<int> partnersIdList) async {
-    final result = await Future.wait(List.generate(partnersIdList.length, (ii) async =>
+  Future<List<int>> getPartnerOrgasmsListByPartnersList(int eventId, List<Partner> partnersList) async {
+    final result = await Future.wait(List.generate(partnersList.length, (ii) async =>
       await (select(eventsPartners)..where((t) =>
-      t.eventId.equals(eventId) & t.partnerId.equals(partnersIdList[ii]))).getSingle()));
-    return List.generate(partnersIdList.length, (ii) => result[ii].partnerOrgasms);
+      t.eventId.equals(eventId) & t.partnerId.equals(partnersList[ii].id))).getSingle()));
+    return List.generate(partnersList.length, (ii) => result[ii].partnerOrgasms);
   }
 
   Future<String> getCategoryName(int id) async {
