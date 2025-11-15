@@ -10,6 +10,7 @@ import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
 import '../main.dart';
 import '../repository.dart';
+import 'edit_pages/edit_mstb_page.dart';
 import 'edit_pages/edit_sex_page.dart';
 
 
@@ -105,7 +106,7 @@ class _EventPageState extends State<EventPage> {
       case "sex":
         return EditSexEventPage(event: event);
       case "masturbation":
-        throw UnimplementedError();
+        return EditMstbEventPage(event: event);
       case "medical":
         throw UnimplementedError();
       default:

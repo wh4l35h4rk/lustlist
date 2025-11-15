@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
-import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
+import '../../calendar_event.dart';
+import '../../edit_eventdata_controller.dart';
 import '../../repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
-import '../../edit_eventdata_controller.dart';
 
 
-class EditSexEventPage extends StatefulWidget{
+class EditMstbEventPage extends StatefulWidget{
   final CalendarEvent event;
-  
-  const EditSexEventPage({
+
+  const EditMstbEventPage({
     super.key,
     required this.event,
   });
 
   @override
-  State<EditSexEventPage> createState() => _EditSexEventPageState();
+  State<EditMstbEventPage> createState() => _EditMstbEventPageState();
 }
 
-class _EditSexEventPageState extends State<EditSexEventPage> {
+class _EditMstbEventPageState extends State<EditMstbEventPage> {
   final repo = EventRepository(database);
   late Future<Map<String, Category>> _categoriesMapFuture;
   late final event = widget.event;
@@ -41,15 +40,9 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     orgasmAmount: event.data?.userOrgasms,
   );
 
-  late final _partnersController = SelectPartnersController(
-    selectedPartnersMap: event.partnersMap ?? {}
-  );
-
   late final _notesController = NotesTileController(notes: event.event.notes);
 
-  AddCategoryController? _contraceptionController;
   AddCategoryController? _practicesController;
-  AddCategoryController? _posesController;
   AddCategoryController? _placeController;
 
   void _onPressed() async {
@@ -59,34 +52,20 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
     final duration = _dataController.durationController.time;
-    final partners = _partnersController.getSelectedPartners();
-    final contraceptionOptions = _contraceptionController!.getSelectedOptions();
+    final didWatchPorn = _dataController.pornController.value;
     final practicesOptions = _practicesController!.getSelectedOptions();
-    final posesOptions = _posesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();
 
-    if (partners.isEmpty){
-      _partnersController.setValidation(false);
-    } else {
-      repo.updateEvent(event.event.id, date, time, notes);
-      repo.updateEventData(event.event.id, rating!, duration, orgasmAmount!, null);
-      database.deleteEventPartners(event.event.id);
-      database.deleteEventOptions(event.event.id);
+    repo.updateEvent(event.event.id, date, time, notes);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount!, didWatchPorn);
+    database.deleteEventOptions(event.event.id);
 
-      for (var p in partners.keys) {
-        repo.loadEventPartner(event.event.id, p.id, partners[p]);
-      }
-
-      var allOptionsList = [
-        contraceptionOptions, practicesOptions,
-        posesOptions, placeOptions
-      ].expand((x) => x).toList();
-      for (var o in allOptionsList) {
-        repo.loadOptions(event.event.id, o.id, null);
-      }
-
-      Navigator.of(context).pop(true);
+    var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
+    for (var o in allOptionsList) {
+      repo.loadOptions(event.event.id, o.id, null);
     }
+
+    Navigator.of(context).pop(true);
   }
 
   @override
@@ -131,29 +110,15 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
                   surfaceColor: AppColors.addEvent.surface(context),
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
                   child: AddEditEventDataColumn(
-                      controller: _dataController,
-                      isMstb: false
+                    controller: _dataController,
+                    isMstb: true,
                   )
               ),
-              SelectPartnersTile(
-                controller: _partnersController,
-              ),
               AddCategoryTile(
-                category: categoriesMap['contraception']!,
-                controller: _contraceptionController!,
-                iconData: CategoryIcons.condom,
-              ),
-              AddCategoryTile(
-                category: categoriesMap['practices']!,
+                category: categoriesMap['solo practices']!,
                 controller: _practicesController!,
                 iconData: CustomIcons.handLizard,
                 iconSize: 22,
-              ),
-              AddCategoryTile(
-                category: categoriesMap['poses']!,
-                controller: _posesController!,
-                iconData: CategoryIcons.sexMove,
-                iconSize: 27,
               ),
               AddCategoryTile(
                 category: categoriesMap['place']!,
@@ -178,20 +143,12 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   }
 
   Future<void> _initControllers() async {
-    final contraceptionOptions = await _getOptionsList(database, "contraception");
     final practicesOptions = await _getOptionsList(database, "practices");
-    final posesOptions = await _getOptionsList(database, "poses");
     final placeOptions = await _getOptionsList(database, "place");
 
     setState(() {
-      _contraceptionController = AddCategoryController(
-        selectedOptionsList: contraceptionOptions,
-      );
       _practicesController = AddCategoryController(
         selectedOptionsList: practicesOptions,
-      );
-      _posesController = AddCategoryController(
-        selectedOptionsList: posesOptions,
       );
       _placeController = AddCategoryController(
         selectedOptionsList: placeOptions,

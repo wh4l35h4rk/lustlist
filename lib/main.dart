@@ -11,7 +11,6 @@ Map<int, IconData> iconDataMap = {};
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await deleteDatabase();
   database = AppDatabase();
   var repo = EventRepository(database);
