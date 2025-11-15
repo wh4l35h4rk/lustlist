@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/colors.dart';
+import 'package:lustlist/repository.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
-import 'package:lustlist/example_utils.dart';
+import 'package:lustlist/utils.dart';
 import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/widgets/event_listtile.dart';
 import '../pages/eventpage.dart';
@@ -33,7 +34,8 @@ class _CalendarState extends State<Calendar> {
   late final PageController _pageController;
   late final ValueNotifier<List<CalendarEvent>> _selectedEvents = widget.selectedEvents;
   late final ValueNotifier<DateTime?> _selectedDay = widget.selectedDay;
-  
+
+  final repo = EventRepository(database);
   final CalendarFormat _calendarFormat = CalendarFormat.month;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
 
@@ -50,12 +52,12 @@ class _CalendarState extends State<Calendar> {
   }
 
   List<CalendarEvent> _getEventsForDay(DateTime day) {
-    final normalizedDay = normalizeDate(day);
+    final normalizedDay = repo.normalizeDate(day);
     return widget.events.value[normalizedDay] ?? [];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    final normalizedSelectedDay = normalizeDate(selectedDay);
+    final normalizedSelectedDay = repo.normalizeDate(selectedDay);
 
     if (!isSameDay(_selectedDay.value, normalizedSelectedDay)) {
       setState(() {

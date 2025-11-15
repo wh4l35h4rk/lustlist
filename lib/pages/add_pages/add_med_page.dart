@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/example_utils.dart';
+import 'package:lustlist/utils.dart';
 import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/sti_tile.dart';
-import '../../load2db_methods.dart';
+import '../../repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/med_data_header.dart';
 import '../../widgets/basic_tile.dart';
@@ -25,6 +25,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
   late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
   late final _dataController = AddMedEventDataController(date: _initDay);
 
+  final repo = EventRepository(database);
   final _stiController = AddCategoryController();
   final _obgynController = AddCategoryController();
   final _notesController = NotesTileController();
@@ -39,13 +40,13 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
 
     print(stiStatuses);
 
-    var id = await loadEvent(database, "medical", date, time, notes);
+    var id = await repo.loadEvent("medical", date, time, notes);
 
     for (var o in obgynOptions) {
-      loadOptions(database, id, o.id, null);
+      repo.loadOptions(id, o.id, null);
     }
     for (var o in stiOptions) {
-      loadOptions(database, id, o.id, stiStatuses[o]);
+      repo.loadOptions(id, o.id, stiStatuses[o]);
     }
 
     Navigator.of(context).pop(true);

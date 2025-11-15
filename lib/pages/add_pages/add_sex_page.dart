@@ -6,8 +6,8 @@ import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
-import '../../example_utils.dart';
-import '../../load2db_methods.dart';
+import '../../utils.dart';
+import '../../repository.dart';
 import '../../main.dart';
 import '../../add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
@@ -23,10 +23,10 @@ class AddSexEventPage extends StatefulWidget{
 
 class _AddSexEventPageState extends State<AddSexEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-
   late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
   late final _dataController = AddEventDataController(date: _initDay);
 
+  final repo = EventRepository(database);
   final _partnersController = SelectPartnersController();
   final _contraceptionController = AddCategoryController();
   final _practicesController = AddCategoryController();
@@ -50,11 +50,11 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     if (partners.isEmpty){
       _partnersController.setValidation(false);
     } else {
-      var id = await loadEvent(database, "sex", date, time, notes);
-      loadEventData(database, id, rating, duration, orgasmAmount, null);
+      var id = await repo.loadEvent("sex", date, time, notes);
+      repo.loadEventData(id, rating, duration, orgasmAmount, null);
 
       for (var p in partners.keys) {
-        loadEventPartner(database, await id, p.id, partners[p]);
+        repo.loadEventPartner(await id, p.id, partners[p]);
       }
 
       var allOptionsList = [
@@ -62,7 +62,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
         posesOptions, placeOptions
       ].expand((x) => x).toList();
       for (var o in allOptionsList) {
-        loadOptions(database, id, o.id, null);
+        repo.loadOptions(id, o.id, null);
       }
 
       Navigator.of(context).pop(true);

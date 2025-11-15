@@ -50,14 +50,14 @@ class AppDatabase extends _$AppDatabase {
   Future<List<EventPartner>> get allEventsPartners => select(eventsPartners).get();
 
 
+  // READ:
+  // Get Event
   Future<Event> getEventById(int id) async {
     return (select(events)..where((t) => t.id.equals(id))).getSingle();
   }
 
-  Future<Type> getTypeByEventId(Event event) async {
-    return (select(types)..where((t) => t.id.equals(event.typeId))).getSingle();
-  }
 
+  // Get EventData
   Future<EventData?> getDataById(int id) async {
     return (select(eventDataTable)..where((t) => t.id.equals(id))).getSingleOrNull();
   }
@@ -66,6 +66,20 @@ class AppDatabase extends _$AppDatabase {
     return await (select(eventDataTable)..where((t) => t.eventId.equals(id))).getSingleOrNull();
   }
 
+
+  // Get Type
+  Future<Type> getTypeByEventId(Event event) async {
+    return (select(types)..where((t) => t.id.equals(event.typeId))).getSingle();
+  }
+
+  Future<int> getTypeIdBySlug(String name) async {
+    final query = select(types)..where((t) => t.slug.equals(name));
+    final result = await query.getSingleOrNull();
+    return result!.id;
+  }
+
+
+  // Get Partners
   Future<List<Partner>> getPartnersByEventId(int eventId) async {
     final query = select(eventsPartners).join([
       innerJoin(events, events.id.equalsExp(eventsPartners.eventId)),
@@ -75,18 +89,15 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(partners)).toList();
   }
 
-  Future<List<Partner?>> getPartnerListByPartnerIds(List<int> partnersIdList) async {
-    return Future.wait(List.generate(partnersIdList.length, (ii) async =>
-      await (select(partners)..where((t) => t.id.equals(partnersIdList[ii]))).getSingleOrNull()));
-  }
-
   Future<List<int>> getPartnerOrgasmsListByPartnersList(int eventId, List<Partner> partnersList) async {
     final result = await Future.wait(List.generate(partnersList.length, (ii) async =>
-      await (select(eventsPartners)..where((t) =>
-      t.eventId.equals(eventId) & t.partnerId.equals(partnersList[ii].id))).getSingle()));
+    await (select(eventsPartners)..where((t) =>
+    t.eventId.equals(eventId) & t.partnerId.equals(partnersList[ii].id))).getSingle()));
     return List.generate(partnersList.length, (ii) => result[ii].partnerOrgasms);
   }
 
+
+  // Get Category
   Future<String> getCategoryName(int id) async {
     final result = await (select(categories)..where((t) => t.id.equals(id))).getSingle();
     return result.name;
@@ -97,53 +108,10 @@ class AppDatabase extends _$AppDatabase {
     return result.slug;
   }
 
-  Future<int> getTypeIdBySlug(String name) async {
-    final query = select(types)..where((t) => t.slug.equals(name));
-    final result = await query.getSingleOrNull();
-    return result!.id;
-  }
-
   Future<int> getCategoryIdBySlug(String name) async {
     final query = select(categories)..where((t) => t.slug.equals(name));
     final result = await query.getSingleOrNull();
     return result!.id;
-  }
-
-  Future<int> getOptionIdBySlug(String name) async {
-    final query = select(eOptions)..where((t) => t.slug.equals(name));
-    final result = await query.getSingleOrNull();
-    return result!.id;
-  }
-
-  Future<List<EOption>> getOptionsByEventId(int eventId) async {
-    final query = select(eventsOptions).join([
-      innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
-      innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId))
-    ])..where(eventsOptions.eventId.equals(eventId));
-    final result = await query.get();
-    return result.map((row) => row.readTable(eOptions)).toList();
-  }
-
-  Future<List<EOption>> getEventOptionsByCategory(int eventId, int categoryId) async {
-    final query = select(eventsOptions).join([
-      innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
-      innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId)),
-    ])..where(eventsOptions.eventId.equals(eventId) & eOptions.categoryId.equals(categoryId));
-    final result = await query.get();
-    return result.map((row) => row.readTable(eOptions)).toList();
-  }
-
-  Future<List<EOption>> getOptionsByCategory(int categoryId) async {
-    final query = select(eOptions)..where((t) => t.categoryId.equals(categoryId) & t.isVisible);
-    final result = await query.get();
-    return result;
-  }
-
-  Future<bool> checkOptionEvent(int eventId, int optionId) async {
-    final query = select(eventsOptions)..where(
-        (t) => t.eventId.equals(eventId) & t.optionId.equals(optionId));
-    final result = await query.getSingleOrNull();
-    return result != null;
   }
 
   Future<List<String>?> getCategoryNamesOfEvent(int eventId) async {
@@ -172,14 +140,88 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
+
+  // Get Options
+  Future<int> getOptionIdBySlug(String name) async {
+    final query = select(eOptions)..where((t) => t.slug.equals(name));
+    final result = await query.getSingleOrNull();
+    return result!.id;
+  }
+
+  Future<List<EOption>> getOptionsByCategory(int categoryId) async {
+    final query = select(eOptions)..where((t) => t.categoryId.equals(categoryId) & t.isVisible);
+    final result = await query.get();
+    return result;
+  }
+
+  Future<List<EOption>> getOptionsByEventId(int eventId) async {
+    final query = select(eventsOptions).join([
+      innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
+      innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId))
+    ])..where(eventsOptions.eventId.equals(eventId));
+    final result = await query.get();
+    return result.map((row) => row.readTable(eOptions)).toList();
+  }
+
+  Future<List<EOption>> getEventOptionsByCategory(int eventId, int categoryId) async {
+    final query = select(eventsOptions).join([
+      innerJoin(events, events.id.equalsExp(eventsOptions.eventId)),
+      innerJoin(eOptions, eOptions.id.equalsExp(eventsOptions.optionId)),
+    ])..where(eventsOptions.eventId.equals(eventId) & eOptions.categoryId.equals(categoryId));
+    final result = await query.get();
+    return result.map((row) => row.readTable(eOptions)).toList();
+  }
+
+  Future<bool> checkOptionEvent(int eventId, int optionId) async {
+    final query = select(eventsOptions)..where(
+        (t) => t.eventId.equals(eventId) & t.optionId.equals(optionId));
+    final result = await query.getSingleOrNull();
+    return result != null;
+  }
+
   Future<TestStatus?> getTestResult(int eventId, int optionId) async {
     final result = await (select(eventsOptions)..where((t) =>
       t.eventId.equals(eventId) & t.optionId.equals(optionId))).getSingle();
     return result.testStatus;
   }
 
+
+  // INSERT:
+  Future<int> insertEvent(EventsCompanion data) => into(events).insert(data);
+
+  Future<int> insertOption(EOptionsCompanion data) => into(eOptions).insert(data);
+
+  Future<int> insertPartner(PartnersCompanion data) => into(partners).insert(data);
+
+  Future<int> insertEventData(EventDataTableCompanion data) => into(eventDataTable).insert(data);
+
+  Future<int> insertEventPartner(EventsPartnersCompanion data) => into(eventsPartners).insert(data);
+
+  Future<int> insertEventOption(EventsOptionsCompanion data) => into(eventsOptions).insert(data);
+
+
+  // UPDATE:
+  Future<void> updateEventRaw(int id, EventsCompanion data) =>
+      (update(events)..where((t) => t.id.equals(id))).write(data);
+
+  Future<void> updateEventDataByEventId(int eventId, EventDataTableCompanion data) =>
+      (update(eventDataTable)..where((t) => t.eventId.equals(eventId))).write(data);
+
+  Future<void> updatePartner(int id, PartnersCompanion data) =>
+      (update(partners)..where((t) => t.id.equals(id))).write(data);
+
+
+  // DELETE:
   Future deleteEvent(int eventId) async {
     await (delete(events)..where((t) => t.id.equals(eventId))).go();
+  }
+
+  Future<void> deleteEventPartners(int eventId) async {
+    await (delete(eventsPartners)..where((t) => t.eventId.equals(eventId))).go();
+  }
+
+  Future<void> deleteEventOptions(int eventId) async {
+    await (delete(eventsOptions)..where((t) => t.eventId.equals(eventId))).go();
   }
 
 

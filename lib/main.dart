@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/homepage.dart';
-import 'package:lustlist/example_utils.dart';
+import 'package:lustlist/repository.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -14,7 +14,8 @@ void main() async {
 
   await deleteDatabase();
   database = AppDatabase();
-  await insertMockEntries(database);
+  var repo = EventRepository(database);
+  await repo.insertMockEntries();
   runApp(const MyApp());
 }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import '../../colors.dart';
-import '../../example_utils.dart';
+import '../../utils.dart';
 
 class DateController {
   DateTime date;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
-import 'package:lustlist/example_utils.dart';
+import 'package:lustlist/utils.dart';
 
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{

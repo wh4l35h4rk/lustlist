@@ -5,8 +5,8 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
-import '../../example_utils.dart';
-import '../../load2db_methods.dart';
+import '../../utils.dart';
+import '../../repository.dart';
 import '../../main.dart';
 import '../../add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
@@ -26,6 +26,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
   late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
   late final _dataController = AddEventDataController(date: _initDay);
 
+  final repo = EventRepository(database);
   final _practicesController = AddCategoryController();
   final _placeController = AddCategoryController();
   final _notesController = NotesTileController();
@@ -41,12 +42,12 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
     final practicesOptions = _practicesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();
     
-    var id = await loadEvent(database, "masturbation", date, time, notes);
-    loadEventData(database, id, rating, duration, orgasmAmount, didWatchPorn);
+    var id = await repo.loadEvent("masturbation", date, time, notes);
+    repo.loadEventData(id, rating, duration, orgasmAmount, didWatchPorn);
     
     var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
     for (var o in allOptionsList) {
-      loadOptions(database, id, o.id, null);
+      repo.loadOptions(id, o.id, null);
     }
     
     Navigator.of(context).pop(true);

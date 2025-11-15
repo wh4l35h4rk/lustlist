@@ -7,7 +7,7 @@ import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
-import '../../load2db_methods.dart';
+import '../../repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
@@ -26,6 +26,7 @@ class EditSexEventPage extends StatefulWidget{
 }
 
 class _EditSexEventPageState extends State<EditSexEventPage> {
+  final repo = EventRepository(database);
   late Future<Map<String, Category>> _categoriesMapFuture;
   late final event = widget.event;
   bool _isLoading = true;
@@ -66,13 +67,13 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     if (partners.isEmpty){
       _partnersController.setValidation(false);
     } else {
-      updateEvent(database, event.event.id, date, time, notes);
-      updateEventData(database, event.event.id, rating!, duration, orgasmAmount!, null);
-      deleteEventPartners(database, event.event.id);
-      deleteEventOptions(database, event.event.id);
+      repo.updateEvent(event.event.id, date, time, notes);
+      repo.updateEventData(event.event.id, rating!, duration, orgasmAmount!, null);
+      database.deleteEventPartners(event.event.id);
+      database.deleteEventOptions(event.event.id);
 
       for (var p in partners.keys) {
-        loadEventPartner(database, event.event.id, p.id, partners[p]);
+        repo.loadEventPartner(event.event.id, p.id, partners[p]);
       }
 
       var allOptionsList = [
@@ -80,7 +81,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
         posesOptions, placeOptions
       ].expand((x) => x).toList();
       for (var o in allOptionsList) {
-        loadOptions(database, event.event.id, o.id, null);
+        repo.loadOptions(event.event.id, o.id, null);
       }
 
       Navigator.of(context).pop(true);

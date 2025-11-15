@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/example_utils.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/calendar_event.dart';
@@ -10,6 +9,7 @@ import 'package:lustlist/widgets/event_widgets/med_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
 import '../main.dart';
+import '../repository.dart';
 import 'edit_pages/edit_sex_page.dart';
 
 
@@ -26,6 +26,7 @@ class EventPage extends StatefulWidget {
 }
 
 class _EventPageState extends State<EventPage> {
+  final repo = EventRepository(database);
   late CalendarEvent event;
   bool eventChanged = false;
 
@@ -164,7 +165,7 @@ class _EventPageState extends State<EventPage> {
 
   Future<void> reloadEvent(AppDatabase db) async {
     Event dbEvent = await db.getEventById(event.event.id);
-    CalendarEvent calendarEvent = await dbToCalendarEvent(db, dbEvent);
+    CalendarEvent calendarEvent = await repo.dbToCalendarEvent(dbEvent);
 
     event = calendarEvent;
   }

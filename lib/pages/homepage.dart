@@ -4,9 +4,10 @@ import 'package:lustlist/widgets/calendar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
-import '../example_utils.dart';
+import '../utils.dart';
 import '../main.dart';
 import '../calendar_event.dart';
+import '../repository.dart';
 import 'add_pages/add_med_page.dart';
 import 'add_pages/add_mstb_page.dart';
 import 'add_pages/add_sex_page.dart';
@@ -24,6 +25,7 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
+  final repo = EventRepository(database);
   final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> _events = ValueNotifier(
     LinkedHashMap(equals: isSameDay, hashCode: getHashCode),
   );
@@ -34,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Future<void> _loadEvents() async {
-    final data = await getEventSource(database);
+    final data = await repo.getEventSource();
     _events.value = LinkedHashMap<DateTime, List<CalendarEvent>>(equals: isSameDay, hashCode: getHashCode)..addAll(data);
 
     final types = await database.allTypes;
@@ -44,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<CalendarEvent> _getEventsForDay(DateTime day) {
-    final normalizedDay = normalizeDate(day);
+    final normalizedDay = repo.normalizeDate(day);
     return _events.value[normalizedDay] ?? [];
   }
 
