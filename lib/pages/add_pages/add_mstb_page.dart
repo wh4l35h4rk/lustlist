@@ -5,10 +5,11 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
+import '../../controllers/add_category_controller.dart';
 import '../../utils.dart';
 import '../../repository.dart';
 import '../../main.dart';
-import '../../add_eventdata_controller.dart';
+import '../../controllers/add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
 

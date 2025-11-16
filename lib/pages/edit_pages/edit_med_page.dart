@@ -2,68 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/custom_icons.dart';
 import 'package:lustlist/database.dart';
+import 'package:lustlist/test_status.dart';
 import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
+import 'package:lustlist/widgets/add_widgets/sti_tile.dart';
 import '../../calendar_event.dart';
 import '../../controllers/add_category_controller.dart';
-import '../../controllers/edit_eventdata_controller.dart';
+import '../../controllers/edit_meddata_controller.dart';
 import '../../repository.dart';
 import '../../main.dart';
-import '../../widgets/add_widgets/data_header.dart';
+import '../../widgets/add_widgets/med_data_header.dart';
 import '../../widgets/basic_tile.dart';
 
 
-class EditMstbEventPage extends StatefulWidget{
+class EditMedEventPage extends StatefulWidget{
   final CalendarEvent event;
 
-  const EditMstbEventPage({
+  const EditMedEventPage({
     super.key,
     required this.event,
   });
 
   @override
-  State<EditMstbEventPage> createState() => _EditMstbEventPageState();
+  State<EditMedEventPage> createState() => _EditMedEventPageState();
 }
 
-class _EditMstbEventPageState extends State<EditMstbEventPage> {
+class _EditMedEventPageState extends State<EditMedEventPage> {
   final repo = EventRepository(database);
   late Future<Map<String, Category>> _categoriesMapFuture;
   late final event = widget.event;
   bool _isLoading = true;
 
-  late final _dataController = EditEventDataController(
-    date: event.event.date,
-    time: event.event.time,
-    duration: event.data?.duration,
-    didWatchPorn: event.data?.didWatchPorn,
-    rating: event.data?.rating,
-    orgasmAmount: event.data?.userOrgasms,
-  );
-
   late final _notesController = NotesTileController(notes: event.event.notes);
 
-  AddCategoryController? _practicesController;
-  AddCategoryController? _placeController;
+  EditMedEventDataController? _dataController;
+  AddCategoryController? _stiController;
+  AddCategoryController? _obgynController;
 
   void _onPressed() async {
-    final date = _dataController.dateController.date;
-    final time = _dataController.timeController.time;
+    final date = _dataController!.dateController.date;
+    final time = _dataController!.timeController.time;
     final notes = _notesController.notesController.text;
-    final rating = _dataController.rating;
-    final orgasmAmount = _dataController.orgasmAmount;
-    final duration = _dataController.durationController.time;
-    final didWatchPorn = _dataController.pornController.value;
-    final practicesOptions = _practicesController!.getSelectedOptions();
-    final placeOptions = _placeController!.getSelectedOptions();
+    final stiOptions = _stiController!.getSelectedOptions();
+    final stiStatuses = _stiController!.statusMap;
+    final obgynOptions = _obgynController!.getSelectedOptions();
 
     repo.updateEvent(event.event.id, date, time, notes);
-    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount!, didWatchPorn);
     database.deleteEventOptions(event.event.id);
 
-    var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
-    for (var o in allOptionsList) {
+    for (var o in obgynOptions) {
       repo.loadOptions(event.event.id, o.id, null);
+    }
+    for (var o in stiOptions) {
+      repo.loadOptions(event.event.id, o.id, stiStatuses[o]);
     }
 
     Navigator.of(context).pop(true);
@@ -71,9 +63,9 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
 
   @override
   void initState() {
-    super.initState();
-    _initControllers();
     _categoriesMapFuture = _getCategoriesList(database);
+    super.initState();
+    _initControllers(database);
   }
 
   @override
@@ -110,21 +102,30 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
               BasicTile(
                   surfaceColor: AppColors.addEvent.surface(context),
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
-                  child: AddEditEventDataColumn(
-                    controller: _dataController,
-                    isMstb: true,
+                  child: AddMedEventDataColumn(
+                      controller: _dataController
                   )
               ),
-              AddCategoryTile(
-                category: categoriesMap['solo practices']!,
-                controller: _practicesController!,
-                iconData: CustomIcons.handLizard,
-                iconSize: 22,
+              ValueListenableBuilder<bool>(
+                  valueListenable: _dataController!.stiController,
+                  builder: (context, isSti, child) {
+                    return isSti ? AddStiTile(
+                      category: categoriesMap['sti']!,
+                      controller: _stiController!,
+                      iconData: CustomIcons.viruses,
+                    ) : const SizedBox.shrink();
+                  }
               ),
-              AddCategoryTile(
-                category: categoriesMap['place']!,
-                controller: _placeController!,
-                iconData: Icons.bed,
+              ValueListenableBuilder<bool>(
+                  valueListenable: _dataController!.obgynController,
+                  builder: (context, isObgyn, child) {
+                    return isObgyn ? AddCategoryTile(
+                      category: categoriesMap['obgyn']!,
+                      controller: _obgynController!,
+                      iconData: CategoryIcons.uterus,
+                      iconSize: 29,
+                    ) : const SizedBox.shrink();
+                  }
               ),
               AddNotesTile(
                 controller: _notesController,
@@ -143,16 +144,29 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     return categoriesMap;
   }
 
-  Future<void> _initControllers() async {
-    final practicesOptions = await repo.getOptionsList(event.event.id, "solo practices");
-    final placeOptions = await repo.getOptionsList(event.event.id, "place");
+  Future<void> _initControllers(AppDatabase db) async {
+    final obgynOptions = await repo.getOptionsList(event.event.id, "obgyn");
+    final stiOptions = await repo.getOptionsList(event.event.id, "sti");
+
+    Map<EOption, TestStatus> statusMap = {};
+    for (var o in stiOptions) {
+      TestStatus? result = await db.getTestResult(event.event.id, o.id);
+      statusMap[o] = result ?? TestStatus.waiting;
+    }
 
     setState(() {
-      _practicesController = AddCategoryController(
-        selectedOptionsList: practicesOptions,
+      _dataController = EditMedEventDataController(
+          date: event.event.date,
+          time: event.event.time,
+          isSti: stiOptions.isNotEmpty,
+          isObgyn: obgynOptions.isNotEmpty
       );
-      _placeController = AddCategoryController(
-        selectedOptionsList: placeOptions,
+      _obgynController = AddCategoryController(
+        selectedOptionsList: obgynOptions,
+      );
+      _stiController = AddCategoryController(
+        selectedOptionsList: stiOptions,
+        statusMap: statusMap
       );
       _isLoading = false;
     });

@@ -7,6 +7,7 @@ import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/sti_tile.dart';
+import '../../controllers/add_category_controller.dart';
 import '../../repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/med_data_header.dart';

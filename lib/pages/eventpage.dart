@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/database.dart';
+import 'package:lustlist/pages/edit_pages/edit_med_page.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/calendar_event.dart';
@@ -108,7 +109,7 @@ class _EventPageState extends State<EventPage> {
       case "masturbation":
         return EditMstbEventPage(event: event);
       case "medical":
-        throw UnimplementedError();
+        return EditMedEventPage(event: event);
       default:
         throw FormatException("Wrong type: $type");
     }

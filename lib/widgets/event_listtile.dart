@@ -39,6 +39,10 @@ class EventListTile extends StatelessWidget {
         int hours = event.data!.duration!.hour;
         int minutes = event.data!.duration!.minute;
 
+        if (hours == 0 && minutes == 0) {
+          return "$time, duration unknown";
+        }
+
         String? hoursString;
         String? minutesString;
 

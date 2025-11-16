@@ -23,7 +23,7 @@ class AddMedEventDataController {
 
 
 class AddMedEventDataColumn extends StatefulWidget {
-  final AddMedEventDataController controller;
+  final dynamic controller;
 
   const AddMedEventDataColumn({
     super.key,

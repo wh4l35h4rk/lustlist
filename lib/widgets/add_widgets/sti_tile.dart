@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
+import 'package:lustlist/test_status.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/sti_option_listtile.dart';
 import '../../colors.dart';
+import '../../controllers/add_category_controller.dart';
 import '../../main.dart';
 
 
@@ -36,11 +38,13 @@ class _AddStiTileState  extends State<AddStiTile> {
   double get iconSize => widget.iconSize;
   Widget? get body => widget.body;
 
+  List<EOption> get selectedOptions => widget.controller.selectedOptions.value;
+  Map<EOption, TestStatus> get statusMap => widget.controller.statusMap;
 
   @override
   void initState() {
     super.initState();
-    _optionsListFuture = _getOptionsList(database, category.id);
+    _optionsListFuture = database.getOptionsByCategory(category.id);
   }
 
   @override
@@ -68,24 +72,21 @@ class _AddStiTileState  extends State<AddStiTile> {
             } else {
               return Column(
                 children: List.generate(
-                    snapshot.data!.length, (index) =>
-                    StiOptionListTile(
-                      context: context,
-                      option: snapshot.data![index],
-                      categoryController: widget.controller,
-                    )
-                ),
+                    snapshot.data!.length, (index) {
+                      EOption option = snapshot.data![index];
+                      bool isSelected = selectedOptions.contains(option) && statusMap.keys.contains(option);
+                      return StiOptionListTile(
+                        context: context,
+                        option: option,
+                        categoryController: widget.controller,
+                        initStatus: isSelected ? statusMap[option] : null,
+                      );
+                }),
               );
             }
           }
       ),
     );
-  }
-
-
-  Future<List<EOption>> _getOptionsList(AppDatabase db, int categoryId) async {
-    List<EOption> options = await db.getOptionsByCategory(categoryId);
-    return options;
   }
 }
 

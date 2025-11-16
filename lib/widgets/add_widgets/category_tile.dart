@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/test_status.dart';
 import '../../colors.dart';
-import '../../list_notifier.dart';
+import '../../controllers/add_category_controller.dart';
+import '../../controllers/list_notifier.dart';
 import '../../main.dart';
 import '../basic_tile.dart';
-
-
-class AddCategoryController {
-  final ListNotifier<EOption> selectedOptions = ListNotifier<EOption>();
-  final Map<EOption, TestStatus> statusMap = {};
-
-  AddCategoryController({
-    List<EOption>? selectedOptionsList,
-  }) {
-    selectedOptions.value = selectedOptionsList ?? [];
-  }
-
-  List<EOption> getSelectedOptions() => selectedOptions.value;
-
-  void setStatus(EOption option, TestStatus status) {
-    statusMap[option] = status;
-  }
-}
 
 
 class AddCategoryTile extends StatefulWidget {
@@ -59,7 +41,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   @override
   void initState() {
     super.initState();
-    _optionsListFuture = _getOptionsList(database, category.id);
+    _optionsListFuture = database.getOptionsByCategory(category.id);
   }
 
   @override
@@ -161,11 +143,5 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
         ],
       ),
     );
-  }
-
-
-  Future<List<EOption>> _getOptionsList(AppDatabase db, int categoryId) async {
-    List<EOption> options = await db.getOptionsByCategory(categoryId);
-    return options;
   }
 }

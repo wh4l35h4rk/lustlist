@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/custom_icons.dart';
 import '../../colors.dart';
-import '../../map_notifier.dart';
+import '../../controllers/map_notifier.dart';
 import '../../main.dart';
 import '../../db/partners.dart';
 import '../basic_tile.dart';

@@ -139,6 +139,12 @@ class EventRepository {
       ),
     );
   }
+
+  Future<List<EOption>> getOptionsList(int eventId, String categorySlug) async {
+    int categoryId = await db.getCategoryIdBySlug(categorySlug);
+    List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
+    return options;
+  }
   
 
   Future<void> insertMockEntries() async{

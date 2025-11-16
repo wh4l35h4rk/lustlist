@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/test_status.dart';
-import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/mstb_switch.dart';
 import '../../colors.dart';
+import '../../controllers/add_category_controller.dart';
 
 
 class StiOptionListTile extends StatefulWidget {
@@ -12,21 +12,22 @@ class StiOptionListTile extends StatefulWidget {
     required this.context,
     required this.option,
     required this.categoryController,
+    this.initStatus
   });
 
   final BuildContext context;
   final EOption option;
   final AddCategoryController categoryController;
+  final TestStatus? initStatus;
 
   @override
   State<StiOptionListTile> createState() => _StiOptionListTileState();
 }
 
 class _StiOptionListTileState extends State<StiOptionListTile> {
-  final _switchController = SwitchController(value: false);
+  late final _switchController = SwitchController(value: widget.initStatus != null);
   late bool value = _switchController.value;
-
-  TestStatus selectedStatus = TestStatus.waiting;
+  late TestStatus selectedStatus = widget.initStatus ?? TestStatus.waiting;
 
   @override
   Widget build(BuildContext context) {

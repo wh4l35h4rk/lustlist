@@ -7,11 +7,12 @@ import 'package:lustlist/pages/add_edit_event_base.dart';
 import 'package:lustlist/widgets/add_widgets/category_tile.dart';
 import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
+import '../../controllers/add_category_controller.dart';
 import '../../repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
-import '../../edit_eventdata_controller.dart';
+import '../../controllers/edit_eventdata_controller.dart';
 
 
 class EditSexEventPage extends StatefulWidget{
@@ -178,10 +179,10 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   }
 
   Future<void> _initControllers() async {
-    final contraceptionOptions = await _getOptionsList(database, "contraception");
-    final practicesOptions = await _getOptionsList(database, "practices");
-    final posesOptions = await _getOptionsList(database, "poses");
-    final placeOptions = await _getOptionsList(database, "place");
+    final contraceptionOptions = await repo.getOptionsList(event.event.id, "contraception");
+    final practicesOptions = await repo.getOptionsList(event.event.id, "practices");
+    final posesOptions = await repo.getOptionsList(event.event.id, "poses");
+    final placeOptions = await repo.getOptionsList(event.event.id, "place");
 
     setState(() {
       _contraceptionController = AddCategoryController(
@@ -198,11 +199,5 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
       );
       _isLoading = false;
     });
-  }
-
-  Future<List<EOption>> _getOptionsList(AppDatabase db, String categorySlug) async {
-    int categoryId = await db.getCategoryIdBySlug(categorySlug);
-    List<EOption> options = await db.getEventOptionsByCategory(event.event.id, categoryId);
-    return options;
   }
 }
