@@ -47,7 +47,7 @@ class _AddEditEventPageBaseState extends State<AddEditEventPageBase> {
             ),
           ),
           body: widget.body,
-          bottomNavigationBar: MainBottomNavigationBar()
+          bottomNavigationBar: MainBottomNavigationBar(context: context)
       ),
     );
   }

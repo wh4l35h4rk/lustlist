@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+import '../colors.dart';
+
+
+class OptionsListTile extends StatelessWidget {
+  const OptionsListTile({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.iconData,
+    required this.page,
+  });
+
+  final Widget? page;
+  final String title;
+  final IconData iconData;
+  final String subtitle;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 12.0,
+        vertical: 6.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadiusGeometry.circular(12),
+        border: Border.all( //TODO: change border to round
+            color: AppColors.calendar.border(context)
+        ),
+      ),
+      child: ListTile(
+          onTap: () => _onTap(page, context),
+          leading: Icon(
+            iconData,
+            color: AppColors.calendar.eventIcon(context),
+          ),
+          title: Wrap(
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight:
+                    FontWeight.bold
+                ),
+              )
+            ],
+          ),
+          subtitle: Text(subtitle),
+          trailing: Icon(Icons.arrow_forward_ios)
+      ),
+    );
+  }
+
+  Future<void> _onTap(Widget? page, BuildContext context) async {
+    if (page == null) return;
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => page,
+      ),
+    );
+  }
+}

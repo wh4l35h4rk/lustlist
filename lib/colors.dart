@@ -89,7 +89,11 @@ class CalendarColors {
       Theme.of(context).colorScheme.primary;
 
   Color border(BuildContext context) =>
-      Theme.of(context).colorScheme.primary;
+      colorBlend(
+          Theme.of(context).colorScheme.primary,
+          Theme.of(context).colorScheme.surface,
+          0.4
+      )!;
 
   Color navigationIcon(BuildContext context) => title(context);
 

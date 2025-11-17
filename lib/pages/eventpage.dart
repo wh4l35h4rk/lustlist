@@ -73,7 +73,7 @@ class _EventPageState extends State<EventPage> {
         ),
       ),
       body: _getEventTypeWidget(event),
-      bottomNavigationBar: MainBottomNavigationBar()
+      bottomNavigationBar: MainBottomNavigationBar(context: context)
     );
   }
 

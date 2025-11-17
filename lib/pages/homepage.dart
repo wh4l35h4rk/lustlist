@@ -17,15 +17,15 @@ import 'add_pages/add_sex_page.dart';
 List<IconData> iconsData = [Icons.favorite, Icons.front_hand, Icons.medical_services];
 
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Homepage> createState() => _HomepageState();
 }
 
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomepageState extends State<Homepage> {
   final repo = EventRepository(database);
   final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> _events = ValueNotifier(
     LinkedHashMap(equals: isSameDay, hashCode: getHashCode),
@@ -92,6 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
+        backButton: null,
+        editButton: null,
         themeButton: ChangeThemeButton(),
       ),
       body: ValueListenableBuilder(
@@ -142,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-      bottomNavigationBar: MainBottomNavigationBar(),
+      bottomNavigationBar: MainBottomNavigationBar(context: context),
     );
   }
 }

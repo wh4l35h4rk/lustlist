@@ -12,6 +12,7 @@ import '../../repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
+import '../../widgets/loading_scaffold.dart';
 
 
 class EditMstbEventPage extends StatefulWidget{
@@ -78,11 +79,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+    if (_isLoading) return LoadingScaffold(hasBackButton: true);
 
     return AddEditEventPageBase(
       _onPressed,

@@ -12,7 +12,7 @@ final darkColorScheme = ColorScheme.fromSeed(
 
 
 class ThemeProvider with ChangeNotifier {
-  late ThemeMode _themeMode = ThemeMode.system;
+  late ThemeMode _themeMode = ThemeMode.light;
   late ColorScheme _darkScheme = darkColorScheme;
   late ColorScheme _lightScheme = lightColorScheme;
 

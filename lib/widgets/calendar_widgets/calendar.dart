@@ -226,7 +226,7 @@ class _CalendarState extends State<Calendar> {
                                 vertical: 4.0,
                               ),
                               decoration: BoxDecoration(
-                                border: Border.symmetric(
+                                border: Border.symmetric( //TODO: change border to round
                                     horizontal: BorderSide(color: AppColors.calendar.border(context))
                                 ),
                               ),

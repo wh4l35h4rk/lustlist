@@ -155,13 +155,13 @@ class _DataColumn extends StatelessWidget {
       }
 
       if (hoursString == null && minutesString == null) {
-        return "unknown";
+        return "Unknown";
       }
 
       List<String> list = [?hoursString, ?minutesString];
       return list.join(" ");
     } else {
-      return "unknown";
+      return "Unknown";
     }
   }
 
