@@ -1,10 +1,10 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:lustlist/widgets/calendar.dart';
+import 'package:lustlist/widgets/calendar_widgets/calendar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
-import '../change_theme_button.dart';
+import '../widgets/calendar_widgets/change_theme_button.dart';
 import '../utils.dart';
 import '../main.dart';
 import '../calendar_event.dart';
@@ -124,6 +124,14 @@ class _MyHomePageState extends State<MyHomePage> {
             child: const Icon(Icons.add),
           );
         },
+        alignmentOffset: Offset(-5, 10),
+        style: MenuStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(20)
+            )
+          )
+        ),
         menuChildren: List<MenuItemButton>.generate(
             3,
             (int index) => MenuItemButton(

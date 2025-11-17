@@ -8,8 +8,8 @@ import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
 import 'package:lustlist/utils.dart';
 import 'package:lustlist/calendar_event.dart';
-import 'package:lustlist/widgets/event_listtile.dart';
-import '../pages/eventpage.dart';
+import 'package:lustlist/widgets/calendar_widgets/event_listtile.dart';
+import '../../pages/eventpage.dart';
 
 
 class Calendar extends StatefulWidget {

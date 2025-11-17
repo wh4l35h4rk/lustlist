@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/theme_provider.dart';
+import 'package:lustlist/controllers/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'colors.dart';
+import '../../colors.dart';
 
 class ChangeThemeButton extends StatefulWidget{
   const ChangeThemeButton({super.key});
@@ -11,8 +11,8 @@ class ChangeThemeButton extends StatefulWidget{
 }
 
 class _ChangeThemeButtonState extends State<ChangeThemeButton> {
-  bool isLight = true;
   late final themeProvider = context.read<ThemeProvider>();
+  late bool isLight = themeProvider.themeMode == ThemeMode.light;
 
   @override
   Widget build(BuildContext context) {
