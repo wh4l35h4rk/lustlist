@@ -140,12 +140,16 @@ class _CalendarState extends State<Calendar> {
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeOut,
                   );
+                  _selectedDay.value = null;
+                  _selectedEvents.value = [];
                 },
                 onRightArrowTap: () {
                   _pageController.nextPage(
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeOut,
                   );
+                  _selectedDay.value = null;
+                  _selectedEvents.value = [];
                 },
                 onSelectDateButtonTap: () {
                   _showPopUp(context);

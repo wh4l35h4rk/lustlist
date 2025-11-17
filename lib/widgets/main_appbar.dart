@@ -7,6 +7,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   final Widget? backButton;
   final Widget? editButton;
   final Widget? deleteButton;
+  final Widget? themeButton;
   final String title;
 
   const MainAppBar({
@@ -14,6 +15,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
     this.backButton,
     this.editButton,
     this.deleteButton,
+    this.themeButton,
     this.title = appTitle,
   });
 
@@ -33,6 +35,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       actions: [
         deleteButton ?? SizedBox.shrink(),
         editButton ?? SizedBox.shrink(),
+        themeButton ?? SizedBox.shrink(),
       ],
     );
   }

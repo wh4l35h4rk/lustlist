@@ -121,8 +121,16 @@ class EventListTile extends StatelessWidget {
           ],
         ),
         title: Wrap(
-          children: [Text(_getTitle(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          )],
+          children: [
+            Text(
+              _getTitle(),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight:
+                  FontWeight.bold
+              ),
+            )
+          ],
         ),
         subtitle: FutureBuilder<String>(
           future: _getSubtitle(database),

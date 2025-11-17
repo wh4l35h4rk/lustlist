@@ -12,6 +12,13 @@ class EventRepository {
 
   DateTime normalizeDate(DateTime date) => DateTime(date.year, date.month, date.day);
 
+  int sortTime(DateTime a, DateTime b) {
+    final t1 = DateTime(1, 1, 1, a.hour, a.minute);
+    final t2 = DateTime(1, 1, 1, b.hour, b.minute);
+
+    if (t1.hour != t2.hour) return t1.hour.compareTo(t2.hour);
+    return t1.minute.compareTo(t2.minute);
+  }
 
   Future getEventSource() async {
     final allEvents = await db.allEvents;
@@ -27,6 +34,10 @@ class EventRepository {
       for (var date in eventDates)
         date : testEventList.where((element) => normalizeDate(element.event.date) == date).toList()
     };
+    for (var v in eventMap.values){
+      v.sort((a, b) => sortTime(a.event.time, b.event.time));
+    }
+
     return eventMap;
   }
 
@@ -198,21 +209,21 @@ class EventRepository {
         EventsCompanion.insert(
           typeId: medTypeId,
           date: DateTime(2025, DateTime.now().month, DateTime.now().day - 1),
-          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 1)),
+          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 0)),
         )
     );
     final event4Id = await db.insertEvent(
         EventsCompanion.insert(
           typeId: sexTypeId,
           date: DateTime(2025, DateTime.now().month - 1, DateTime.now().day - 3),
-          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 31)),
+          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 30)),
         )
     );
     final event5Id = await db.insertEvent(
         EventsCompanion.insert(
           typeId: medTypeId,
           date: DateTime(2025, DateTime.now().month - 1, DateTime.now().day + 2),
-          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 19, 31)),
+          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 19, 30)),
         )
     );
 

@@ -4,6 +4,7 @@ import 'package:lustlist/widgets/calendar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
+import '../change_theme_button.dart';
 import '../utils.dart';
 import '../main.dart';
 import '../calendar_event.dart';
@@ -90,7 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(),
+      appBar: MainAppBar(
+        themeButton: ChangeThemeButton(),
+      ),
       body: ValueListenableBuilder(
         valueListenable: _isLoading,
         builder: (context, isLoading, child) {

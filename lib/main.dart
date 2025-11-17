@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/homepage.dart';
 import 'package:lustlist/repository.dart';
+import 'package:lustlist/theme_provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 
 late AppDatabase database;
@@ -19,27 +21,41 @@ void main() async {
 }
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode themeMode = ThemeMode.light;
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'lustlist',
-      theme: ThemeData(
-        fontFamily: 'Liberation Mono',
-        colorScheme: ColorScheme.fromSeed(
-            brightness: Brightness.light,
-            seedColor: Colors.pink,
-            // brightness: Brightness.dark,
-            // seedColor: Colors.deepPurpleAccent,
-        ),
-      ),
-      home: const MyHomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'lustlist',
+            themeMode: themeProvider.themeMode,
+            theme: ThemeData(
+              useMaterial3: true,
+              fontFamily: 'Liberation Mono',
+              colorScheme: lightColorScheme
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              fontFamily: 'Liberation Mono',
+              colorScheme: darkColorScheme
+            ),
+            home: const MyHomePage(),
+          );
+      })
     );
   }
 }
-
 
 
 Future<void> deleteDatabase() async {
