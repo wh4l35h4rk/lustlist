@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/calendar_event.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import '../../widgets/main_bnb.dart';
+import '../controllers/home_navigation_controller.dart';
 
 
 class LoadingScaffold extends StatefulWidget{
@@ -38,7 +38,10 @@ class _LoadingScaffoldState extends State<LoadingScaffold> {
         ) : null
       ),
       body: const Center(child: CircularProgressIndicator()),
-      bottomNavigationBar: MainBottomNavigationBar(context: context),
+      bottomNavigationBar: MainBottomNavigationBar(
+          context: context,
+          currentIndex: HomeNavigationController.pageIndex.value
+      ),
     );
   }
 }

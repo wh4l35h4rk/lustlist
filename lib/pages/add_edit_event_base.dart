@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
+import '../controllers/home_navigation_controller.dart';
 
 class AddEditEventPageBase extends StatefulWidget{
   final Function onPressed;
@@ -36,7 +37,7 @@ class _AddEditEventPageBaseState extends State<AddEditEventPageBase> {
           appBar: MainAppBar(
             title: widget.title,
             backButton: IconButton(
-                onPressed: () => _showPopUp(context),
+                onPressed: () => _showPopUp(context, null),
                 icon: Icon(Icons.arrow_back_ios),
                 color: AppColors.surface(context)
             ),
@@ -47,12 +48,16 @@ class _AddEditEventPageBaseState extends State<AddEditEventPageBase> {
             ),
           ),
           body: widget.body,
-          bottomNavigationBar: MainBottomNavigationBar(context: context)
+          bottomNavigationBar: MainBottomNavigationBar(
+            context: context,
+            currentIndex: HomeNavigationController.pageIndex.value,
+            onTap: (index) => _showPopUp(context, index),
+          )
       ),
     );
   }
 
-  void _showPopUp(BuildContext context) {
+  void _showPopUp(BuildContext context, int? index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -78,8 +83,13 @@ class _AddEditEventPageBaseState extends State<AddEditEventPageBase> {
               ),
               MaterialButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+                  if (index != null) {
+                    HomeNavigationController.pageIndex.value = index;
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  } else {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
                 },
                 color: AppColors.appBar.surface(context),
                 shape: RoundedRectangleBorder(

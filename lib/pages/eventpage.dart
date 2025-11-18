@@ -9,6 +9,7 @@ import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/event_widgets/med_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
+import '../controllers/home_navigation_controller.dart';
 import '../main.dart';
 import '../repository.dart';
 import 'edit_pages/edit_mstb_page.dart';
@@ -73,7 +74,10 @@ class _EventPageState extends State<EventPage> {
         ),
       ),
       body: _getEventTypeWidget(event),
-      bottomNavigationBar: MainBottomNavigationBar(context: context)
+      bottomNavigationBar: MainBottomNavigationBar(
+        context: context,
+        currentIndex: HomeNavigationController.pageIndex.value
+      )
     );
   }
 

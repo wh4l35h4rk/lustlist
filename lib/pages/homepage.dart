@@ -1,155 +1,62 @@
-import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:lustlist/widgets/calendar_widgets/calendar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
-import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
+import 'package:lustlist/pages/statspage.dart';
+import '../controllers/home_navigation_controller.dart';
 import '../widgets/calendar_widgets/change_theme_button.dart';
-import '../utils.dart';
-import '../main.dart';
-import '../calendar_event.dart';
-import '../repository.dart';
-import 'add_pages/add_med_page.dart';
-import 'add_pages/add_mstb_page.dart';
-import 'add_pages/add_sex_page.dart';
-
-
-List<IconData> iconsData = [Icons.favorite, Icons.front_hand, Icons.medical_services];
+import 'calendar_page.dart';
+import 'options_page.dart';
 
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  final int? index;
+
+  const Homepage({super.key, this.index});
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
-
 class _HomepageState extends State<Homepage> {
-  final repo = EventRepository(database);
-  final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> _events = ValueNotifier(
-    LinkedHashMap(equals: isSameDay, hashCode: getHashCode),
-  );
+  late int index = widget.index ?? 0;
 
-  final ValueNotifier<List<CalendarEvent>> _selectedEvents = ValueNotifier([]);
-  final ValueNotifier<DateTime?> _selectedDay = ValueNotifier(null);
-  final ValueNotifier<bool> _isLoading = ValueNotifier(true);
+  final pages = [
+    CalendarPage(),
+    StatsPage(),
+    OptionsPage(),
+  ];
 
-
-  Future<void> _loadEvents() async {
-    final data = await repo.getEventSource();
-    _events.value = LinkedHashMap<DateTime, List<CalendarEvent>>(equals: isSameDay, hashCode: getHashCode)..addAll(data);
-
-    final types = await database.allTypes;
-    for (final type in types) {
-      iconDataMap[type.id] = getTypeIconData(type.slug);
-    }
-  }
-
-  List<CalendarEvent> _getEventsForDay(DateTime day) {
-    final normalizedDay = repo.normalizeDate(day);
-    return _events.value[normalizedDay] ?? [];
-  }
-
-  Future<void> _onAddEventTap(int index) async {
-    StatefulWidget widget;
-    if (index == 0) {
-      widget = AddSexEventPage(_selectedDay.value);
-    } else if (index == 1) {
-      widget = AddMstbEventPage(_selectedDay.value);
-    } else {
-      widget = AddMedEventPage(_selectedDay.value);
-    }
-
-    final result = await Navigator.push(context,
-      MaterialPageRoute(builder: (_) => widget),
-    );
-    if (result == true) {
-      await Future.delayed(Duration(milliseconds: 200));
-      await _loadEvents();
-      if (mounted && _selectedDay.value != null) {
-        _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
-      }
-      setState(() {});
-    }
-  }
-
-  Future<void> _init() async {
-    await _loadEvents();
-    if (mounted && _selectedDay.value != null) {
-      _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
-    }
-    _isLoading.value = false;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
+  final pageNames = [
+    "Calendar",
+    "Statistics",
+    "Options"
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MainAppBar(
-        backButton: null,
-        editButton: null,
-        themeButton: ChangeThemeButton(),
-      ),
-      body: ValueListenableBuilder(
-        valueListenable: _isLoading,
-        builder: (context, isLoading, child) {
-          if (!isLoading) {
-            return Calendar(
-              events: _events,
-              selectedEvents: _selectedEvents,
-              selectedDay: _selectedDay,
-              onReload: _loadEvents,
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        }
-      ),
-
-      floatingActionButton: MenuAnchor(
-        builder: (BuildContext context, MenuController controller, Widget? child) {
-          return FloatingActionButton(
-            onPressed: () {
-              if (controller.isOpen) {
-                controller.close();
-              } else {
-                controller.open();
-              }
-            },
-            tooltip: 'Show menu',
-            child: const Icon(Icons.add),
-          );
-        },
-        alignmentOffset: Offset(-5, 10),
-        style: MenuStyle(
-          shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(20)
-            )
-          )
-        ),
-        menuChildren: List<MenuItemButton>.generate(
-            3,
-            (int index) => MenuItemButton(
-              onPressed: () {
-                _onAddEventTap(index);
-              },
-              child: Icon(iconsData[index])
-            ),
+    return ValueListenableBuilder<int>(
+      valueListenable: HomeNavigationController.pageIndex,
+      builder: (_, value, _) {
+        return Scaffold(
+          appBar: MainAppBar(
+            title: pageNames[value],
+            backButton: null,
+            editButton: null,
+            themeButton: ChangeThemeButton(),
           ),
-        ),
-      bottomNavigationBar: MainBottomNavigationBar(context: context),
+          body: IndexedStack(
+            index: value,
+            children: pages,
+          ),
+          bottomNavigationBar: MainBottomNavigationBar(
+            currentIndex: value,
+            onTap: (i) => HomeNavigationController.pageIndex.value = i,
+            context: context,
+          ),
+        );
+      }
     );
   }
 }
 
-
-int getHashCode(DateTime key) {
-  return key.day * 1000000 + key.month * 10000 + key.year;
-}
+//TODO: make main app bar change width on scroll
