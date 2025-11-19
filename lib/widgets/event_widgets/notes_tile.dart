@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/calendar_event.dart';
 import '../../colors.dart';
+import '../../database.dart';
 
 class NotesTile extends StatelessWidget {
   const NotesTile({
     super.key,
-    required this.event,
+    this.event,
+    this.partner
   });
 
-  final CalendarEvent event;
+  final CalendarEvent? event;
+  final Partner? partner;
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +89,14 @@ class NotesTile extends StatelessWidget {
   }
 
   Widget _getNotes() {
-    final String? notes = event.event.notes;
-    if (notes == null || notes.isEmpty) {
+    String? notes;
+    if (event != null) {
+      notes = event!.event.notes;
+    } else if (partner != null) {
+      notes = partner!.notes;
+    }
+
+    if (notes == null || notes.isEmpty || notes == "") {
       return Text(
         "There are no notes yet.",
         style: TextStyle(

@@ -9,14 +9,22 @@ import 'package:lustlist/calendar_event.dart';
 class EventListTile extends StatelessWidget {
   const EventListTile({
     required this.event,
-    super.key,
     required this.onTap,
+    this.partnerOrgasms,
+    super.key,
   });
 
   final CalendarEvent event;
   final GestureTapCallback onTap;
+  final int? partnerOrgasms;
 
   String _getTitle() {
+    if (partnerOrgasms != null) {
+      String time = DateFormat.Hm().format(event.event.time);
+      String date = DateFormat.yMMMMd().format(event.event.date);
+      return "$date, $time";
+    }
+
     final typeSlug = event.getTypeSlug();
     switch (typeSlug) {
       case "sex":
@@ -30,43 +38,54 @@ class EventListTile extends StatelessWidget {
     }
   }
 
+  String _getDuration() {
+    if (event.data!.duration != null) {
+      int hours = event.data!.duration!.hour;
+      int minutes = event.data!.duration!.minute;
+
+      if (hours == 0 && minutes == 0) {
+        return "duration unknown";
+      }
+
+      String? hoursString;
+      String? minutesString;
+
+      switch (hours) {
+        case 0:
+          hoursString = null;
+        case 1:
+          hoursString = "$hours hour";
+        default:
+          hoursString = "$hours hours";
+      }
+      switch (minutes) {
+        case 0:
+          minutesString = null;
+        case 1:
+          minutesString = "$minutes minute";
+        default:
+          minutesString = "$minutes minutes";
+      }
+      final String timeString = [?hoursString, ?minutesString].join(" ");
+      return timeString;
+    } else {
+        return "duration unknown";
+    }
+  }
+
   Future<String> _getSubtitle(AppDatabase db) async {
     final type = event.getTypeSlug();
     String time = DateFormat("HH:mm").format(event.event.time);
 
     if ((type == "sex" || type == "masturbation") && event.data != null) {
-      if (event.data!.duration != null) {
-        int hours = event.data!.duration!.hour;
-        int minutes = event.data!.duration!.minute;
+      String duration = _getDuration();
 
-        if (hours == 0 && minutes == 0) {
-          return "$time, duration unknown";
-        }
-
-        String? hoursString;
-        String? minutesString;
-
-        switch (hours) {
-          case 0:
-            hoursString = null;
-          case 1:
-            hoursString = "$hours hour";
-          default:
-            hoursString = "$hours hours";
-        }
-        switch (minutes) {
-          case 0:
-            minutesString = null;
-          case 1:
-            minutesString = "$minutes minute";
-          default:
-            minutesString = "$minutes minutes";
-        }
-        final String timeString = [?hoursString, ?minutesString].join(" ");
-        return [time, timeString].join(", ");
-      } else {
-        return "$time, duration unknown";
+      if (partnerOrgasms != null) {
+        if (partnerOrgasms == 1) return "$duration, 1 orgasm";
+        return "$duration, $partnerOrgasms orgasms";
       }
+      return [time, duration].join(", ");
+
     } else if (type == "medical") {
       final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
       if (categoryNames!.isNotEmpty) {
@@ -104,47 +123,61 @@ class EventListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        onTap: onTap,
-        leading: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              iconDataMap[event.getTypeId()],
-            ),
-            SizedBox(width: 15),
-            Container(
-              height: double.infinity,
-              width: 1,
-              decoration: BoxDecoration(border: Border(right: BorderSide(color: _getBorderColor(context), width: 2.8))),
-            )
-          ],
-        ),
-        title: Wrap(
-          children: [
-            Text(
-              _getTitle(),
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight:
-                  FontWeight.bold
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 4.0,
+          ),
+          child: ListTile(
+              onTap: onTap,
+              leading: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    iconDataMap[event.getTypeId()],
+                  ),
+                  SizedBox(width: 15),
+                  Container(
+                    height: double.infinity,
+                    width: 1,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(
+                          color: _getBorderColor(context), width: 2.8)
+                      )
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
+              title: Wrap(
+                children: [
+                  Text(
+                    _getTitle(),
+                    style: TextStyle(
+                      fontSize: partnerOrgasms == null ? 18 : 16,
+                      fontWeight: FontWeight.bold
+                    ),
+                  )
+                ],
+              ),
+              subtitle: FutureBuilder<String>(
+                future: _getSubtitle(database),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading...");
+                  } else if (snapshot.hasError) {
+                    return const Text("Error loading data");
+                  } else {
+                    return Text(snapshot.data ?? "No data");
+                  }
+                },
+              ),
+              trailing: Icon(Icons.arrow_forward_ios)
+          ),
         ),
-        subtitle: FutureBuilder<String>(
-          future: _getSubtitle(database),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text("Loading...");
-            } else if (snapshot.hasError) {
-              return const Text("Error loading data");
-            } else {
-              return Text(snapshot.data ?? "No data");
-            }
-          },
-        ),
-        trailing: Icon(Icons.arrow_forward_ios)
+      ],
     );
   }
 }

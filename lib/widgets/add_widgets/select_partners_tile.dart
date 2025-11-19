@@ -3,8 +3,10 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/custom_icons.dart';
 import '../../colors.dart';
 import '../../controllers/map_notifier.dart';
+import '../../gender.dart';
 import '../../main.dart';
 import '../../db/partners.dart';
+import '../../repository.dart';
 import '../basic_tile.dart';
 import 'orgasms_picker.dart';
 
@@ -45,6 +47,7 @@ class SelectPartnersTile extends StatefulWidget {
 
 class _SelectPartnersTileState extends State<SelectPartnersTile> {
   late Future<List<Partner>> _partnersListFuture;
+  var repo = EventRepository(database);
 
   MapNotifier<Partner> get _selectedPartners => widget.controller.selectedPartners;
 
@@ -258,7 +261,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               ),
             ),
             SizedBox(width: 5,),
-            Icon(getGenderIconData(partner), color: AppColors.addEvent.coloredText(context))
+            Icon(repo.getGenderIconData(partner), color: AppColors.addEvent.coloredText(context))
           ],
         ),
       ),
@@ -287,7 +290,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
             ),
             SizedBox(width: 5,),
             Icon(
-              getGenderIconData(partner),
+              repo.getGenderIconData(partner),
               size: 16,
               color: AppColors.addEvent.coloredText(context),
             )
@@ -295,18 +298,6 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         ),
       ),
     );
-  }
-
-  IconData? getGenderIconData(Partner partner) {
-    final Gender gender = partner.gender;
-    switch (gender) {
-      case Gender.female:
-        return Icons.female;
-      case Gender.male:
-        return Icons.male;
-      case Gender.nonbinary:
-        return CustomIcons.genderless;
-    }
   }
 
   Future<List<Partner>> _getPartnersList(AppDatabase db) async {

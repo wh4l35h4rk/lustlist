@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/utils.dart';
-import 'package:lustlist/widgets/animated_appbar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
-import 'package:lustlist/pages/statspage.dart';
+import 'package:lustlist/pages/main_pages/statspage.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../widgets/calendar_widgets/change_theme_button.dart';
-import 'calendar_page.dart';
-import 'options_page.dart';
+import 'main_pages/calendar_page.dart';
+import 'main_pages/options_page.dart';
 
 
 class Homepage extends StatefulWidget {
@@ -55,5 +54,3 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
-
-//TODO: make main app bar change width on scroll

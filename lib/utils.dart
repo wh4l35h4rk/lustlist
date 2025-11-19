@@ -26,5 +26,6 @@ const appTitle = "LustList";
 const mainPageNames = [
   "Calendar",
   "Statistics",
-  "Options"
+  "Options",
+  "Partners"
 ];

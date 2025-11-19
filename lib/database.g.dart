@@ -574,6 +574,15 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         requiredDuringInsert: false,
         defaultValue: Constant(DateTime(1970, 1, 1)),
       );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -582,6 +591,7 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     birthday,
     createdAt,
     lastEventDate,
+    notes,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -627,6 +637,12 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         ),
       );
     }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
     return context;
   }
 
@@ -662,6 +678,10 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}last_event_date'],
       )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
     );
   }
 
@@ -681,6 +701,7 @@ class Partner extends DataClass implements Insertable<Partner> {
   final DateTime? birthday;
   final DateTime createdAt;
   final DateTime lastEventDate;
+  final String? notes;
   const Partner({
     required this.id,
     required this.name,
@@ -688,6 +709,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     this.birthday,
     required this.createdAt,
     required this.lastEventDate,
+    this.notes,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -704,6 +726,9 @@ class Partner extends DataClass implements Insertable<Partner> {
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['last_event_date'] = Variable<DateTime>(lastEventDate);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
     return map;
   }
 
@@ -717,6 +742,9 @@ class Partner extends DataClass implements Insertable<Partner> {
           : Value(birthday),
       createdAt: Value(createdAt),
       lastEventDate: Value(lastEventDate),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
     );
   }
 
@@ -734,6 +762,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       birthday: serializer.fromJson<DateTime?>(json['birthday']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       lastEventDate: serializer.fromJson<DateTime>(json['lastEventDate']),
+      notes: serializer.fromJson<String?>(json['notes']),
     );
   }
   @override
@@ -748,6 +777,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       'birthday': serializer.toJson<DateTime?>(birthday),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'lastEventDate': serializer.toJson<DateTime>(lastEventDate),
+      'notes': serializer.toJson<String?>(notes),
     };
   }
 
@@ -758,6 +788,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     Value<DateTime?> birthday = const Value.absent(),
     DateTime? createdAt,
     DateTime? lastEventDate,
+    Value<String?> notes = const Value.absent(),
   }) => Partner(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -765,6 +796,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     birthday: birthday.present ? birthday.value : this.birthday,
     createdAt: createdAt ?? this.createdAt,
     lastEventDate: lastEventDate ?? this.lastEventDate,
+    notes: notes.present ? notes.value : this.notes,
   );
   Partner copyWithCompanion(PartnersCompanion data) {
     return Partner(
@@ -776,6 +808,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       lastEventDate: data.lastEventDate.present
           ? data.lastEventDate.value
           : this.lastEventDate,
+      notes: data.notes.present ? data.notes.value : this.notes,
     );
   }
 
@@ -787,14 +820,15 @@ class Partner extends DataClass implements Insertable<Partner> {
           ..write('gender: $gender, ')
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
-          ..write('lastEventDate: $lastEventDate')
+          ..write('lastEventDate: $lastEventDate, ')
+          ..write('notes: $notes')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode =>
-      Object.hash(id, name, gender, birthday, createdAt, lastEventDate);
+      Object.hash(id, name, gender, birthday, createdAt, lastEventDate, notes);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -804,7 +838,8 @@ class Partner extends DataClass implements Insertable<Partner> {
           other.gender == this.gender &&
           other.birthday == this.birthday &&
           other.createdAt == this.createdAt &&
-          other.lastEventDate == this.lastEventDate);
+          other.lastEventDate == this.lastEventDate &&
+          other.notes == this.notes);
 }
 
 class PartnersCompanion extends UpdateCompanion<Partner> {
@@ -814,6 +849,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   final Value<DateTime?> birthday;
   final Value<DateTime> createdAt;
   final Value<DateTime> lastEventDate;
+  final Value<String?> notes;
   const PartnersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -821,6 +857,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastEventDate = const Value.absent(),
+    this.notes = const Value.absent(),
   });
   PartnersCompanion.insert({
     this.id = const Value.absent(),
@@ -829,6 +866,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastEventDate = const Value.absent(),
+    this.notes = const Value.absent(),
   }) : name = Value(name),
        gender = Value(gender);
   static Insertable<Partner> custom({
@@ -838,6 +876,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Expression<DateTime>? birthday,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastEventDate,
+    Expression<String>? notes,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -846,6 +885,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       if (birthday != null) 'birthday': birthday,
       if (createdAt != null) 'created_at': createdAt,
       if (lastEventDate != null) 'last_event_date': lastEventDate,
+      if (notes != null) 'notes': notes,
     });
   }
 
@@ -856,6 +896,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Value<DateTime?>? birthday,
     Value<DateTime>? createdAt,
     Value<DateTime>? lastEventDate,
+    Value<String?>? notes,
   }) {
     return PartnersCompanion(
       id: id ?? this.id,
@@ -864,6 +905,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       birthday: birthday ?? this.birthday,
       createdAt: createdAt ?? this.createdAt,
       lastEventDate: lastEventDate ?? this.lastEventDate,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -890,6 +932,9 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     if (lastEventDate.present) {
       map['last_event_date'] = Variable<DateTime>(lastEventDate.value);
     }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
     return map;
   }
 
@@ -901,7 +946,8 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
           ..write('gender: $gender, ')
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
-          ..write('lastEventDate: $lastEventDate')
+          ..write('lastEventDate: $lastEventDate, ')
+          ..write('notes: $notes')
           ..write(')'))
         .toString();
   }
@@ -2664,7 +2710,7 @@ class $EventsPartnersTable extends EventsPartners
     type: DriftSqlType.int,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES partners (id)',
+      'REFERENCES partners (id) ON DELETE CASCADE',
     ),
   );
   static const VerificationMeta _partnerOrgasmsMeta = const VerificationMeta(
@@ -2958,6 +3004,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     WritePropagation(
       on: TableUpdateQuery.onTableName(
         'events',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('events_partners', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'partners',
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('events_partners', kind: UpdateKind.delete)],
@@ -3662,6 +3715,7 @@ typedef $$PartnersTableCreateCompanionBuilder =
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<DateTime> lastEventDate,
+      Value<String?> notes,
     });
 typedef $$PartnersTableUpdateCompanionBuilder =
     PartnersCompanion Function({
@@ -3671,6 +3725,7 @@ typedef $$PartnersTableUpdateCompanionBuilder =
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<DateTime> lastEventDate,
+      Value<String?> notes,
     });
 
 final class $$PartnersTableReferences
@@ -3739,6 +3794,11 @@ class $$PartnersTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> eventsPartnersRefs(
     Expression<bool> Function($$EventsPartnersTableFilterComposer f) f,
   ) {
@@ -3803,6 +3863,11 @@ class $$PartnersTableOrderingComposer
     column: $table.lastEventDate,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PartnersTableAnnotationComposer
@@ -3833,6 +3898,9 @@ class $$PartnersTableAnnotationComposer
     column: $table.lastEventDate,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
 
   Expression<T> eventsPartnersRefs<T extends Object>(
     Expression<T> Function($$EventsPartnersTableAnnotationComposer a) f,
@@ -3894,6 +3962,7 @@ class $$PartnersTableTableManager
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> lastEventDate = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
               }) => PartnersCompanion(
                 id: id,
                 name: name,
@@ -3901,6 +3970,7 @@ class $$PartnersTableTableManager
                 birthday: birthday,
                 createdAt: createdAt,
                 lastEventDate: lastEventDate,
+                notes: notes,
               ),
           createCompanionCallback:
               ({
@@ -3910,6 +3980,7 @@ class $$PartnersTableTableManager
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> lastEventDate = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
               }) => PartnersCompanion.insert(
                 id: id,
                 name: name,
@@ -3917,6 +3988,7 @@ class $$PartnersTableTableManager
                 birthday: birthday,
                 createdAt: createdAt,
                 lastEventDate: lastEventDate,
+                notes: notes,
               ),
           withReferenceMapper: (p0) => p0
               .map(

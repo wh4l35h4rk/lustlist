@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/widgets/calendar_widgets/add_event_floating_button.dart';
 import 'package:lustlist/widgets/calendar_widgets/calendar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
-import '../utils.dart';
-import '../main.dart';
-import '../calendar_event.dart';
-import '../repository.dart';
-import 'add_pages/add_med_page.dart';
-import 'add_pages/add_mstb_page.dart';
-import 'add_pages/add_sex_page.dart';
+import '../../utils.dart';
+import '../../main.dart';
+import '../../calendar_event.dart';
+import '../../repository.dart';
+import '../add_pages/add_med_page.dart';
+import '../add_pages/add_mstb_page.dart';
+import '../add_pages/add_sex_page.dart';
 
 
 List<IconData> iconsData = [Icons.favorite, Icons.front_hand, Icons.medical_services];

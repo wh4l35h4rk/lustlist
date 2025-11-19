@@ -14,6 +14,7 @@ import 'package:lustlist/db/events_options.dart';
 import 'package:lustlist/db/events_partners.dart';
 import 'package:lustlist/rowdata.dart';
 
+import 'gender.dart';
 part 'database.g.dart';
 
 
@@ -56,6 +57,15 @@ class AppDatabase extends _$AppDatabase {
     return (select(events)..where((t) => t.id.equals(id))).getSingle();
   }
 
+  Future<List<Event>> getEventsByPartnerId(int partnerId) async {
+    final query = select(eventsPartners).join([
+      innerJoin(events, events.id.equalsExp(eventsPartners.eventId)),
+      innerJoin(partners, partners.id.equalsExp(eventsPartners.partnerId))
+    ])..where(eventsPartners.partnerId.equals(partnerId));
+    final result = await query.get();
+    return result.map((row) => row.readTable(events)).toList();
+  }
+
 
   // Get EventData
   Future<EventData?> getDataById(int id) async {
@@ -80,6 +90,10 @@ class AppDatabase extends _$AppDatabase {
 
 
   // Get Partners
+  Future<Partner> getPartnerById(int id) async {
+    return (select(partners)..where((t) => t.id.equals(id))).getSingle();
+  }
+
   Future<List<Partner>> getPartnersByEventId(int eventId) async {
     final query = select(eventsPartners).join([
       innerJoin(events, events.id.equalsExp(eventsPartners.eventId)),
@@ -94,6 +108,11 @@ class AppDatabase extends _$AppDatabase {
     await (select(eventsPartners)..where((t) =>
     t.eventId.equals(eventId) & t.partnerId.equals(partnersList[ii].id))).getSingle()));
     return List.generate(partnersList.length, (ii) => result[ii].partnerOrgasms);
+  }
+
+  Future<int?> getPartnerOrgasm(int eventId, int partnerId) async {
+    final result = await (select(eventsPartners)..where((t) => t.eventId.equals(eventId) & t.partnerId.equals(partnerId))).getSingleOrNull();
+    return result?.partnerOrgasms;
   }
 
 
@@ -222,6 +241,10 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteEventOptions(int eventId) async {
     await (delete(eventsOptions)..where((t) => t.eventId.equals(eventId))).go();
+  }
+
+  Future deletePartner(int partnerId) async {
+    await (delete(partners)..where((t) => t.id.equals(partnerId))).go();
   }
 
 

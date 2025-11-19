@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 typedef StatusEntry = DropdownMenuEntry<TestStatus>;
 
 enum TestStatus {

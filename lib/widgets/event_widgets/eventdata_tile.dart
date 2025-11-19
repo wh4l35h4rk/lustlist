@@ -3,9 +3,9 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/calendar_event.dart';
-import 'package:lustlist/custom_icons.dart';
+import 'package:lustlist/repository.dart';
 import 'package:lustlist/widgets/basic_tile.dart';
-import '../../db/partners.dart';
+import 'package:lustlist/widgets/info_row.dart';
 
 class EventDataTile extends StatelessWidget {
   const EventDataTile({
@@ -68,19 +68,25 @@ class _DataColumn extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              infoRow(context, event, Icons.star, "Rating:",
-                _getRatingIcons(event, context)
+              InfoRow(
+                iconData: Icons.star,
+                title: "Rating:",
+                child: _getRatingIcons(event, context)
               ),
-              infoRow(context, event, Icons.timelapse, "Duration:",
-                Text(
+              InfoRow(
+                iconData: Icons.timelapse,
+                title: "Duration:",
+                child: Text(
                   _getDurationString(event),
                   style: TextStyle(
                     color: AppColors.eventData.text(context),
                   )
                 )
               ),
-              infoRow(context, event, Icons.auto_awesome, "My orgasms:",
-                Text(
+              InfoRow(
+                iconData: Icons.auto_awesome,
+                title: "My orgasms:",
+                child: Text(
                   _getOrgasmsText(event),
                   style: TextStyle(
                     color: AppColors.eventData.text(context),
@@ -218,6 +224,8 @@ class _PartnersColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var repo = EventRepository(database);
+
     return Column(
       children: [
         Row(
@@ -266,7 +274,7 @@ class _PartnersColumn extends StatelessWidget {
                           ),
                           SizedBox(width: 5,),
                           Icon(
-                            getGenderIconData(partner),
+                            repo.getGenderIconData(partner),
                             color: AppColors.eventData.icon(context),
                           )
                         ],
@@ -291,19 +299,6 @@ class _PartnersColumn extends StatelessWidget {
         ),
       ],
     );
-  }
-
-
-  IconData? getGenderIconData(Partner partner) {
-    final Gender gender = partner.gender;
-    switch (gender) {
-      case Gender.female:
-        return Icons.female;
-      case Gender.male:
-        return Icons.male;
-      case Gender.nonbinary:
-        return CustomIcons.genderless;
-    }
   }
 
   String _getPartnersTitle() {

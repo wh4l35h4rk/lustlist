@@ -3,7 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/test_status.dart';
 import 'calendar_event.dart';
-import 'db/partners.dart';
+import 'package:flutter/material.dart';
+import 'package:lustlist/custom_icons.dart';
+
+import 'gender.dart';
 
 
 class EventRepository {
@@ -18,6 +21,31 @@ class EventRepository {
 
     if (t1.hour != t2.hour) return t1.hour.compareTo(t2.hour);
     return t1.minute.compareTo(t2.minute);
+  }
+
+  int sortDateTime(Event a, Event b) {
+    final d1 = DateTime(a.date.year, a.date.month, a.date.day, 0, 0);
+    final d2 = DateTime(b.date.year, b.date.month, b.date.day, 0, 0);
+    final t1 = DateTime(1, 1, 1, a.time.hour, a.time.minute);
+    final t2 = DateTime(1, 1, 1, b.time.hour, b.time.minute);
+
+    if (d1.year == d2.year) {
+      if (d1.month == d2.month) {
+        if (d1.day == d2.day) {
+          if (t1.hour == t2.hour) {
+            return t1.minute.compareTo(t2.minute);
+          } else {
+            return t1.hour.compareTo(t2.hour);
+          }
+        } else {
+          return d1.day.compareTo(d2.day);
+        }
+      } else {
+        return d1.month.compareTo(d2.month);
+      }
+    } else {
+      return d1.year.compareTo(d2.year);
+    }
   }
 
   Future getEventSource() async {
@@ -155,6 +183,18 @@ class EventRepository {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
     return options;
+  }
+
+  IconData getGenderIconData(Partner partner) {
+    final Gender gender = partner.gender;
+    switch (gender) {
+      case Gender.female:
+        return Icons.female;
+      case Gender.male:
+        return Icons.male;
+      case Gender.nonbinary:
+        return CustomIcons.genderless;
+    }
   }
   
 

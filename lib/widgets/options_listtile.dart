@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../colors.dart';
 
 
@@ -26,7 +25,7 @@ class OptionsListTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadiusGeometry.circular(12),
-        border: Border.all( //TODO: change border to round
+        border: Border.all(
             color: AppColors.calendar.border(context)
         ),
       ),
@@ -48,8 +47,7 @@ class OptionsListTile extends StatelessWidget {
               )
             ],
           ),
-          subtitle: Text(subtitle),
-          trailing: Icon(Icons.arrow_forward_ios)
+          subtitle: Text(subtitle)
       ),
     );
   }

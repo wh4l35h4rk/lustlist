@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../pages/calendar_page.dart';
+import '../../pages/main_pages/calendar_page.dart';
 
 class AddEventFloatingButton extends StatelessWidget {
   final Function onEventTap;

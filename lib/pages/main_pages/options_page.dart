@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/pages/partners_page.dart';
 import 'package:lustlist/widgets/animated_appbar.dart';
 import 'package:lustlist/widgets/options_listtile.dart';
 
@@ -29,7 +30,7 @@ class _OptionsPageState extends State<OptionsPage> {
                 title: "Partners",
                 subtitle: "Manage info of all of your sexual partners.",
                 iconData: Icons.person,
-                page: null
+                page: PartnersPage()
             ),
             OptionsListTile(
                 title: "Tag visibility",

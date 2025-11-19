@@ -206,6 +206,8 @@ class _CalendarState extends State<Calendar> {
                     onDaySelected: _onDaySelected,
                     onPageChanged: (focusedDay) {
                       _focusedDay.value = focusedDay;
+                      _selectedDay.value = null;
+                      _selectedEvents.value = [];
                     },
                   );
                 }
@@ -220,20 +222,25 @@ class _CalendarState extends State<Calendar> {
                       return ListView.builder(
                         itemCount: value.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                                vertical: 4.0,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.symmetric( //TODO: change border to round
-                                    horizontal: BorderSide(color: AppColors.calendar.border(context))
+                          return Column(
+                            children: [
+                              index == 0 ? Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                child: Divider(
+                                    height: 0
                                 ),
-                              ),
-                              child: EventListTile(
+                              ) : SizedBox.shrink(),
+                              EventListTile(
                                 onTap: () => _onEventListTileTap(value[index]),
                                 event: value[index],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                child: Divider(
+                                    height: 0
+                                ),
                               )
+                            ],
                           );
                         },
                       );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/animated_appbar.dart';
+import '../../widgets/animated_appbar.dart';
 
 
 class StatsPage extends StatefulWidget {
