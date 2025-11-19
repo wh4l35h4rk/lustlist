@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/utils.dart';
+import 'package:lustlist/widgets/animated_appbar.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/pages/statspage.dart';
@@ -26,24 +28,19 @@ class _HomepageState extends State<Homepage> {
     OptionsPage(),
   ];
 
-  final pageNames = [
-    "Calendar",
-    "Statistics",
-    "Options"
-  ];
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
       valueListenable: HomeNavigationController.pageIndex,
       builder: (_, value, _) {
         return Scaffold(
-          appBar: MainAppBar(
-            title: pageNames[value],
-            backButton: null,
-            editButton: null,
-            themeButton: ChangeThemeButton(),
-          ),
+          appBar: value == 0
+              ? MainAppBar(
+                  title: mainPageNames[value],
+                  backButton: null,
+                  editButton: null,
+                  themeButton: ChangeThemeButton(),
+              ) : null,
           body: IndexedStack(
             index: value,
             children: pages,

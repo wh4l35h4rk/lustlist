@@ -121,6 +121,13 @@ class AppBarColors {
   Color surface(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
 
+  Color surfaceGradient(BuildContext context) =>
+      colorBlend(
+          Theme.of(context).colorScheme.primary,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.6
+      )!;
+
   Color title(BuildContext context) =>
       colorBlend(
           Theme.of(context).colorScheme.inversePrimary,

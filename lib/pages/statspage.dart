@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/animated_appbar.dart';
 
 
 class StatsPage extends StatefulWidget {
@@ -17,6 +18,16 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return CustomScrollView(
+        slivers: [
+          AnimatedAppBar(title: "Statistics"),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              SizedBox(height: 100),
+              Center(child: CircularProgressIndicator())
+            ]),
+          ),
+        ]
+    );
   }
 }

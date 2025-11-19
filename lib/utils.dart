@@ -22,3 +22,9 @@ final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = toDate(DateTime.now());
 
 const appTitle = "LustList";
+
+const mainPageNames = [
+  "Calendar",
+  "Statistics",
+  "Options"
+];

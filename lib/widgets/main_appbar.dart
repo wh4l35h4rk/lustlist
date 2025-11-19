@@ -27,7 +27,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       title: Text(
         title,
         style: TextStyle(
-          fontSize: title != appTitle ? 19 : 25,
+          fontSize: mainPageNames.contains(title) ? 22 : 19,
           color: editButton == null ? AppColors.appBar.title(context) : AppColors.appBar.text(context),
         ),
       ),
