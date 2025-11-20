@@ -3,18 +3,21 @@ import 'package:intl/intl.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
-import '../../repository.dart';
+import '../../repository/repository.dart';
+import '../../utils.dart';
 
 
 class PartnerListTile extends StatelessWidget {
   const PartnerListTile({
     required this.partner,
-    super.key,
     required this.onTap,
+    this.lastDate,
+    super.key,
   });
 
   final GestureTapCallback onTap;
   final Partner partner;
+  final DateTime? lastDate;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +53,12 @@ class PartnerListTile extends StatelessWidget {
   }
 
   String _getLastEventText() {
-    DateTime date = partner.lastEventDate;
-    final dateFormatted = DateFormat.yMMMMd().format(date);
+    final dateFormatted = DateFormat.yMMMMd().format(lastDate!);
     return dateFormatted;
   }
 
   Widget _getSubtitle(){
-    DateTime date = partner.lastEventDate;
-    if (date == DateTime(1970, 1, 1)) {
+    if (lastDate == null || lastDate == defaultDate) {
       return Text(
         "No activities together yet!",
         style: TextStyle(

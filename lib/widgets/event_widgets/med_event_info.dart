@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/colors.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/custom_icons.dart';
-import 'package:lustlist/calendar_event.dart';
+import 'package:lustlist/repository/calendar_event.dart';
 import 'package:lustlist/widgets/event_widgets/category_tile.dart';
 import 'package:lustlist/widgets/event_widgets/eventdata_tile.dart';
 import 'package:lustlist/widgets/event_widgets/notes_tile.dart';

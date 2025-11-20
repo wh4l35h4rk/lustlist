@@ -4,14 +4,14 @@ import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/edit_pages/edit_med_page.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
-import 'package:lustlist/calendar_event.dart';
+import 'package:lustlist/repository/calendar_event.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/event_widgets/med_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/sex_event_info.dart';
 import 'package:lustlist/widgets/event_widgets/mstb_event_info.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../main.dart';
-import '../repository.dart';
+import '../repository/repository.dart';
 import 'edit_pages/edit_mstb_page.dart';
 import 'edit_pages/edit_sex_page.dart';
 

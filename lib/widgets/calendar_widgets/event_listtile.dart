@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/calendar_event.dart';
+import 'package:lustlist/repository/calendar_event.dart';
 
 
 class EventListTile extends StatelessWidget {
@@ -11,12 +11,14 @@ class EventListTile extends StatelessWidget {
     required this.event,
     required this.onTap,
     this.partnerOrgasms,
+    this.partneredIcon,
     super.key,
   });
 
   final CalendarEvent event;
   final GestureTapCallback onTap;
   final int? partnerOrgasms;
+  final IconData? partneredIcon;
 
   String _getTitle() {
     if (partnerOrgasms != null) {
@@ -136,7 +138,7 @@ class EventListTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    iconDataMap[event.getTypeId()],
+                    partneredIcon ?? iconDataMap[event.getTypeId()],
                   ),
                   SizedBox(width: 15),
                   Container(

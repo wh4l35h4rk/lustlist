@@ -29,3 +29,5 @@ const mainPageNames = [
   "Options",
   "Partners"
 ];
+
+final defaultDate = DateTime(1970, 1, 1, 0, 0, 0);

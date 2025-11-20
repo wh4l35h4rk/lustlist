@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/widgets/basic_tile.dart';
 import 'package:lustlist/widgets/calendar_widgets/event_listtile.dart';
-import 'package:lustlist/widgets/event_widgets/category_tile.dart';
 import 'package:lustlist/widgets/event_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
-import 'package:lustlist/calendar_event.dart';
+import 'package:lustlist/repository/calendar_event.dart';
 import 'package:lustlist/colors.dart';
 import 'package:lustlist/widgets/partner_widgets/partner_data_tile.dart';
 import '../../controllers/home_navigation_controller.dart';
 import '../../main.dart';
 import '../../pages/eventpage.dart';
-import '../../repository.dart';
+import '../../repository/repository.dart';
 
 
 class PartnerProfile extends StatefulWidget {
@@ -37,7 +35,6 @@ class _PartnerProfileState extends State<PartnerProfile> {
   void initState() {
     super.initState();
     partner = widget.partner;
-    print("Partner in profile: ${partner}");
     partnerEventsFuture = _loadPartnerEvents(database);
   }
 
@@ -83,10 +80,6 @@ class _PartnerProfileState extends State<PartnerProfile> {
             ),
             NotesTile(partner: partner,),
             SizedBox(height: 20,),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-            //   child: Divider(),
-            // ),
             FutureBuilder(
               future: partnerEventsFuture,
               builder: (context, snapshot) {
@@ -182,9 +175,11 @@ class _PartnerProfileState extends State<PartnerProfile> {
     );
   }
 
+
   Future<void> deletePartner(Partner partner) async {
     await database.deletePartner(partner.id);
   }
+
 
   void _showPopUp(BuildContext context) {
     showDialog(
@@ -232,10 +227,12 @@ class _PartnerProfileState extends State<PartnerProfile> {
     );
   }
 
+
   Future<void> reloadPartner(AppDatabase db) async {
     Partner partnerNew = await db.getPartnerById(partner.id);
     partner = partnerNew;
   }
+
 
   Future<List<CalendarEvent>> _loadPartnerEvents(AppDatabase db) async {
     List<Event> dbEvents = await db.getEventsByPartnerId(partner.id);
@@ -248,6 +245,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
     return calendarEvents;
   }
 
+
   Future<void> _onEventListTileTap(CalendarEvent event) async {
     final result = await Navigator.push(
       context,
@@ -256,6 +254,8 @@ class _PartnerProfileState extends State<PartnerProfile> {
       ),
     );
     if (result == true) {
+      partnerChanged = true;
+      partnerEventsFuture = _loadPartnerEvents(database);
       await Future.delayed(Duration(milliseconds: 200));
       setState(() {});
     }

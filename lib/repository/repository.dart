@@ -2,11 +2,12 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/test_status.dart';
+import 'package:lustlist/utils.dart';
 import 'calendar_event.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/custom_icons.dart';
 
-import 'gender.dart';
+import '../gender.dart';
 
 
 class EventRepository {
@@ -122,9 +123,6 @@ class EventRepository {
             partnerOrgasms: Value(partnerOrgasms!)
         )
     );
-
-    Event event = await db.getEventById(eventId);
-    await db.updatePartner(partnerId, PartnersCompanion(lastEventDate: Value(event.date)));
   }
 
   
@@ -185,6 +183,29 @@ class EventRepository {
     return options;
   }
 
+  Future<DateTime> getPartnerLastEventDate(int partnerId) async {
+    List<Event> events = await db.getEventsByPartnerId(partnerId);
+    if (events.isEmpty) return defaultDate;
+    events.sort(sortDateTime);
+    return events.last.date;
+  }
+
+  Future<List<Partner>> getPartnersSorted() async {
+    List<Partner> partners = await db.allPartners;
+
+    Map<int, DateTime> dates = {};
+    for (Partner p in partners) {
+      DateTime date = await getPartnerLastEventDate(p.id);
+      dates[p.id] = date;
+    }
+    if (partners.isNotEmpty){
+      partners.sort((a, b) {
+        return -1 * dates[a.id]!.compareTo(dates[b.id]!);
+      });
+    }
+    return partners;
+  }
+
   IconData getGenderIconData(Partner partner) {
     final Gender gender = partner.gender;
     switch (gender) {
@@ -216,16 +237,8 @@ class EventRepository {
     final sonoOptionId = await db.getOptionIdBySlug("ultrasonography");
     final molluscumOptionId = await db.getOptionIdBySlug("molluscum contagiosum");
 
-    final partnerId2 = await db.insertPartner(
-        PartnersCompanion.insert(name: "Sonya", gender: Gender.female)
-    );
-
-    final partnerId1 = await db.insertPartner(PartnersCompanion.insert(
-        name: "Wowa", 
-        gender: Gender.male,
-        lastEventDate: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20))
-    ));
-
+    final partnerId2 = await db.insertPartner(PartnersCompanion.insert(name: "Sonya", gender: Gender.female));
+    final partnerId1 = await db.insertPartner(PartnersCompanion.insert(name: "Wowa", gender: Gender.male));
     final partnerId3 = await db.insertPartner(PartnersCompanion.insert(name: "Alexander II", gender: Gender.male));
     final partnerId4 = await db.insertPartner(PartnersCompanion.insert(name: "Phoenix", gender: Gender.nonbinary));
 

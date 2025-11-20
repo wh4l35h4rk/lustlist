@@ -8,6 +8,5 @@ class Partners extends Table {
   IntColumn get gender => intEnum<Gender>()();
   DateTimeColumn get birthday => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
-  DateTimeColumn get lastEventDate => dateTime().withDefault(Constant(DateTime(1970, 1, 1)))();
   TextColumn get notes => text().nullable()();
 }

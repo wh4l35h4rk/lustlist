@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
-import 'package:lustlist/custom_icons.dart';
 import '../../colors.dart';
 import '../../controllers/map_notifier.dart';
-import '../../gender.dart';
 import '../../main.dart';
-import '../../db/partners.dart';
-import '../../repository.dart';
+import '../../repository/repository.dart';
 import '../basic_tile.dart';
 import 'orgasms_picker.dart';
 
@@ -54,7 +51,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
   @override
   void initState() {
     super.initState();
-    _partnersListFuture = _getPartnersList(database);
+    _partnersListFuture = repo.getPartnersSorted();
   }
 
   @override
@@ -116,10 +113,20 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                       ),
                     );
                   } else if (snapshot.hasError) {
-                    return Text("Error loading data",
-                      style: TextStyle(
-                        color: AppColors.addEvent.coloredText(context),
-                      ),
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.bug_report,
+                          color: AppColors.categoryTile.leadingIcon(context),
+                        ),
+                        SizedBox(width: 5,),
+                        Text("Error loading data",
+                          style: TextStyle(
+                            color: AppColors.categoryTile.text(context),
+                          ),
+                        ),
+                      ],
                     );
                   } else if (snapshot.data == null || snapshot.data!.isEmpty) {
                     return Row(
@@ -298,13 +305,5 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         ),
       ),
     );
-  }
-
-  Future<List<Partner>> _getPartnersList(AppDatabase db) async {
-    List<Partner> partners = await db.allPartners;
-    if (partners.isNotEmpty){
-      partners.sort((a, b) => -1 * a.lastEventDate.compareTo(b.lastEventDate));
-    }
-    return partners;
   }
 }

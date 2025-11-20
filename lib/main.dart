@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/pages/homepage.dart';
-import 'package:lustlist/repository.dart';
+import 'package:lustlist/repository/repository.dart';
 import 'package:lustlist/controllers/theme_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';

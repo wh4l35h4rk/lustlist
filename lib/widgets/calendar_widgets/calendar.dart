@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/colors.dart';
-import 'package:lustlist/repository.dart';
+import 'package:lustlist/repository/repository.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
 import 'package:lustlist/utils.dart';
-import 'package:lustlist/calendar_event.dart';
+import 'package:lustlist/repository/calendar_event.dart';
 import 'package:lustlist/widgets/calendar_widgets/event_listtile.dart';
 import '../../pages/eventpage.dart';
 

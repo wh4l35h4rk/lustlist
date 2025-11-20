@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/colors.dart';
-import 'package:lustlist/calendar_event.dart';
-import 'package:lustlist/repository.dart';
+import 'package:lustlist/repository/calendar_event.dart';
+import 'package:lustlist/repository/repository.dart';
 import 'package:lustlist/widgets/basic_tile.dart';
 import 'package:lustlist/widgets/info_row.dart';
 

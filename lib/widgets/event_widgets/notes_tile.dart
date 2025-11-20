@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/calendar_event.dart';
+import 'package:lustlist/repository/calendar_event.dart';
 import '../../colors.dart';
 import '../../database.dart';
 

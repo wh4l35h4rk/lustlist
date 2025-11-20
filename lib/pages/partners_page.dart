@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/database.dart';
+import 'package:lustlist/repository/partner_dated.dart';
 import 'package:lustlist/widgets/main_bnb.dart';
 import 'package:lustlist/widgets/main_appbar.dart';
 import 'package:lustlist/colors.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../main.dart';
-import '../repository.dart';
+import '../repository/repository.dart';
+import '../widgets/event_widgets/error_tile.dart';
 import '../widgets/partner_widgets/partner_listtile.dart';
 import '../widgets/partner_widgets/partner_profile.dart';
 
@@ -22,12 +24,12 @@ class PartnersPage extends StatefulWidget {
 class _PartnersPageState extends State<PartnersPage> {
   bool partnersChanges = false;
   final repo = EventRepository(database);
-  late Future<List<Partner>> partnersFuture;
+  late Future<List<PartnerWithDate>> partnersFuture;
 
   @override
   void initState() {
     super.initState();
-    partnersFuture = _loadPartners(database);
+    partnersFuture = repo.getPartnersWithDatesSorted();
   }
 
   @override
@@ -44,21 +46,18 @@ class _PartnersPageState extends State<PartnersPage> {
       body: FutureBuilder(
         future: partnersFuture,
         builder: (context, snapshot) {
-
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData) {
             return Center(
-                child: Text(
-                  "Error loading data.",
-                  style: TextStyle(
-                    color: AppColors.categoryTile.text(context),
-                  ),
-                )
+              child: ErrorTile(
+                iconData: Icons.bug_report,
+                title: "Error loading data",
+              ),
             );
           }
 
-          List<Partner> partners = snapshot.data!;
+          List<PartnerWithDate> partners = snapshot.data!;
 
           return ListView(
             children: [
@@ -69,7 +68,7 @@ class _PartnersPageState extends State<PartnersPage> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  Partner partner = partners[index];
+                  PartnerWithDate partner = partners[index];
                   return Column(
                     children: [
                       index == 0 ? Padding(
@@ -79,8 +78,9 @@ class _PartnersPageState extends State<PartnersPage> {
                         ),
                       ) : SizedBox.shrink(),
                       PartnerListTile(
-                        partner: partner,
-                        onTap: () => _onTap(partner),
+                        partner: partner.partner,
+                        onTap: () => _onTap(partner.partner),
+                        lastDate: partner.lastDate,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -103,12 +103,6 @@ class _PartnersPageState extends State<PartnersPage> {
     );
   }
 
-  Future<List<Partner>> _loadPartners(AppDatabase db) async {
-    List<Partner> allPartners = await db.allPartners;
-    allPartners.sort((a, b) => a.lastEventDate.isAfter(b.lastEventDate) ? -1 : 1);
-    return allPartners;
-  }
-
   Future<void> _onTap(Partner partner) async {
     final result = await Navigator.push(
       context,
@@ -117,6 +111,7 @@ class _PartnersPageState extends State<PartnersPage> {
       ),
     );
     if (result == true) {
+      partnersFuture = repo.getPartnersWithDatesSorted();
       await Future.delayed(Duration(milliseconds: 100));
       setState(() {});
     }

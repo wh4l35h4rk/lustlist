@@ -8,7 +8,7 @@ import 'package:lustlist/widgets/add_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/add_widgets/select_partners_tile.dart';
 import '../../controllers/add_category_controller.dart';
 import '../../utils.dart';
-import '../../repository.dart';
+import '../../repository/repository.dart';
 import '../../main.dart';
 import '../../controllers/add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
