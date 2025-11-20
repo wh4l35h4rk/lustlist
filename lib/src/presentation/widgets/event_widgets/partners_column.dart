@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/presentation/main.dart';
+import 'package:lustlist/src/presentation/widgets/partner_widgets/partner_profile.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
 import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/database/database.dart';
 
 
 class PartnersColumn extends StatelessWidget {
@@ -50,9 +53,7 @@ class PartnersColumn extends StatelessWidget {
                 children: [
                   for (var partner in event.partnersMap!.keys)
                     OutlinedButton(
-                      onPressed: () {
-                        //TODO: partner page routing
-                      },
+                      onPressed: () => _onPartnerTap(context, repo, partner),
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(width: 1.2, color: AppColors.eventData.border(context)),
                       ),
@@ -102,9 +103,9 @@ class PartnersColumn extends StatelessWidget {
   String _getPartnersTitle() {
     final partners = event.partnersMap!.keys;
     if (partners.length > 1) {
-      return _colon(PageStrings.partners);
+      return colon(PageStrings.partners);
     } else if (partners.length == 1) {
-      return _colon(ProfileStrings.partnerOne);
+      return colon(ProfileStrings.partnerOne);
     } else {
       throw FormatException("No partners passed");
     }
@@ -121,7 +122,15 @@ class PartnersColumn extends StatelessWidget {
     return "$amountString $orgasmsString";
   }
 
-  String _colon(String s) {
-    return "$s:";
+  Future<void> _onPartnerTap(BuildContext context, EventRepository repo, Partner partner) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PartnerProfile(
+          partner: partner,
+          previousEventId: event.event.id
+        ),
+      ),
+    );
   }
 }

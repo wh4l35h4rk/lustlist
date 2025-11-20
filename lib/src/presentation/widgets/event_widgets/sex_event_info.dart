@@ -5,6 +5,7 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/profile_strings.dart';
 import 'package:lustlist/src/presentation/widgets/event_widgets/notes_tile.dart';
+import '../../../core/utils/utils.dart';
 import 'eventdata_tile.dart';
 import 'package:lustlist/src/presentation/widgets/event_widgets/category_tile.dart';
 
@@ -24,28 +25,28 @@ class SexEventInfo extends StatelessWidget {
         EventDataTile(event: event),
         CategoryTile(
           event: event,
-          title: _colon(DataStrings.contraception),
+          title: colon(DataStrings.contraception),
           categorySlug: "contraception",
           iconData: CategoryIcons.condom,
           onNoResultsText: ProfileStrings.none,
         ),
         CategoryTile(
           event: event,
-          title: _colon(DataStrings.practices),
+          title: colon(DataStrings.practices),
           categorySlug: "practices",
           iconData: CustomIcons.handLizard,
           iconSize: AppSizes.iconPractices,
         ),
         CategoryTile(
           event: event,
-          title: _colon(DataStrings.poses),
+          title: colon(DataStrings.poses),
           categorySlug: "poses",
           iconData: CategoryIcons.sexMove,
           iconSize: AppSizes.iconPoses,
         ),
         CategoryTile(
           event: event,
-          title: _colon(DataStrings.place),
+          title: colon(DataStrings.place),
           categorySlug: "place",
           iconData: Icons.bed
         ),
@@ -53,9 +54,5 @@ class SexEventInfo extends StatelessWidget {
         SizedBox(height: 20)
       ],
     );
-  }
-
-  String _colon(String s) {
-    return "$s:";
   }
 }

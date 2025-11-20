@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -21,10 +22,12 @@ import 'package:lustlist/src/domain/repository.dart';
 class PartnerProfile extends StatefulWidget {
   const PartnerProfile({
     required this.partner,
-    super.key
+    this.previousEventId,
+    super.key,
   });
 
   final Partner partner;
+  final int? previousEventId;
 
   @override
   State<PartnerProfile> createState() => _PartnerProfileState();
@@ -139,27 +142,35 @@ class _PartnerProfileState extends State<PartnerProfile> {
                       )
                       : SizedBox.shrink(),
                     ListView.builder(
-                        itemCount: events.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          CalendarEvent event = events[index];
-                          return Column(
-                            children: [
-                              EventListTile(
-                                event: event,
-                                partnerOrgasms: event.partnersMap?[partner],
-                                onTap: () => _onEventListTileTap(event),
-                              ),
-                              index != events.length - 1 ? Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                child: Divider(
-                                    height: 0
-                                ),
-                              ) : SizedBox.shrink(),
-                            ],
-                          );
+                      itemCount: events.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        CalendarEvent event = events[index];
+                        IconData partnerIcon;
+                        if (event.partnersMap != null && event.partnersMap!.length > 1) {
+                          partnerIcon = CategoryIcons.two;
+                        } else {
+                          partnerIcon = Icons.favorite;
                         }
+
+                        return Column(
+                          children: [
+                            EventListTile(
+                              event: event,
+                              partnerOrgasms: event.partnersMap?[partner],
+                              partneredIcon: partnerIcon,
+                              onTap: () => _onEventListTileTap(event),
+                            ),
+                            index != events.length - 1 ? Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Divider(
+                                  height: 0
+                              ),
+                            ) : SizedBox.shrink(),
+                          ],
+                        );
+                      }
                     ),
                   ],
                 );
@@ -252,6 +263,10 @@ class _PartnerProfileState extends State<PartnerProfile> {
 
 
   Future<void> _onEventListTileTap(CalendarEvent event) async {
+    if (widget.previousEventId == event.event.id) {
+      Navigator.of(context).pop(partnerChanged ? true : null);
+    }
+
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
