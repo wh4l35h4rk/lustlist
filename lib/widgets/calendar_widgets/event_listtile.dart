@@ -90,7 +90,7 @@ class EventListTile extends StatelessWidget {
 
     } else if (type == "medical") {
       final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
-      if (categoryNames!.isNotEmpty) {
+      if (categoryNames != null && categoryNames.isNotEmpty) {
         return "$time, ${categoryNames.join(", ")}";
       } else {
         return time;

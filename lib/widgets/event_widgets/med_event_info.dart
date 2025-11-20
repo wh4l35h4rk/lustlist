@@ -8,7 +8,7 @@ import 'package:lustlist/widgets/event_widgets/notes_tile.dart';
 import 'package:lustlist/widgets/event_widgets/sti_tile.dart';
 
 import '../../database.dart';
-import 'error_tile.dart';
+import '../error_tile.dart';
 
 
 class MedEventInfo extends StatelessWidget {
@@ -28,20 +28,14 @@ class MedEventInfo extends StatelessWidget {
             future: getCategoryList(database, event.event),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return ErrorTile(
-                  iconData: Icons.autorenew,
-                  title: "Loading...",
-                );
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                   return ErrorTile(
                     iconData: Icons.bug_report,
                     title: "Error loading data",
                   );
               } else if (!snapshot.hasData) {
-                return ErrorTile(
-                  iconData: Icons.close,
-                  title: "No data",
-                );
+                return NotesTile(event: event);
               }
 
               List<String> categoryList = snapshot.data!;
@@ -80,10 +74,7 @@ class MedEventInfo extends StatelessWidget {
                   ],
                 );
               } else {
-                return ErrorTile(
-                  iconData: Icons.close,
-                  title: "No data",
-                );
+                return NotesTile(event: event);
               }
             }
         ),

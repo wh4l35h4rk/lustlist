@@ -6,6 +6,7 @@ import 'package:lustlist/widgets/add_widgets/time_picker.dart';
 import '../../colors.dart';
 import '../../database.dart';
 import '../../main.dart';
+import '../error_tile.dart';
 
 
 class AddMedEventDataController {
@@ -126,14 +127,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError || !snapshot.hasData) {
-          return Center(
-              child: Text(
-                "Error loading data.",
-                style: TextStyle(
-                  color: AppColors.addEvent.text(context),
-                ),
-              )
-          );
+          return ErrorTile();
         }
 
         final categoriesMap = snapshot.data!;

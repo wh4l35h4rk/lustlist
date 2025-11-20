@@ -132,7 +132,7 @@ class AppDatabase extends _$AppDatabase {
     return result!.id;
   }
 
-  Future<List<String>?> getCategoryNamesOfEvent(int eventId) async {
+  Future<List<String?>?> getCategoryNamesOfEvent(int eventId) async {
     final options = await getOptionsByEventId(eventId);
     if (options.isNotEmpty){
       final categoryNames = await Future.wait(

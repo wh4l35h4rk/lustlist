@@ -413,7 +413,7 @@ class _MedicalData extends StatelessWidget{
   Future<Widget> getCategoryListText(AppDatabase db, context) async {
     final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
     String categoryString;
-    if (categoryNames!.isNotEmpty) {
+    if (categoryNames != null && categoryNames.isNotEmpty) {
       categoryString = categoryNames.join(", ");
     } else {
       categoryString = "Unknown";

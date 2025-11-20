@@ -7,7 +7,7 @@ import 'package:lustlist/colors.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../main.dart';
 import '../repository/repository.dart';
-import '../widgets/event_widgets/error_tile.dart';
+import '../widgets/error_tile.dart';
 import '../widgets/partner_widgets/partner_listtile.dart';
 import '../widgets/partner_widgets/partner_profile.dart';
 
@@ -49,12 +49,7 @@ class _PartnersPageState extends State<PartnersPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData) {
-            return Center(
-              child: ErrorTile(
-                iconData: Icons.bug_report,
-                title: "Error loading data",
-              ),
-            );
+            return ErrorTile();
           }
 
           List<PartnerWithDate> partners = snapshot.data!;

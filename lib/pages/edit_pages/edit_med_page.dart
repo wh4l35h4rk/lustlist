@@ -14,6 +14,7 @@ import '../../repository/repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/med_data_header.dart';
 import '../../widgets/basic_tile.dart';
+import '../../widgets/error_tile.dart';
 import '../../widgets/loading_scaffold.dart';
 
 
@@ -82,14 +83,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData) {
-            return Center(
-                child: Text(
-                  "Error loading data.",
-                  style: TextStyle(
-                    color: AppColors.addEvent.text(context),
-                  ),
-                )
-            );
+            return ErrorTile();
           }
 
           final categoriesMap = snapshot.data!;

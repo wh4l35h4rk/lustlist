@@ -12,6 +12,7 @@ import '../../repository/repository.dart';
 import '../../main.dart';
 import '../../widgets/add_widgets/med_data_header.dart';
 import '../../widgets/basic_tile.dart';
+import '../../widgets/error_tile.dart';
 
 class AddMedEventPage extends StatefulWidget{
   final DateTime? initDay;
@@ -70,14 +71,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData) {
-            return Center(
-                child: Text(
-                  "Error loading data.",
-                  style: TextStyle(
-                    color: AppColors.addEvent.text(context),
-                  ),
-                )
-            );
+            return ErrorTile();
           }
 
           final categoriesMap = snapshot.data!;

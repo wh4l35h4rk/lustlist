@@ -12,6 +12,8 @@ import '../../main.dart';
 import '../../controllers/add_eventdata_controller.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
+import '../../widgets/error_tile.dart';
+
 
 class AddMstbEventPage extends StatefulWidget{
   final DateTime? initDay;
@@ -71,14 +73,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData) {
-            return Center(
-                child: Text(
-                  "Error loading data.",
-                  style: TextStyle(
-                    color: AppColors.addEvent.text(context),
-                  ),
-                )
-            );
+            return ErrorTile();
           }
 
           final categoriesMap = snapshot.data!;

@@ -14,6 +14,7 @@ import '../../main.dart';
 import '../../widgets/add_widgets/data_header.dart';
 import '../../widgets/basic_tile.dart';
 import '../../controllers/edit_eventdata_controller.dart';
+import '../../widgets/error_tile.dart';
 
 
 class EditSexEventPage extends StatefulWidget{
@@ -111,14 +112,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData) {
-            return Center(
-                child: Text(
-                  "Error loading data.",
-                  style: TextStyle(
-                    color: AppColors.addEvent.text(context),
-                  ),
-                )
-            );
+            return ErrorTile();
           }
 
           final categoriesMap = snapshot.data!;
