@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
-import 'package:lustlist/src/presentation/widgets/main_appbar.dart';
-import 'package:lustlist/src/presentation/widgets/main_bnb.dart';
-import 'package:lustlist/src/presentation/controllers/home_navigation_controller.dart';
+import 'package:lustlist/src/ui/widgets/main_appbar.dart';
+import 'package:lustlist/src/ui/widgets/main_bnb.dart';
+import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 
 
 class LoadingScaffold extends StatefulWidget{
