@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
@@ -20,8 +18,6 @@ class PartnerDataTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var repo = EventRepository(database);
-
     return BasicTile(
       surfaceColor: AppColors.eventData.surface(context),
       margin: const EdgeInsets.all(10),

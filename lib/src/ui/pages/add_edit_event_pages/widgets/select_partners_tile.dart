@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
@@ -295,7 +296,12 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               ),
             ),
             SizedBox(width: 5,),
-            Icon(partner.gender.iconData, color: AppColors.addEvent.coloredText(context))
+            Icon(
+              partner.gender.iconData,
+              size: partner.gender == Gender.nonbinary
+                  ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
+              color: AppColors.addEvent.coloredText(context)
+            )
           ],
         ),
       ),
@@ -328,7 +334,8 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
             SizedBox(width: 5,),
             Icon(
               partner.gender.iconData,
-              size: AppSizes.iconMedium,
+              size: partner.gender == Gender.nonbinary
+                  ? AppSizes.iconMedium - 3 : AppSizes.iconMedium,
               color: AppColors.addEvent.coloredText(context),
             )
           ],

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/profile_strings.dart';
-import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
 
@@ -23,8 +22,6 @@ class PartnerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var repo = EventRepository(database);
-
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: 12.0,
@@ -34,6 +31,8 @@ class PartnerListTile extends StatelessWidget {
           onTap: onTap,
           leading: Icon(
             partner.gender.iconData,
+            size: partner.gender == Gender.nonbinary
+                ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
             color: AppColors.categoryTile.icon(context),
           ),
           title: Wrap(

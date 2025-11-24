@@ -1,11 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lustlist/src/config/strings/profile_strings.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'entities/calendar_event.dart';
-import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 
 
@@ -216,6 +215,11 @@ class EventRepository {
       });
     }
     return partners;
+  }
+
+  Future<Partner?> getUnknownPartner() async {
+    final name = ProfileStrings.unknownPartnerName;
+    return await (db.select(db.partners)..where((t) => t.name.equals(name))).getSingleOrNull();
   }
 
 

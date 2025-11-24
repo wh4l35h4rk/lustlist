@@ -76,10 +76,21 @@ class _PartnerProfileState extends State<PartnerProfile> {
             icon: Icon(Icons.edit),
             color: AppColors.appBar.icon(context),
           ),
-          deleteButton: IconButton(
-            onPressed: () => _showPopUp(context),
-            icon: Icon(Icons.delete),
-            color: AppColors.appBar.icon(context),
+          deleteButton: FutureBuilder(
+            future: partnerEventsFuture,
+            builder: (context, snapshot){
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.hasError || !snapshot.hasData) {
+                return SizedBox.shrink();
+              }
+              List<CalendarEvent> events = snapshot.data!;
+              
+              return IconButton(
+                onPressed: () => _showPopUp(context, events.isNotEmpty),
+                icon: Icon(Icons.delete),
+                color: AppColors.appBar.icon(context),
+              );
+            }
           ),
         ),
         body: ListView(
@@ -193,7 +204,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
   }
 
 
-  void _showPopUp(BuildContext context) {
+  void _showPopUp(BuildContext context, bool hasEvents) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -203,7 +214,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
           },
           child: AlertDialog(
             content: Text(
-              AlertStrings.deletePartner,
+              hasEvents ? AlertStrings.noDeletePartner : AlertStrings.deletePartner,
               style: TextStyle(fontSize: AppSizes.alertBody),
               textAlign: TextAlign.justify,
             ),
@@ -220,25 +231,27 @@ class _PartnerProfileState extends State<PartnerProfile> {
                   Navigator.of(context).pop();
                 },
               ),
-              MaterialButton(
-                onPressed: () {
-                  deletePartner(partner);
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  eventsUpdated.notifyUpdate();
-                },
-                color: AppColors.appBar.surface(context),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Text(
-                  ButtonStrings.delete,
-                  style: TextStyle(
-                      fontSize: AppSizes.alertButton,
-                      color: AppColors.appBar.text(context)
+              !hasEvents
+                ? MaterialButton(
+                  onPressed: () {
+                    deletePartner(partner);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(true);
+                    eventsUpdated.notifyUpdate();
+                  },
+                  color: AppColors.appBar.surface(context),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                ),
-              ),
+                  child: Text(
+                    ButtonStrings.delete,
+                    style: TextStyle(
+                        fontSize: AppSizes.alertButton,
+                        color: AppColors.appBar.text(context)
+                    ),
+                  ),
+                )
+                : SizedBox.shrink()
             ],
           ),
         );

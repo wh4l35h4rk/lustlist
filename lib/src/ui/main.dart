@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/pages/homepage.dart';
@@ -13,10 +14,16 @@ Map<int, IconData> iconDataMap = {};
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await deleteDatabase();
+  if (kDebugMode) {
+    await deleteDatabase();
+  }
+
   database = AppDatabase();
-  var repo = EventRepository(database);
-  await repo.insertMockEntries();
+  final repo = EventRepository(database);
+
+  if (kDebugMode) {
+    await repo.insertMockEntries();
+  }
   runApp(const MyApp());
 }
 
@@ -63,8 +70,10 @@ Future<void> deleteDatabase() async {
   final dbFile = File('${dir.path}/ll_database.sqlite');
   if (await dbFile.exists()) {
     await dbFile.delete();
-    print('Database deleted');
-  } else {
+    if (kDebugMode) {
+      print('Database deleted');
+    }
+  } else if (kDebugMode) {
     print('Database file not found');
   }
 }

@@ -11,7 +11,7 @@ import 'text_form.dart';
 class NotesTileController {
   final TextEditingController notesController;
 
-  NotesTileController({String? notes}) : notesController = TextEditingController(text: notes ?? null);
+  NotesTileController({String? notes}) : notesController = TextEditingController(text: notes);
 }
 
 

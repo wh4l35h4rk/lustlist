@@ -59,7 +59,7 @@ class OptionsListTile extends StatelessWidget {
 
   Future<void> _onTap(Widget? page, BuildContext context) async {
     if (page == null) return;
-    final result = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => page,

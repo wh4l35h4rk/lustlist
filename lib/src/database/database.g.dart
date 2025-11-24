@@ -570,6 +570,21 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _isVisibleMeta = const VerificationMeta(
+    'isVisible',
+  );
+  @override
+  late final GeneratedColumn<bool> isVisible = GeneratedColumn<bool>(
+    'is_visible',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_visible" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -578,6 +593,7 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     birthday,
     createdAt,
     notes,
+    isVisible,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -620,6 +636,12 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
       );
     }
+    if (data.containsKey('is_visible')) {
+      context.handle(
+        _isVisibleMeta,
+        isVisible.isAcceptableOrUnknown(data['is_visible']!, _isVisibleMeta),
+      );
+    }
     return context;
   }
 
@@ -655,6 +677,10 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
       ),
+      isVisible: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_visible'],
+      )!,
     );
   }
 
@@ -674,6 +700,7 @@ class Partner extends DataClass implements Insertable<Partner> {
   final DateTime? birthday;
   final DateTime createdAt;
   final String? notes;
+  final bool isVisible;
   const Partner({
     required this.id,
     required this.name,
@@ -681,6 +708,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     this.birthday,
     required this.createdAt,
     this.notes,
+    required this.isVisible,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -699,6 +727,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
     }
+    map['is_visible'] = Variable<bool>(isVisible);
     return map;
   }
 
@@ -714,6 +743,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       notes: notes == null && nullToAbsent
           ? const Value.absent()
           : Value(notes),
+      isVisible: Value(isVisible),
     );
   }
 
@@ -731,6 +761,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       birthday: serializer.fromJson<DateTime?>(json['birthday']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       notes: serializer.fromJson<String?>(json['notes']),
+      isVisible: serializer.fromJson<bool>(json['isVisible']),
     );
   }
   @override
@@ -745,6 +776,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       'birthday': serializer.toJson<DateTime?>(birthday),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'notes': serializer.toJson<String?>(notes),
+      'isVisible': serializer.toJson<bool>(isVisible),
     };
   }
 
@@ -755,6 +787,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     Value<DateTime?> birthday = const Value.absent(),
     DateTime? createdAt,
     Value<String?> notes = const Value.absent(),
+    bool? isVisible,
   }) => Partner(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -762,6 +795,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     birthday: birthday.present ? birthday.value : this.birthday,
     createdAt: createdAt ?? this.createdAt,
     notes: notes.present ? notes.value : this.notes,
+    isVisible: isVisible ?? this.isVisible,
   );
   Partner copyWithCompanion(PartnersCompanion data) {
     return Partner(
@@ -771,6 +805,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       birthday: data.birthday.present ? data.birthday.value : this.birthday,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       notes: data.notes.present ? data.notes.value : this.notes,
+      isVisible: data.isVisible.present ? data.isVisible.value : this.isVisible,
     );
   }
 
@@ -782,13 +817,15 @@ class Partner extends DataClass implements Insertable<Partner> {
           ..write('gender: $gender, ')
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
-          ..write('notes: $notes')
+          ..write('notes: $notes, ')
+          ..write('isVisible: $isVisible')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, gender, birthday, createdAt, notes);
+  int get hashCode =>
+      Object.hash(id, name, gender, birthday, createdAt, notes, isVisible);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -798,7 +835,8 @@ class Partner extends DataClass implements Insertable<Partner> {
           other.gender == this.gender &&
           other.birthday == this.birthday &&
           other.createdAt == this.createdAt &&
-          other.notes == this.notes);
+          other.notes == this.notes &&
+          other.isVisible == this.isVisible);
 }
 
 class PartnersCompanion extends UpdateCompanion<Partner> {
@@ -808,6 +846,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   final Value<DateTime?> birthday;
   final Value<DateTime> createdAt;
   final Value<String?> notes;
+  final Value<bool> isVisible;
   const PartnersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -815,6 +854,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.notes = const Value.absent(),
+    this.isVisible = const Value.absent(),
   });
   PartnersCompanion.insert({
     this.id = const Value.absent(),
@@ -823,6 +863,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.notes = const Value.absent(),
+    this.isVisible = const Value.absent(),
   }) : name = Value(name),
        gender = Value(gender);
   static Insertable<Partner> custom({
@@ -832,6 +873,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Expression<DateTime>? birthday,
     Expression<DateTime>? createdAt,
     Expression<String>? notes,
+    Expression<bool>? isVisible,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -840,6 +882,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       if (birthday != null) 'birthday': birthday,
       if (createdAt != null) 'created_at': createdAt,
       if (notes != null) 'notes': notes,
+      if (isVisible != null) 'is_visible': isVisible,
     });
   }
 
@@ -850,6 +893,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Value<DateTime?>? birthday,
     Value<DateTime>? createdAt,
     Value<String?>? notes,
+    Value<bool>? isVisible,
   }) {
     return PartnersCompanion(
       id: id ?? this.id,
@@ -858,6 +902,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       birthday: birthday ?? this.birthday,
       createdAt: createdAt ?? this.createdAt,
       notes: notes ?? this.notes,
+      isVisible: isVisible ?? this.isVisible,
     );
   }
 
@@ -884,6 +929,9 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
     }
+    if (isVisible.present) {
+      map['is_visible'] = Variable<bool>(isVisible.value);
+    }
     return map;
   }
 
@@ -895,7 +943,8 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
           ..write('gender: $gender, ')
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
-          ..write('notes: $notes')
+          ..write('notes: $notes, ')
+          ..write('isVisible: $isVisible')
           ..write(')'))
         .toString();
   }
@@ -3663,6 +3712,7 @@ typedef $$PartnersTableCreateCompanionBuilder =
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<String?> notes,
+      Value<bool> isVisible,
     });
 typedef $$PartnersTableUpdateCompanionBuilder =
     PartnersCompanion Function({
@@ -3672,6 +3722,7 @@ typedef $$PartnersTableUpdateCompanionBuilder =
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<String?> notes,
+      Value<bool> isVisible,
     });
 
 final class $$PartnersTableReferences
@@ -3740,6 +3791,11 @@ class $$PartnersTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<bool> get isVisible => $composableBuilder(
+    column: $table.isVisible,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> eventsPartnersRefs(
     Expression<bool> Function($$EventsPartnersTableFilterComposer f) f,
   ) {
@@ -3804,6 +3860,11 @@ class $$PartnersTableOrderingComposer
     column: $table.notes,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isVisible => $composableBuilder(
+    column: $table.isVisible,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PartnersTableAnnotationComposer
@@ -3832,6 +3893,9 @@ class $$PartnersTableAnnotationComposer
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<bool> get isVisible =>
+      $composableBuilder(column: $table.isVisible, builder: (column) => column);
 
   Expression<T> eventsPartnersRefs<T extends Object>(
     Expression<T> Function($$EventsPartnersTableAnnotationComposer a) f,
@@ -3893,6 +3957,7 @@ class $$PartnersTableTableManager
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<bool> isVisible = const Value.absent(),
               }) => PartnersCompanion(
                 id: id,
                 name: name,
@@ -3900,6 +3965,7 @@ class $$PartnersTableTableManager
                 birthday: birthday,
                 createdAt: createdAt,
                 notes: notes,
+                isVisible: isVisible,
               ),
           createCompanionCallback:
               ({
@@ -3909,6 +3975,7 @@ class $$PartnersTableTableManager
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<bool> isVisible = const Value.absent(),
               }) => PartnersCompanion.insert(
                 id: id,
                 name: name,
@@ -3916,6 +3983,7 @@ class $$PartnersTableTableManager
                 birthday: birthday,
                 createdAt: createdAt,
                 notes: notes,
+                isVisible: isVisible,
               ),
           withReferenceMapper: (p0) => p0
               .map(

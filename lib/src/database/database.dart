@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
+import 'package:lustlist/src/config/strings/profile_strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:lustlist/src/database/tables/categories.dart';
 import 'package:lustlist/src/database/tables/events.dart';
@@ -34,8 +35,6 @@ class AppDatabase extends _$AppDatabase {
       ),
     );
   }
-
-  Stream<List<Event>> watchAllEvents() => select(events).watch();
 
   Future<List<Type>> get allTypes => select(types).get();
   Future<List<Category>> get allCategories => select(categories).get();
@@ -90,6 +89,10 @@ class AppDatabase extends _$AppDatabase {
   // Get Partners
   Future<Partner> getPartnerById(int id) async {
     return (select(partners)..where((t) => t.id.equals(id))).getSingle();
+  }
+
+  Future<List<Partner>> getAllVisiblePartners() async {
+    return (select(partners)..where((t) => t.isVisible.equals(true))).get();
   }
 
   Future<List<Partner>> getPartnersByEventId(int eventId) async {
@@ -356,6 +359,14 @@ class AppDatabase extends _$AppDatabase {
                       slug: rowData.obgynOptionSlugs[index],
                       categoryId: obgynCategoryId
                   )),
+            );
+
+            batch.insert(partners,
+              PartnersCompanion.insert(
+                name: ProfileStrings.unknownPartnerName,
+                gender: Gender.unknown,
+                isVisible: Value(false),
+              )
             );
           });
         }

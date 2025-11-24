@@ -5,12 +5,13 @@ import 'package:lustlist/src/config/constants/custom_icons.dart';
 enum Gender {
   male('Male', Icons.male),
   female('Female', Icons.female),
-  nonbinary('Nonbinary', CustomIcons.genderless);
+  nonbinary('Nonbinary', CategoryIcons.nonbinary),
+  unknown('Unknown', CustomIcons.genderless);
 
   const Gender(this.label, this.iconData);
 
   final String label;
   final IconData iconData;
 
-  static final List<Gender> entries = [Gender.male, Gender.female, Gender.nonbinary];
+  static final List<Gender> entries = [Gender.male, Gender.female, Gender.nonbinary, Gender.unknown];
 }

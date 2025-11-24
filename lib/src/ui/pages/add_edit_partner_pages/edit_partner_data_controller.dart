@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -71,6 +72,8 @@ class PartnersColumn extends StatelessWidget {
                           SizedBox(width: 5),
                           Icon(
                             partner.gender.iconData,
+                            size: partner.gender == Gender.nonbinary
+                                ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
                             color: AppColors.eventData.icon(context),
                           )
                         ],
@@ -123,7 +126,7 @@ class PartnersColumn extends StatelessWidget {
   }
 
   Future<void> _onPartnerTap(BuildContext context, EventRepository repo, Partner partner) async {
-    final result = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PartnerProfile(

@@ -16,11 +16,13 @@ extension EventRepositoryPartnerDates on EventRepository {
     return PartnerWithDate(p, date);
   }
 
-  Future<List<PartnerWithDate>> getPartnersWithDatesSorted() async {
+  Future<List<PartnerWithDate>> getPartnersWithDatesSorted(bool withUnknown) async {
     List<Partner> partners = await db.allPartners;
+    final unknownPartner = await getUnknownPartner();
 
     List<PartnerWithDate> partnersWithDates = [];
     for (Partner p in partners){
+      if (!withUnknown && p == unknownPartner) continue;
       var pwd = await getPartnerWithDate(p);
       partnersWithDates.add(pwd);
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/enums/gender.dart';
 
 class InfoRow extends StatelessWidget {
   final IconData iconData;
@@ -27,6 +28,8 @@ class InfoRow extends StatelessWidget {
         children: [
           Icon(
             iconData,
+            size: iconData == Gender.nonbinary.iconData
+                ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
             color: iconColor ?? AppColors.eventData.icon(context),
           ),
           Padding(

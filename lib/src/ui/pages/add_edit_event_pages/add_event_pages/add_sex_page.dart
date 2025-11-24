@@ -60,7 +60,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
       repo.loadEventData(id, rating, duration, orgasmAmount, null);
 
       for (var p in partners.keys) {
-        repo.loadEventPartner(await id, p.id, partners[p]);
+        repo.loadEventPartner(id, p.id, partners[p]);
       }
 
       var allOptionsList = [

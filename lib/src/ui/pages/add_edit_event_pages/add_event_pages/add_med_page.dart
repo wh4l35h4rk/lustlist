@@ -46,10 +46,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
     final stiStatuses = _stiController.statusMap;
     final obgynOptions = _obgynController.getSelectedOptions();
 
-    print(stiStatuses);
-
     var id = await repo.loadEvent("medical", date, time, notes);
-
     for (var o in obgynOptions) {
       repo.loadOptions(id, o.id, null);
     }

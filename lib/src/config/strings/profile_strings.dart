@@ -12,6 +12,7 @@ class ProfileStrings {
   static const String lastTimeTogether = "Last time together: ";
 
   static const String partnerOne = "Partner";
+  static const String unknownPartnerName = "Unknown partner(s)";
 
   static const String hour = "hour";
   static const String hours = "hours";

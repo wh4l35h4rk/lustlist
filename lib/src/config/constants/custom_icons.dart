@@ -47,4 +47,5 @@ class CategoryIcons {
   static const IconData condom = IconData(0xe901, fontFamily: _fontFamily);
   static const IconData uterus = IconData(0xe902, fontFamily: _fontFamily);
   static const IconData two = IconData(0xe903, fontFamily: _fontFamily);
+  static const IconData nonbinary = IconData(0xe904, fontFamily: _fontFamily);
 }

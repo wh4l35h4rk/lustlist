@@ -9,7 +9,6 @@ import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_data_controller.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';

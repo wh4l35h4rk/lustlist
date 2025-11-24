@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
-import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -31,7 +30,7 @@ class _PartnersPageState extends State<PartnersPage> {
   @override
   void initState() {
     super.initState();
-    partnersFuture = repo.getPartnersWithDatesSorted();
+    partnersFuture = repo.getPartnersWithDatesSorted(false);
   }
 
   @override
@@ -119,7 +118,7 @@ class _PartnersPageState extends State<PartnersPage> {
       ),
     );
     if (result == true) {
-      partnersFuture = repo.getPartnersWithDatesSorted();
+      partnersFuture = repo.getPartnersWithDatesSorted(false);
       await Future.delayed(Duration(milliseconds: 100));
       setState(() {});
     }
