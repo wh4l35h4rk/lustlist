@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -31,8 +32,8 @@ class PartnerDataTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InfoRow(
-                    iconData: repo.getGenderIconData(partner),
-                    title: _colon(DataStrings.gender),
+                    iconData: partner.gender.iconData,
+                    title: colon(DataStrings.gender),
                     child: Text(
                       partner.gender.label,
                       style: TextStyle(
@@ -43,7 +44,7 @@ class PartnerDataTile extends StatelessWidget {
                 ),
                 InfoRow(
                   iconData: Icons.cake,
-                  title: _colon(DataStrings.birthday),
+                  title: colon(DataStrings.birthday),
                   child: Text(
                     _formatBirthday(),
                     style: TextStyle(
@@ -77,9 +78,5 @@ class PartnerDataTile extends StatelessWidget {
     }
     final dateFormatted = DateFormat.yMMMMd().format(date);
     return dateFormatted;
-  }
-
-  String _colon(String s) {
-    return "$s:";
   }
 }

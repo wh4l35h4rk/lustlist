@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/alert_strings.dart';
+import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_edit_event_base.dart';
+import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -83,10 +85,10 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
   Widget build(BuildContext context) {
     if (_isLoading) return LoadingScaffold(hasBackButton: true);
 
-    return AddEditEventPageBase(
-      _onPressed,
-      PageStrings.editEvent,
-      FutureBuilder<Map<String, Category>>(
+    return AddEditPageBase(
+      onPressed: _onPressed,
+      title: PageStrings.editEvent,
+      body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -126,6 +128,8 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
           );
         },
       ),
+      alertString: AlertStrings.editEvent,
+      alertButton: ButtonStrings.eventReturn,
     );
   }
 

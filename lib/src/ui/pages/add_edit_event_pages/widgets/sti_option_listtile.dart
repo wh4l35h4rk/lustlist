@@ -100,7 +100,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               value: selectedStatus,
               icon: const Icon(Icons.keyboard_arrow_down_sharp),
               alignment: Alignment.centerLeft,
-              style: TextStyle(color: AppColors.addEvent.text(context), fontSize: 14),
+              style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
               underline: Container(height: 2, color: AppColors.addEvent.border(context)),
               onChanged: (TestStatus? status) {
                 setState(() {

@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/constants/sizes.dart';
 
 
-class NotesForm extends StatefulWidget {
+class TextForm extends StatefulWidget {
   final TextEditingController controller;
+  final Function validator;
+  final int? maxLength;
+  final String? hint;
 
-  const NotesForm({
+  const TextForm({
     super.key,
-    required this.controller
+    required this.controller,
+    required this.validator,
+    required this.maxLength,
+    this.hint,
   });
 
   @override
-  State<NotesForm> createState() => _NotesFormState();
+  State<TextForm> createState() => _TextFormState();
 }
 
-class _NotesFormState extends State<NotesForm> {
+class _TextFormState extends State<TextForm> {
   TextEditingController get controller => widget.controller;
+  int? get maxLength => widget.maxLength;
+
   late VoidCallback _controllerListener;
 
   @override
@@ -42,14 +49,9 @@ class _NotesFormState extends State<NotesForm> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      validator: (value) {
-        if (value != null && value.length > 500) {
-          return AlertStrings.noteTooLong;
-        }
-        return null;
-      },
-      style: TextStyle(fontSize: 14),
-      maxLength: 500,
+      validator: (value) => widget.validator(value),
+      style: TextStyle(fontSize: AppSizes.textBasic),
+      maxLength: maxLength,
       minLines: 1,
       maxLines: null,
       keyboardType: TextInputType.multiline,
@@ -75,7 +77,7 @@ class _NotesFormState extends State<NotesForm> {
           borderSide: BorderSide(color: AppColors.addEvent.border(context)),
           borderRadius: BorderRadius.circular(20),
         ),
-        hintText: ProfileStrings.notesHint
+        hintText: widget.hint
       ),
     );
   }

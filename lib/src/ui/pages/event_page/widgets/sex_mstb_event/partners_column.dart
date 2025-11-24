@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/ui/main.dart';
-import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_profile.dart';
+import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -70,7 +70,7 @@ class PartnersColumn extends StatelessWidget {
                           ),
                           SizedBox(width: 5),
                           Icon(
-                            repo.getGenderIconData(partner),
+                            partner.gender.iconData,
                             color: AppColors.eventData.icon(context),
                           )
                         ],

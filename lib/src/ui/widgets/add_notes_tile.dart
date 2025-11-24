@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
-import 'notes_form.dart';
+import 'text_form.dart';
 
 
 class NotesTileController {
@@ -27,6 +29,7 @@ class AddNotesTile extends StatefulWidget {
 
 class _AddNotesTileState extends State<AddNotesTile> {
   final _formKey = GlobalKey<FormState>();
+  final maxLength = 500;
 
   @override
   Widget build(BuildContext context) {
@@ -99,12 +102,25 @@ class _AddNotesTileState extends State<AddNotesTile> {
           ),
           child: Form(
               key: _formKey,
-              child: NotesForm(controller: widget.controller.notesController,
-            )
+              autovalidateMode: AutovalidateMode.onUnfocus,
+              child: TextForm(
+                controller: widget.controller.notesController,
+                maxLength: maxLength,
+                hint: ProfileStrings.notesHint,
+                validator: (value) => _notesValidate(value)
+              )
           )
         ),
       ],
     );
+  }
+
+
+  String? _notesValidate(String? value) {
+    if (value != null && value.length > maxLength) {
+      return AlertStrings.noteTooLong;
+    }
+    return null;
   }
 }
 

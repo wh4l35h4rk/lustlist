@@ -3,6 +3,7 @@ class DataStrings {
 
   static const String date = "Date";
   static const String time = "Time";
+  static const String name = "Name";
   static const String gender = "Gender";
   static const String birthday = "Birthday";
   static const String notes = "Notes";

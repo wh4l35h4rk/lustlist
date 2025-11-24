@@ -33,7 +33,7 @@ class PartnerListTile extends StatelessWidget {
       child: ListTile(
           onTap: onTap,
           leading: Icon(
-            repo.getGenderIconData(partner),
+            partner.gender.iconData,
             color: AppColors.categoryTile.icon(context),
           ),
           title: Wrap(

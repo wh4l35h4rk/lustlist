@@ -21,7 +21,6 @@ class AddEventFloatingButton extends StatelessWidget {
               controller.open();
             }
           },
-          tooltip: 'Show menu',
           child: const Icon(Icons.add),
         );
       },
@@ -34,12 +33,12 @@ class AddEventFloatingButton extends StatelessWidget {
           )
       ),
       menuChildren: List<MenuItemButton>.generate(
-        3,
-            (int index) => MenuItemButton(
-            onPressed: () {
-              onEventTap(index);
-            },
-            child: Icon(iconsData[index])
+          3,
+          (int index) => MenuItemButton(
+          onPressed: () {
+            onEventTap(index);
+          },
+          child: Icon(iconsData[index])
         ),
       ),
     );

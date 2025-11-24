@@ -176,6 +176,19 @@ class EventRepository {
     );
   }
 
+  Future<int> loadPartner(String name, Gender gender, DateTime birthday, String notes) async {
+    int partnerId = await db.insertPartner(
+        PartnersCompanion.insert(
+          name: name,
+          gender: gender,
+          birthday: Value(birthday),
+          notes: Value(notes),
+        )
+    );
+    return partnerId;
+  }
+
+
   Future<List<EOption>> getOptionsList(int eventId, String categorySlug) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
@@ -203,18 +216,6 @@ class EventRepository {
       });
     }
     return partners;
-  }
-
-  IconData getGenderIconData(Partner partner) {
-    final Gender gender = partner.gender;
-    switch (gender) {
-      case Gender.female:
-        return Icons.female;
-      case Gender.male:
-        return Icons.male;
-      case Gender.nonbinary:
-        return CustomIcons.genderless;
-    }
   }
   
 

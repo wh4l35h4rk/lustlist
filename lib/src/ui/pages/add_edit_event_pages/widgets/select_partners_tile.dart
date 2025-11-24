@@ -10,6 +10,7 @@ import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.dart';
 import '../../../widgets/orgasms_picker.dart';
 
 
@@ -232,8 +233,17 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
     return Padding(
       padding: const EdgeInsets.all(4),
       child: InkWell(
-        onTap: () {
-          // TODO: add partner routing
+        onTap: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPartnerPage(),
+            ),
+          );
+          if (result == true) {
+            await Future.delayed(Duration(milliseconds: 100));
+            setState(() {});
+          }
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -285,7 +295,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               ),
             ),
             SizedBox(width: 5,),
-            Icon(repo.getGenderIconData(partner), color: AppColors.addEvent.coloredText(context))
+            Icon(partner.gender.iconData, color: AppColors.addEvent.coloredText(context))
           ],
         ),
       ),
@@ -317,7 +327,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
             ),
             SizedBox(width: 5,),
             Icon(
-              repo.getGenderIconData(partner),
+              partner.gender.iconData,
               size: AppSizes.iconMedium,
               color: AppColors.addEvent.coloredText(context),
             )

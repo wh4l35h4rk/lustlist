@@ -7,23 +7,29 @@ import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 
-class AddEditEventPageBase extends StatefulWidget{
+
+class AddEditPageBase extends StatefulWidget{
   final Function onPressed;
   final Widget body;
   final String title;
 
-  const AddEditEventPageBase(
-    this.onPressed,
-    this.title,
-    this.body,
-    {super.key}
-  );
+  final String alertString;
+  final String alertButton;
+
+  const AddEditPageBase({
+    super.key,
+    required this.onPressed,
+    required this.title,
+    required this.body,
+    required this.alertString,
+    required this.alertButton
+  });
 
   @override
-  State<AddEditEventPageBase> createState() => _AddEditEventPageBaseState();
+  State<AddEditPageBase> createState() => _AddEditPageBaseState();
 }
 
-class _AddEditEventPageBaseState extends State<AddEditEventPageBase> {
+class _AddEditPageBaseState extends State<AddEditPageBase> {
 
   @override
   void initState() {

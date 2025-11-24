@@ -17,10 +17,12 @@ class DateController {
 
 class DatePicker extends StatefulWidget {
   final DateController controller;
+  final DateTime? minDate;
 
   const DatePicker({
     super.key,
-    required this.controller
+    required this.controller,
+    this.minDate
   });
 
   @override
@@ -58,7 +60,7 @@ class _DatePickerState extends State<DatePicker> {
             CupertinoDatePicker(
               initialDateTime: date,
               mode: CupertinoDatePickerMode.date,
-              minimumDate: kFirstDay,
+              minimumDate: widget.minDate ?? kFirstDay,
               maximumDate: kLastDay,
               onDateTimeChanged: (DateTime newValue) {
                 setState(() => widget.controller.setDate(newValue));

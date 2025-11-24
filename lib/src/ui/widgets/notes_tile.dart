@@ -109,7 +109,8 @@ class NotesTile extends StatelessWidget {
         ),
       );
     } else {
-      return Wrap(children: [Text(
+      return Wrap(children: [
+        Text(
           notes,
           style: TextStyle(
             fontSize: AppSizes.textBasic,

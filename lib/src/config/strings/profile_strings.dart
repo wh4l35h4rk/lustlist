@@ -29,5 +29,7 @@ class ProfileStrings {
   static const String selectMonth = "Select a month";
   static const String noEventsForDaySelected = "There are no events this day!";
   static const String noDaySelected = "No days selected!";
+
   static const String notesHint = 'Write some notes!';
+  static const String nameHint = "Enter name";
 }

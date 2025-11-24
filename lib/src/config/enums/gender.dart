@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/custom_icons.dart';
 
-typedef GenderEntry = DropdownMenuEntry<Gender>;
 
 enum Gender {
-  male('Male'),
-  female('Female'),
-  nonbinary('Nonbinary');
+  male('Male', Icons.male),
+  female('Female', Icons.female),
+  nonbinary('Nonbinary', CustomIcons.genderless);
 
-  const Gender(this.label);
+  const Gender(this.label, this.iconData);
+
   final String label;
+  final IconData iconData;
 
   static final List<Gender> entries = [Gender.male, Gender.female, Gender.nonbinary];
 }
