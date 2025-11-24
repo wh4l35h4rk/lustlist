@@ -4,7 +4,7 @@ import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -49,7 +49,7 @@ class StiTile extends StatelessWidget{
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text(
-                  ProfileStrings.loading,
+                  MiscStrings.loading,
                   style: TextStyle(
                     color: AppColors.categoryTile.text(context),
                     fontSize: AppSizes.textBasic,
@@ -57,7 +57,7 @@ class StiTile extends StatelessWidget{
                 );
               } else if (snapshot.hasError) {
                 return Text(
-                  ProfileStrings.errorLoadingData,
+                  MiscStrings.errorLoadingData,
                   style: TextStyle(
                     color: AppColors.categoryTile.text(context),
                     fontSize: AppSizes.textBasic,
@@ -65,7 +65,7 @@ class StiTile extends StatelessWidget{
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Text(
-                  ProfileStrings.notStated,
+                  MiscStrings.notStated,
                   style: TextStyle(
                     color: AppColors.categoryTile.text(context),
                     fontSize: AppSizes.textBasic,
@@ -123,7 +123,7 @@ class StiTile extends StatelessWidget{
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
-                                          ProfileStrings.loading,
+                                          MiscStrings.loading,
                                           style: TextStyle(
                                             fontSize: AppSizes.textBasic,
                                             color: AppColors.categoryTile.text(context),
@@ -138,7 +138,7 @@ class StiTile extends StatelessWidget{
                                         Icon(Icons.question_mark, size: 15, color: AppColors.categoryTile.icon(context),),
                                         const SizedBox(width: 5),
                                         Text(
-                                          ProfileStrings.noData,
+                                          MiscStrings.noData,
                                           style: TextStyle(
                                             fontSize: AppSizes.textBasic,
                                             color: AppColors.categoryTile.text(context),
@@ -152,7 +152,7 @@ class StiTile extends StatelessWidget{
                                         Icon(Icons.bug_report, size: 15,),
                                         const SizedBox(width: 5),
                                         Text(
-                                          ProfileStrings.noData,
+                                          MiscStrings.noData,
                                           style: TextStyle(
                                             fontSize: AppSizes.textBasic,
                                             color: AppColors.categoryTile.text(context),

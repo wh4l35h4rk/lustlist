@@ -26,7 +26,7 @@ class AddEditEventDataColumn extends StatefulWidget {
 
 class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
   int get rating => widget.controller.rating;
-  int get orgasmAmount => widget.controller.orgasmAmount;
+  int? get orgasmAmount => widget.controller.orgasmAmount;
   
   late bool isMstb = widget.isMstb;
   late IconData iconData = isMstb ? Icons.front_hand : Icons.favorite;

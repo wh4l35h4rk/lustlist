@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
@@ -82,7 +82,7 @@ class _CalendarState extends State<Calendar> {
         return AlertDialog(
           title: Center(
               child: Text(
-                ProfileStrings.selectMonth,
+                MiscStrings.selectMonth,
                 style: TextStyle(color: AppColors.calendar.title(context)),
               )),
           content: SizedBox(
@@ -253,7 +253,7 @@ class _CalendarState extends State<Calendar> {
                   children: [
                     const SizedBox(height: 15.0),
                     Text(
-                      _selectedDay.value != null ? ProfileStrings.noEventsForDaySelected : ProfileStrings.noDaySelected,
+                      _selectedDay.value != null ? MiscStrings.noEventsForDaySelected : MiscStrings.noDaySelected,
                       style: TextStyle(
                         color: AppColors.defaultTile(context),
                         fontSize: AppSizes.titleSmall

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 
 class SwitchController extends ValueNotifier<bool> {
@@ -39,7 +39,7 @@ class _MstbSwitchState extends State<MstbSwitch> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(value ? ProfileStrings.didWatch : ProfileStrings.didNotWatch,
+              Text(value ? MiscStrings.didWatch : MiscStrings.didNotWatch,
                 style: TextStyle(
                     color: AppColors.addEvent.text(context),
                     fontSize: AppSizes.textBasic

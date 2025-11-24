@@ -5,7 +5,7 @@ class CalendarEvent {
   final int id;
   final Event event;
   final Type type;
-  final Map<Partner, int>? partnersMap;
+  final Map<Partner, int?>? partnersMap;
   final EventData? data;
 
   const CalendarEvent(this.id, this.event, this.type, this.partnersMap, this.data);

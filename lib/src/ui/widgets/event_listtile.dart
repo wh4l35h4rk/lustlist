@@ -5,13 +5,14 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 
 
 class EventListTile extends StatelessWidget {
   const EventListTile({
     required this.event,
     required this.onTap,
+    this.fromPartnerProfile = false,
     this.partnerOrgasms,
     this.partneredIcon,
     super.key,
@@ -21,9 +22,10 @@ class EventListTile extends StatelessWidget {
   final GestureTapCallback onTap;
   final int? partnerOrgasms;
   final IconData? partneredIcon;
+  final bool fromPartnerProfile;
 
   String _getTitle() {
-    if (partnerOrgasms != null) {
+    if (fromPartnerProfile) {
       String time = DateFormat.Hm().format(event.event.time);
       String date = DateFormat.yMMMMd().format(event.event.date);
       return "$date, $time";
@@ -48,7 +50,7 @@ class EventListTile extends StatelessWidget {
       int minutes = event.data!.duration!.minute;
 
       if (hours == 0 && minutes == 0) {
-        return ProfileStrings.durationUnknown;
+        return MiscStrings.durationUnknown;
       }
 
       String? hoursString;
@@ -58,22 +60,22 @@ class EventListTile extends StatelessWidget {
         case 0:
           hoursString = null;
         case 1:
-          hoursString = "$hours ${ProfileStrings.hour}";
+          hoursString = "$hours ${MiscStrings.hour}";
         default:
-          hoursString = "$hours ${ProfileStrings.hours}";
+          hoursString = "$hours ${MiscStrings.hours}";
       }
       switch (minutes) {
         case 0:
           minutesString = null;
         case 1:
-          minutesString = "$minutes ${ProfileStrings.min}";
+          minutesString = "$minutes ${MiscStrings.min}";
         default:
-          minutesString = "$minutes ${ProfileStrings.mins}";
+          minutesString = "$minutes ${MiscStrings.mins}";
       }
       final String timeString = [?hoursString, ?minutesString].join(" ");
       return timeString;
     } else {
-        return ProfileStrings.durationUnknown;
+        return MiscStrings.durationUnknown;
     }
   }
 
@@ -84,9 +86,12 @@ class EventListTile extends StatelessWidget {
     if ((type == "sex" || type == "masturbation") && event.data != null) {
       String duration = _getDuration();
 
-      if (partnerOrgasms != null) {
-        if (partnerOrgasms == 1) return "$duration, $partnerOrgasms ${ProfileStrings.orgasmOne}";
-        return "$duration, $partnerOrgasms ${ProfileStrings.orgasmsMany}";
+      if (fromPartnerProfile) {
+        if (partnerOrgasms != null) {
+          if (partnerOrgasms == 1) return "$duration, $partnerOrgasms ${MiscStrings.orgasmOne}";
+          return "$duration, $partnerOrgasms ${MiscStrings.orgasmsMany}";
+        }
+        return duration;
       }
       return [time, duration].join(", ");
 
@@ -160,7 +165,7 @@ class EventListTile extends StatelessWidget {
                   Text(
                     _getTitle(),
                     style: TextStyle(
-                      fontSize: partnerOrgasms == null ? AppSizes.titleLarge : AppSizes.titleSmall,
+                      fontSize: !fromPartnerProfile ? AppSizes.titleLarge : AppSizes.titleSmall,
                       fontWeight: FontWeight.bold
                     ),
                   )
@@ -171,11 +176,11 @@ class EventListTile extends StatelessWidget {
                 builder: (context, snapshot) {
                   String string;
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    string = ProfileStrings.loading;
+                    string = MiscStrings.loading;
                   } else if (snapshot.hasError) {
-                    string = ProfileStrings.errorLoadingData;
+                    string = MiscStrings.errorLoadingData;
                   } else {
-                    return Text(string = snapshot.data ?? ProfileStrings.noData);
+                    return Text(string = snapshot.data ?? MiscStrings.noData);
                   }
 
                   return Text(

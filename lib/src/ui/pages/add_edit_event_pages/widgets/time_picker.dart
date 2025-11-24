@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -41,7 +41,7 @@ class _TimePickerState extends State<TimePicker> {
     int minutes = time.minute;
 
     if (hours == 0 && minutes == 0) {
-      return "0 ${ProfileStrings.mins}";
+      return "0 ${MiscStrings.mins}";
     }
 
     String? hoursString;
@@ -51,17 +51,17 @@ class _TimePickerState extends State<TimePicker> {
       case 0:
         hoursString = null;
       case 1:
-        hoursString = "$hours ${ProfileStrings.hour}";
+        hoursString = "$hours ${MiscStrings.hour}";
       default:
-        hoursString = "$hours ${ProfileStrings.hours}";
+        hoursString = "$hours ${MiscStrings.hours}";
     }
     switch (minutes) {
       case 0:
         minutesString = null;
       case 1:
-        minutesString = "$minutes ${ProfileStrings.min}";
+        minutesString = "$minutes ${MiscStrings.min}";
       default:
-        minutesString = "$minutes ${ProfileStrings.mins}";
+        minutesString = "$minutes ${MiscStrings.mins}";
     }
 
     List<String> list = [?hoursString, ?minutesString];

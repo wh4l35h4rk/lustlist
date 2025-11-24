@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
 
@@ -29,7 +29,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       title: Text(
         title,
         style: TextStyle(
-          fontSize: PageStrings.mainPages.contains(title) ? AppSizes.appbarLarge : AppSizes.appbarBasic,
+          fontSize: PageTitleStrings.mainPages.contains(title) ? AppSizes.appbarLarge : AppSizes.appbarBasic,
           color: editButton == null ? AppColors.appBar.title(context) : AppColors.appBar.text(context),
         ),
       ),

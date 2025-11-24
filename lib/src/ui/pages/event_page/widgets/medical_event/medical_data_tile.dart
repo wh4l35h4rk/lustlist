@@ -5,7 +5,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
 
@@ -40,7 +40,7 @@ class MedicalData extends StatelessWidget{
               builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Text(
-                    ProfileStrings.loading,
+                    MiscStrings.loading,
                     style: TextStyle(
                       color: AppColors.eventData.text(context),
                       fontSize: AppSizes.textBasic,
@@ -48,7 +48,7 @@ class MedicalData extends StatelessWidget{
                   );
                 } else if (snapshot.hasError) {
                   return Text(
-                    ProfileStrings.errorLoadingData,
+                    MiscStrings.errorLoadingData,
                     style: TextStyle(
                       color: AppColors.eventData.text(context),
                       fontSize: AppSizes.textBasic,
@@ -58,7 +58,7 @@ class MedicalData extends StatelessWidget{
                   return snapshot.data!;
                 } else {
                   return Text(
-                    ProfileStrings.noData,
+                    MiscStrings.noData,
                     style: TextStyle(
                       color: AppColors.eventData.text(context),
                       fontSize: AppSizes.textBasic,

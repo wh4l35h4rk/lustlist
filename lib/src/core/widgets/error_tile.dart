@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 
 class ErrorTile extends StatelessWidget {
   final IconData iconData;
@@ -10,7 +10,7 @@ class ErrorTile extends StatelessWidget {
   const ErrorTile({
     super.key,
     this.iconData = Icons.bug_report,
-    this.title = ProfileStrings.errorLoadingData,
+    this.title = MiscStrings.errorLoadingData,
   });
 
   @override

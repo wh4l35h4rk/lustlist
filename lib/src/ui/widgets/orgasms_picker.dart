@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 
 const double _kItemExtent = 32.0;
 List<int> _orgasmAmount = List.generate(12, (index) => index);
 
+
 class OrgasmsAmountPicker extends StatelessWidget {
-  final int amount;
-  final ValueChanged<int> onChanged;
+  final int? amount;
+  final ValueChanged<int?> onChanged;
 
   const OrgasmsAmountPicker({
     super.key,
@@ -17,6 +19,13 @@ class OrgasmsAmountPicker extends StatelessWidget {
   });
 
   void _showDialog(BuildContext context) {
+    var children = List<Widget>.generate(_orgasmAmount.length, (int index) {
+      return Center(
+          child: Text(_orgasmAmount[index].toString())
+      );
+    });
+    children.insert(0, Text(DataStrings.unknown));
+
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => Container(
@@ -31,27 +40,29 @@ class OrgasmsAmountPicker extends StatelessWidget {
               squeeze: 1.2,
               useMagnifier: true,
               itemExtent: _kItemExtent,
-              scrollController: FixedExtentScrollController(initialItem: amount),
+              scrollController: FixedExtentScrollController(initialItem: amount != null ? amount! + 1 : 0),
               onSelectedItemChanged: (int selectedItem) {
-                onChanged(selectedItem);
+                if (selectedItem == 0) {
+                  onChanged(null);
+                } else {
+                  onChanged(selectedItem - 1);
+                }
               },
-              children: List<Widget>.generate(_orgasmAmount.length, (int index) {
-                return Center(
-                    child: Text(_orgasmAmount[index].toString())
-                );
-              }),
+              children: children
             ),),
       ),
     );
   }
 
-  String _getOrgasmsText(int orgasmsAmount) {
+  String _getOrgasmsText(int? orgasmsAmount) {
     final String amountString = orgasmsAmount.toString();
     final String orgasmsString;
-    if (orgasmsAmount == 1) {
-      orgasmsString = ProfileStrings.orgasmOne;
+    if (orgasmsAmount == null) {
+      return DataStrings.unknown;
+    } else if (orgasmsAmount == 1) {
+      orgasmsString = MiscStrings.orgasmOne;
     } else {
-      orgasmsString = ProfileStrings.orgasmsMany;
+      orgasmsString = MiscStrings.orgasmsMany;
     }
     return "$amountString $orgasmsString";
   }

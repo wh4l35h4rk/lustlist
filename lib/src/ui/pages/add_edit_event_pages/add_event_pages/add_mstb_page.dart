@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
@@ -71,7 +71,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
   Widget build(BuildContext context) {
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.addEvent,
+      title: PageTitleStrings.addEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {

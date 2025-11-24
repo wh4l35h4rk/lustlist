@@ -10,4 +10,5 @@ class AlertStrings {
   static const String noteTooLong = 'Your note extends maximal length!';
   static const String noName = "Please enter name";
   static const String nameTooLong = 'Your name extends maximal length!';
+  static const String noPartnersPassed = "No partners for this event.";
 }

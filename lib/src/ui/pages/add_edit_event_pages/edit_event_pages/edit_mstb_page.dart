@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -65,7 +65,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     final placeOptions = _placeController!.getSelectedOptions();
 
     repo.updateEvent(event.event.id, date, time, notes);
-    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount!, didWatchPorn);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, didWatchPorn);
     database.deleteEventOptions(event.event.id);
 
     var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
@@ -90,7 +90,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
 
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.editEvent,
+      title: PageTitleStrings.editEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/list_notifier.dart';
@@ -78,14 +78,14 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               future: _optionsListFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text(ProfileStrings.loading,
+                  return Text(MiscStrings.loading,
                     style: TextStyle(
                       fontSize: AppSizes.textBasic,
                       color: AppColors.addEvent.coloredText(context),
                     ),
                   );
                 } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
-                  return Text(ProfileStrings.errorLoadingData,
+                  return Text(MiscStrings.errorLoadingData,
                     style: TextStyle(
                       fontSize: AppSizes.textBasic,
                       color: AppColors.addEvent.coloredText(context),

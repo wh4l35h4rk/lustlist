@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
@@ -47,33 +47,34 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
     final duration = _dataController.durationController.time;
-    final partners = _partnersController.getSelectedPartners();
     final contraceptionOptions = _contraceptionController.getSelectedOptions();
     final practicesOptions = _practicesController.getSelectedOptions();
     final posesOptions = _posesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();
 
+    var partners = _partnersController.getSelectedPartners();
     if (partners.isEmpty){
-      _partnersController.setValidation(false);
-    } else {
-      var id = await repo.loadEvent("sex", date, time, notes);
-      repo.loadEventData(id, rating, duration, orgasmAmount, null);
-
-      for (var p in partners.keys) {
-        repo.loadEventPartner(id, p.id, partners[p]);
-      }
-
-      var allOptionsList = [
-        contraceptionOptions, practicesOptions,
-        posesOptions, placeOptions
-      ].expand((x) => x).toList();
-      for (var o in allOptionsList) {
-        repo.loadOptions(id, o.id, null);
-      }
-
-      Navigator.of(context).pop();
-      eventsUpdated.notifyUpdate();
+      await _partnersController.setDefault();
     }
+    partners = _partnersController.getSelectedPartners();
+
+    var id = await repo.loadEvent("sex", date, time, notes);
+    repo.loadEventData(id, rating, duration, orgasmAmount, null);
+
+    for (var p in partners.keys) {
+      repo.loadEventPartner(id, p.id, partners[p]);
+    }
+
+    var allOptionsList = [
+      contraceptionOptions, practicesOptions,
+      posesOptions, placeOptions
+    ].expand((x) => x).toList();
+    for (var o in allOptionsList) {
+      repo.loadOptions(id, o.id, null);
+    }
+
+    Navigator.of(context).pop();
+    eventsUpdated.notifyUpdate();
   }
 
   @override
@@ -86,7 +87,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
   Widget build(BuildContext context) {
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.addEvent,
+      title: PageTitleStrings.addEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {

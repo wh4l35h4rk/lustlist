@@ -1,7 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:lustlist/src/database/tables/categories.dart';
 import 'package:lustlist/src/database/tables/events.dart';
@@ -104,7 +105,7 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(partners)).toList();
   }
 
-  Future<List<int>> getPartnerOrgasmsListByPartnersList(int eventId, List<Partner> partnersList) async {
+  Future<List<int?>> getPartnerOrgasmsListByPartnersList(int eventId, List<Partner> partnersList) async {
     final result = await Future.wait(List.generate(partnersList.length, (ii) async =>
       await (select(eventsPartners)..where((t) =>
       t.eventId.equals(eventId) & t.partnerId.equals(partnersList[ii].id))).getSingle()));
@@ -363,7 +364,8 @@ class AppDatabase extends _$AppDatabase {
 
             batch.insert(partners,
               PartnersCompanion.insert(
-                name: ProfileStrings.unknownPartnerName,
+                id: Value(unknownPartnerId),
+                name: MiscStrings.unknownPartnerName,
                 gender: Gender.unknown,
                 isVisible: Value(false),
               )

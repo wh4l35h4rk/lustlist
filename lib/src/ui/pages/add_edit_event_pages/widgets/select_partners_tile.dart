@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/map_notifier.dart';
@@ -17,21 +17,21 @@ import '../../../widgets/orgasms_picker.dart';
 
 class SelectPartnersController {
   final MapNotifier<Partner> selectedPartners = MapNotifier<Partner>();
-  final ValueNotifier<bool> isValid = ValueNotifier<bool>(true);
 
   SelectPartnersController({
-    Map<Partner, int>? selectedPartnersMap,
+    Map<Partner, int?>? selectedPartnersMap,
   }) {
     selectedPartners.value = selectedPartnersMap ?? {};
-    selectedPartners.addListener(() {
-      isValid.value = selectedPartners.value.isNotEmpty;
-    });
   }
 
-  Map<Partner, int> getSelectedPartners() => selectedPartners.value;
+  Map<Partner, int?> getSelectedPartners() => selectedPartners.value;
 
-  void setValidation(bool newValue) {
-    isValid.value = newValue;
+  Future<void> setDefault() async {
+    final repo = EventRepository(database);
+    Partner? defaultPartner = await repo.getUnknownPartner();
+    if (defaultPartner != null) {
+      selectedPartners.value = {defaultPartner: 1};
+    }//TODO: make orgasms nullable
   }
 }
 
@@ -63,25 +63,19 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: widget.controller.isValid,
-      builder: (context, isValid, child) {
-        return BasicTile(
-          surfaceColor: AppColors.addEvent.surface(context),
-          border: !isValid ? Border.all(color: AppColors.primary(context)) : null,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              listAllTile(context),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 5),
-                child: Divider(),
-              ),
-              listSelectedTile(context)
-            ],
+    return BasicTile(
+      surfaceColor: AppColors.addEvent.surface(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          listAllTile(context),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5),
+            child: Divider(),
           ),
-        );
-      }
+          listSelectedTile(context)
+        ],
+      ),
     );
   }
 
@@ -91,7 +85,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         Row(
           children: [
             Text(
-              colon(PageStrings.partners),
+              colon(PageTitleStrings.partners),
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: AppColors.addEvent.title(context),
@@ -115,7 +109,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Text(
-                      ProfileStrings.loading,
+                      MiscStrings.loading,
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
                         color: AppColors.addEvent.coloredText(context),
@@ -131,7 +125,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                         ),
                         SizedBox(width: 5,),
                         Text(
-                          ProfileStrings.errorLoadingData,
+                          MiscStrings.errorLoadingData,
                           style: TextStyle(
                             fontSize: AppSizes.textBasic,
                             color: AppColors.categoryTile.text(context),
@@ -147,7 +141,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
                           child: Text(
-                            ProfileStrings.noPartners,
+                            MiscStrings.noPartners,
                             style: TextStyle(
                               fontSize: AppSizes.textBasic,
                               color: AppColors.addEvent.coloredText(context),
@@ -205,7 +199,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                   children: [
                     for (var partner in _selectedPartners.value.keys)
                       OrgasmsAmountPicker(
-                        amount: partners[partner]!,
+                        amount: partners[partner],
                         onChanged: (newValue) {
                           _selectedPartners.updateValue(partner, newValue);
                         },

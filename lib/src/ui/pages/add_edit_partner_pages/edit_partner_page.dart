@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
@@ -62,7 +62,7 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
   Widget build(BuildContext context) {
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.editPartner,
+      title: PageTitleStrings.editPartner,
       body: ListView(
         children: [
           BasicTile(

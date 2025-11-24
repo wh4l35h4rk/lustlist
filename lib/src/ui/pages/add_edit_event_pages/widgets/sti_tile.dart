@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
@@ -61,7 +61,7 @@ class _AddStiTileState  extends State<AddStiTile> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text(
-                ProfileStrings.loading,
+                MiscStrings.loading,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
                   color: AppColors.addEvent.coloredText(context),
@@ -69,7 +69,7 @@ class _AddStiTileState  extends State<AddStiTile> {
               );
             } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
               return Text(
-                ProfileStrings.errorLoadingData,
+                MiscStrings.errorLoadingData,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
                   color: AppColors.addEvent.coloredText(context),

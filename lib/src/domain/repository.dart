@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -73,8 +73,16 @@ class EventRepository {
     int eventId = dbEvent.id;
     Type type = await db.getTypeByEventId(dbEvent);
     List<Partner> partners = await db.getPartnersByEventId(eventId);
-    List<int> partnerOrgasms = await db.getPartnerOrgasmsListByPartnersList(eventId, partners);
-    Map<Partner, int> partnersMap = Map.fromEntries(List.generate(partners.length, (index) =>
+
+    for (var p in partners){
+      if (p.id == unknownPartnerId) {
+        partners.remove(p);
+        partners.add(p);
+      }
+    }
+
+    List<int?> partnerOrgasms = await db.getPartnerOrgasmsListByPartnersList(eventId, partners);
+    Map<Partner, int?> partnersMap = Map.fromEntries(List.generate(partners.length, (index) =>
         MapEntry(partners[index], partnerOrgasms[index])
     ));
     EventData? data = await db.getDataByEventId(eventId);
@@ -98,7 +106,7 @@ class EventRepository {
   }
 
   
-  Future<void> loadEventData(int eventId, int rating, DateTime? duration, int orgasmAmount, bool? didWatchPorn,) async {
+  Future<void> loadEventData(int eventId, int rating, DateTime? duration, int? orgasmAmount, bool? didWatchPorn,) async {
     DateTime? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
 
     await db.insertEventData(
@@ -118,7 +126,7 @@ class EventRepository {
         EventsPartnersCompanion.insert(
             eventId: eventId,
             partnerId: partnerId,
-            partnerOrgasms: Value(partnerOrgasms!)
+            partnerOrgasms: Value(partnerOrgasms)
         )
     );
   }
@@ -155,7 +163,7 @@ class EventRepository {
   }
 
 
-  Future<void> updateEventData(int eventId, int rating, DateTime? duration, int orgasmAmount, bool? didWatchPorn) async {
+  Future<void> updateEventData(int eventId, int rating, DateTime? duration, int? orgasmAmount, bool? didWatchPorn) async {
     var event = await (db.select(db.events)..where((t) => t.id.equals(eventId))).getSingleOrNull();
     if (event == null) {
       if (kDebugMode) {
@@ -218,8 +226,7 @@ class EventRepository {
   }
 
   Future<Partner?> getUnknownPartner() async {
-    final name = ProfileStrings.unknownPartnerName;
-    return await (db.select(db.partners)..where((t) => t.name.equals(name))).getSingleOrNull();
+    return await (db.select(db.partners)..where((t) => t.id.equals(unknownPartnerId))).getSingleOrNull();
   }
 
 

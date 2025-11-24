@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
 
@@ -60,7 +60,7 @@ class PartnerListTile extends StatelessWidget {
   Widget _getSubtitle(){
     if (lastDate == null || lastDate == defaultDate) {
       return Text(
-        ProfileStrings.noPartnerEvents,
+        MiscStrings.noPartnerEvents,
         style: TextStyle(
           fontSize: AppSizes.textBasic,
           fontStyle: FontStyle.italic
@@ -70,7 +70,7 @@ class PartnerListTile extends StatelessWidget {
       return Wrap(
         children: [
           Text(
-            ProfileStrings.lastTimeTogether,
+            MiscStrings.lastTimeTogether,
             style: TextStyle(
               fontStyle: FontStyle.italic,
               fontSize: AppSizes.textBasic,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -106,7 +106,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
               child: TextForm(
                 controller: widget.controller.notesController,
                 maxLength: maxLength,
-                hint: ProfileStrings.notesHint,
+                hint: MiscStrings.notesHint,
                 validator: (value) => _notesValidate(value)
               )
           )

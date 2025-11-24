@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
@@ -30,7 +30,7 @@ class _LoadingScaffoldState extends State<LoadingScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        title: PageStrings.loading,
+        title: PageTitleStrings.loading,
         backButton: hasBackButton ?
         IconButton(
           onPressed: () => Navigator.of(context).pop(),

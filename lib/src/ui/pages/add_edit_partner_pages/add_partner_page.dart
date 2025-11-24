@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
@@ -54,7 +54,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
   Widget build(BuildContext context) {
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.addPartner,
+      title: PageTitleStrings.addPartner,
       body: ListView(
         children: [
           BasicTile(

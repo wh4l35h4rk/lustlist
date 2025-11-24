@@ -6,7 +6,7 @@ import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/partners_column.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/eventdata_column.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/medical_event/medical_data_tile.dart';
@@ -52,7 +52,7 @@ class EventDataTile extends StatelessWidget {
               iconData: Icons.play_circle,
               title: colon(DataStrings.porn),
               child: Text(
-                event.data!.didWatchPorn! ? ProfileStrings.didWatch : ProfileStrings.didNotWatch,
+                event.data!.didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
                   color: AppColors.eventData.text(context)

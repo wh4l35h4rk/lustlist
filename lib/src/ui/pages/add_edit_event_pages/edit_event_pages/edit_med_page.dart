@@ -3,7 +3,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
@@ -82,7 +82,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
 
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.editEvent,
+      title: PageTitleStrings.editEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {

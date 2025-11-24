@@ -15,13 +15,13 @@ class AddEventDataController {
   final SwitchController pornController = SwitchController(value: false);
 
   int rating = 0;
-  int orgasmAmount = 0;
+  int? orgasmAmount;
 
   void setRating(int newValue) {
     rating = newValue;
   }
 
-  void setOrgasmAmount(int newValue) {
+  void setOrgasmAmount(int? newValue) {
     orgasmAmount = newValue;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import '../controllers/home_navigation_controller.dart';
 
 
@@ -21,9 +21,9 @@ class MainBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: PageStrings.calendar),
-        BottomNavigationBarItem(icon: Icon(Icons.stacked_bar_chart), label: PageStrings.statistics),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: PageStrings.options),
+        BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: PageTitleStrings.calendar),
+        BottomNavigationBarItem(icon: Icon(Icons.stacked_bar_chart), label: PageTitleStrings.statistics),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: PageTitleStrings.options),
       ],
       backgroundColor: AppColors.bnb(context),
       onTap: onTap ?? _onTap,

@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
@@ -67,35 +67,36 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
     final duration = _dataController.durationController.time;
-    final partners = _partnersController.getSelectedPartners();
     final contraceptionOptions = _contraceptionController!.getSelectedOptions();
     final practicesOptions = _practicesController!.getSelectedOptions();
     final posesOptions = _posesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();
 
+    var partners = _partnersController.getSelectedPartners();
     if (partners.isEmpty){
-      _partnersController.setValidation(false);
-    } else {
-      repo.updateEvent(event.event.id, date, time, notes);
-      repo.updateEventData(event.event.id, rating!, duration, orgasmAmount!, null);
-      database.deleteEventPartners(event.event.id);
-      database.deleteEventOptions(event.event.id);
-
-      for (var p in partners.keys) {
-        repo.loadEventPartner(event.event.id, p.id, partners[p]);
-      }
-
-      var allOptionsList = [
-        contraceptionOptions, practicesOptions,
-        posesOptions, placeOptions
-      ].expand((x) => x).toList();
-      for (var o in allOptionsList) {
-        repo.loadOptions(event.event.id, o.id, null);
-      }
-
-      Navigator.of(context).pop(true);
-      eventsUpdated.notifyUpdate();
+      await _partnersController.setDefault();
     }
+    partners = _partnersController.getSelectedPartners();
+
+    repo.updateEvent(event.event.id, date, time, notes);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, null);
+    database.deleteEventPartners(event.event.id);
+    database.deleteEventOptions(event.event.id);
+
+    for (var p in partners.keys) {
+      repo.loadEventPartner(event.event.id, p.id, partners[p]);
+    }
+
+    var allOptionsList = [
+      contraceptionOptions, practicesOptions,
+      posesOptions, placeOptions
+    ].expand((x) => x).toList();
+    for (var o in allOptionsList) {
+      repo.loadOptions(event.event.id, o.id, null);
+    }
+
+    Navigator.of(context).pop(true);
+    eventsUpdated.notifyUpdate();
   }
 
   @override
@@ -111,7 +112,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
 
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.editEvent,
+      title: PageTitleStrings.editEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,
         builder: (context, snapshot) {

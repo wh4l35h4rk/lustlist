@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -102,7 +102,7 @@ class NotesTile extends StatelessWidget {
 
     if (notes == null || notes.isEmpty || notes == "") {
       return Text(
-        ProfileStrings.noNotes,
+        MiscStrings.noNotes,
         style: TextStyle(
           fontSize: AppSizes.textBasic,
           fontStyle: FontStyle.italic,

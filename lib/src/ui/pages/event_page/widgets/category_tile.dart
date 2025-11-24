@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/main.dart';
@@ -15,7 +15,7 @@ class CategoryTile extends StatelessWidget {
     required this.categorySlug,
     required this.iconData,
     this.iconSize = AppSizes.iconBasic,
-    this.onNoResultsText = ProfileStrings.notStated,
+    this.onNoResultsText = MiscStrings.notStated,
   });
 
   final CalendarEvent event;
@@ -57,7 +57,7 @@ class CategoryTile extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text(
-                  ProfileStrings.loading,
+                  MiscStrings.loading,
                   style: TextStyle(
                     color: AppColors.categoryTile.text(context),
                     fontSize: AppSizes.titleSmall,
@@ -65,7 +65,7 @@ class CategoryTile extends StatelessWidget {
                 );
               } else if (snapshot.hasError) {
                 return Text(
-                    ProfileStrings.errorLoadingData,
+                    MiscStrings.errorLoadingData,
                     style: TextStyle(
                       color: AppColors.categoryTile.text(context),
                       fontSize: AppSizes.titleSmall,
@@ -75,7 +75,7 @@ class CategoryTile extends StatelessWidget {
                 return snapshot.data!;
               } else {
                 return Text(
-                  ProfileStrings.noData,
+                  MiscStrings.noData,
                   style: TextStyle(
                     color: AppColors.categoryTile.text(context),
                     fontSize: AppSizes.titleSmall,

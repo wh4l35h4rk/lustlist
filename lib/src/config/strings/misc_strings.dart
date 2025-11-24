@@ -1,4 +1,4 @@
-class ProfileStrings {
+class MiscStrings {
   static const String loading = "Loading...";
   static const String errorLoadingData = "Error loading data";
   static const String notStated = "Not stated";
@@ -31,6 +31,11 @@ class ProfileStrings {
   static const String noEventsForDaySelected = "There are no events this day!";
   static const String noDaySelected = "No days selected!";
 
-  static const String notesHint = 'Write some notes!';
+  static const String notesHint = "Write some notes!";
   static const String nameHint = "Enter name";
+
+  static const String partnersSubtitle = "Manage info of all of your sexual partners.";
+  static const String tagVisibilitySubtitle = "Disable unused options' visibility and customize new ones.";
+  static const String dataExportSubtitle = "Export your data in machine-readable format.";
+  static const String creditsSubtitle = "Learn more about developer.";
 }

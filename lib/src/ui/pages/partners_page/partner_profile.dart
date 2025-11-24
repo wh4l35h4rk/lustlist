@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
@@ -144,7 +144,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                       ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 3),
                         child: Text(
-                            ProfileStrings.noPartnerEvents,
+                            MiscStrings.noPartnerEvents,
                             style: TextStyle(
                               fontSize: AppSizes.textBasic,
                               fontStyle: FontStyle.italic,
@@ -173,6 +173,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                               event: event,
                               partnerOrgasms: event.partnersMap?[partner],
                               partneredIcon: partnerIcon,
+                              fromPartnerProfile: true,
                               onTap: () => _onEventListTileTap(event),
                             ),
                             index != events.length - 1 ? Padding(

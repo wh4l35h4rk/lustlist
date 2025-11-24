@@ -8,7 +8,7 @@ class EditEventDataController {
   DateTime? duration;
   bool? didWatchPorn;
   int? rating = 0;
-  int? orgasmAmount = 0;
+  int? orgasmAmount;
 
   EditEventDataController({
     required this.date,
@@ -28,7 +28,7 @@ class EditEventDataController {
     rating = newValue;
   }
 
-  void setOrgasmAmount(int newValue) {
+  void setOrgasmAmount(int? newValue) {
     orgasmAmount = newValue;
   }
 }

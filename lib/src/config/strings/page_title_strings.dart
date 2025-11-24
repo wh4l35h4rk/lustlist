@@ -1,4 +1,4 @@
-class PageStrings {
+class PageTitleStrings {
   static const mainPages = [
     calendar,
     statistics,
@@ -21,9 +21,4 @@ class PageStrings {
   static const String addPartner = "Add new partner";
   static const String editEvent = "Edit event";
   static const String editPartner = "Edit partner profile";
-
-  static const String partnersSubtitle = "Manage info of all of your sexual partners.";
-  static const String tagVisibilitySubtitle = "Disable unused options' visibility and customize new ones.";
-  static const String dataExportSubtitle = "Export your data in machine-readable format.";
-  static const String creditsSubtitle = "Learn more about developer.";
 }

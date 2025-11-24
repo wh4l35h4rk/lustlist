@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -113,7 +113,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               }).toList(),
             ) :
             Text(
-              ProfileStrings.didNotTake,
+              MiscStrings.didNotTake,
               style: TextStyle(
                   color: AppColors.addEvent.text(context),
                   fontSize: AppSizes.textBasic,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/widgets/text_form.dart';
 
 class NameForm extends StatefulWidget {
@@ -36,7 +36,7 @@ class NameFormState extends State<NameForm> {
         controller: widget.controller,
         validator: (value) => _nameValidate(value),
         maxLength: maxLength,
-        hint: ProfileStrings.nameHint,
+        hint: MiscStrings.nameHint,
       )
     );
   }

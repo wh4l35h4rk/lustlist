@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
@@ -43,7 +43,7 @@ class EventDataColumn extends StatelessWidget {
               ),
               InfoRow(
                   iconData: Icons.auto_awesome,
-                  title: colon(DataStrings.duration),
+                  title: colon(DataStrings.myOrgasms),
                   child: Text(
                       _getOrgasmsText(event),
                       style: TextStyle(
@@ -82,17 +82,17 @@ class EventDataColumn extends StatelessWidget {
         case 0:
           hoursString = null;
         case 1:
-          hoursString = "$hours ${ProfileStrings.hour}";
+          hoursString = "$hours ${MiscStrings.hour}";
         default:
-          hoursString = "$hours ${ProfileStrings.hours}";
+          hoursString = "$hours ${MiscStrings.hours}";
       }
       switch (minutes) {
         case 0:
           minutesString = null;
         case 1:
-          minutesString = "$minutes ${ProfileStrings.min}";
+          minutesString = "$minutes ${MiscStrings.min}";
         default:
-          minutesString = "$minutes ${ProfileStrings.mins}";
+          minutesString = "$minutes ${MiscStrings.mins}";
       }
 
       if (hoursString == null && minutesString == null) {
@@ -107,14 +107,15 @@ class EventDataColumn extends StatelessWidget {
   }
 
   String _getOrgasmsText(CalendarEvent event) {
-    final int orgasmsAmount = event.data!.userOrgasms;
-    final String amountString = orgasmsAmount.toString();
+    final int? orgasmsAmount = event.data!.userOrgasms;
+    if (orgasmsAmount == null) return DataStrings.unknown;
 
+    final String amountString = orgasmsAmount.toString();
     final String orgasmsString;
     if (orgasmsAmount == 1) {
-      orgasmsString = ProfileStrings.orgasmOne;
+      orgasmsString = MiscStrings.orgasmOne;
     } else {
-      orgasmsString = ProfileStrings.orgasmsMany;
+      orgasmsString = MiscStrings.orgasmsMany;
     }
     return "$amountString $orgasmsString";
   }
@@ -124,22 +125,22 @@ class EventDataColumn extends StatelessWidget {
     return Row(
       children: [
         Row(
-            children: [
-              for (var index = 0; index < rating; index++)
-                Icon(
-                    Icons.star,
-                    size: AppSizes.iconMedium,
-                    color: AppColors.eventData.text(context)
-                )
-            ]
+          children: [
+            for (var index = 0; index < rating; index++)
+              Icon(
+                Icons.star,
+                size: AppSizes.iconMedium,
+                color: AppColors.eventData.text(context)
+              )
+          ]
         ),
         Row(
           children: [
             for (var index = 0; index < 5 - rating; index++)
               Icon(
-                  Icons.star_border,
-                  size: AppSizes.iconMedium,
-                  color: AppColors.eventData.text(context)
+                Icons.star_border,
+                size: AppSizes.iconMedium,
+                color: AppColors.eventData.text(context)
               )
           ],
         ),

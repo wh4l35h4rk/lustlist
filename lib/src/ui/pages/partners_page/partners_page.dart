@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -37,7 +37,7 @@ class _PartnersPageState extends State<PartnersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        title: PageStrings.partners,
+        title: PageTitleStrings.partners,
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(partnersChanges ? true : null),
           icon: Icon(Icons.arrow_back_ios),

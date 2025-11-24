@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/strings/page_strings.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 
 import 'package:lustlist/src/ui/pages/options_page/options_page.dart';
@@ -36,7 +36,7 @@ class _HomepageState extends State<Homepage> {
         return Scaffold(
           appBar: value == 0
               ? MainAppBar(
-                  title: PageStrings.mainPages[value],
+                  title: PageTitleStrings.mainPages[value],
                   backButton: null,
                   editButton: null,
                   themeButton: ChangeThemeButton(),

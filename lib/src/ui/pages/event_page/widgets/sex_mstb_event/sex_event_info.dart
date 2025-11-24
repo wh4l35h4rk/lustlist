@@ -3,7 +3,7 @@ import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/profile_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/widgets/notes_tile.dart';
 import 'package:lustlist/src/ui/../core/utils/utils.dart';
 import '../eventdata_tile.dart';
@@ -28,7 +28,7 @@ class SexEventInfo extends StatelessWidget {
           title: colon(DataStrings.contraception),
           categorySlug: "contraception",
           iconData: CategoryIcons.condom,
-          onNoResultsText: ProfileStrings.none,
+          onNoResultsText: MiscStrings.none,
         ),
         CategoryTile(
           event: event,
