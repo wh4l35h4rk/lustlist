@@ -31,7 +31,7 @@ class NameFormState extends State<NameForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      autovalidateMode: AutovalidateMode.onUnfocus,
+      autovalidateMode: AutovalidateMode.always,
       child: TextForm(
         controller: widget.controller,
         validator: (value) => _nameValidate(value),

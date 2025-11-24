@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-typedef StatusEntry = DropdownMenuEntry<TestStatus>;
 
 enum TestStatus {
-  positive('Positive'),
-  negative('Negative'),
-  waiting('Waiting for result');
+  positive('Positive', Icons.check),
+  negative('Negative', Icons.close),
+  waiting('Waiting for result', Icons.autorenew);
 
-  const TestStatus(this.label);
+  const TestStatus(
+    this.label,
+    this.iconData
+  );
+
   final String label;
+  final IconData iconData;
 
   static final List<TestStatus> entries = [TestStatus.positive, TestStatus.negative, TestStatus.waiting];
 }

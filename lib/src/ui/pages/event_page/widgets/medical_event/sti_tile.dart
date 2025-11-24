@@ -163,17 +163,8 @@ class StiTile extends StatelessWidget{
                                   }
 
                                   final status = snapshot.data!;
-                                  IconData iconData;
+                                  IconData iconData = status.iconData;
                                   String label = status.label;
-
-                                  switch (status) {
-                                    case TestStatus.positive:
-                                      iconData = Icons.check;
-                                    case TestStatus.negative:
-                                      iconData = Icons.close;
-                                    case TestStatus.waiting:
-                                      iconData = Icons.autorenew;
-                                  }
 
                                   return Row(
                                     children: [
