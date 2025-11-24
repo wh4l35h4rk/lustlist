@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
@@ -60,7 +60,7 @@ class _DatePickerState extends State<DatePicker> {
           ),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            DateFormat.yMMMMd().format(date),
+            DateFormatter.date(date),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.coloredText(context)

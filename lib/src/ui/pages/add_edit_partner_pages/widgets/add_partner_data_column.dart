@@ -5,7 +5,7 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/birthday_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/name_form.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 
 
@@ -42,7 +42,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              colon(DataStrings.name),
+              StringFormatter.colon(DataStrings.name),
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: AppColors.addEvent.title(context),
@@ -65,7 +65,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
         InfoRow(
             iconData: selectedGender.iconData,
             iconColor: iconColor,
-            title: colon(DataStrings.gender),
+            title: StringFormatter.colon(DataStrings.gender),
             titleColor: titleColor,
             child: Row(
               children: [
@@ -101,7 +101,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
         InfoRow(
           iconData: Icons.cake,
           iconColor: iconColor,
-          title: colon(DataStrings.birthday),
+          title: StringFormatter.colon(DataStrings.birthday),
           titleColor: titleColor,
           child: BirthdayPicker(
             controller: widget.controller.dateController,

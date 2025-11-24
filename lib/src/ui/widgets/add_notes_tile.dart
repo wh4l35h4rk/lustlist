@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'text_form.dart';
 
 
@@ -63,7 +63,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    colon(DataStrings.notes),
+                    StringFormatter.colon(DataStrings.notes),
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: AppColors.addEvent.title(context),

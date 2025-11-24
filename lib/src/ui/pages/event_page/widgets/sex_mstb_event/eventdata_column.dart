@@ -4,9 +4,8 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
 
 class EventDataColumn extends StatelessWidget {
@@ -27,14 +26,14 @@ class EventDataColumn extends StatelessWidget {
             children: [
               InfoRow(
                   iconData: Icons.star,
-                  title: colon(DataStrings.rating),
+                  title: StringFormatter.colon(DataStrings.rating),
                   child: _getRatingIcons(event, context)
               ),
               InfoRow(
                   iconData: Icons.timelapse,
-                  title: colon(DataStrings.duration),
+                  title: StringFormatter.colon(DataStrings.duration),
                   child: Text(
-                      _getDurationString(event),
+                      StringFormatter.duration(event.data!.duration),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
                         color: AppColors.eventData.text(context),
@@ -43,9 +42,9 @@ class EventDataColumn extends StatelessWidget {
               ),
               InfoRow(
                   iconData: Icons.auto_awesome,
-                  title: colon(DataStrings.myOrgasms),
+                  title: StringFormatter.colon(DataStrings.myOrgasms),
                   child: Text(
-                      _getOrgasmsText(event),
+                      StringFormatter.orgasmsAmount(event.data!.userOrgasms),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
                         color: AppColors.eventData.text(context),
@@ -69,56 +68,6 @@ class EventDataColumn extends StatelessWidget {
     );
   }
 
-  String _getDurationString(CalendarEvent event) {
-    final DateTime? duration = event.data!.duration;
-    if (duration != null) {
-      int hours = event.data!.duration!.hour;
-      int minutes = event.data!.duration!.minute;
-
-      String? hoursString;
-      String? minutesString;
-
-      switch (hours) {
-        case 0:
-          hoursString = null;
-        case 1:
-          hoursString = "$hours ${MiscStrings.hour}";
-        default:
-          hoursString = "$hours ${MiscStrings.hours}";
-      }
-      switch (minutes) {
-        case 0:
-          minutesString = null;
-        case 1:
-          minutesString = "$minutes ${MiscStrings.min}";
-        default:
-          minutesString = "$minutes ${MiscStrings.mins}";
-      }
-
-      if (hoursString == null && minutesString == null) {
-        return DataStrings.unknown;
-      }
-
-      List<String> list = [?hoursString, ?minutesString];
-      return list.join(" ");
-    } else {
-      return DataStrings.unknown;
-    }
-  }
-
-  String _getOrgasmsText(CalendarEvent event) {
-    final int? orgasmsAmount = event.data!.userOrgasms;
-    if (orgasmsAmount == null) return DataStrings.unknown;
-
-    final String amountString = orgasmsAmount.toString();
-    final String orgasmsString;
-    if (orgasmsAmount == 1) {
-      orgasmsString = MiscStrings.orgasmOne;
-    } else {
-      orgasmsString = MiscStrings.orgasmsMany;
-    }
-    return "$amountString $orgasmsString";
-  }
 
   Row _getRatingIcons(CalendarEvent event, context) {
     final int rating = event.data!.rating;

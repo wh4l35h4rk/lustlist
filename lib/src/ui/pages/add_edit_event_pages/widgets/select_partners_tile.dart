@@ -9,10 +9,10 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/map_notifier.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.dart';
-import '../../../widgets/orgasms_picker.dart';
+import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
 
 
 class SelectPartnersController {
@@ -85,7 +85,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         Row(
           children: [
             Text(
-              colon(PageTitleStrings.partners),
+              StringFormatter.colon(PageTitleStrings.partners),
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: AppColors.addEvent.title(context),

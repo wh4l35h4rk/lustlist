@@ -1,11 +1,11 @@
 import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/src/ui/main.dart';
@@ -305,7 +305,7 @@ class _CalendarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerText = DateFormat.yMMMM().format(focusedDay);
+    final headerText = DateFormatter.date(focusedDay);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),

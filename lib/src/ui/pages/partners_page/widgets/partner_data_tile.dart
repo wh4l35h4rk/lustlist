@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -29,7 +29,7 @@ class PartnerDataTile extends StatelessWidget {
               children: [
                 InfoRow(
                     iconData: partner.gender.iconData,
-                    title: colon(DataStrings.gender),
+                    title: StringFormatter.colon(DataStrings.gender),
                     child: Text(
                       partner.gender.label,
                       style: TextStyle(
@@ -40,7 +40,7 @@ class PartnerDataTile extends StatelessWidget {
                 ),
                 InfoRow(
                   iconData: Icons.cake,
-                  title: colon(DataStrings.birthday),
+                  title: StringFormatter.colon(DataStrings.birthday),
                   child: Text(
                     _formatBirthday(),
                     style: TextStyle(
@@ -72,7 +72,7 @@ class PartnerDataTile extends StatelessWidget {
     if (date == null) {
       return DataStrings.unknown;
     }
-    final dateFormatted = DateFormat.yMMMMd().format(date);
+    final dateFormatted = DateFormatter.date(date);
     return dateFormatted;
   }
 }

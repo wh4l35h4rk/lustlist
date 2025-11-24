@@ -6,7 +6,7 @@ import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
 
 class MedicalData extends StatelessWidget{
@@ -25,7 +25,7 @@ class MedicalData extends StatelessWidget{
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: Text(
-            colon(DataStrings.type),
+            StringFormatter.colon(DataStrings.type),
             style: TextStyle(
                 color: AppColors.eventData.title(context),
                 fontWeight: FontWeight.bold,

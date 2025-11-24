@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -53,7 +53,7 @@ class PartnerListTile extends StatelessWidget {
   }
 
   String _getLastEventText() {
-    final dateFormatted = DateFormat.yMMMMd().format(lastDate!);
+    final dateFormatted = DateFormatter.date(lastDate!);
     return dateFormatted;
   }
 

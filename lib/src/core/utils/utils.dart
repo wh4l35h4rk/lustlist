@@ -13,10 +13,6 @@ IconData getTypeIconData(String slug)  {
   }
 }
 
-String colon(String s){
-  return "$s:";
-}
-
 DateTime toDate(DateTime dateTime) {
   return DateTime(dateTime.year, dateTime.month, dateTime.day);
 }

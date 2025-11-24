@@ -6,7 +6,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/list_notifier.dart';
 import 'package:lustlist/src/ui/main.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 
 
@@ -58,7 +58,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                colon(category.name),
+                StringFormatter.colon(category.name),
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: AppColors.addEvent.title(context),

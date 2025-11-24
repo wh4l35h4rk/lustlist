@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/partners_column.dart';
@@ -50,7 +50,7 @@ class EventDataTile extends StatelessWidget {
             EventDataColumn(event: event),
             InfoRow(
               iconData: Icons.play_circle,
-              title: colon(DataStrings.porn),
+              title: StringFormatter.colon(DataStrings.porn),
               child: Text(
                 event.data!.didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
                 style: TextStyle(

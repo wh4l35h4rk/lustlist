@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -92,8 +91,8 @@ class _EventPageState extends State<EventPage> {
     final date = event.event.date;
     final time = event.event.time;
 
-    final dateFormatted = DateFormat.yMMMMd().format(date);
-    final timeFormatted = DateFormat.Hm().format(time);
+    final dateFormatted = DateFormatter.date(date);
+    final timeFormatted = DateFormatter.time(time);
 
     return "$dateFormatted, $timeFormatted";
   }

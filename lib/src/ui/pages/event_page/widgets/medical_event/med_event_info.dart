@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -45,7 +45,7 @@ class MedEventInfo extends StatelessWidget {
                     StiTile(event: event),
                     CategoryTile(
                       event: event,
-                      title: colon(DataStrings.obgyn),
+                      title: StringFormatter.colon(DataStrings.obgyn),
                       categorySlug: "obgyn",
                       iconData: CategoryIcons.uterus,
                       iconSize: 29,
@@ -65,7 +65,7 @@ class MedEventInfo extends StatelessWidget {
                   children: [
                     CategoryTile(
                       event: event,
-                      title: colon(DataStrings.obgyn),
+                      title: StringFormatter.colon(DataStrings.obgyn),
                       categorySlug: "obgyn",
                       iconData: CategoryIcons.uterus,
                       iconSize: AppSizes.iconObgyn,

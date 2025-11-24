@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
+import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/strings/page_title_strings.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/database/database.dart';
 
 
@@ -99,7 +98,7 @@ class PartnersColumn extends StatelessWidget {
                   children: [
                     for (var amount in event.partnersMap!.values)
                       Text(
-                        _getOrgasmsText(amount),
+                        StringFormatter.orgasmsAmount(amount),
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
                           color: AppColors.eventData.text(context)
@@ -117,25 +116,12 @@ class PartnersColumn extends StatelessWidget {
   String _getPartnersTitle() {
     final partners = event.partnersMap!.keys;
     if (partners.length > 1) {
-      return colon(PageTitleStrings.partners);
+      return StringFormatter.colon(PageTitleStrings.partners);
     } else if (partners.length == 1) {
-      return colon(MiscStrings.partnerOne);
+      return StringFormatter.colon(MiscStrings.partnerOne);
     } else {
-      return colon(PageTitleStrings.partners);
+      return StringFormatter.colon(PageTitleStrings.partners);
     }
-  }
-
-  String _getOrgasmsText(int? orgasmsAmount) {
-    if (orgasmsAmount == null) return DataStrings.unknown;
-
-    final String amountString = orgasmsAmount.toString();
-    final String orgasmsString;
-    if (orgasmsAmount == 1) {
-      orgasmsString = MiscStrings.orgasmOne;
-    } else {
-      orgasmsString = MiscStrings.orgasmsMany;
-    }
-    return "$amountString $orgasmsString";
   }
 
   Future<void> _onPartnerTap(BuildContext context, EventRepository repo, Partner partner) async {

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
 const double _kItemExtent = 32.0;
 List<int> _orgasmAmount = List.generate(12, (index) => index);
@@ -54,18 +54,6 @@ class OrgasmsAmountPicker extends StatelessWidget {
     );
   }
 
-  String _getOrgasmsText(int? orgasmsAmount) {
-    final String amountString = orgasmsAmount.toString();
-    final String orgasmsString;
-    if (orgasmsAmount == null) {
-      return DataStrings.unknown;
-    } else if (orgasmsAmount == 1) {
-      orgasmsString = MiscStrings.orgasmOne;
-    } else {
-      orgasmsString = MiscStrings.orgasmsMany;
-    }
-    return "$amountString $orgasmsString";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +69,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
           onPressed: () => _showDialog(context),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            _getOrgasmsText(amount),
+            StringFormatter.orgasmsAmount(amount),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.coloredText(context)

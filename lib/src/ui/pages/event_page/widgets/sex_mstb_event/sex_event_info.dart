@@ -5,8 +5,8 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/widgets/notes_tile.dart';
-import 'package:lustlist/src/ui/../core/utils/utils.dart';
-import '../eventdata_tile.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/ui/pages/event_page/widgets/eventdata_tile.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/category_tile.dart';
 
 
@@ -25,28 +25,28 @@ class SexEventInfo extends StatelessWidget {
         EventDataTile(event: event),
         CategoryTile(
           event: event,
-          title: colon(DataStrings.contraception),
+          title: StringFormatter.colon(DataStrings.contraception),
           categorySlug: "contraception",
           iconData: CategoryIcons.condom,
           onNoResultsText: MiscStrings.none,
         ),
         CategoryTile(
           event: event,
-          title: colon(DataStrings.practices),
+          title: StringFormatter.colon(DataStrings.practices),
           categorySlug: "practices",
           iconData: CustomIcons.handLizard,
           iconSize: AppSizes.iconPractices,
         ),
         CategoryTile(
           event: event,
-          title: colon(DataStrings.poses),
+          title: StringFormatter.colon(DataStrings.poses),
           categorySlug: "poses",
           iconData: CategoryIcons.sexMove,
           iconSize: AppSizes.iconPoses,
         ),
         CategoryTile(
           event: event,
-          title: colon(DataStrings.place),
+          title: StringFormatter.colon(DataStrings.place),
           categorySlug: "place",
           iconData: Icons.bed
         ),

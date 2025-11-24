@@ -6,7 +6,7 @@ import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 
 
@@ -47,7 +47,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                   InfoRow(
                     iconData: Icons.calendar_month,
                     iconColor: iconColor,
-                    title: colon(DataStrings.date),
+                    title: StringFormatter.colon(DataStrings.date),
                     titleColor: titleColor,
                     child: DatePicker(
                       controller: widget.controller.dateController,
@@ -56,7 +56,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                   InfoRow(
                     iconData: Icons.access_time,
                     iconColor: iconColor,
-                    title: colon(DataStrings.time),
+                    title: StringFormatter.colon(DataStrings.time),
                     titleColor: titleColor,
                     child: TimePicker(
                       type: 0,
@@ -66,14 +66,14 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                   InfoRow(
                     iconData: Icons.star,
                     iconColor: iconColor,
-                    title: colon(DataStrings.rating),
+                    title: StringFormatter.colon(DataStrings.rating),
                     titleColor: titleColor,
                     child: ratingRow()
                   ),
                   InfoRow(
                     iconData: Icons.timelapse,
                     iconColor: iconColor,
-                    title: colon(DataStrings.duration),
+                    title: StringFormatter.colon(DataStrings.duration),
                     titleColor: titleColor,
                     child: TimePicker(
                       type: 1,
@@ -83,7 +83,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                   InfoRow(
                     iconData: Icons.auto_awesome,
                     iconColor: iconColor,
-                    title: colon(DataStrings.myOrgasms),
+                    title: StringFormatter.colon(DataStrings.myOrgasms),
                     titleColor: titleColor,
                     child: OrgasmsAmountPicker(
                       amount: orgasmAmount,
@@ -153,7 +153,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              colon(DataStrings.porn),
+              StringFormatter.colon(DataStrings.porn),
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: AppColors.addEvent.title(context),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -26,15 +27,13 @@ class EventListTile extends StatelessWidget {
 
   String _getTitle() {
     if (fromPartnerProfile) {
-      String time = DateFormat.Hm().format(event.event.time);
-      String date = DateFormat.yMMMMd().format(event.event.date);
-      return "$date, $time";
+      return StringFormatter.dateTimeTitle(event.event.date, event.event.time);
     }
 
     final typeSlug = event.getTypeSlug();
     switch (typeSlug) {
       case "sex":
-        return event.getPartnerNames().join(", ");
+        return StringFormatter.partnerNamesTitle(event.getPartnerNames());
       case "masturbation":
         return event.type.name;
       case "medical":
@@ -44,47 +43,13 @@ class EventListTile extends StatelessWidget {
     }
   }
 
-  String _getDuration() {
-    if (event.data!.duration != null) {
-      int hours = event.data!.duration!.hour;
-      int minutes = event.data!.duration!.minute;
-
-      if (hours == 0 && minutes == 0) {
-        return MiscStrings.durationUnknown;
-      }
-
-      String? hoursString;
-      String? minutesString;
-
-      switch (hours) {
-        case 0:
-          hoursString = null;
-        case 1:
-          hoursString = "$hours ${MiscStrings.hour}";
-        default:
-          hoursString = "$hours ${MiscStrings.hours}";
-      }
-      switch (minutes) {
-        case 0:
-          minutesString = null;
-        case 1:
-          minutesString = "$minutes ${MiscStrings.min}";
-        default:
-          minutesString = "$minutes ${MiscStrings.mins}";
-      }
-      final String timeString = [?hoursString, ?minutesString].join(" ");
-      return timeString;
-    } else {
-        return MiscStrings.durationUnknown;
-    }
-  }
 
   Future<String> _getSubtitle(AppDatabase db) async {
     final type = event.getTypeSlug();
-    String time = DateFormat("HH:mm").format(event.event.time);
+    String time = DateFormatter.time(event.event.time);
 
     if ((type == "sex" || type == "masturbation") && event.data != null) {
-      String duration = _getDuration();
+      String duration = StringFormatter.duration(event.data!.duration);
 
       if (fromPartnerProfile) {
         if (partnerOrgasms != null) {
