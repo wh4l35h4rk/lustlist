@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
@@ -60,7 +61,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   AddCategoryController? _placeController;
 
   void _onPressed() async {
-    final date = _dataController.dateController.date;
+    final date = _dataController.dateController.date ?? toDate(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final rating = _dataController.rating;

@@ -39,7 +39,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
   final _notesController = NotesTileController();
 
   void _onPressed() async {
-    final date = _dataController.dateController.date;
+    final date = _dataController.dateController.date ?? toDate(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final stiOptions = _stiController.getSelectedOptions();

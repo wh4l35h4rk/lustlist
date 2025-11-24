@@ -20,6 +20,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/med_data_head
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
+import 'package:lustlist/src/core/utils/utils.dart';
 
 
 class EditMedEventPage extends StatefulWidget{
@@ -47,7 +48,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
   AddCategoryController? _obgynController;
 
   void _onPressed() async {
-    final date = _dataController!.dateController.date;
+    final date = _dataController!.dateController.date ?? toDate(kToday);
     final time = _dataController!.timeController.time;
     final notes = _notesController.notesController.text;
     final stiOptions = _stiController!.getSelectedOptions();

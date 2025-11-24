@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/ui/widgets/date_picker.dart';
+import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 
 
@@ -14,7 +14,7 @@ class AddPartnerDataController {
     Gender? gender
   }) : gender = gender ?? Gender.nonbinary;
 
-  late final DateController dateController = DateController(date);
+  late final DateController dateController = DateController(date: date);
   late final TextEditingController nameController = TextEditingController();
 
   void setName(String newName) {

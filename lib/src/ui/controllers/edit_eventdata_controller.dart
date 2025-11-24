@@ -1,5 +1,5 @@
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
-import 'package:lustlist/src/ui/widgets/date_picker.dart';
+import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 
 class EditEventDataController {
@@ -19,7 +19,7 @@ class EditEventDataController {
     required this.orgasmAmount,
   });
 
-  late final DateController dateController = DateController(date);
+  late final DateController dateController = DateController(date: date);
   late final TimeController timeController = TimeController(time: time);
   late final TimeController durationController = TimeController(time: duration);
   late final SwitchController pornController = SwitchController(value: didWatchPorn ?? false);

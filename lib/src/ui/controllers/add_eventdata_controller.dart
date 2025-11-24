@@ -1,5 +1,5 @@
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
-import 'package:lustlist/src/ui/widgets/date_picker.dart';
+import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 
 class AddEventDataController {
@@ -9,7 +9,7 @@ class AddEventDataController {
     required this.date
   });
 
-  late final DateController dateController = DateController(date);
+  late final DateController dateController = DateController(date: date);
   final TimeController timeController = TimeController();
   final TimeController durationController = TimeController();
   final SwitchController pornController = SwitchController(value: false);

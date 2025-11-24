@@ -36,11 +36,11 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
   void _onPressed() async {
     final name = _dataController.nameController.text;
     final gender = _dataController.gender;
-    final date = _dataController.dateController.date;
     final notes = _notesController.notesController.text;
+    final birthday = _dataController.dateController.date;
 
     if (name != "") {
-      await repo.loadPartner(name, gender, date, notes);
+      await repo.loadPartner(name, gender, birthday, notes);
       Navigator.of(context).pop(true);
     }
   }

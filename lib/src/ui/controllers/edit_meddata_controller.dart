@@ -1,5 +1,5 @@
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
-import 'package:lustlist/src/ui/widgets/date_picker.dart';
+import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 
 class EditMedEventDataController {
@@ -15,7 +15,7 @@ class EditMedEventDataController {
     required this.isObgyn,
   });
 
-  late final DateController dateController = DateController(date);
+  late final DateController dateController = DateController(date: date);
   late final TimeController timeController = TimeController(time: time);
   late final SwitchController stiController = SwitchController(value: isSti);
   late final SwitchController obgynController = SwitchController(value: isObgyn);

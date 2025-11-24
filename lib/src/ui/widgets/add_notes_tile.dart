@@ -102,7 +102,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
           ),
           child: Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.onUnfocus,
+              autovalidateMode: AutovalidateMode.always,
               child: TextForm(
                 controller: widget.controller.notesController,
                 maxLength: maxLength,

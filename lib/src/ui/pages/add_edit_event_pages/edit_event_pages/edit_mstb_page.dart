@@ -4,6 +4,7 @@ import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
@@ -53,7 +54,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
   AddCategoryController? _placeController;
 
   void _onPressed() async {
-    final date = _dataController.dateController.date;
+    final date = _dataController.dateController.date ?? toDate(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final rating = _dataController.rating;

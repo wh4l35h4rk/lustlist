@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/ui/widgets/date_picker.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/birthday_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/name_form.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -67,41 +67,46 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
             iconColor: iconColor,
             title: colon(DataStrings.gender),
             titleColor: titleColor,
-            child: DropdownButton<Gender>(
-              isDense: true,
-              value: selectedGender,
-              icon: const Icon(Icons.keyboard_arrow_down_sharp),
-              alignment: Alignment.centerLeft,
-              style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
-              underline: Container(height: 2, color: AppColors.addEvent.border(context)),
-              onChanged: (Gender? gender) {
-                setState(() {
-                  selectedGender = gender!;
-                  widget.controller.setGender(gender);
-                });
-              },
-              items: Gender.entries.map<DropdownMenuItem<Gender>>((Gender value) {
-                return DropdownMenuItem<Gender>(
-                    value: value,
-                    child: Text(
-                      value.label,
-                      style: TextStyle(
-                        fontSize: AppSizes.textBasic,
-                        color: AppColors.addEvent.coloredText(context)
-                      ),
-                    ));
-              }).toList(),
+            child: Row(
+              children: [
+                SizedBox(width: 3,),
+                DropdownButton<Gender>(
+                  isDense: true,
+                  value: selectedGender,
+                  icon: const Icon(Icons.keyboard_arrow_down_sharp),
+                  alignment: Alignment.centerLeft,
+                  style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
+                  underline: Container(height: 2, color: AppColors.addEvent.border(context)),
+                  onChanged: (Gender? gender) {
+                    setState(() {
+                      selectedGender = gender!;
+                      widget.controller.setGender(gender);
+                    });
+                  },
+                  items: Gender.entries.map<DropdownMenuItem<Gender>>((Gender value) {
+                    return DropdownMenuItem<Gender>(
+                        value: value,
+                        child: Text(
+                          value.label,
+                          style: TextStyle(
+                            fontSize: AppSizes.textBasic,
+                            color: AppColors.addEvent.coloredText(context)
+                          ),
+                        ));
+                  }).toList(),
+                ),
+              ],
             )
         ),
         InfoRow(
-            iconData: Icons.cake,
-            iconColor: iconColor,
-            title: colon(DataStrings.birthday),
-            titleColor: titleColor,
-            child: DatePicker(
-              controller: widget.controller.dateController,
-              minDate: minBirthday,
-            )
+          iconData: Icons.cake,
+          iconColor: iconColor,
+          title: colon(DataStrings.birthday),
+          titleColor: titleColor,
+          child: BirthdayPicker(
+            controller: widget.controller.dateController,
+            initBirthday: widget.controller.dateController.date,
+          )
         ),
       ],
     );

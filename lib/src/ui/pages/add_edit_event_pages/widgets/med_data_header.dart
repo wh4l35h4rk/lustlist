@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
+import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -20,7 +21,7 @@ class AddMedEventDataController {
     required this.date
   });
 
-  late final DateController dateController = DateController(date);
+  late final DateController dateController = DateController(date: date);
   final TimeController timeController = TimeController();
   final SwitchController stiController = SwitchController(value: true);
   final SwitchController obgynController = SwitchController(value: true);

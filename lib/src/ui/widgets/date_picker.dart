@@ -2,17 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
-
-class DateController {
-  DateTime date;
-
-  DateController(this.date);
-
-  void setDate(DateTime newValue) {
-    date = newValue;
-  }
-}
 
 
 class DatePicker extends StatefulWidget {
@@ -30,7 +21,7 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime get date => widget.controller.date;
+  DateTime get date => widget.controller.date ?? toDate(defaultDate);
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(

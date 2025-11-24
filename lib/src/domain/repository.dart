@@ -176,14 +176,14 @@ class EventRepository {
     );
   }
 
-  Future<int> loadPartner(String name, Gender gender, DateTime birthday, String notes) async {
+  Future<int> loadPartner(String name, Gender gender, DateTime? birthday, String notes) async {
     int partnerId = await db.insertPartner(
-        PartnersCompanion.insert(
-          name: name,
-          gender: gender,
-          birthday: Value(birthday),
-          notes: Value(notes),
-        )
+      PartnersCompanion.insert(
+        name: name,
+        gender: gender,
+        birthday: Value(birthday),
+        notes: Value(notes),
+      )
     );
     return partnerId;
   }

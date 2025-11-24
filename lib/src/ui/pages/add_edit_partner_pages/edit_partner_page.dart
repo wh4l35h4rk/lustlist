@@ -33,7 +33,8 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
 
   late final _dataController = EditPartnerDataController(
     name: partner.name,
-    date: partner.birthday,
+    isBirthdayUnknown: partner.birthday == null,
+    birthday: partner.birthday,
     gender: partner.gender
   );
   late final _notesController = NotesTileController(notes: partner.notes);
@@ -69,13 +70,13 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
             surfaceColor: AppColors.addEvent.surface(context),
             margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
             child: AddEditPartnerDataColumn(
-                controller: _dataController
+              controller: _dataController
             )
           ),
           AddNotesTile(
             controller: _notesController,
           ),
-          SizedBox(height: 20,)
+          SizedBox(height: 20)
         ],
       ),
       alertString: AlertStrings.editPartner,
