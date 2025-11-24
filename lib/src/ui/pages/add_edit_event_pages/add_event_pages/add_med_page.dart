@@ -12,6 +12,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/sti_tile.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/med_data_header.dart';
@@ -56,7 +57,8 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
       repo.loadOptions(id, o.id, stiStatuses[o]);
     }
 
-    Navigator.of(context).pop(true);
+    Navigator.of(context).pop();
+    eventsUpdated.notifyUpdate();
   }
 
   @override
@@ -68,7 +70,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
   @override
   Widget build(BuildContext context) {
     return AddEditPageBase(
-      onPressed: _onPressed,
+      onPressedSave: _onPressed,
       title: PageStrings.addEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,

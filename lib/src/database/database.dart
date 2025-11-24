@@ -223,7 +223,7 @@ class AppDatabase extends _$AppDatabase {
   Future<void> updateEventDataByEventId(int eventId, EventDataTableCompanion data) =>
       (update(eventDataTable)..where((t) => t.eventId.equals(eventId))).write(data);
 
-  Future<void> updatePartner(int id, PartnersCompanion data) =>
+  Future<void> updatePartnerRaw(int id, PartnersCompanion data) =>
       (update(partners)..where((t) => t.id.equals(id))).write(data);
 
 

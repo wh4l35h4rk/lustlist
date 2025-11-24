@@ -5,6 +5,7 @@ import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
@@ -70,7 +71,8 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
         repo.loadOptions(id, o.id, null);
       }
 
-      Navigator.of(context).pop(true);
+      Navigator.of(context).pop();
+      eventsUpdated.notifyUpdate();
     }
   }
 
@@ -83,7 +85,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
   @override
   Widget build(BuildContext context) {
     return AddEditPageBase(
-      onPressed: _onPressed,
+      onPressedSave: _onPressed,
       title: PageStrings.addEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/page_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
-import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_data_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_data_controller.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -13,35 +15,41 @@ import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 
 
-class AddPartnerPage extends StatefulWidget{
-  final DateTime? initBirthday;
-  
-  const AddPartnerPage({
+class EditPartnerPage extends StatefulWidget{
+  final Partner partner;
+
+  const EditPartnerPage({
     super.key,
-    this.initBirthday,
+    required this.partner,
   });
 
   @override
-  State<AddPartnerPage> createState() => _AddPartnerPageState();
+  State<EditPartnerPage> createState() => _EditPartnerPageState();
 }
 
-class _AddPartnerPageState extends State<AddPartnerPage> {
-  late final DateTime _initBirthday = widget.initBirthday
-      ?? toDate(DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day));
-  late final _dataController = AddPartnerDataController(date: _initBirthday);
-
+class _EditPartnerPageState extends State<EditPartnerPage> {
   final repo = EventRepository(database);
-  final _notesController = NotesTileController();
+  late final partner = widget.partner;
+
+  late final _dataController = EditPartnerDataController(
+    name: partner.name,
+    date: partner.birthday,
+    gender: partner.gender
+  );
+  late final _notesController = NotesTileController(notes: partner.notes);
+
 
   void _onPressed() async {
     final name = _dataController.nameController.text;
     final gender = _dataController.gender;
-    final date = _dataController.dateController.date;
+    final birthday = _dataController.dateController.date;
     final notes = _notesController.notesController.text;
 
     if (name != "") {
-      await repo.loadPartner(name, gender, date, notes);
+      await repo.updatePartner(partner.id, name, gender, birthday, notes);
+
       Navigator.of(context).pop(true);
+      eventsUpdated.notifyUpdate();
     }
   }
 
@@ -54,15 +62,15 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
   Widget build(BuildContext context) {
     return AddEditPageBase(
       onPressedSave: _onPressed,
-      title: PageStrings.addPartner,
+      title: PageStrings.editPartner,
       body: ListView(
         children: [
           BasicTile(
-              surfaceColor: AppColors.addEvent.surface(context),
-              margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
-              child: AddEditPartnerDataColumn(
-                  controller: _dataController
-              )
+            surfaceColor: AppColors.addEvent.surface(context),
+            margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
+            child: AddEditPartnerDataColumn(
+                controller: _dataController
+            )
           ),
           AddNotesTile(
             controller: _notesController,

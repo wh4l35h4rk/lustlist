@@ -11,6 +11,7 @@ import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/edit_eventdata_controller.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
@@ -72,6 +73,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     }
 
     Navigator.of(context).pop(true);
+    eventsUpdated.notifyUpdate();
   }
 
   @override
@@ -86,7 +88,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     if (_isLoading) return LoadingScaffold(hasBackButton: true);
 
     return AddEditPageBase(
-      onPressed: _onPressed,
+      onPressedSave: _onPressed,
       title: PageStrings.editEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,

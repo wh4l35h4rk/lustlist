@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
@@ -58,17 +59,9 @@ class _CalendarPageState extends State<CalendarPage> {
       widget = AddMedEventPage(_selectedDay.value);
     }
 
-    final result = await Navigator.push(context,
+    await Navigator.push(context,
       MaterialPageRoute(builder: (_) => widget),
     );
-    if (result == true) {
-      await Future.delayed(Duration(milliseconds: 200));
-      await _loadEvents();
-      if (mounted && _selectedDay.value != null) {
-        _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
-      }
-      setState(() {});
-    }
   }
 
   Future<void> _init() async {
@@ -77,6 +70,15 @@ class _CalendarPageState extends State<CalendarPage> {
       _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
     }
     _isLoading.value = false;
+
+    eventsUpdated.addListener(() async {
+      await Future.delayed(Duration(milliseconds: 100));
+      await _loadEvents();
+      if (_selectedDay.value != null) {
+        _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
+      }
+      setState(() {});
+    });
   }
 
   @override

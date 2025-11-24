@@ -12,6 +12,7 @@ import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/select_partners_tile.dart';
 import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
@@ -92,6 +93,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
       }
 
       Navigator.of(context).pop(true);
+      eventsUpdated.notifyUpdate();
     }
   }
 
@@ -107,7 +109,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     if (_isLoading) return LoadingScaffold(hasBackButton: true);
 
     return AddEditPageBase(
-      onPressed: _onPressed,
+      onPressedSave: _onPressed,
       title: PageStrings.editEvent,
       body: FutureBuilder<Map<String, Category>>(
         future: _categoriesMapFuture,

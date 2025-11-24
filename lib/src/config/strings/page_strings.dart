@@ -20,7 +20,7 @@ class PageStrings {
   static const String addEvent = "Add new event";
   static const String addPartner = "Add new partner";
   static const String editEvent = "Edit event";
-  static const String editPartner = "Edit partner";
+  static const String editPartner = "Edit partner profile";
 
   static const String partnersSubtitle = "Manage info of all of your sexual partners.";
   static const String tagVisibilitySubtitle = "Disable unused options' visibility and customize new ones.";

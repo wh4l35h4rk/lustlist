@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -13,6 +14,7 @@ import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_data_tile.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_page.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/src/ui/main.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
@@ -58,19 +60,18 @@ class _PartnerProfileState extends State<PartnerProfile> {
           ),
           editButton: IconButton(
             onPressed: () async {
-              //TODO: edit partner page
-              // final result = await Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => _getEditPartnerWidget(partner)
-              //   ),
-              // );
-              // if (result == true) {
-              //   partnerChanged = true;
-              //   await Future.delayed(Duration(milliseconds: 100));
-              //   await reloadPartner(database);
-              //   setState(() {});
-              // }
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditPartnerPage(partner: partner)
+                ),
+              );
+              if (result == true) {
+                partnerChanged = true;
+                await reloadPartner(database);
+                await Future.delayed(Duration(milliseconds: 100));
+                setState(() {});
+              }
             },
             icon: Icon(Icons.edit),
             color: AppColors.appBar.icon(context),
@@ -146,7 +147,8 @@ class _PartnerProfileState extends State<PartnerProfile> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        CalendarEvent event = events[index];
+                        var event = events[index];
+
                         IconData partnerIcon;
                         if (event.partnersMap != null && event.partnersMap!.length > 1) {
                           partnerIcon = CategoryIcons.two;
@@ -222,7 +224,8 @@ class _PartnerProfileState extends State<PartnerProfile> {
                 onPressed: () {
                   deletePartner(partner);
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop();
+                  eventsUpdated.notifyUpdate();
                 },
                 color: AppColors.appBar.surface(context),
                 shape: RoundedRectangleBorder(
@@ -246,6 +249,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
 
   Future<void> reloadPartner(AppDatabase db) async {
     Partner partnerNew = await db.getPartnerById(partner.id);
+    partnerEventsFuture = _loadPartnerEvents(database);
     partner = partnerNew;
   }
 

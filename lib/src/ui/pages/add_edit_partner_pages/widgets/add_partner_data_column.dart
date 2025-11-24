@@ -3,7 +3,6 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
-import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_data_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/name_form.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -11,7 +10,7 @@ import 'package:lustlist/src/core/widgets/info_row.dart';
 
 
 class AddEditPartnerDataColumn extends StatefulWidget {
-  final AddPartnerDataController controller;
+  final dynamic controller;
 
   const AddEditPartnerDataColumn({
     super.key,

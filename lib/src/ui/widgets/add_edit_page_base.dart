@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 
 
 class AddEditPageBase extends StatefulWidget{
-  final Function onPressed;
+  final Function onPressedSave;
   final Widget body;
   final String title;
 
@@ -18,7 +17,7 @@ class AddEditPageBase extends StatefulWidget{
 
   const AddEditPageBase({
     super.key,
-    required this.onPressed,
+    required this.onPressedSave,
     required this.title,
     required this.body,
     required this.alertString,
@@ -51,7 +50,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                 color: AppColors.surface(context)
             ),
             editButton: IconButton(
-                onPressed: () async => widget.onPressed(),
+                onPressed: () async => widget.onPressedSave(),
                 icon: Icon(Icons.check),
                 color: AppColors.surface(context)
             ),
@@ -76,7 +75,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
           },
           child: AlertDialog(
             content: Text(
-              AlertStrings.editEvent,
+              widget.alertString,
               style: TextStyle(fontSize: AppSizes.alertBody),
               textAlign: TextAlign.justify,
             ),
@@ -85,9 +84,9 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: const Text(
-                  ButtonStrings.eventReturn,
-                  style:  TextStyle(fontSize: AppSizes.alertButton)
+                child: Text(
+                  widget.alertButton,
+                  style:  const TextStyle(fontSize: AppSizes.alertButton)
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();

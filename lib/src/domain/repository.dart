@@ -217,6 +217,19 @@ class EventRepository {
     }
     return partners;
   }
+
+
+  Future updatePartner(int id, String name, Gender gender, DateTime? birthday, String notes) async {
+    await db.updatePartnerRaw(
+      id,
+      PartnersCompanion(
+        name: Value(name),
+        gender: Value(gender),
+        birthday: Value(birthday),
+        notes: Value(notes),
+      ),
+    );
+  }
   
 
   Future<void> insertMockEntries() async{
