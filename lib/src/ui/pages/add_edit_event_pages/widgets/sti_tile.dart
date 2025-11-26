@@ -7,7 +7,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/sti_option_listtile.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 
 
 

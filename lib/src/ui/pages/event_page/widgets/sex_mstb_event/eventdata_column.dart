@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -33,7 +33,7 @@ class EventDataColumn extends StatelessWidget {
                   iconData: Icons.timelapse,
                   title: StringFormatter.colon(DataStrings.duration),
                   child: Text(
-                      StringFormatter.duration(event.data!.duration),
+                      StringFormatter.duration(event.data!.duration, true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
                         color: AppColors.eventData.text(context),

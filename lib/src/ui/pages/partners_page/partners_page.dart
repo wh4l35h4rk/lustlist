@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
@@ -10,7 +12,7 @@ import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.da
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_listtile.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 
 
 class PartnersPage extends StatefulWidget {
@@ -56,6 +58,19 @@ class _PartnersPageState extends State<PartnersPage> {
               }
 
               List<PartnerWithDate> partners = snapshot.data!;
+
+              if (partners.isEmpty) {
+                return Center(
+                  child: Text(
+                    AlertStrings.noPartners,
+                    style: TextStyle(
+                      color: AppColors.eventData.text(context),
+                      fontStyle: FontStyle.italic,
+                      fontSize: AppSizes.textBasic
+                    ),
+                  ),
+                );
+              }
 
               return ListView(
                 children: [

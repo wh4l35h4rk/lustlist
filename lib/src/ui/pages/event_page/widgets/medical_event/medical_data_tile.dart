@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -79,7 +79,7 @@ class MedicalData extends StatelessWidget{
     if (categoryNames != null && categoryNames.isNotEmpty) {
       categoryString = categoryNames.join(", ");
     } else {
-      categoryString = DataStrings.unknown;
+      categoryString = MiscStrings.unknown;
     }
     return Text(
       categoryString,

@@ -13,7 +13,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/select_partne
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/controllers/add_eventdata_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';

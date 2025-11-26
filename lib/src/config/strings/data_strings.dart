@@ -1,6 +1,4 @@
 class DataStrings {
-  static const String unknown = "Unknown";
-
   static const String date = "Date";
   static const String time = "Time";
   static const String name = "Name";

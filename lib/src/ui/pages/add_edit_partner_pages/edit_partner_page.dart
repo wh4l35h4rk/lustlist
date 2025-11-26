@@ -10,7 +10,7 @@ import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_data_c
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 
 

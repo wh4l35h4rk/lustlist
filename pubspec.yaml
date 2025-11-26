@@ -32,6 +32,7 @@ dependencies:
   path_provider: ^2.1.5
   provider: ^6.0.5
   texture: ^0.1.1
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

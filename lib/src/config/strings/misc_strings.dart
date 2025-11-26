@@ -4,6 +4,7 @@ class MiscStrings {
   static const String notStated = "Not stated";
   static const String noData = "No data";
   static const String none = "None";
+  static const String unknown = "Unknown";
 
   static const String noNotes = "There are no notes yet.";
 

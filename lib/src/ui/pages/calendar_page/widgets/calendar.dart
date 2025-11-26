@@ -8,11 +8,12 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
+
 
 class Calendar extends StatefulWidget {
   final ValueNotifier<LinkedHashMap<DateTime, List<CalendarEvent>>> events;
@@ -100,7 +101,7 @@ class _CalendarState extends State<Calendar> {
                 minimumDate: kFirstDay,
                 maximumDate: kLastDay,
                 initialDateTime: _focusedDay.value.isAfter(kLastDay) ? kLastDay : _focusedDay.value,
-              onDateTimeChanged: (DateTime newDate) {
+                onDateTimeChanged: (DateTime newDate) {
                   _selectedDay.value = newDate;
                 },
               ),
@@ -305,7 +306,7 @@ class _CalendarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerText = DateFormatter.date(focusedDay);
+    final headerText = DateFormatter.dateWithoutDay(focusedDay);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -327,7 +328,6 @@ class _CalendarHeader extends StatelessWidget {
               ),
             ),
           ),
-
           const Spacer(),
           IconButton(
             icon: Icon(Icons.calendar_today, size: AppSizes.iconMedium),

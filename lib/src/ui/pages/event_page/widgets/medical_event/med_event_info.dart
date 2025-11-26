@@ -6,8 +6,7 @@ import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/eventdata_tile.dart';
 import 'package:lustlist/src/ui/widgets/notes_tile.dart';

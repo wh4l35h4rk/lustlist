@@ -53,7 +53,7 @@ class PartnerListTile extends StatelessWidget {
   }
 
   String _getLastEventText() {
-    final dateFormatted = DateFormatter.date(lastDate!);
+    final dateFormatted = DateFormatter.dateWithDay(lastDate!);
     return dateFormatted;
   }
 

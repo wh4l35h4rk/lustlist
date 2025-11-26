@@ -76,11 +76,7 @@ class NotesTile extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: colorBlend(
-              AppColors.categoryTile.surface(context),
-              AppColors.surface(context),
-              0.5
-            ),
+            color: AppColors.notesBottom(context),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12.0),
               bottomRight: Radius.circular(12.0),

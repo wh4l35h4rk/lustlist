@@ -8,7 +8,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/edit_event_pages/edit_med_page.dart';
@@ -91,7 +91,7 @@ class _EventPageState extends State<EventPage> {
     final date = event.event.date;
     final time = event.event.time;
 
-    final dateFormatted = DateFormatter.date(date);
+    final dateFormatted = DateFormatter.dateWithDay(date);
     final timeFormatted = DateFormatter.time(time);
 
     return "$dateFormatted, $timeFormatted";

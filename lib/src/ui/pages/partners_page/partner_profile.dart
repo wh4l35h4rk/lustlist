@@ -16,7 +16,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_data_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_page.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 import 'package:lustlist/src/domain/repository.dart';
 

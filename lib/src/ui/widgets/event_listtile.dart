@@ -3,7 +3,7 @@ import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/main.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -49,7 +49,7 @@ class EventListTile extends StatelessWidget {
     String time = DateFormatter.time(event.event.time);
 
     if ((type == "sex" || type == "masturbation") && event.data != null) {
-      String duration = StringFormatter.duration(event.data!.duration);
+      String duration = StringFormatter.duration(event.data!.duration, false);
 
       if (fromPartnerProfile) {
         if (partnerOrgasms != null) {

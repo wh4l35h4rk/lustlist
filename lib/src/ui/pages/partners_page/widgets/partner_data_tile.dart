@@ -5,6 +5,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 
@@ -70,9 +71,9 @@ class PartnerDataTile extends StatelessWidget {
   String _formatBirthday() {
     DateTime? date = partner.birthday;
     if (date == null) {
-      return DataStrings.unknown;
+      return MiscStrings.unknown;
     }
-    final dateFormatted = DateFormatter.date(date);
+    final dateFormatted = DateFormatter.dateWithDay(date);
     return dateFormatted;
   }
 }

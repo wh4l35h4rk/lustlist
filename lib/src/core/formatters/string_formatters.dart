@@ -1,5 +1,4 @@
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 
 class StringFormatter {
@@ -9,7 +8,7 @@ class StringFormatter {
   }
   
   static String orgasmsAmount(int? orgasmsAmount) {
-    if (orgasmsAmount == null) return DataStrings.unknown;
+    if (orgasmsAmount == null) return MiscStrings.unknown;
 
     final String amountString = orgasmsAmount.toString();
     final String orgasmsString;
@@ -21,13 +20,14 @@ class StringFormatter {
     return "$amountString $orgasmsString";
   }
 
-  static String duration(DateTime? duration) {
+  
+  static String duration(DateTime? duration, bool isShort) {
     if (duration != null) {
       int hours = duration.hour;
       int minutes = duration.minute;
 
       if (hours == 0 && minutes == 0) {
-        return MiscStrings.durationUnknown;
+        return isShort ? MiscStrings.unknown : MiscStrings.durationUnknown;
       }
 
       String? hoursString;
@@ -52,12 +52,12 @@ class StringFormatter {
       final String timeString = [?hoursString, ?minutesString].join(" ");
       return timeString;
     } else {
-      return MiscStrings.durationUnknown;
+      return isShort ? MiscStrings.unknown : MiscStrings.durationUnknown;
     }
   }
 
   static String dateTimeTitle(DateTime date, DateTime time) {
-    final dateFormatted = DateFormatter.date(date);
+    final dateFormatted = DateFormatter.dateWithDay(date);
     final timeFormatted = DateFormatter.time(time);
     return "$dateFormatted, $timeFormatted";
   }

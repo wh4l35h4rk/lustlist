@@ -26,6 +26,12 @@ class AppColors {
   static CalendarColors calendar = CalendarColors();
   static CategoryTileColors categoryTile = CategoryTileColors();
   static AddEventColors addEvent = AddEventColors();
+
+  static Color? notesBottom(BuildContext context) => colorBlend(
+      AppColors.categoryTile.surface(context),
+      AppColors.surface(context),
+      0.5
+  );
 }
 
 

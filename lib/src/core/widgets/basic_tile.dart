@@ -4,26 +4,25 @@ class BasicTile extends StatelessWidget {
   final Color surfaceColor;
   final Widget child;
   final EdgeInsets margin;
-  final Border? border;
+  final EdgeInsets padding;
 
   const BasicTile({
     super.key,
     required this.surfaceColor,
     required this.child,
     this.margin = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-    this.border,
+    this.padding = const EdgeInsets.all(18.0)
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18.0),
+      padding: padding,
       margin: margin,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: surfaceColor,
-        border: border,
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),

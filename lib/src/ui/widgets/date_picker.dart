@@ -60,7 +60,7 @@ class _DatePickerState extends State<DatePicker> {
           ),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            DateFormatter.date(date),
+            DateFormatter.dateWithDay(date),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.coloredText(context)

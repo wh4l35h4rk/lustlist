@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 
@@ -36,52 +36,6 @@ class _TimePickerState extends State<TimePicker> {
     );
   }
 
-  String _getDurationString() {
-    int hours = time.hour;
-    int minutes = time.minute;
-
-    if (hours == 0 && minutes == 0) {
-      return "0 ${MiscStrings.mins}";
-    }
-
-    String? hoursString;
-    String? minutesString;
-
-    switch (hours) {
-      case 0:
-        hoursString = null;
-      case 1:
-        hoursString = "$hours ${MiscStrings.hour}";
-      default:
-        hoursString = "$hours ${MiscStrings.hours}";
-    }
-    switch (minutes) {
-      case 0:
-        minutesString = null;
-      case 1:
-        minutesString = "$minutes ${MiscStrings.min}";
-      default:
-        minutesString = "$minutes ${MiscStrings.mins}";
-    }
-
-    List<String> list = [?hoursString, ?minutesString];
-    return list.join(" ");
-  }
-
-  String _getTimeString(){
-    String hoursString = time.hour.toString();
-    String minutesSting = time.minute.toString();
-
-    if (time.hour < 10) {
-      hoursString = '0$hoursString';
-    }
-    if (time.minute < 10) {
-      minutesSting = '0$minutesSting';
-    }
-
-    return '$hoursString:$minutesSting';
-  }
-
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -106,7 +60,7 @@ class _TimePickerState extends State<TimePicker> {
           ),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            type == 1 ? _getDurationString() : _getTimeString(),
+            type == 1 ? StringFormatter.duration(time, true) : StringFormatter.time(time),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.coloredText(context)
