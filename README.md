@@ -1,16 +1,9 @@
 # lustlist
 
-A new Flutter project.
+a simple app to keep track of intimate part of your life.
 
-## Getting Started
+- keep track of your sexual life, no matter how many partners do you have;
+- write down additional details about the time you spent with your partners;
+- analyze your experiences to increase pleasure in the future.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+this app does not collect any data. all of your memories are stored locally on your device.
