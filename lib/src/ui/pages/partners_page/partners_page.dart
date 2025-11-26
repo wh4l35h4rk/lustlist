@@ -64,7 +64,7 @@ class _PartnersPageState extends State<PartnersPage> {
                   child: Text(
                     AlertStrings.noPartners,
                     style: TextStyle(
-                      color: AppColors.eventData.text(context),
+                      color: AppColors.defaultTile(context),
                       fontStyle: FontStyle.italic,
                       fontSize: AppSizes.textBasic
                     ),
@@ -109,14 +109,14 @@ class _PartnersPageState extends State<PartnersPage> {
               );
             }
           ),
-        Positioned(
-          bottom: 20,
-          right: 20,
-          child: FloatingActionButton(
-            onPressed: () => _onTap(AddPartnerPage()),
-            child: const Icon(Icons.add),
-          ),
-        )
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () => _onTap(AddPartnerPage()),
+              child: const Icon(Icons.add),
+            ),
+          )
       ]),
       bottomNavigationBar: MainBottomNavigationBar(
         context: context,
