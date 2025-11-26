@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
@@ -24,7 +24,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
           child: Text(_orgasmAmount[index].toString())
       );
     });
-    children.insert(0, Text(DataStrings.unknown));
+    children.insert(0, Text(MiscStrings.unknown));
 
     showCupertinoModalPopup<void>(
       context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/ui/pages/credits_page/credits_page.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partners_page.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -6,25 +7,17 @@ import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/ui/pages/options_page/widgets/options_listtile.dart';
 
 
-class OptionsPage extends StatefulWidget {
+class OptionsPage extends StatelessWidget {
   const OptionsPage({super.key});
-
-  @override
-  State<OptionsPage> createState() => _OptionsPageState();
-}
-
-
-class _OptionsPageState extends State<OptionsPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        AnimatedAppBar(title: PageTitleStrings.options),
+        AnimatedAppBar(
+          title: PageTitleStrings.options,
+          hasBackButton: false,
+        ),
         SliverList(
           delegate: SliverChildListDelegate([
             SizedBox(height: 15),
@@ -50,7 +43,7 @@ class _OptionsPageState extends State<OptionsPage> {
                 title: PageTitleStrings.credits,
                 subtitle: MiscStrings.creditsSubtitle,
                 iconData: Icons.code,
-                page: null
+                page: CreditsPage()
             ),
           ]),
         )

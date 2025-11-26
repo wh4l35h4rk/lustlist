@@ -20,7 +20,7 @@ class _StatsPageState extends State<StatsPage> {
   Widget build(BuildContext context) {
     return CustomScrollView(
         slivers: [
-          AnimatedAppBar(title: "Statistics"),
+          AnimatedAppBar(title: "Statistics", hasBackButton: false),
           SliverList(
             delegate: SliverChildListDelegate([
               SizedBox(height: 100),

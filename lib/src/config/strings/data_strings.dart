@@ -18,4 +18,6 @@ class DataStrings {
   static const String practices = "Practices";
   static const String poses = "Poses";
   static const String place = "Place";
+
+  static const String source = "Source code";
 }

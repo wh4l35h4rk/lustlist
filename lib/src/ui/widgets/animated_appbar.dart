@@ -7,10 +7,12 @@ import 'package:texture/texture.dart';
 
 class AnimatedAppBar extends StatelessWidget{
   final String title;
+  final bool hasBackButton;
 
   const AnimatedAppBar({
     super.key,
     required this.title,
+    required this.hasBackButton
   });
 
   @override
@@ -22,6 +24,11 @@ class AnimatedAppBar extends StatelessWidget{
       pinned: true,
       snap: false,
       floating: false,
+      leading: hasBackButton ? IconButton(
+        onPressed: () => Navigator.of(context).pop(),
+        icon: Icon(Icons.arrow_back_ios),
+        color: AppColors.appBar.icon(context)
+      ) : null,
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
       backgroundColor: AppColors.appBar.surface(context),
