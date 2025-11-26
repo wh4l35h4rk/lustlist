@@ -64,7 +64,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               ],
             ),
           ),
-          SizedBox(width: 6,),
+          SizedBox(width: 6),
           Expanded(
             flex: 2,
             child: Transform.scale(
@@ -91,7 +91,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               ),
             ),
           ),
-          SizedBox(width: 6,),
+          SizedBox(width: 6),
           Expanded(
             flex: 5,
             child: value ?

@@ -52,7 +52,7 @@ class CategoryTile extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 5,),
+          SizedBox(height: 5),
           FutureBuilder<Widget>(
             future: _getOptions(database, context),
             builder: (context, snapshot) {

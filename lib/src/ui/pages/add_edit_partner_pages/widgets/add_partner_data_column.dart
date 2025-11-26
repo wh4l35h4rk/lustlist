@@ -56,7 +56,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
             ),
           ],
         ),
-        SizedBox(height: 5,),
+        SizedBox(height: 5),
         NameForm(controller: widget.controller.nameController),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -69,7 +69,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
             titleColor: titleColor,
             child: Row(
               children: [
-                SizedBox(width: 3,),
+                SizedBox(width: 3),
                 DropdownButton<Gender>(
                   isDense: true,
                   value: selectedGender,

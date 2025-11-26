@@ -43,7 +43,7 @@ class StiTile extends StatelessWidget{
               ),
             ],
           ),
-          SizedBox(height: 5,),
+          SizedBox(height: 5),
           FutureBuilder<List<EOption>>(
             future: _getOptions(database, context, "sti"),
             builder: (context, snapshot) {
@@ -135,7 +135,7 @@ class StiTile extends StatelessWidget{
                                   else if (!snapshot.hasData) {
                                     return Row(
                                       children: [
-                                        Icon(Icons.question_mark, size: 15, color: AppColors.categoryTile.icon(context),),
+                                        Icon(Icons.question_mark, size: 15, color: AppColors.categoryTile.icon(context)),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,
@@ -149,7 +149,7 @@ class StiTile extends StatelessWidget{
                                   } else if (snapshot.hasError){
                                     return Row(
                                       children: [
-                                        Icon(Icons.bug_report, size: 15,),
+                                        Icon(Icons.bug_report, size: 15),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,

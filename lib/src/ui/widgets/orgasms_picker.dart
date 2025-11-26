@@ -49,7 +49,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
                 }
               },
               children: children
-            ),),
+            )),
       ),
     );
   }

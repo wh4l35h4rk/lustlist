@@ -48,7 +48,7 @@ class _MstbSwitchState extends State<MstbSwitch> {
             ],
           ),
         ),
-        SizedBox(width: 12,),
+        SizedBox(width: 12),
         Expanded(
           flex: 1,
           child: Column(

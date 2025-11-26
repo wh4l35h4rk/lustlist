@@ -98,15 +98,15 @@ class _PartnerProfileState extends State<PartnerProfile> {
             PartnerDataTile(
               partner: partner,
             ),
-            NotesTile(partner: partner,),
-            SizedBox(height: 20,),
+            NotesTile(partner: partner),
+            SizedBox(height: 20),
             FutureBuilder(
               future: partnerEventsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Column(
                     children: [
-                      const SizedBox(height: 80,),
+                      const SizedBox(height: 80),
                       const Center(child: CircularProgressIndicator()),
                     ],
                   );

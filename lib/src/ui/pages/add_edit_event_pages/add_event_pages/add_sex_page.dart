@@ -103,7 +103,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
             children: [
               BasicTile(
                 surfaceColor: AppColors.addEvent.surface(context),
-                margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5,),
+                margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
                 child: AddEditEventDataColumn(
                   controller: _dataController,
                   isMstb: false
@@ -137,7 +137,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
               AddNotesTile(
                 controller: _notesController,
               ),
-              SizedBox(height: 20,)
+              SizedBox(height: 20)
             ],
           );
         },

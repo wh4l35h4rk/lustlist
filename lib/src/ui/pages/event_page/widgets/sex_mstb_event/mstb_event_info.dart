@@ -36,7 +36,7 @@ class MstbEventInfo extends StatelessWidget {
             iconData: Icons.bed
         ),
         NotesTile(event: event),
-        SizedBox(height: 10,)
+        SizedBox(height: 10)
       ],
     );
   }

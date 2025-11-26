@@ -157,7 +157,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                 ),
               ],
             ),
-            SizedBox(height: 5,),
+            SizedBox(height: 5),
             Row(
               children: [
                 dataRow(CustomIcons.viruses, categoriesMap['sti']!.name, AppSizes.iconViruses, null),
@@ -173,7 +173,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                         isSti = value;
                         widget.controller.stiController.setValue(value);
                       });
-                    },),
+                    }),
                   ),
                 ),
 

@@ -106,7 +106,7 @@ class EventRepository {
   }
 
   
-  Future<void> loadEventData(int eventId, int rating, DateTime? duration, int? orgasmAmount, bool? didWatchPorn,) async {
+  Future<void> loadEventData(int eventId, int rating, DateTime? duration, int? orgasmAmount, bool? didWatchPorn) async {
     DateTime? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
 
     await db.insertEventData(
@@ -209,8 +209,9 @@ class EventRepository {
     return events.last.date;
   }
 
-  Future<List<Partner>> getPartnersSorted() async {
+  Future<List<Partner>> getPartnersSorted(bool withUnknown) async {
     List<Partner> partners = await db.allPartners;
+    final unknownPartner = await getUnknownPartner();
 
     Map<int, DateTime> dates = {};
     for (Partner p in partners) {
@@ -222,6 +223,14 @@ class EventRepository {
         return -1 * dates[a.id]!.compareTo(dates[b.id]!);
       });
     }
+
+    if (unknownPartner != null) {
+      partners.remove(unknownPartner);
+      if (withUnknown) {
+        partners.add(unknownPartner);
+      }
+    }
+
     return partners;
   }
 

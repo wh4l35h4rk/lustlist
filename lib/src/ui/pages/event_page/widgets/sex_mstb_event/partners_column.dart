@@ -45,7 +45,7 @@ class PartnersColumn extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 5,),
+        SizedBox(height: 5),
         event.partnersMap!.isEmpty ?
           Text(
             AlertStrings.noPartnersPassed,

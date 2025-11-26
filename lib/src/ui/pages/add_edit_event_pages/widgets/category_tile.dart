@@ -73,7 +73,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               ),
             ],
           ),
-          SizedBox(height: 5,),
+          SizedBox(height: 5),
           body ?? FutureBuilder(
               future: _optionsListFuture,
               builder: (context, snapshot) {

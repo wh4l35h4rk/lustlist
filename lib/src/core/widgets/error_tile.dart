@@ -27,7 +27,7 @@ class ErrorTile extends StatelessWidget {
               size: AppSizes.iconHelper,
               color: AppColors.categoryTile.leadingIcon(context),
             ),
-            SizedBox(width: 5,),
+            SizedBox(width: 5),
             Text(
               title,
               style: TextStyle(

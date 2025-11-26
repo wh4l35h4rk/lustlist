@@ -64,6 +64,13 @@ class AddEventColors {
           0.5
       )!;
 
+  Color buttonOnTap(BuildContext context) =>
+      colorBlend(
+          selectedSurface(context),
+          border(context),
+          0.5
+      )!;
+
   static CategoryTileColors categoryTile = CategoryTileColors();
 }
 

@@ -11,6 +11,7 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/add_partner_button.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.dart';
 import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
 
@@ -31,7 +32,7 @@ class SelectPartnersController {
     Partner? defaultPartner = await repo.getUnknownPartner();
     if (defaultPartner != null) {
       selectedPartners.value = {defaultPartner: 1};
-    }//TODO: make orgasms nullable
+    }
   }
 }
 
@@ -55,10 +56,26 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
 
   MapNotifier<Partner> get _selectedPartners => widget.controller.selectedPartners;
 
+
+  Future<void> addPartnerTap() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddPartnerPage(),
+      ),
+    );
+    if (result == true) {
+      _partnersListFuture = repo.getPartnersSorted(true);
+      await Future.delayed(Duration(milliseconds: 100));
+      setState(() {});
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
-    _partnersListFuture = repo.getPartnersSorted();
+    _partnersListFuture = repo.getPartnersSorted(true);
   }
 
   @override
@@ -137,7 +154,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        addPartnersButton(context),
+                        AddPartnerButton(context: context, onTap: addPartnerTap),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
                           child: Text(
@@ -151,7 +168,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                       ],
                     );
                   } else {
-                    Widget button = addPartnersButton(context);
+                    Widget button = AddPartnerButton(context: context, onTap: addPartnerTap);
                     List<Widget> buttonList = List.generate(
                         snapshot.data!.length, (index) =>
                         partnersListButton(context, snapshot.data![index])
@@ -224,41 +241,6 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
     );
   }
 
-  Widget addPartnersButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: InkWell(
-        onTap: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddPartnerPage(),
-            ),
-          );
-          if (result == true) {
-            await Future.delayed(Duration(milliseconds: 100));
-            setState(() {});
-          }
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: AppColors.addEvent.surface(context),
-            border: Border.all(
-              width: 1.2,
-              color: AppColors.addEvent.border(context),
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Icon(
-            Icons.add,
-            size: AppSizes.iconAdd,
-            color: AppColors.addEvent.icon(context),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget partnersListButton(BuildContext context, Partner partner) {
     return Padding(

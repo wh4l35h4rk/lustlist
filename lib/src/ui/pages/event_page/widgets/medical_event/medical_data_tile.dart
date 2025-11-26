@@ -21,7 +21,7 @@ class MedicalData extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.medical_services, color: AppColors.eventData.icon(context),),
+        Icon(Icons.medical_services, color: AppColors.eventData.icon(context)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: Text(
