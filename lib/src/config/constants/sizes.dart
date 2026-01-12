@@ -4,7 +4,7 @@ class AppSizes {
 
   static const double appbarLarge = 25;
   static const double appbarAnimated = 22;
-  static const double appbarBasic = 19;
+  static const double appbarBasic = 19.5;
 
   static const double titleLarge = 18;
   static const double titleSmall = 16;

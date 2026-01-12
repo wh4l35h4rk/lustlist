@@ -33,6 +33,7 @@ dependencies:
   provider: ^6.0.5
   texture: ^0.1.1
   url_launcher: ^6.3.2
+  marquee: ^2.3.0
 
 dev_dependencies:
   flutter_test:
