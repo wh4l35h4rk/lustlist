@@ -18,7 +18,7 @@ DateTime toDate(DateTime dateTime) {
 }
 
 final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
+final kFirstDay = defaultDate;
 final kLastDay = toDate(DateTime.now());
 
 const appTitle = "LustList";

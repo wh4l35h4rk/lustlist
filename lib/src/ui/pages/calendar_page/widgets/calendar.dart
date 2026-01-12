@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -173,15 +174,20 @@ class _CalendarState extends State<Calendar> {
                           return Positioned(
                             bottom: 1,
                             child: Row(
-                                children: List<Icon>.generate(events.length, (index) =>
-                                  Icon(
-                                    iconDataMap[events[index].getTypeId()],
-                                    size: 12,
-                                    color: (day.month == _focusedDay.value.month) ?
-                                      AppColors.calendar.eventIcon(context) :
-                                      AppColors.calendar.eventOtherMonthIcon(context)
-                                  ),
-                                )
+                              children: List<Widget>.generate(events.length, (index) {
+                                if (index >= maxCalendarEventsAmount) {
+                                  return SizedBox.shrink();
+                                }
+                                return Icon(
+                                  index == maxCalendarEventsAmount - 1 && events.length > maxCalendarEventsAmount
+                                    ? Icons.add
+                                    : iconDataMap[events[index].getTypeId()],
+                                  size: 12,
+                                  color: (day.month == _focusedDay.value.month) ?
+                                  AppColors.calendar.eventIcon(context) :
+                                  AppColors.calendar.eventOtherMonthIcon(context)
+                                );
+                              })
                             ),
                           );
                         }
