@@ -78,7 +78,6 @@ class TitleWidget extends StatelessWidget {
     )..layout();
 
     final bool overflow = textPainter.width > maxWidth;
-    print(overflow);
 
     if (overflow) {
       return SizedBox(
