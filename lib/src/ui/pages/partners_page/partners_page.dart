@@ -10,6 +10,7 @@ import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.dart';
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_listtile.dart';
+import 'package:lustlist/src/ui/pages/partners_page/widgets/partners_chart.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/main.dart';
@@ -74,8 +75,10 @@ class _PartnersPageState extends State<PartnersPage> {
 
               return ListView(
                 children: [
-                  //TODO: add sex distribution circle graph
-                  SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: PartnersChart(partners: partners),
+                  ),
                   ListView.builder(
                     itemCount: partners.length,
                     shrinkWrap: true,

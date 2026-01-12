@@ -26,6 +26,7 @@ class AppColors {
   static CalendarColors calendar = CalendarColors();
   static CategoryTileColors categoryTile = CategoryTileColors();
   static AddEventColors addEvent = AddEventColors();
+  static ChartColors chart = ChartColors();
 
   static Color? notesBottom(BuildContext context) => colorBlend(
       AppColors.categoryTile.surface(context),
@@ -176,5 +177,51 @@ class EventDataColors {
 
   Color border(BuildContext context) =>
       Theme.of(context).colorScheme.onPrimaryFixedVariant;
+}
+
+
+class ChartColors{
+  Color male(BuildContext context) =>
+      colorBlend(
+          Colors.lightBlue,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.4
+      )!;
+
+  Color female(BuildContext context) =>
+      colorBlend(
+          Colors.redAccent,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.4
+      )!;
+
+  Color nonbinary(BuildContext context) =>
+      colorBlend(
+          Colors.purpleAccent,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.6
+      )!;
+
+  Color femaleAccent(BuildContext context) =>
+      colorBlend(
+          Colors.redAccent,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.6
+      )!;
+
+  Color maleAccent(BuildContext context) =>
+      colorBlend(
+          Colors.lightBlue,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.6
+      )!;
+
+  Color nonbinaryAccent(BuildContext context) =>
+      colorBlend(
+          Colors.purpleAccent,
+          Theme.of(context).colorScheme.inversePrimary,
+          0.4
+      )!;
+
 }
 

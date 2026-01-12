@@ -22,4 +22,8 @@ class AppSizes {
   static const double iconPractices = 22;
   static const double iconPoses = 27;
   static const double iconObgyn = 29;
+
+  static const double roundChartSize = 200;
+  static const double badgeOffset = 1.05;
+  static const double badgeBorderWidth = 2;
 }
