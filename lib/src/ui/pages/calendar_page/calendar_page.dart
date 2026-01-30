@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar.dart';
@@ -11,7 +12,6 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
-
 import '../../../core/formatters/datetime_formatters.dart';
 
 
@@ -74,7 +74,7 @@ class _CalendarPageState extends State<CalendarPage> {
     _isLoading.value = false;
 
     eventsUpdated.addListener(() async {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: futureDelay));
       await _loadEvents();
       if (_selectedDay.value != null) {
         _selectedEvents.value = _getEventsForDay(_selectedDay.value!);

@@ -28,6 +28,8 @@ class AppSizes {
   static const double badgeBorderWidth = 2;
 
   static const double chartLineWidth = 3;
-  static const double leftChartTitles = 30;
+  static const double chartSideTitlesSpace = 30;
   static const double tooltipBorder = 1.5;
+
+  static const double progressIndicatorListPadding = 150;
 }

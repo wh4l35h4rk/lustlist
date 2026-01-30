@@ -1,46 +1,36 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
-import 'package:lustlist/src/domain/repository.dart';
 
 
 class LineChartYearly extends StatefulWidget {
-  const LineChartYearly({super.key});
+  const LineChartYearly({
+    super.key,
+    required this.sexSpots,
+    required this.mstbSpots,
+  });
+
+  final List<FlSpot> sexSpots;
+  final List<FlSpot> mstbSpots;
 
   @override
   State<StatefulWidget> createState() => LineChartYearlyState();
 }
 
 class LineChartYearlyState extends State<LineChartYearly> {
-  // late Future<Map<String, List<FlSpot>>> spotLists;
-  List<FlSpot>? sexSpots;
-  List<FlSpot>? mstbSpots;
+  late List<FlSpot> sexSpots = widget.sexSpots;
+  late List<FlSpot> mstbSpots = widget.mstbSpots;
 
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  void loadData() async {
-    final repo = EventRepository(database);
-    DateTime period = DateTime(1, 0, 0);
-    sexSpots = await repo.getSpotsListByMonth("sex", period);
-    mstbSpots = await repo.getSpotsListByMonth("masturbation", period);
-    setState(() {});
-    print(sexSpots);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (sexSpots == null) {
-      return const CircularProgressIndicator();
-    }
-
     return AspectRatio(
       aspectRatio: 1.1,
       child: Stack(
@@ -49,27 +39,32 @@ class LineChartYearlyState extends State<LineChartYearly> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 37
+                padding: const EdgeInsets.only(
+                  right: 8.0,
+                  left: 8.0,
+                  top: 37,
+                  bottom: 15
                 ),
                 child: Text(
-                  'Sex & masturbation in last year',
+                  'Last year dynamics',
                   style: TextStyle(
                     color: AppColors.title(context),
                     fontSize: AppSizes.titleLarge,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
+                    letterSpacing: 1.3,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 6),
+                  padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 10 + AppSizes.chartSideTitlesSpace
+                  ),
                   child: _LineChart(
-                    sexSpots: sexSpots!,
-                    mstbSpots: mstbSpots!,
+                    sexSpots: sexSpots,
+                    mstbSpots: mstbSpots,
                     sexLineColor: AppColors.chart.sexLine(context),
                     mstbLineColor: AppColors.chart.mstbLine(context),
                     surfaceColor: AppColors.bnb(context),
@@ -136,7 +131,33 @@ class _LineChart extends StatelessWidget {
           color: borderColor.withValues(alpha: 0.7)
       ),
       getTooltipColor: (touchedSpot) =>
-          surfaceColor.withValues(alpha: 0.5),
+          surfaceColor.withValues(alpha: 0.7),
+      getTooltipItems: (List<LineBarSpot> spots) {
+        return spots.asMap().entries.map((entry) {
+          final index = entry.key;
+          final flSpot = entry.value;
+
+          DateTime date = DateTime.fromMillisecondsSinceEpoch(flSpot.x.toInt());
+          String month = DateFormatter.month(date.month);
+
+          return LineTooltipItem(
+            index == 0 ? '$month\n' : '',
+            TextStyle(
+              color: borderColor,
+              fontWeight: FontWeight.bold,
+            ),
+            children: [
+              TextSpan(
+                text: flSpot.y.toString(),
+                style: TextStyle(
+                  color: flSpot.bar.color,
+                ),
+              ),
+            ],
+            textAlign: TextAlign.center,
+          );
+        }).toList();
+      },
     ),
   );
 
@@ -180,7 +201,7 @@ class _LineChart extends StatelessWidget {
     getTitlesWidget: leftTitleWidgets,
     showTitles: true,
     interval: 1,
-    reservedSize: 40,
+    reservedSize: AppSizes.chartSideTitlesSpace,
   );
 
 
@@ -191,7 +212,6 @@ class _LineChart extends StatelessWidget {
       fontSize: AppSizes.titleSmall,
     );
     DateTime date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
-    print(date);
     String text = DateFormatter.month(date.month);
 
     return SideTitleWidget(

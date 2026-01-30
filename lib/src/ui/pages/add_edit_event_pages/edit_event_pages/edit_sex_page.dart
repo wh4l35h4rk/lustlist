@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/main.dart';
+import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
-import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
-import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
-import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
-import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
-import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/select_partners_tile.dart';
-import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
-import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
-import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/main.dart';
-import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
+import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
-import 'package:lustlist/src/ui/controllers/edit_eventdata_controller.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
+import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/domain/entities/calendar_event.dart';
+import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
+import 'package:lustlist/src/ui/controllers/edit_eventdata_controller.dart';
+import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/select_partners_tile.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
+import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
+import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 
 
 class EditSexEventPage extends StatefulWidget{

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -137,7 +138,7 @@ class _PartnersPageState extends State<PartnersPage> {
     );
     if (result == true) {
       partnersFuture = repo.getPartnersWithDatesSorted(false);
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: futureDelay));
       setState(() {});
     }
   }
