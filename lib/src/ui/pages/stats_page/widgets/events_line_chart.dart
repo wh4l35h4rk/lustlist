@@ -8,6 +8,8 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/checkmark_legend_row.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/line_legend.dart';
 
 
 class LineChartYearly extends StatefulWidget {
@@ -28,6 +30,10 @@ class LineChartYearlyState extends State<LineChartYearly> {
   late List<FlSpot> sexSpots = widget.sexSpots;
   late List<FlSpot> mstbSpots = widget.mstbSpots;
 
+  bool _showSex = true;
+  bool _showMstb = true;
+
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +41,9 @@ class LineChartYearlyState extends State<LineChartYearly> {
 
   @override
   Widget build(BuildContext context) {
+    Color sexLineColor = AppColors.chart.sexLine(context);
+    Color mstbLineColor = AppColors.chart.mstbLine(context);
+
     return AspectRatio(
       aspectRatio: 1.1,
       child: Stack(
@@ -44,26 +53,62 @@ class LineChartYearlyState extends State<LineChartYearly> {
             children: <Widget>[
               Padding(
                 padding: AppInsets.chartTitle,
-                child: Text(
-                  DataStrings.lastYearChart,
-                  style: TextStyle(
-                    color: AppColors.title(context),
-                    fontSize: AppSizes.titleLarge,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: AppSizes.chartTitleSpacing,
-                  ),
-                  textAlign: TextAlign.center,
+                child: Column(
+                  children: [
+                    Text(
+                      DataStrings.lastYearChart,
+                      style: TextStyle(
+                        color: AppColors.title(context),
+                        fontSize: AppSizes.titleLarge,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: AppSizes.chartTitleSpacing,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    CheckmarkLegendRow(
+                      title: DataStrings.sex,
+                      iconData: _showSex ?
+                        Icons.check_box_outlined :
+                        Icons.check_box_outline_blank_outlined,
+                      onTap: () {
+                        setState(() {
+                          _showSex = !_showSex;
+                          if (!_showMstb) {
+                            _showMstb = true;
+                          }
+                        });
+                      },
+                      marker: LineLegend(color: sexLineColor, hasDots: true),
+                    ),
+                    CheckmarkLegendRow(
+                      title: DataStrings.mstb,
+                      iconData: _showMstb ?
+                        Icons.check_box_outlined :
+                        Icons.check_box_outline_blank_outlined,
+                      onTap: () {
+                        setState(() {
+                          _showMstb = !_showMstb;
+                          if (!_showSex) {
+                            _showSex = true;
+                          }
+                        });
+                      },
+                      marker: LineLegend(color: mstbLineColor, hasDots: true),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
                 child: Padding(
                   padding: AppInsets.lineChart,
                   child: _LineChart(
+                    showSex: _showSex,
+                    showMstb: _showMstb,
                     sexSpots: sexSpots,
                     mstbSpots: mstbSpots,
-                    sexLineColor: AppColors.chart.sexLine(context),
-                    mstbLineColor: AppColors.chart.mstbLine(context),
-                    surfaceColor: AppColors.bnb(context),
+                    sexLineColor: sexLineColor,
+                    mstbLineColor: mstbLineColor,
+                    surfaceColor: AppColors.chart.tooltipSurface(context),
                     borderColor: AppColors.primary(context),
                   ),
                 ),
@@ -83,6 +128,8 @@ class LineChartYearlyState extends State<LineChartYearly> {
 
 class _LineChart extends StatelessWidget {
   const _LineChart({
+    required this.showSex,
+    required this.showMstb,
     required this.sexSpots,
     required this.mstbSpots,
     required this.sexLineColor,
@@ -97,6 +144,9 @@ class _LineChart extends StatelessWidget {
   final Color mstbLineColor;
   final Color surfaceColor;
   final Color borderColor;
+
+  final bool showSex;
+  final bool showMstb;
 
 
   @override
@@ -246,10 +296,24 @@ class _LineChart extends StatelessWidget {
 
 
   // lines data
-  List<LineChartBarData> get lineBarsData => [
-    mstbLineChartBarData,
-    sexLineChartBarData,
-  ];
+  List<LineChartBarData> get lineBarsData {
+    if (showMstb && showSex) {
+      return [
+        mstbLineChartBarData,
+        sexLineChartBarData,
+      ];
+    } else if (!showMstb) {
+      return [
+        sexLineChartBarData,
+      ];
+    } else if (!showSex) {
+      return [
+        mstbLineChartBarData,
+      ];
+    } else {
+      return [];
+    }
+  }
 
   LineChartBarData get sexLineChartBarData => LineChartBarData(
     isCurved: true,

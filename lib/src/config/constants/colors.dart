@@ -12,6 +12,9 @@ class AppColors {
   static Color primary(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
 
+  static Color icon(BuildContext context) =>
+      Theme.of(context).colorScheme.secondary;
+
   static Color defaultTile(BuildContext context) =>
       Theme.of(context).colorScheme.outline;
 
@@ -218,5 +221,10 @@ class ChartColors{
         Theme.of(context).colorScheme.secondary, 0.1
       )!;
 
+  Color tooltipSurface(BuildContext context) =>
+      colorBlend(
+          Theme.of(context).colorScheme.surface,
+          Theme.of(context).colorScheme.secondaryContainer, 0.5
+      )!;
 }
 

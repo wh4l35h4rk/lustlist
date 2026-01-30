@@ -1,4 +1,8 @@
 class DataStrings {
+  static const String sex = "Sex";
+  static const String mstb = "Masturbation";
+  static const String medical = "Medical";
+
   static const String date = "Date";
   static const String time = "Time";
   static const String name = "Name";
