@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -12,21 +16,19 @@ class EventRepository {
   final AppDatabase db;
   EventRepository(this.db);
 
-  DateTime normalizeDate(DateTime date) => DateTime(date.year, date.month, date.day);
-
   int sortTime(DateTime a, DateTime b) {
-    final t1 = DateTime(1, 1, 1, a.hour, a.minute);
-    final t2 = DateTime(1, 1, 1, b.hour, b.minute);
+    final t1 = DateFormatter.timeOnly(a);
+    final t2 = DateFormatter.timeOnly(b);
 
     if (t1.hour != t2.hour) return t1.hour.compareTo(t2.hour);
     return t1.minute.compareTo(t2.minute);
   }
 
   int sortDateTime(Event a, Event b) {
-    final d1 = DateTime(a.date.year, a.date.month, a.date.day, 0, 0);
-    final d2 = DateTime(b.date.year, b.date.month, b.date.day, 0, 0);
-    final t1 = DateTime(1, 1, 1, a.time.hour, a.time.minute);
-    final t2 = DateTime(1, 1, 1, b.time.hour, b.time.minute);
+    final d1 = DateFormatter.dateOnly(a.date);
+    final d2 = DateFormatter.dateOnly(b.date);
+    final t1 = DateFormatter.timeOnly(a.date);
+    final t2 = DateFormatter.timeOnly(b.date);
 
     if (d1.year == d2.year) {
       if (d1.month == d2.month) {
@@ -47,6 +49,20 @@ class EventRepository {
     }
   }
 
+
+  DateTime addMonth(DateTime date) {
+    var year = date.year + ((date.month + 1) ~/ 12);
+    var month = (date.month + 1) % 12;
+    // if (month == 0) month = 12;
+    var day = date.day;
+
+    if (day > 28) {
+      day = min(day, DateTime(year, month + 1, 0).day);
+    }
+    return DateTime(year, month, day, date.hour, date.minute, date.second, date.millisecond, date.microsecond);
+  }
+
+
   Future getEventSource() async {
     final allEvents = await db.allEvents;
     List<CalendarEvent> testEventList = [];
@@ -55,11 +71,14 @@ class EventRepository {
       CalendarEvent event = await dbToCalendarEvent(e);
       testEventList.add(event);
     }
-    final eventDates = List.generate(testEventList.length, (index) => normalizeDate(testEventList[index].event.date));
+    final eventDates = List.generate(
+        testEventList.length,
+        (index) => DateFormatter.dateOnly(testEventList[index].event.date)
+    );
 
     final eventMap = {
       for (var date in eventDates)
-        date : testEventList.where((element) => normalizeDate(element.event.date) == date).toList()
+        date : testEventList.where((element) => DateFormatter.dateOnly(element.event.date) == date).toList()
     };
     for (var v in eventMap.values){
       v.sort((a, b) => sortTime(a.event.time, b.event.time));
@@ -183,6 +202,7 @@ class EventRepository {
     );
   }
 
+
   Future<int> loadPartner(String name, Gender gender, DateTime? birthday, String notes) async {
     int partnerId = await db.insertPartner(
       PartnersCompanion.insert(
@@ -193,6 +213,53 @@ class EventRepository {
       )
     );
     return partnerId;
+  }
+
+  
+  Future<Map<DateTime, int>> getEventAmountAfterDate(String typeSlug, DateTime afterDate) async {
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    Map<DateTime, int> map = await db.getEventsAmountAfterDateGroupByMonth(typeId, afterDate);
+    return map;
+  }
+
+  Future<List<FlSpot>> getSpotsListByMonth(String typeSlug, DateTime period) async {
+    // get date range from current datetime and period
+    DateTime date2 = DateTime.now();
+    DateTime date1 = DateTime(
+      date2.year - period.year,
+      date2.month - period.month,
+      date2.day - period.day,
+    );
+
+    // form list of months to be displayed on X-axis of chart
+    List<DateTime> dates = [];
+    DateTime dummyDate = date1;
+    while (dummyDate.isBefore(date2)) {
+      DateTime newDate = addMonth(dummyDate);
+      dummyDate = newDate;
+      dates.add(DateFormatter.dateOnly(newDate));
+    }
+    dates.removeLast();
+
+    // get map of amount of events corresponding to their time period
+    var dbMap = await getEventAmountAfterDate(typeSlug, date1);
+    var formattedMap = {};
+    for (var k in dbMap.keys) {
+      DateTime key = DateFormatter.yearMonthOnly(k);
+      formattedMap[key] = dbMap[k]!;
+    }
+
+    // if there are events in a month, write them to map, otherwise write zero
+    List<FlSpot> list = [];
+    for (var d in dates){
+      d = DateFormatter.yearMonthOnly(d);
+      if (formattedMap[d] != null) {
+        list.add(FlSpot(d.millisecondsSinceEpoch.toDouble(), formattedMap[d]!.toDouble()));
+      } else {
+        list.add(FlSpot(d.millisecondsSinceEpoch.toDouble(), 0));
+      }
+    }
+    return list;
   }
 
 
@@ -279,7 +346,7 @@ class EventRepository {
     final event1Id = await db.insertEvent(
         EventsCompanion.insert(
           typeId: sexTypeId,
-          date: DateTime(2025, DateTime.now().month - 1, DateTime.now().day),
+          date: DateTime(DateTime.now().year - 1, DateTime.now().month, DateTime.now().day),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20)),
           notes: Value("The following is a partial list of minor planets, running from minor-planet number 571001 through 572000, inclusive. The primary data for this and other partial lists is based on JPL's Small-Body Orbital Elements and data available from the Minor Planet Center. Critical list information is also provided by the MPC, unless otherwise specified from Lowell Observatory. A detailed description of the table's columns and additional sources are given on the main page including a complete list of every page in this series, and a statistical break-up on the dynamical classification of minor planets."),
         )
@@ -287,29 +354,36 @@ class EventRepository {
     final event2Id = await db.insertEvent(
         EventsCompanion.insert(
             typeId: mstbTypeId,
-            date: DateTime(2025, DateTime.now().month, DateTime.now().day),
+            date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
             time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 8, 10))
         )
     );
     final event3Id = await db.insertEvent(
         EventsCompanion.insert(
           typeId: medTypeId,
-          date: DateTime(2025, DateTime.now().month, DateTime.now().day - 1),
+          date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 1),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 0)),
         )
     );
     final event4Id = await db.insertEvent(
         EventsCompanion.insert(
           typeId: sexTypeId,
-          date: DateTime(2025, DateTime.now().month - 1, DateTime.now().day - 3),
+          date: DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day - 3),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 30)),
         )
     );
     final event5Id = await db.insertEvent(
         EventsCompanion.insert(
           typeId: medTypeId,
-          date: DateTime(2025, DateTime.now().month - 1, DateTime.now().day + 2),
+          date: DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day + 2),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 19, 30)),
+        )
+    );
+    final event6Id = await db.insertEvent(
+        EventsCompanion.insert(
+          typeId: sexTypeId,
+          date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 3),
+          time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 30)),
         )
     );
 
@@ -337,6 +411,14 @@ class EventRepository {
           didWatchPorn: Value(false),
         )
     );
+    await db.insertEventData(
+        EventDataTableCompanion.insert(
+          eventId: event6Id,
+          rating: 4,
+          userOrgasms: Value(1),
+          duration: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 40)),
+        )
+    );
 
     await db.insertEventPartner(
         EventsPartnersCompanion.insert(
@@ -357,6 +439,13 @@ class EventRepository {
             eventId: event4Id,
             partnerId: partnerId2,
             partnerOrgasms: Value(2)
+        )
+    );
+    await db.insertEventPartner(
+        EventsPartnersCompanion.insert(
+            eventId: event6Id,
+            partnerId: partnerId3,
+            partnerOrgasms: Value(0)
         )
     );
 

@@ -47,11 +47,9 @@ class _PartnersChartState extends State<PartnersChart> {
                         pieTouchResponse.touchedSection == null ||
                         touchedIndex != -1) {
                       touchedIndex = -1;
-                      print(touchedIndex);
                       return;
                     }
                     touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    print(touchedIndex);
                   });
                 },
               ),
@@ -172,7 +170,7 @@ class _PartnersChartState extends State<PartnersChart> {
             badgeWidget: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: AppColors.chart.nonbinary(context),
+                        color: AppColors.chart.nonbinary(context),
                       width: borderWidth
                   ),
                   shape: BoxShape.circle,
@@ -201,33 +199,33 @@ class _PartnersChartState extends State<PartnersChart> {
       children: <Widget>[
         _getPartnersGenderAmount(widget.partners, Gender.female) != 0
             ? Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
-          child: LegendRow(
-            color: AppColors.chart.female(context),
-            text: Gender.female.label,
-            isSquare: false,
-          ),
-        )
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: LegendRow(
+                color: AppColors.chart.female(context),
+                text: Gender.female.label,
+                isSquare: false,
+              ),
+            )
             : SizedBox.shrink(),
         _getPartnersGenderAmount(widget.partners, Gender.male) != 0
             ? Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
-          child: LegendRow(
-            color: AppColors.chart.male(context),
-            text: Gender.male.label,
-            isSquare: false,
-          ),
-        )
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: LegendRow(
+                color: AppColors.chart.male(context),
+                text: Gender.male.label,
+                isSquare: false,
+              ),
+            )
             : SizedBox.shrink(),
         _getPartnersGenderAmount(widget.partners, Gender.nonbinary) != 0
             ? Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
-          child: LegendRow(
-            color: AppColors.chart.nonbinary(context),
-            text: Gender.nonbinary.label,
-            isSquare: false,
-          ),
-        )
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: LegendRow(
+                color: AppColors.chart.nonbinary(context),
+                text: Gender.nonbinary.label,
+                isSquare: false,
+              ),
+            )
             : SizedBox.shrink()
       ],
     );

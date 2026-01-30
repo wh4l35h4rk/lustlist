@@ -64,6 +64,39 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(events)).toList();
   }
 
+  Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByMonth(int typeId, DateTime date) async {
+    final amountOfEvents = events.id.count();
+    final eventsYear = events.date.year;
+    final eventsMonth = events.date.month;
+
+    final query = select(types).join([
+      innerJoin(
+        events,
+        events.typeId.equalsExp(types.id),
+        useColumns: false,
+      ),
+    ])..where(
+        events.typeId.equals(typeId) &
+        events.date.isBiggerThanValue(date)
+    );
+    query
+      ..addColumns([eventsYear, eventsMonth, amountOfEvents])
+      ..groupBy([types.id, eventsYear, eventsMonth]);
+
+    final result = await query.get();
+
+    Map<DateTime, int> resultMap = {};
+    for (final row in result) {
+      int? amount = row.read(amountOfEvents);
+      int? year = row.read(eventsYear);
+      int? month = row.read(eventsMonth);
+      if (year != null && month != null && amount != null) {
+        DateTime date = DateTime(year, month);
+        resultMap[date] = amount;
+      }
+    }
+    return resultMap;
+  }
 
   // Get EventData
   Future<EventData?> getDataById(int id) async {

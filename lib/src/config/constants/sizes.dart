@@ -26,4 +26,8 @@ class AppSizes {
   static const double roundChartSize = 200;
   static const double badgeOffset = 1.05;
   static const double badgeBorderWidth = 2;
+
+  static const double chartLineWidth = 3;
+  static const double leftChartTitles = 30;
+  static const double tooltipBorder = 1.5;
 }

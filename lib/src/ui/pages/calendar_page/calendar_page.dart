@@ -12,6 +12,8 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_m
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
 
+import '../../../core/formatters/datetime_formatters.dart';
+
 
 List<IconData> iconsData = [Icons.favorite, Icons.front_hand, Icons.medical_services];
 
@@ -45,7 +47,7 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   List<CalendarEvent> _getEventsForDay(DateTime day) {
-    final normalizedDay = repo.normalizeDate(day);
+    final normalizedDay = DateFormatter.dateOnly(day);
     return _events.value[normalizedDay] ?? [];
   }
 

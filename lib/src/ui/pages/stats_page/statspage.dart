@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/events_line_chart.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 
 
@@ -23,8 +24,7 @@ class _StatsPageState extends State<StatsPage> {
           AnimatedAppBar(title: "Statistics", hasBackButton: false),
           SliverList(
             delegate: SliverChildListDelegate([
-              SizedBox(height: 100),
-              Center(child: CircularProgressIndicator())
+              LineChartYearly()
             ]),
           ),
         ]

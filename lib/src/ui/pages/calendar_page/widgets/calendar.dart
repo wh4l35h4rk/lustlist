@@ -56,12 +56,12 @@ class _CalendarState extends State<Calendar> {
   }
 
   List<CalendarEvent> _getEventsForDay(DateTime day) {
-    final normalizedDay = repo.normalizeDate(day);
+    final normalizedDay = DateFormatter.dateOnly(day);
     return widget.events.value[normalizedDay] ?? [];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    final normalizedSelectedDay = repo.normalizeDate(selectedDay);
+    final normalizedSelectedDay = DateFormatter.dateOnly(selectedDay);
 
     if (!isSameDay(_selectedDay.value, normalizedSelectedDay)) {
       setState(() {

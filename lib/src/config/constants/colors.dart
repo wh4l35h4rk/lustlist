@@ -33,6 +33,8 @@ class AppColors {
       AppColors.surface(context),
       0.5
   );
+
+  static Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
 }
 
 
@@ -74,7 +76,6 @@ class AddEventColors {
 
   static CategoryTileColors categoryTile = CategoryTileColors();
 }
-
 
 class CategoryTileColors {
   Color surface(BuildContext context) =>
@@ -181,46 +182,40 @@ class EventDataColors {
 
 
 class ChartColors{
-  Color male(BuildContext context) =>
-      colorBlend(
-          Colors.lightBlue,
-          Theme.of(context).colorScheme.inversePrimary,
-          0.4
-      )!;
+  Color blendColor(BuildContext context) => Theme.of(context).colorScheme.inversePrimary;
 
+  Color male(BuildContext context) =>
+      colorBlend(Colors.lightBlue, blendColor(context), 0.4)!;
   Color female(BuildContext context) =>
-      colorBlend(
-          Colors.redAccent,
-          Theme.of(context).colorScheme.inversePrimary,
-          0.4
-      )!;
+      colorBlend(Colors.redAccent, blendColor(context), 0.4)!;
 
   Color nonbinary(BuildContext context) =>
       colorBlend(
-          Colors.purpleAccent,
-          Theme.of(context).colorScheme.inversePrimary,
-          0.6
+          colorBlend(
+              Colors.deepPurpleAccent,
+              Colors.purpleAccent,
+              0.5
+          )!,
+          blendColor(context),
+          0.4
       )!;
 
   Color femaleAccent(BuildContext context) =>
-      colorBlend(
-          Colors.redAccent,
-          Theme.of(context).colorScheme.inversePrimary,
-          0.6
-      )!;
-
+      colorBlend(female(context), blendColor(context), 0.6)!;
   Color maleAccent(BuildContext context) =>
-      colorBlend(
-          Colors.lightBlue,
-          Theme.of(context).colorScheme.inversePrimary,
-          0.6
-      )!;
-
+      colorBlend(male(context), blendColor(context), 0.6)!;
   Color nonbinaryAccent(BuildContext context) =>
+      colorBlend(nonbinary(context), blendColor(context), 0.6)!;
+
+  Color sexLine(BuildContext context) =>
       colorBlend(
-          Colors.purpleAccent,
-          Theme.of(context).colorScheme.inversePrimary,
-          0.4
+        blendColor(context),
+        Theme.of(context).colorScheme.secondary, 0.7)!;
+  
+  Color mstbLine(BuildContext context) =>
+      colorBlend(
+        blendColor(context),
+        Theme.of(context).colorScheme.secondary, 0.1
       )!;
 
 }
