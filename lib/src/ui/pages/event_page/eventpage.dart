@@ -150,7 +150,7 @@ class _EventPageState extends State<EventPage> {
                 ),
                 child: const Text(
                   ButtonStrings.eventReturn,
-                  style: TextStyle(fontSize: AppSizes.alertButton),
+                  style: TextStyle(fontSize: AppSizes.alertButtonText),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -170,7 +170,7 @@ class _EventPageState extends State<EventPage> {
                 child: Text(
                   ButtonStrings.delete,
                   style: TextStyle(
-                    fontSize: AppSizes.alertButton,
+                    fontSize: AppSizes.alertButtonText,
                     color: AppColors.appBar.text(context)
                   ),
                 ),

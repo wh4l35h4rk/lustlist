@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/events_line_chart.dart';
@@ -91,12 +91,12 @@ class _StatsPageState extends State<StatsPage> {
             delegate: SliverChildListDelegate([
               _isLoading ?
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppSizes.progressIndicatorListPadding),
+                padding: AppInsets.progressInList,
                 child: Center(child: CircularProgressIndicator()),
               ) : SizedBox.shrink(),
               _isError ?
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppSizes.progressIndicatorListPadding),
+                padding: AppInsets.progressInList,
                 child: ErrorTile(),
               ) : SizedBox.shrink(),
           ])) :

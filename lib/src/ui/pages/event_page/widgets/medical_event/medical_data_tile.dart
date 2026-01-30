@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -23,7 +24,7 @@ class MedicalData extends StatelessWidget{
       children: [
         Icon(Icons.medical_services, color: AppColors.eventData.icon(context)),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
+          padding: AppInsets.dataIcon,
           child: Text(
             StringFormatter.colon(DataStrings.type),
             style: TextStyle(

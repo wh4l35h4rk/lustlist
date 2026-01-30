@@ -1,9 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
 
 class LineChartYearly extends StatefulWidget {
@@ -39,29 +43,21 @@ class LineChartYearlyState extends State<LineChartYearly> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(
-                  right: 8.0,
-                  left: 8.0,
-                  top: 37,
-                  bottom: 15
-                ),
+                padding: AppInsets.chartTitle,
                 child: Text(
-                  'Last year dynamics',
+                  DataStrings.lastYearChart,
                   style: TextStyle(
                     color: AppColors.title(context),
                     fontSize: AppSizes.titleLarge,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.3,
+                    letterSpacing: AppSizes.chartTitleSpacing,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 10 + AppSizes.chartSideTitlesSpace
-                  ),
+                  padding: AppInsets.lineChart,
                   child: _LineChart(
                     sexSpots: sexSpots,
                     mstbSpots: mstbSpots,
@@ -141,7 +137,7 @@ class _LineChart extends StatelessWidget {
           String month = DateFormatter.month(date.month);
 
           return LineTooltipItem(
-            index == 0 ? '$month\n' : '',
+            index == 0 ? StringFormatter.endl(month) : MiscStrings.emptyString,
             TextStyle(
               color: borderColor,
               fontWeight: FontWeight.bold,
@@ -223,7 +219,7 @@ class _LineChart extends StatelessWidget {
 
   SideTitles get bottomTitles => SideTitles(
     showTitles: true,
-    reservedSize: 30,
+    reservedSize: AppSizes.chartBottomTitlesSpace,
     interval: monthInMs * 3,
     getTitlesWidget: bottomTitleWidgets,
   );
@@ -241,7 +237,7 @@ class _LineChart extends StatelessWidget {
     show: true,
     border: Border(
       bottom: BorderSide(
-          color: Colors.black.withValues(alpha: 0.2), width: 3),
+          color: Colors.black.withValues(alpha: 0.2), width: AppSizes.chartBorder),
       left: const BorderSide(color: Colors.transparent),
       right: const BorderSide(color: Colors.transparent),
       top: const BorderSide(color: Colors.transparent),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 
@@ -20,12 +21,9 @@ class OptionsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 12.0,
-        vertical: 6.0,
-      ),
+      margin: AppInsets.optionsListTile,
       decoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.circular(12),
+        borderRadius: BorderRadiusGeometry.circular(AppSizes.listTileBorderRadius),
         border: Border.all(
             color: AppColors.calendar.border(context)
         ),

@@ -14,6 +14,7 @@ import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_listtile.dar
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partners_chart.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/main.dart';
 
 
@@ -77,7 +78,7 @@ class _PartnersPageState extends State<PartnersPage> {
               return ListView(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(40.0),
+                    padding: AppInsets.pieChart,
                     child: PartnersChart(partners: partners),
                   ),
                   ListView.builder(
@@ -89,9 +90,9 @@ class _PartnersPageState extends State<PartnersPage> {
                       return Column(
                         children: [
                           index == 0 ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: AppInsets.divider,
                             child: Divider(
-                                height: 0
+                                height: AppSizes.dividerMinimal,
                             ),
                           ) : SizedBox.shrink(),
                           PartnerListTile(
@@ -100,9 +101,9 @@ class _PartnersPageState extends State<PartnersPage> {
                             lastDate: partner.lastDate,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: AppInsets.divider,
                             child: Divider(
-                                height: 0
+                                height: AppSizes.dividerMinimal,
                             ),
                           )
                         ],

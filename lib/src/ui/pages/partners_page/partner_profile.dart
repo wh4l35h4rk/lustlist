@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -19,6 +20,7 @@ import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 
 
 class PartnerProfile extends StatefulWidget {
@@ -69,7 +71,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               if (result == true) {
                 partnerChanged = true;
                 await reloadPartner(database);
-                await Future.delayed(Duration(milliseconds: 100));
+                await Future.delayed(Duration(milliseconds: futureDelay));
                 setState(() {});
               }
             },
@@ -104,11 +106,9 @@ class _PartnerProfileState extends State<PartnerProfile> {
               future: partnerEventsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    children: [
-                      const SizedBox(height: 80),
-                      const Center(child: CircularProgressIndicator()),
-                    ],
+                  return Padding(
+                    padding: AppInsets.progressInList,
+                    child: Center(child: CircularProgressIndicator()),
                   );
                 } else if (snapshot.hasError || !snapshot.hasData) {
                   return ErrorTile();
@@ -177,9 +177,9 @@ class _PartnerProfileState extends State<PartnerProfile> {
                               onTap: () => _onEventListTileTap(event),
                             ),
                             index != events.length - 1 ? Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: AppInsets.divider,
                               child: Divider(
-                                  height: 0
+                                height: AppSizes.dividerMinimal,
                               ),
                             ) : SizedBox.shrink(),
                           ],
@@ -222,11 +222,11 @@ class _PartnerProfileState extends State<PartnerProfile> {
             actions: [
               MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(AppSizes.alertButtonRadius),
                 ),
                 child: const Text(
                   ButtonStrings.partnerReturn,
-                  style: TextStyle(fontSize: AppSizes.alertButton),
+                  style: TextStyle(fontSize: AppSizes.alertButtonText),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -242,12 +242,12 @@ class _PartnerProfileState extends State<PartnerProfile> {
                   },
                   color: AppColors.appBar.surface(context),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.circular(AppSizes.alertButtonRadius),
                   ),
                   child: Text(
                     ButtonStrings.delete,
                     style: TextStyle(
-                        fontSize: AppSizes.alertButton,
+                        fontSize: AppSizes.alertButtonText,
                         color: AppColors.appBar.text(context)
                     ),
                   ),
@@ -294,7 +294,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
     if (result == true) {
       partnerChanged = true;
       partnerEventsFuture = _loadPartnerEvents(database);
-      await Future.delayed(Duration(milliseconds: 200));
+      await Future.delayed(Duration(milliseconds: futureDelay));
       setState(() {});
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/calendar_page.dart';
 
 class AddEventFloatingButton extends StatelessWidget {
@@ -24,7 +25,7 @@ class AddEventFloatingButton extends StatelessWidget {
           child: const Icon(Icons.add),
         );
       },
-      alignmentOffset: Offset(-5, 10),
+      alignmentOffset: AppInsets.floatingButtonOffset,
       style: MenuStyle(
           shape: WidgetStateProperty.all(
               RoundedRectangleBorder(

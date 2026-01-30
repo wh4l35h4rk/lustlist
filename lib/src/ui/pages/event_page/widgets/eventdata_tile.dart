@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
@@ -24,7 +25,7 @@ class EventDataTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicTile(
       surfaceColor: AppColors.eventData.surface(context),
-      margin: const EdgeInsets.all(10),
+      margin: AppInsets.headerTile,
       child: buildTileBottom(context),
     );
   }
@@ -38,7 +39,7 @@ class EventDataTile extends StatelessWidget {
           children: [
             EventDataColumn(event: event),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+              padding: AppInsets.dataDivider,
               child: Divider()
             ),
             PartnersColumn(event: event),

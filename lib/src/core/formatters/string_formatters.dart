@@ -6,6 +6,10 @@ class StringFormatter {
   static String colon(String s){
     return "$s:";
   }
+
+  static String endl(String s){
+    return "$s\n";
+  }
   
   static String orgasmsAmount(int? orgasmsAmount) {
     if (orgasmsAmount == null) return MiscStrings.unknown;

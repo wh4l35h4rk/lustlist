@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -90,7 +91,7 @@ class StiTile extends StatelessWidget{
                                   border: Border.all(
                                     color: AppColors.categoryTile.border(context),
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
                                 ),
                                 child: Text(
                                   option.name,
@@ -135,7 +136,11 @@ class StiTile extends StatelessWidget{
                                   else if (!snapshot.hasData) {
                                     return Row(
                                       children: [
-                                        Icon(Icons.question_mark, size: 15, color: AppColors.categoryTile.icon(context)),
+                                        Icon(
+                                          Icons.question_mark,
+                                          size: AppSizes.iconSmall,
+                                          color: AppColors.categoryTile.icon(context)
+                                        ),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,
@@ -149,7 +154,7 @@ class StiTile extends StatelessWidget{
                                   } else if (snapshot.hasError){
                                     return Row(
                                       children: [
-                                        Icon(Icons.bug_report, size: 15),
+                                        Icon(Icons.bug_report, size: AppSizes.iconSmall),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,
@@ -168,7 +173,7 @@ class StiTile extends StatelessWidget{
 
                                   return Row(
                                     children: [
-                                      Icon(iconData, size: 15),
+                                      Icon(iconData, size: AppSizes.iconSmall),
                                       const SizedBox(width: 5),
                                       Text(
                                         label,

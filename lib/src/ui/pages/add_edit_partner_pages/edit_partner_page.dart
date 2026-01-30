@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -67,7 +68,7 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
         children: [
           BasicTile(
             surfaceColor: AppColors.addEvent.surface(context),
-            margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
+            margin: AppInsets.addDataMargin,
             child: AddEditPartnerDataColumn(
               controller: _dataController
             )

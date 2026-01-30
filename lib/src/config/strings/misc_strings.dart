@@ -1,4 +1,6 @@
 class MiscStrings {
+  static const String emptyString = "";
+
   static const String loading = "Loading...";
   static const String errorLoadingData = "Error loading data";
   static const String notStated = "Not stated";

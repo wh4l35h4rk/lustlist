@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -107,7 +108,7 @@ class _PartnersChartState extends State<PartnersChart> {
                   color: AppColors.surface(context),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: AppInsets.chartIcon,
                   child: Icon(
                       Gender.female.iconData,
                       size: iconSize,
@@ -142,7 +143,7 @@ class _PartnersChartState extends State<PartnersChart> {
                   color: AppColors.surface(context),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: AppInsets.chartIcon,
                   child: Icon(
                       Gender.male.iconData,
                       size: iconSize,
@@ -177,7 +178,7 @@ class _PartnersChartState extends State<PartnersChart> {
                   color: AppColors.surface(context),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: AppInsets.chartIcon,
                   child: Icon(
                       Gender.nonbinary.iconData,
                       size: iconSize,
@@ -199,7 +200,7 @@ class _PartnersChartState extends State<PartnersChart> {
       children: <Widget>[
         _getPartnersGenderAmount(widget.partners, Gender.female) != 0
             ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.female(context),
                 text: Gender.female.label,
@@ -209,7 +210,7 @@ class _PartnersChartState extends State<PartnersChart> {
             : SizedBox.shrink(),
         _getPartnersGenderAmount(widget.partners, Gender.male) != 0
             ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.male(context),
                 text: Gender.male.label,
@@ -219,7 +220,7 @@ class _PartnersChartState extends State<PartnersChart> {
             : SizedBox.shrink(),
         _getPartnersGenderAmount(widget.partners, Gender.nonbinary) != 0
             ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.nonbinary(context),
                 text: Gender.nonbinary.label,

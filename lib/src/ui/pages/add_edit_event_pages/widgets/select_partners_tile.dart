@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -87,7 +88,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         children: [
           listAllTile(context),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: AppInsets.dataDivider,
             child: Divider(),
           ),
           listSelectedTile(context)

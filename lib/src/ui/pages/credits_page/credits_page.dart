@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/credits_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -64,7 +65,7 @@ class CreditsPage extends StatelessWidget {
                     )
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 6),
+                  padding: AppInsets.highDivider,
                   child: Divider(),
                 ),
                 SourceCodeButton()
@@ -92,42 +93,39 @@ class SourceCodeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0),
-        child: OutlinedButton(
-          onPressed: () async {await goToWebPage(CreditsStrings.link);},
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return null;
-              }
-              return AppColors.categoryTile.surface(context);
-            },
-            ),
-            side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
-              return BorderSide(color: AppColors.categoryTile.border(context));
-            },
-            ),
+      child: OutlinedButton(
+        onPressed: () async {await goToWebPage(CreditsStrings.link);},
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
+              return null;
+            }
+            return AppColors.categoryTile.surface(context);
+          },
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                DataStrings.source,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: AppColors.categoryTile.title(context),
-                  fontSize: AppSizes.titleSmall,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(width: 5),
-              Icon(
-                CustomIcons.github,
-                color: AppColors.categoryTile.leadingIcon(context),
-              ),
-            ],
+          side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
+            return BorderSide(color: AppColors.categoryTile.border(context));
+          },
           ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              DataStrings.source,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: AppColors.categoryTile.title(context),
+                fontSize: AppSizes.titleSmall,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(width: 5),
+            Icon(
+              CustomIcons.github,
+              color: AppColors.categoryTile.leadingIcon(context),
+            ),
+          ],
         ),
       ),
     );

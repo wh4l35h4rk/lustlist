@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -59,7 +60,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
         SizedBox(height: 5),
         NameForm(controller: widget.controller.nameController),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: AppInsets.dataDivider,
           child: Divider(),
         ),
         InfoRow(

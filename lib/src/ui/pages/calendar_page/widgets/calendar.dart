@@ -14,6 +14,7 @@ import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 
 
 class Calendar extends StatefulWidget {
@@ -141,7 +142,7 @@ class _CalendarState extends State<Calendar> {
                 },
                 onLeftArrowTap: () {
                   _pageController.previousPage(
-                    duration: Duration(milliseconds: 300),
+                    duration: Duration(milliseconds: calendarDuration),
                     curve: Curves.easeOut,
                   );
                   _selectedDay.value = null;
@@ -149,7 +150,7 @@ class _CalendarState extends State<Calendar> {
                 },
                 onRightArrowTap: () {
                   _pageController.nextPage(
-                    duration: Duration(milliseconds: 300),
+                    duration: Duration(milliseconds: calendarDuration),
                     curve: Curves.easeOut,
                   );
                   _selectedDay.value = null;
@@ -234,9 +235,9 @@ class _CalendarState extends State<Calendar> {
                           return Column(
                             children: [
                               index == 0 ? Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                padding: AppInsets.divider,
                                 child: Divider(
-                                    height: 0
+                                  height: AppSizes.dividerMinimal,
                                 ),
                               ) : SizedBox.shrink(),
                               EventListTile(
@@ -244,9 +245,9 @@ class _CalendarState extends State<Calendar> {
                                 event: value[index],
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                padding: AppInsets.divider,
                                 child: Divider(
-                                    height: 0
+                                  height: AppSizes.dividerMinimal,
                                 ),
                               )
                             ],
@@ -283,7 +284,7 @@ class _CalendarState extends State<Calendar> {
       ),
     );
     if (result == true) {
-      await Future.delayed(Duration(milliseconds: 200));
+      await Future.delayed(Duration(milliseconds: futureDelay * 2));
       await widget.onReload!();
       if (mounted && _selectedDay.value != null) {
         _selectedEvents.value = _getEventsForDay(_selectedDay.value!);

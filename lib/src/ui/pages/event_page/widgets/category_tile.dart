@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -102,12 +103,12 @@ class CategoryTile extends StatelessWidget {
         runSpacing: 8,
         children: [for (var option in options)
           Container(
-            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+            padding: AppInsets.optionsContainer,
             decoration: BoxDecoration(
               border: Border.all(
                 color: AppColors.categoryTile.border(context),
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
             ),
             child: Text(option.name),
           ),

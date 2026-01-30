@@ -86,7 +86,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                 ),
                 child: Text(
                   widget.alertButton,
-                  style:  const TextStyle(fontSize: AppSizes.alertButton)
+                  style:  const TextStyle(fontSize: AppSizes.alertButtonText)
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -109,7 +109,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                 child: Text(
                   ButtonStrings.leave,
                   style: TextStyle(
-                    fontSize: AppSizes.alertButton,
+                    fontSize: AppSizes.alertButtonText,
                     color: AppColors.appBar.text(context)
                   ),
                 ),

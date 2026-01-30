@@ -1,6 +1,7 @@
 class AppSizes {
   static const double alertBody = 15;
-  static const double alertButton = 15;
+  static const double alertButtonText = 15;
+  static const double alertButtonRadius = 20;
 
   static const double appbarLarge = 25;
   static const double appbarAnimated = 22;
@@ -27,9 +28,15 @@ class AppSizes {
   static const double badgeOffset = 1.05;
   static const double badgeBorderWidth = 2;
 
+  static const double chartTitleSpacing = 1.3;
   static const double chartLineWidth = 3;
   static const double chartSideTitlesSpace = 30;
+  static const double chartBottomTitlesSpace = 30;
   static const double tooltipBorder = 1.5;
+  static const double chartBorder = 3;
+  
+  static const double dividerMinimal = 0;
 
-  static const double progressIndicatorListPadding = 150;
+  static const double listTileBorderRadius = 12;
+  static const double containerTileRadius = 20;
 }
