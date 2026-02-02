@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/events_line_chart.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/domain/repository.dart';

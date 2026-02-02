@@ -232,13 +232,13 @@ class EventRepository {
 
     // form list of months to be displayed on X-axis of chart
     List<DateTime> dates = [];
-    DateTime dummyDate = date1;
-    while (dummyDate.isBefore(date2)) {
+    DateTime dummyDate = addMonth(date1);
+    dummyDate = DateFormatter.yearMonthOnly(dummyDate);
+    while (dummyDate.isBefore(date2) || dummyDate.isAtSameMomentAs(date2)) {
       DateTime newDate = addMonth(dummyDate);
+      newDate = DateFormatter.yearMonthOnly(newDate);
       dummyDate = newDate;
-      dates.add(DateFormatter.dateOnly(newDate));
     }
-    dates.removeLast();
 
     // get map of amount of events corresponding to their time period
     var dbMap = await getEventAmountAfterDate(typeSlug, date1);

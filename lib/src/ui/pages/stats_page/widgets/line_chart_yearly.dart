@@ -194,7 +194,7 @@ class _LineChart extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: flSpot.y.toString(),
+                text: flSpot.y.toInt().toString(),
                 style: TextStyle(
                   color: flSpot.bar.color,
                 ),
@@ -270,7 +270,7 @@ class _LineChart extends StatelessWidget {
   SideTitles get bottomTitles => SideTitles(
     showTitles: true,
     reservedSize: AppSizes.chartBottomTitlesSpace,
-    interval: monthInMs * 3,
+    interval: monthInMs * 5,
     getTitlesWidget: bottomTitleWidgets,
   );
 
