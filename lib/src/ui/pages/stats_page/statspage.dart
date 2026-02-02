@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
+import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/core/widgets/duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
@@ -23,8 +25,8 @@ class _StatsPageState extends State<StatsPage> {
   bool _isLoading = true;
   bool _isError = false;
 
-  List<FlSpot>? sexSpots;
-  List<FlSpot>? mstbSpots;
+  List<List<FlSpot>>? yearlySpots;
+  List<dynamic>? avgSexStats;
 
   @override
   void initState() {
@@ -64,8 +66,10 @@ class _StatsPageState extends State<StatsPage> {
 
       if (results[0] is List<FlSpot> && results[1] is List<FlSpot>) {
         setState(() {
-          sexSpots = results[0] as List<FlSpot>;
-          mstbSpots = results[1] as List<FlSpot>;
+          yearlySpots = [
+            results[0] as List<FlSpot>,
+            results[1] as List<FlSpot>,
+          ];
           _isLoading = false;
           _isError = false;
         });
@@ -102,9 +106,13 @@ class _StatsPageState extends State<StatsPage> {
           ])) :
           SliverList(
             delegate: SliverChildListDelegate([
+              DurationStats(),
+              Padding(
+                padding: AppInsets.divider,
+                child: Divider(height: AppSizes.dividerMinimal,),
+              ),
               LineChartYearly(
-                sexSpots: sexSpots!,
-                mstbSpots: mstbSpots!,
+                spots: yearlySpots!,
               )
           ])),
         ]

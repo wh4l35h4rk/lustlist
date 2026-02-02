@@ -24,7 +24,4 @@ class DataStrings {
   static const String place = "Place";
 
   static const String source = "Source code";
-
-
-  static const String lastYearChart = 'Last year dynamics';
 }

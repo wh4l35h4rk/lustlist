@@ -235,6 +235,7 @@ class EventRepository {
     DateTime dummyDate = addMonth(date1);
     dummyDate = DateFormatter.yearMonthOnly(dummyDate);
     while (dummyDate.isBefore(date2) || dummyDate.isAtSameMomentAs(date2)) {
+      dates.add(dummyDate);
       DateTime newDate = addMonth(dummyDate);
       newDate = DateFormatter.yearMonthOnly(newDate);
       dummyDate = newDate;

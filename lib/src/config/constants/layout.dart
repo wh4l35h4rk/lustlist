@@ -31,6 +31,10 @@ class AppInsets {
 
 
   // chart-specific
+  static const EdgeInsets stats = EdgeInsets.symmetric(
+    horizontal: 20,
+    vertical: 15
+  );
   static const EdgeInsets lineChart = EdgeInsets.only(
       left: 20,
       right: 10 + AppSizes.chartSideTitlesSpace
@@ -38,7 +42,7 @@ class AppInsets {
   static const EdgeInsets chartTitle = EdgeInsets.only(
       right: 8.0,
       left: 8.0,
-      top: 37,
+      top: 20,
       bottom: 15
   );
   

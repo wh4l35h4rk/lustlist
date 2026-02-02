@@ -39,4 +39,7 @@ class AppSizes {
 
   static const double listTileBorderRadius = 12;
   static const double containerTileRadius = 20;
+
+  static const double numStatsLarge = 55;
+  static const double numStatsMedium = 35;
 }

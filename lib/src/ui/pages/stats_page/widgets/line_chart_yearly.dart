@@ -4,6 +4,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
@@ -15,20 +16,18 @@ import 'package:lustlist/src/ui/pages/stats_page/widgets/line_legend.dart';
 class LineChartYearly extends StatefulWidget {
   const LineChartYearly({
     super.key,
-    required this.sexSpots,
-    required this.mstbSpots,
+    required this.spots,
   });
 
-  final List<FlSpot> sexSpots;
-  final List<FlSpot> mstbSpots;
+  final List<List<FlSpot>> spots;
 
   @override
   State<StatefulWidget> createState() => LineChartYearlyState();
 }
 
 class LineChartYearlyState extends State<LineChartYearly> {
-  late List<FlSpot> sexSpots = widget.sexSpots;
-  late List<FlSpot> mstbSpots = widget.mstbSpots;
+  late List<FlSpot> sexSpots = widget.spots[0];
+  late List<FlSpot> mstbSpots = widget.spots[1];
 
   bool _showSex = true;
   bool _showMstb = true;
@@ -45,7 +44,7 @@ class LineChartYearlyState extends State<LineChartYearly> {
     Color mstbLineColor = AppColors.chart.mstbLine(context);
 
     return AspectRatio(
-      aspectRatio: 1.1,
+      aspectRatio: 1.15,
       child: Stack(
         children: <Widget>[
           Column(
@@ -56,7 +55,7 @@ class LineChartYearlyState extends State<LineChartYearly> {
                 child: Column(
                   children: [
                     Text(
-                      DataStrings.lastYearChart,
+                      ChartStrings.lastYearChart,
                       style: TextStyle(
                         color: AppColors.title(context),
                         fontSize: AppSizes.titleLarge,

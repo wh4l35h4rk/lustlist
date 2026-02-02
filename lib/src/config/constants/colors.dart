@@ -187,6 +187,9 @@ class EventDataColors {
 class ChartColors{
   Color blendColor(BuildContext context) => Theme.of(context).colorScheme.inversePrimary;
 
+  Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
+  Color subtitle(BuildContext context) => Theme.of(context).colorScheme.secondary;
+
   Color male(BuildContext context) =>
       colorBlend(Colors.lightBlue, blendColor(context), 0.4)!;
   Color female(BuildContext context) =>
@@ -225,6 +228,12 @@ class ChartColors{
       colorBlend(
           Theme.of(context).colorScheme.surface,
           Theme.of(context).colorScheme.secondaryContainer, 0.5
+      )!;
+
+  Color bgIcon(BuildContext context) =>
+      colorBlend(
+          Theme.of(context).colorScheme.surface,
+          Colors.grey, 0.07
       )!;
 }
 
