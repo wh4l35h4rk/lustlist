@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -48,7 +49,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
   AddCategoryController? _obgynController;
 
   void _onPressed() async {
-    final date = _dataController!.dateController.date ?? toDate(kToday);
+    final date = _dataController!.dateController.date ?? DateFormatter.dateOnly(kToday);
     final time = _dataController!.timeController.time;
     final notes = _notesController.notesController.text;
     final stiOptions = _stiController!.getSelectedOptions();

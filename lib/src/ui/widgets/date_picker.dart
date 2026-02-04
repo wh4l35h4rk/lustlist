@@ -21,7 +21,7 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime get date => widget.controller.date ?? toDate(defaultDate);
+  DateTime get date => widget.controller.date ?? DateFormatter.dateOnly(defaultDate);
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(

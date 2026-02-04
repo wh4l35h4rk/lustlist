@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 
@@ -60,7 +61,10 @@ class _TimePickerState extends State<TimePicker> {
           ),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            type == 1 ? StringFormatter.duration(time, true) : StringFormatter.time(time),
+            type == 1 ? StringFormatter.duration(
+                EventDuration.explicit(time.hour, time.minute),
+                true
+            ) : StringFormatter.time(time),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.coloredText(context)

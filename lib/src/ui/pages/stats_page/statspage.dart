@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/duration_stats.dart';
+import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
@@ -60,15 +62,25 @@ class _StatsPageState extends State<StatsPage> {
       final List<Future<Object?>> futures = [
         repo.getSpotsListByMonth("sex", period) as Future<Object?>, // List<FlSpot>
         repo.getSpotsListByMonth("masturbation", period) as Future<Object?>, // List<FlSpot>
+        repo.getAvgDuration("sex") as Future<Object?>, // double?
+        repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max) as Future<Object?>, // CalendarEvent?
+        repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.min) as Future<Object?>, // CalendarEvent?
       ];
 
       final List<Object?> results = await Future.wait(futures);
 
-      if (results[0] is List<FlSpot> && results[1] is List<FlSpot>) {
+      if (results[0] is List<FlSpot> && results[1] is List<FlSpot>
+          && results[2] is double? && results[3] is CalendarEvent? && results[4] is CalendarEvent?
+      ) {
         setState(() {
           yearlySpots = [
             results[0] as List<FlSpot>,
             results[1] as List<FlSpot>,
+          ];
+          avgSexStats = [
+            results[2] as double?,
+            results[3] as CalendarEvent?,
+            results[4] as CalendarEvent?,
           ];
           _isLoading = false;
           _isError = false;
@@ -106,7 +118,11 @@ class _StatsPageState extends State<StatsPage> {
           ])) :
           SliverList(
             delegate: SliverChildListDelegate([
-              DurationStats(),
+              DurationStats(
+                avgInMinutes: avgSexStats![0],
+                maxEvent: avgSexStats![1],
+                minEvent: avgSexStats![2],
+              ),
               Padding(
                 padding: AppInsets.divider,
                 child: Divider(height: AppSizes.dividerMinimal,),

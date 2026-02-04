@@ -1,5 +1,6 @@
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 
 class StringFormatter {
 
@@ -25,7 +26,7 @@ class StringFormatter {
   }
 
   
-  static String duration(DateTime? duration, bool isShort) {
+  static String duration(EventDuration? duration, bool isShort) {
     if (duration != null) {
       int hours = duration.hour;
       int minutes = duration.minute;

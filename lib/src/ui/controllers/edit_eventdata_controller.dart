@@ -1,3 +1,4 @@
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
@@ -5,7 +6,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.d
 class EditEventDataController {
   DateTime date;
   DateTime time;
-  DateTime? duration;
+  EventDuration? duration;
   bool? didWatchPorn;
   int? rating = 0;
   int? orgasmAmount;
@@ -21,7 +22,7 @@ class EditEventDataController {
 
   late final DateController dateController = DateController(date: date);
   late final TimeController timeController = TimeController(time: time);
-  late final TimeController durationController = TimeController(time: duration);
+  late final TimeController durationController = TimeController(time: duration?.toDateTime());
   late final SwitchController pornController = SwitchController(value: didWatchPorn ?? false);
 
   void setRating(int newValue) {

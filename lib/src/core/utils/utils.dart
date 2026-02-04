@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 
 IconData getTypeIconData(String slug)  {
   switch (slug) {
@@ -13,13 +14,9 @@ IconData getTypeIconData(String slug)  {
   }
 }
 
-DateTime toDate(DateTime dateTime) {
-  return DateTime(dateTime.year, dateTime.month, dateTime.day);
-}
-
 final kToday = DateTime.now();
 final kFirstDay = defaultDate;
-final kLastDay = toDate(DateTime.now());
+final kLastDay = DateFormatter.dateOnly(DateTime.now());
 
 const appTitle = "LustList";
 

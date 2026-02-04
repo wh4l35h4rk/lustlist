@@ -5,12 +5,14 @@ import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/edit_eventdata_controller.dart';
@@ -43,7 +45,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   late final _dataController = EditEventDataController(
     date: event.event.date,
     time: event.event.time,
-    duration: event.data?.duration,
+    duration: event.getDuration(),
     didWatchPorn: event.data?.didWatchPorn,
     rating: event.data?.rating,
     orgasmAmount: event.data?.userOrgasms,
@@ -61,12 +63,15 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   AddCategoryController? _placeController;
 
   void _onPressed() async {
-    final date = _dataController.dateController.date ?? toDate(kToday);
+    final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
-    final duration = _dataController.durationController.time;
+    final duration = EventDuration.explicit(
+        _dataController.durationController.time.hour,
+        _dataController.durationController.time.minute
+    );
     final contraceptionOptions = _contraceptionController!.getSelectedOptions();
     final practicesOptions = _practicesController!.getSelectedOptions();
     final posesOptions = _posesController!.getSelectedOptions();

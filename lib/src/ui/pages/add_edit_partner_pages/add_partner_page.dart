@@ -4,11 +4,11 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_data_controller.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
@@ -28,7 +28,7 @@ class AddPartnerPage extends StatefulWidget{
 
 class _AddPartnerPageState extends State<AddPartnerPage> {
   late final DateTime _initBirthday = widget.initBirthday
-      ?? toDate(DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day));
+      ?? DateFormatter.dateOnly(DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day));
   late final _dataController = AddPartnerDataController(date: _initBirthday);
 
   final repo = EventRepository(database);

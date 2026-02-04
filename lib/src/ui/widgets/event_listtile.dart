@@ -46,10 +46,10 @@ class EventListTile extends StatelessWidget {
 
   Future<String> _getSubtitle(AppDatabase db) async {
     final type = event.getTypeSlug();
-    String time = DateFormatter.time(event.event.time);
+    String time = DateFormatter.time(event.getTime());
 
     if ((type == "sex" || type == "masturbation") && event.data != null) {
-      String duration = StringFormatter.duration(event.data!.duration, false);
+      String duration = StringFormatter.duration(event.getDuration(), false);
 
       if (fromPartnerProfile) {
         if (partnerOrgasms != null) {
@@ -61,14 +61,14 @@ class EventListTile extends StatelessWidget {
       return [time, duration].join(", ");
 
     } else if (type == "medical") {
-      final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
+      final categoryNames = await db.getCategoryNamesOfEvent(event.getEventId());
       if (categoryNames != null && categoryNames.isNotEmpty) {
         return "$time, ${categoryNames.join(", ")}";
       } else {
         return time;
       }
     } else {
-      throw FormatException("Wrong type: ${event.type.slug}");
+      throw FormatException("Wrong type: ${event.getTypeSlug()}");
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
@@ -30,7 +31,7 @@ class AddMedEventPage extends StatefulWidget{
 
 class _AddMedEventPageState extends State<AddMedEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-  late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
+  late final DateTime _initDay = widget.initDay ?? DateFormatter.dateOnly(DateTime.now());
   late final _dataController = AddMedEventDataController(date: _initDay);
 
   final repo = EventRepository(database);
@@ -39,7 +40,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
   final _notesController = NotesTileController();
 
   void _onPressed() async {
-    final date = _dataController.dateController.date ?? toDate(kToday);
+    final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final stiOptions = _stiController.getSelectedOptions();

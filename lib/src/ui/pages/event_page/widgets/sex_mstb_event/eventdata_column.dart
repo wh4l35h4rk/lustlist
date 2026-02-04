@@ -33,7 +33,7 @@ class EventDataColumn extends StatelessWidget {
                   iconData: Icons.timelapse,
                   title: StringFormatter.colon(DataStrings.duration),
                   child: Text(
-                      StringFormatter.duration(event.data!.duration, true),
+                      StringFormatter.duration(event.getDuration(), true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
                         color: AppColors.eventData.text(context),

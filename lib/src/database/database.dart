@@ -64,6 +64,30 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(events)).toList();
   }
 
+  Future<List<Event>> getMaxDurationEvents(int typeId) async {
+    final maxDuration = eventDataTable.duration.max();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(events.typeId.equals(typeId));
+    query.addColumns([maxDuration]);
+
+    final result = await query.get();
+    return result.map((row) => row.readTable(events)).toList();
+  }
+
+  Future<List<Event>> getMinDurationEvents(int typeId) async {
+    final minDuration = eventDataTable.duration.min();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(events.typeId.equals(typeId));
+    query.addColumns([minDuration]);
+
+    final result = await query.get();
+    return result.map((row) => row.readTable(events)).toList();
+  }
+
   Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByMonth(int typeId, DateTime date) async {
     final amountOfEvents = events.id.count();
     final eventsYear = events.date.year;
@@ -105,6 +129,17 @@ class AppDatabase extends _$AppDatabase {
 
   Future<EventData?> getDataByEventId(int id) async {
     return await (select(eventDataTable)..where((t) => t.eventId.equals(id))).getSingleOrNull();
+  }
+
+  Future<double?> getAvgDuration(int typeId) async {
+    final avgDuration = eventDataTable.duration.avg();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(events.typeId.equals(typeId));
+    query.addColumns([avgDuration]);
+
+    return query.map((row) => row.read(avgDuration)).getSingleOrNull();
   }
 
 

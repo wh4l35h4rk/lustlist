@@ -3,10 +3,12 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'entities/calendar_event.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 
@@ -124,14 +126,14 @@ class EventRepository {
   }
 
   
-  Future<void> loadEventData(int eventId, int rating, DateTime? duration, int? orgasmAmount, bool? didWatchPorn) async {
-    DateTime? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
+  Future<void> loadEventData(int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn) async {
+    EventDuration? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
 
     await db.insertEventData(
       EventDataTableCompanion.insert(
         eventId: eventId,
         rating: rating,
-        duration: Value(fixedDuration),
+        duration: Value(fixedDuration?.minutesTotal),
         userOrgasms: Value(orgasmAmount),
         didWatchPorn: Value(didWatchPorn),
       ),
@@ -181,7 +183,9 @@ class EventRepository {
   }
 
 
-  Future<void> updateEventData(int eventId, int rating, DateTime? duration, int? orgasmAmount, bool? didWatchPorn) async {
+  Future<void> updateEventData(
+      int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn
+  ) async {
     var event = await (db.select(db.events)..where((t) => t.id.equals(eventId))).getSingleOrNull();
     if (event == null) {
       if (kDebugMode) {
@@ -190,11 +194,13 @@ class EventRepository {
       return;
     }
 
+    EventDuration? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
+
     await db.updateEventDataByEventId(
       eventId,
       EventDataTableCompanion(
           rating: Value(rating),
-          duration: Value(duration),
+          duration: Value(fixedDuration?.minutesTotal),
           userOrgasms: Value(orgasmAmount),
           didWatchPorn: Value(didWatchPorn)
       ),
@@ -262,6 +268,26 @@ class EventRepository {
     return list;
   }
 
+
+  Future<double?> getAvgDuration(String typeSlug) async {
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    double? avg = await db.getAvgDuration(typeId);
+    return avg;
+  }
+
+  Future<CalendarEvent?> getMaxOrMinDurationCalendarEvent(String typeSlug, AggroType agg) async {
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    List<Event> list = agg == AggroType.max
+        ? await db.getMaxDurationEvents(typeId)
+        : await db.getMinDurationEvents(typeId);
+    if (list.isEmpty) {
+      return null;
+    } else {
+      Event randomItem = (list..shuffle()).first;
+      CalendarEvent event = await dbToCalendarEvent(randomItem);
+      return event;
+    }
+  }
 
   Future<List<EOption>> getOptionsList(int eventId, String categorySlug) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
@@ -391,7 +417,7 @@ class EventRepository {
         EventDataTableCompanion.insert(
           eventId: event1Id,
           rating: 4,
-          duration: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 20)),
+          duration: Value(20),
           userOrgasms: Value(1),
         )
     );
@@ -399,7 +425,7 @@ class EventRepository {
         EventDataTableCompanion.insert(
           eventId: event4Id,
           rating: 5,
-          duration: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 1, 20)),
+          duration: Value(90),
           userOrgasms: Value(0),
         )
     );
@@ -416,7 +442,7 @@ class EventRepository {
           eventId: event6Id,
           rating: 4,
           userOrgasms: Value(1),
-          duration: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 40)),
+          duration: Value(40),
         )
     );
 

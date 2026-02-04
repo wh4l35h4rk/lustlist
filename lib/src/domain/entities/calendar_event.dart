@@ -1,4 +1,5 @@
 import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 
 
 class CalendarEvent {
@@ -18,11 +19,12 @@ class CalendarEvent {
     }
   }
 
+  int getEventId() => event.id;
   int getTypeId() => event.typeId;
   String getTypeSlug() => type.slug;
   DateTime getDate() => event.date;
-  DateTime? getTime() => event.time;
-  DateTime? getDuration() => data?.duration;
+  DateTime getTime() => event.time;
+  EventDuration? getDuration() => data?.duration != null ? EventDuration(data!.duration!) : null;
 
   @override
   String toString() {

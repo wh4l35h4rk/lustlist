@@ -4,7 +4,9 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
@@ -30,7 +32,7 @@ class AddMstbEventPage extends StatefulWidget{
 
 class _AddMstbEventPageState extends State<AddMstbEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-  late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
+  late final DateTime _initDay = widget.initDay ?? DateFormatter.dateOnly(DateTime.now());
   late final _dataController = AddEventDataController(date: _initDay);
 
   final repo = EventRepository(database);
@@ -39,12 +41,15 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
   final _notesController = NotesTileController();
 
   void _onPressed() async {                  
-    final date = _dataController.dateController.date ?? toDate(kToday);
+    final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
-    final duration = _dataController.durationController.time;
+    final duration = EventDuration.explicit(
+        _dataController.durationController.time.hour,
+        _dataController.durationController.time.minute
+    );
     final didWatchPorn = _dataController.pornController.value;
     final practicesOptions = _practicesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();

@@ -17,6 +17,8 @@ class MiscStrings {
   static const String partnerOne = "Partner";
   static const String unknownPartnerName = "Unknown partner(s)";
 
+  static const String h = "h";
+  static const String m = "min";
   static const String hour = "hour";
   static const String hours = "hours";
   static const String min = "minute";

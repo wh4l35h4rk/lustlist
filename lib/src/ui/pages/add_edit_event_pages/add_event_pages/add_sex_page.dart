@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
@@ -18,6 +20,7 @@ import 'package:lustlist/src/ui/controllers/add_eventdata_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/domain/entities/event_duration.dart';
 
 class AddSexEventPage extends StatefulWidget{
   final DateTime? initDay;
@@ -29,7 +32,7 @@ class AddSexEventPage extends StatefulWidget{
 
 class _AddSexEventPageState extends State<AddSexEventPage> {
   late Future<Map<String, Category>> _categoriesMapFuture;
-  late final DateTime _initDay = widget.initDay ?? toDate(DateTime.now());
+  late final DateTime _initDay = widget.initDay ?? DateFormatter.dateOnly(DateTime.now());
   late final _dataController = AddEventDataController(date: _initDay);
 
   final repo = EventRepository(database);
@@ -41,12 +44,15 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
   final _notesController = NotesTileController();
 
   void _onPressed() async {
-    final date = _dataController.dateController.date ?? toDate(kToday);
+    final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
-    final duration = _dataController.durationController.time;
+    final duration = EventDuration.explicit(
+        _dataController.durationController.time.hour,
+        _dataController.durationController.time.minute
+    );
     final contraceptionOptions = _contraceptionController.getSelectedOptions();
     final practicesOptions = _practicesController.getSelectedOptions();
     final posesOptions = _posesController.getSelectedOptions();
@@ -103,7 +109,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
             children: [
               BasicTile(
                 surfaceColor: AppColors.addEvent.surface(context),
-                margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
+                margin: AppInsets.addDataMargin,
                 child: AddEditEventDataColumn(
                   controller: _dataController,
                   isMstb: false
