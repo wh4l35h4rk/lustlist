@@ -277,13 +277,13 @@ class EventRepository {
 
   Future<CalendarEvent?> getMaxOrMinDurationCalendarEvent(String typeSlug, AggroType agg) async {
     int typeId = await db.getTypeIdBySlug(typeSlug);
-    List<Event> list = agg == AggroType.max
+    List<Event?> list = (agg == AggroType.max)
         ? await db.getMaxDurationEvents(typeId)
         : await db.getMinDurationEvents(typeId);
-    if (list.isEmpty) {
+    if (list.isEmpty || list.first == null) {
       return null;
     } else {
-      Event randomItem = (list..shuffle()).first;
+      Event randomItem = (list..shuffle()).first!;
       CalendarEvent event = await dbToCalendarEvent(randomItem);
       return event;
     }

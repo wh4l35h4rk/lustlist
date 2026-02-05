@@ -5,7 +5,6 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/duration_stats.dart';
-import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
@@ -28,7 +27,7 @@ class _StatsPageState extends State<StatsPage> {
   bool _isError = false;
 
   List<List<FlSpot>>? yearlySpots;
-  List<dynamic>? avgSexStats;
+  List<dynamic>? sexDurationStats;
 
   @override
   void initState() {
@@ -59,40 +58,36 @@ class _StatsPageState extends State<StatsPage> {
       final repo = EventRepository(database);
       DateTime period = DateTime(1, 0, 0);
 
-      final List<Future<Object?>> futures = [
-        repo.getSpotsListByMonth("sex", period) as Future<Object?>, // List<FlSpot>
-        repo.getSpotsListByMonth("masturbation", period) as Future<Object?>, // List<FlSpot>
-        repo.getAvgDuration("sex") as Future<Object?>, // double?
-        repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max) as Future<Object?>, // CalendarEvent?
-        repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.min) as Future<Object?>, // CalendarEvent?
-      ];
+      // last year data line chart
+      final sexSpots = await repo.getSpotsListByMonth("sex", period);
+      final mstbSpots = await repo.getSpotsListByMonth("masturbation", period);
 
-      final List<Object?> results = await Future.wait(futures);
+      // duration stats
+      final avg = await repo.getAvgDuration("sex");
+      final maxEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max);
+      final minEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.min);
 
-      if (results[0] is List<FlSpot> && results[1] is List<FlSpot>
-          && results[2] is double? && results[3] is CalendarEvent? && results[4] is CalendarEvent?
-      ) {
-        setState(() {
-          yearlySpots = [
-            results[0] as List<FlSpot>,
-            results[1] as List<FlSpot>,
-          ];
-          avgSexStats = [
-            results[2] as double?,
-            results[3] as CalendarEvent?,
-            results[4] as CalendarEvent?,
-          ];
-          _isLoading = false;
-          _isError = false;
-        });
-      } else {
-        throw Exception('Invalid data types received');
-      }
+
+      setState(() {
+        yearlySpots = [
+          sexSpots,
+          mstbSpots
+        ];
+        sexDurationStats = [
+          avg,
+          maxEvent,
+          minEvent
+        ];
+        print(sexDurationStats);
+        _isLoading = false;
+        _isError = false;
+      });
     } catch (e) {
       setState(() {
         _isError = true;
         _isLoading = false;
       });
+      return;
     }
   }
 
@@ -119,17 +114,15 @@ class _StatsPageState extends State<StatsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               DurationStats(
-                avgInMinutes: avgSexStats![0],
-                maxEvent: avgSexStats![1],
-                minEvent: avgSexStats![2],
+                avgInMinutes: sexDurationStats![0],
+                maxEvent: sexDurationStats![1],
+                minEvent: sexDurationStats![2],
               ),
               Padding(
                 padding: AppInsets.divider,
                 child: Divider(height: AppSizes.dividerMinimal,),
               ),
-              LineChartYearly(
-                spots: yearlySpots!,
-              )
+              LineChartYearly(spots: yearlySpots!)
           ])),
         ]
     );

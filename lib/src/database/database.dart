@@ -64,7 +64,7 @@ class AppDatabase extends _$AppDatabase {
     return result.map((row) => row.readTable(events)).toList();
   }
 
-  Future<List<Event>> getMaxDurationEvents(int typeId) async {
+  Future<List<Event?>> getMaxDurationEvents(int typeId) async {
     final maxDuration = eventDataTable.duration.max();
 
     final query = select(eventDataTable).join([
@@ -73,10 +73,10 @@ class AppDatabase extends _$AppDatabase {
     query.addColumns([maxDuration]);
 
     final result = await query.get();
-    return result.map((row) => row.readTable(events)).toList();
+    return result.map((row) => row.readTableOrNull(events)).toList();
   }
 
-  Future<List<Event>> getMinDurationEvents(int typeId) async {
+  Future<List<Event?>> getMinDurationEvents(int typeId) async {
     final minDuration = eventDataTable.duration.min();
 
     final query = select(eventDataTable).join([
@@ -85,7 +85,7 @@ class AppDatabase extends _$AppDatabase {
     query.addColumns([minDuration]);
 
     final result = await query.get();
-    return result.map((row) => row.readTable(events)).toList();
+    return result.map((row) => row.readTableOrNull(events)).toList();
   }
 
   Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByMonth(int typeId, DateTime date) async {

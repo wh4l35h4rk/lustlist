@@ -37,6 +37,13 @@ class DurationStats extends StatelessWidget{
       fontWeight: FontWeight.bold,
     );
 
+    bool haveMaxDuration =
+        maxEvent?.data?.duration != null &&
+        maxEvent!.data!.duration != 0;
+    bool haveMinDuration =
+        minEvent?.data?.duration != null &&
+        minEvent!.data!.duration != 0;
+
     return Padding(
       padding: AppInsets.stats,
       child: Row(
@@ -78,60 +85,64 @@ class DurationStats extends StatelessWidget{
                   textAlign: TextAlign.center,
                   style: titleStyle
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    minEvent != null ? SizedBox(width: AppSizes.iconSmall + iconPadding) : SizedBox.shrink(),
-                    DurationText(durationNullable: min, isMain: false,),
-                    minEvent != null
-                        ? InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EventPage(event: minEvent!),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: iconPadding),
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            size: AppSizes.iconSmall,
-                          ),
-                        )
-                    ) : SizedBox.shrink(),
-                ],),
+                haveMinDuration ?
+                InkWell(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventPage(event: minEvent!),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: AppSizes.iconSmall + iconPadding),
+                      DurationText(durationNullable: min, isMain: false,),
+                      Padding(
+                        padding: EdgeInsets.only(left: iconPadding),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: AppSizes.iconSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ) : DurationText(durationNullable: min, isMain: false,),
                 SizedBox(height: 20),
                 Text(
                   StringFormatter.colon(ChartStrings.maxSexDuration),
                   textAlign: TextAlign.center,
                   style: titleStyle
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    maxEvent != null ? SizedBox(width: AppSizes.iconSmall + iconPadding) : SizedBox.shrink(),
-                    DurationText(durationNullable: max, isMain: false,),
-                    maxEvent != null
-                        ? InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EventPage(event: maxEvent!),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: iconPadding),
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            size: AppSizes.iconSmall,
-                          ),
-                        )
-                    ) : SizedBox.shrink(),
-                  ],),
+                haveMaxDuration ?
+                InkWell(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventPage(event: maxEvent!),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: AppSizes.iconSmall + iconPadding),
+                      DurationText(durationNullable: max, isMain: false,),
+                      Padding(
+                        padding: EdgeInsets.only(left: iconPadding),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: AppSizes.iconSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ) : DurationText(durationNullable: max, isMain: false,),
               ],
             ),
           ),
