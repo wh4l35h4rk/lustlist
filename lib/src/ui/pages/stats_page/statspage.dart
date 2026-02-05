@@ -5,6 +5,7 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/duration_stats.dart';
+import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
@@ -27,7 +28,8 @@ class _StatsPageState extends State<StatsPage> {
   bool _isError = false;
 
   List<List<FlSpot>>? yearlySpots;
-  List<dynamic>? sexDurationStats;
+  EventDurationStats? sexDurationStats;
+  EventDurationStats? mstbDurationStats;
 
   @override
   void initState() {
@@ -63,22 +65,21 @@ class _StatsPageState extends State<StatsPage> {
       final mstbSpots = await repo.getSpotsListByMonth("masturbation", period);
 
       // duration stats
-      final avg = await repo.getAvgDuration("sex");
-      final maxEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max);
-      final minEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.min);
-
+      final sexAvg = await repo.getAvgDuration("sex");
+      final sexMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max);
+      final sexMinEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.min);
+      final mstbAvg = await repo.getAvgDuration("masturbation");
+      final mstbMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("masturbation", AggroType.max);
+      final mstbMinEvent = await repo.getMaxOrMinDurationCalendarEvent("masturbation", AggroType.min);
 
       setState(() {
         yearlySpots = [
           sexSpots,
           mstbSpots
         ];
-        sexDurationStats = [
-          avg,
-          maxEvent,
-          minEvent
-        ];
-        print(sexDurationStats);
+        sexDurationStats = EventDurationStats(sexAvg, sexMinEvent, sexMaxEvent);
+        mstbDurationStats = EventDurationStats(mstbAvg, mstbMinEvent, mstbMaxEvent);
+
         _isLoading = false;
         _isError = false;
       });
@@ -114,9 +115,8 @@ class _StatsPageState extends State<StatsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               DurationStats(
-                avgInMinutes: sexDurationStats![0],
-                maxEvent: sexDurationStats![1],
-                minEvent: sexDurationStats![2],
+                mstbStats: mstbDurationStats!,
+                sexStats: sexDurationStats!,
               ),
               Padding(
                 padding: AppInsets.divider,

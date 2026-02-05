@@ -1,0 +1,15 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/sizes.dart';
+
+class AppStyles{
+  static TextStyle numStatsTitle(BuildContext context){
+    return TextStyle(
+      color: AppColors.chart.title(context),
+      fontSize: AppSizes.titleSmall,
+      letterSpacing: AppSizes.chartTitleSpacing,
+      fontWeight: FontWeight.bold,
+    );
+  }
+}
