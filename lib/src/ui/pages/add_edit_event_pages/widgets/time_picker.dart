@@ -62,7 +62,7 @@ class _TimePickerState extends State<TimePicker> {
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
             type == 1 ? StringFormatter.duration(
-                EventDuration.explicit(time.hour, time.minute),
+                EventDuration.explicit(0, time.hour, time.minute),
                 true
             ) : StringFormatter.time(time),
             style: TextStyle(

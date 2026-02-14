@@ -6,8 +6,8 @@ class ChartStrings{
 
   static String get minSexDuration => "Fastest sex";
   static String get maxSexDuration => "Longest sex";
-  static String get minMstbDuration => "Fastes solo session";
+  static String get minMstbDuration => "Fastest solo session";
   static String get maxMstbDuration => "Longest solo session";
 
-  static String get totalDuration => "Total time spent:";
+  static String get totalDuration => "Total time spent";
 }

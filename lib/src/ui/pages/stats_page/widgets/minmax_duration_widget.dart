@@ -14,18 +14,22 @@ class MinMaxDurationColumn extends StatelessWidget {
     super.key,
     required this.event,
     required this.title,
+    this.value
   });
 
   final CalendarEvent? event;
   final String title;
+  final EventDuration? value;
 
   @override
   Widget build(BuildContext context) {
-    EventDuration? min = event?.getDuration();
+    bool valueNotEvent = event == null && value != null;
 
-    bool haveDuration =
+    EventDuration? eventDuration = !valueNotEvent ? event?.getDuration() : value;
+
+    bool eventHasDuration =
         event?.data?.duration != null &&
-            event!.data!.duration != 0;
+        event!.data!.duration != 0;
 
     double iconPadding = 12;
     TextStyle titleStyle = AppStyles.numStatsTitle(context);
@@ -39,7 +43,7 @@ class MinMaxDurationColumn extends StatelessWidget {
             textAlign: TextAlign.center,
             style: titleStyle
         ),
-        haveDuration ?
+        !valueNotEvent && eventHasDuration ?
         InkWell(
           onTap: () async {
             await Navigator.push(
@@ -54,7 +58,7 @@ class MinMaxDurationColumn extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(width: AppSizes.iconSmall + iconPadding),
-              DurationText(durationNullable: min, isMain: false,),
+              DurationText(durationNullable: eventDuration, isMain: false,),
               Padding(
                 padding: EdgeInsets.only(left: iconPadding),
                 child: Icon(
@@ -64,7 +68,7 @@ class MinMaxDurationColumn extends StatelessWidget {
               ),
             ],
           ),
-        ) : DurationText(durationNullable: min, isMain: false,),
+        ) : DurationText(durationNullable: eventDuration, isMain: false,),
       ],
     );
   }

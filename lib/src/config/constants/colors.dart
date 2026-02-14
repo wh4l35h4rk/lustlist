@@ -235,5 +235,21 @@ class ChartColors{
           Theme.of(context).colorScheme.surface,
           Colors.grey, 0.07
       )!;
+
+  Color cardTop(BuildContext context) =>
+      colorBlend(
+        Theme.of(context).colorScheme.tertiaryContainer,
+        Theme.of(context).colorScheme.primary, 0.85)!;
+
+  Color cardBottom(BuildContext context) =>
+      colorBlend(
+          colorBlend(
+              Theme.of(context).colorScheme.tertiaryContainer,
+              Theme.of(context).colorScheme.primaryContainer, 0.5)!,
+          Theme.of(context).colorScheme.surface,
+          0.5
+      )!;
+
+  Color cardTitle(BuildContext context) => Theme.of(context).colorScheme.onPrimary;
 }
 

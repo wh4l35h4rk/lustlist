@@ -1,22 +1,27 @@
 class EventDuration {
-  late int hour;
-  late int minute;
+  late int days;
+  late int hours;
+  late int minutes;
   late int minutesTotal;
 
   EventDuration(this.minutesTotal) {
-    hour = minutesTotal ~/ 60;
-    minute = minutesTotal % 60;
+    days = minutesTotal ~/ (60 * 24);
+    final minutesWithoutDays = minutesTotal % (60 * 24);
+
+    hours = minutesWithoutDays ~/ 60;
+    minutes = minutesWithoutDays % 60;
   }
 
-  EventDuration.explicit(this.hour, this.minute) {
-    minutesTotal = hour * 60 + minute;
+  EventDuration.explicit(this.days, this.hours, this.minutes) {
+    minutesTotal = days * 24 * 60 + hours * 60 + minutes;
   }
 
   DateTime toDateTime(){
     return DateTime(
-      1, 0, 0,
-      hour,
-      minute
+      1, 0,
+      days,
+      hours,
+      minutes
     );
   }
 }

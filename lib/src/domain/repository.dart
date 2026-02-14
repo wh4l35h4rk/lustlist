@@ -127,7 +127,7 @@ class EventRepository {
 
   
   Future<void> loadEventData(int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn) async {
-    EventDuration? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
+    EventDuration? fixedDuration = (duration != null && duration.hours == 0 && duration.minutes == 0) ? null : duration;
 
     await db.insertEventData(
       EventDataTableCompanion.insert(
@@ -194,7 +194,7 @@ class EventRepository {
       return;
     }
 
-    EventDuration? fixedDuration = (duration != null && duration.hour == 0 && duration.minute == 0) ? null : duration;
+    EventDuration? fixedDuration = (duration != null && duration.hours == 0 && duration.minutes == 0) ? null : duration;
 
     await db.updateEventDataByEventId(
       eventId,
@@ -273,6 +273,12 @@ class EventRepository {
     int typeId = await db.getTypeIdBySlug(typeSlug);
     double? avg = await db.getAvgDuration(typeId);
     return avg;
+  }
+
+  Future<int?> getTotalDuration(String typeSlug) async {
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    int? total = await db.getTotalDuration(typeId);
+    return total;
   }
 
   Future<CalendarEvent?> getMaxOrMinDurationCalendarEvent(String typeSlug, AggroType agg) async {

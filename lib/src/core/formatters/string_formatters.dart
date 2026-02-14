@@ -28,8 +28,8 @@ class StringFormatter {
   
   static String duration(EventDuration? duration, bool isShort) {
     if (duration != null) {
-      int hours = duration.hour;
-      int minutes = duration.minute;
+      int hours = duration.hours;
+      int minutes = duration.minutes;
 
       if (hours == 0 && minutes == 0) {
         return isShort ? MiscStrings.unknown : MiscStrings.durationUnknown;

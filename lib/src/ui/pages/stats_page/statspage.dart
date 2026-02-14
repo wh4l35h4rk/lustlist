@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
-import 'package:lustlist/src/core/widgets/duration_stats.dart';
+import 'package:lustlist/src/core/widgets/default_divider.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/total_duration_widget.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -30,6 +31,7 @@ class _StatsPageState extends State<StatsPage> {
   List<List<FlSpot>>? yearlySpots;
   EventDurationStats? sexDurationStats;
   EventDurationStats? mstbDurationStats;
+  List<int?>? totalDurationStats;
 
   @override
   void initState() {
@@ -72,6 +74,10 @@ class _StatsPageState extends State<StatsPage> {
       final mstbMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("masturbation", AggroType.max);
       final mstbMinEvent = await repo.getMaxOrMinDurationCalendarEvent("masturbation", AggroType.min);
 
+      // total duration stats
+      final sexTotal = await repo.getTotalDuration("sex");
+      final mstbTotal = await repo.getTotalDuration("masturbation");
+
       setState(() {
         yearlySpots = [
           sexSpots,
@@ -79,6 +85,10 @@ class _StatsPageState extends State<StatsPage> {
         ];
         sexDurationStats = EventDurationStats(sexAvg, sexMinEvent, sexMaxEvent);
         mstbDurationStats = EventDurationStats(mstbAvg, mstbMinEvent, mstbMaxEvent);
+        totalDurationStats = [
+          sexTotal,
+          mstbTotal
+        ];
 
         _isLoading = false;
         _isError = false;
@@ -118,10 +128,12 @@ class _StatsPageState extends State<StatsPage> {
                 mstbStats: mstbDurationStats!,
                 sexStats: sexDurationStats!,
               ),
-              Padding(
-                padding: AppInsets.divider,
-                child: Divider(height: AppSizes.dividerMinimal,),
+              DefaultDivider(),
+              TotalDuration(
+                sexDuration: totalDurationStats![0],
+                mstbDuration: totalDurationStats![1],
               ),
+              DefaultDivider(),
               LineChartYearly(spots: yearlySpots!)
           ])),
         ]

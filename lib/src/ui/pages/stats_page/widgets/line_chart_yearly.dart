@@ -4,6 +4,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -56,12 +57,7 @@ class LineChartYearlyState extends State<LineChartYearly> {
                   children: [
                     Text(
                       ChartStrings.lastYearChart,
-                      style: TextStyle(
-                        color: AppColors.title(context),
-                        fontSize: AppSizes.titleLarge,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: AppSizes.chartTitleSpacing,
-                      ),
+                      style: AppStyles.chartTitle(context),
                       textAlign: TextAlign.center,
                     ),
                     CheckmarkLegendRow(

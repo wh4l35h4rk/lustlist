@@ -50,6 +50,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
     final duration = EventDuration.explicit(
+        0,
         _dataController.durationController.time.hour,
         _dataController.durationController.time.minute
     );

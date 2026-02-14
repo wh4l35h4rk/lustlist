@@ -20,8 +20,11 @@ class DurationText extends StatelessWidget {
   Widget build(BuildContext context) {
     EventDuration duration = durationNullable == null ? EventDuration(0) : durationNullable!;
 
-    bool hasHours = duration.hour != 0;
-    bool hasMinutes = duration.minute != 0;
+    bool hasDays = duration.days != 0;
+    bool hasHours = duration.hours != 0;
+    bool hasMinutes = duration.minutes != 0;
+
+    bool isNull = !hasDays && !hasHours && !hasMinutes;
 
     TextStyle numsStyle = TextStyle(
         fontSize: isMain ? 55 : 35,
@@ -32,25 +35,61 @@ class DurationText extends StatelessWidget {
         color: AppColors.text(context)
     );
 
-    TextSpan placeholder = TextSpan(text: '');
-
-    return RichText(
+    return isNull ?
+    RichText(
       text: TextSpan(
+        text: '--',
         style: numsStyle,
-        children: <TextSpan>[
-          (!hasHours && !hasMinutes) ? TextSpan(text: '--') : placeholder,
-          hasHours ? TextSpan(text: duration.hour.toString()) : placeholder,
-          hasHours ? TextSpan(
-              text: ' ${MiscStrings.h}   ',
-              style: subtextStyle
-          ) : placeholder,
-          hasMinutes ? TextSpan(text: duration.minute.toString()) : placeholder,
-          hasMinutes ? TextSpan(
-              text: ' ${MiscStrings.m}',
-              style: subtextStyle
-          ) : placeholder,
-        ],
       ),
+    ) :
+    Wrap(
+      alignment: WrapAlignment.center,
+      children: [
+        if (hasDays) RichText(
+          softWrap: false,
+          text: TextSpan(
+            style: numsStyle,
+            children: <TextSpan>[
+              TextSpan(
+                text: duration.days.toString()),
+                TextSpan(
+                  text: formatSubtext(MiscStrings.d),
+                  style: subtextStyle
+              )
+            ],
+          ),
+        ),
+        if (hasHours) RichText(
+          softWrap: false,
+          text: TextSpan(
+            style: numsStyle,
+            children: <TextSpan>[
+              TextSpan(text: duration.hours.toString()),
+              TextSpan(
+                  text: formatSubtext(MiscStrings.h),
+                  style: subtextStyle
+              )
+            ],
+          ),
+        ),
+        if (hasMinutes) RichText(
+          softWrap: false,
+          text: TextSpan(
+            style: numsStyle,
+            children: <TextSpan>[
+              TextSpan(text: duration.minutes.toString()),
+              TextSpan(
+                  text: formatSubtext(MiscStrings.m),
+                  style: subtextStyle
+              )
+            ],
+          ),
+        ),
+      ],
     );
+  }
+
+  String formatSubtext(String s) {
+    return ' $s   ';
   }
 }

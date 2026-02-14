@@ -62,9 +62,10 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     final rating = _dataController.rating;
     final orgasmAmount = _dataController.orgasmAmount;
     final duration = EventDuration.explicit(
+        0,
         _dataController.durationController.time.hour,
         _dataController.durationController.time.minute
-    );
+    );;
     final didWatchPorn = _dataController.pornController.value;
     final practicesOptions = _practicesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();

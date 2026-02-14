@@ -142,6 +142,17 @@ class AppDatabase extends _$AppDatabase {
     return query.map((row) => row.read(avgDuration)).getSingleOrNull();
   }
 
+  Future<int?> getTotalDuration(int typeId) async {
+    final totalDuration = eventDataTable.duration.sum();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(events.typeId.equals(typeId));
+    query.addColumns([totalDuration]);
+
+    return query.map((row) => row.read(totalDuration)).getSingleOrNull();
+  }
+
 
   // Get Type
   Future<Type> getTypeByEventId(Event event) async {

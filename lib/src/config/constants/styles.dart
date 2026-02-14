@@ -12,4 +12,13 @@ class AppStyles{
       fontWeight: FontWeight.bold,
     );
   }
+
+  static TextStyle chartTitle(BuildContext context){
+    return TextStyle(
+      color: AppColors.chart.title(context),
+      fontSize: AppSizes.titleLarge,
+      fontWeight: FontWeight.bold,
+      letterSpacing: AppSizes.chartTitleSpacing,
+    );
+  }
 }
