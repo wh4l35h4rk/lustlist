@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -44,7 +45,7 @@ class PartnerListTile extends StatelessWidget {
               )
             ],
           ),
-          subtitle: _getSubtitle(),
+          subtitle: _getSubtitle(context),
           trailing: Icon(Icons.arrow_forward_ios)
       ),
     );
@@ -55,14 +56,11 @@ class PartnerListTile extends StatelessWidget {
     return dateFormatted;
   }
 
-  Widget _getSubtitle(){
+  Widget _getSubtitle(BuildContext context){
     if (lastDate == null || lastDate == defaultDate) {
       return Text(
         MiscStrings.noPartnerEvents,
-        style: TextStyle(
-          fontSize: AppSizes.textBasic,
-          fontStyle: FontStyle.italic
-        ),
+        style: AppStyles.noDataText(context)
       );
     } else {
       return Wrap(

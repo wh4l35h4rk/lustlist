@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -82,13 +83,13 @@ class NotesTile extends StatelessWidget {
               bottomRight: Radius.circular(12.0),
             ),
           ),
-          child: _getNotes(),
+          child: _getNotes(context),
         ),
       ],
     );
   }
 
-  Widget _getNotes() {
+  Widget _getNotes(BuildContext context) {
     String? notes;
     if (event != null) {
       notes = event!.event.notes;
@@ -99,10 +100,7 @@ class NotesTile extends StatelessWidget {
     if (notes == null || notes.isEmpty || notes == "") {
       return Text(
         MiscStrings.noNotes,
-        style: TextStyle(
-          fontSize: AppSizes.textBasic,
-          fontStyle: FontStyle.italic,
-        ),
+        style: AppStyles.noDataText(context)
       );
     } else {
       return Wrap(children: [

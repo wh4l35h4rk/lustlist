@@ -265,14 +265,14 @@ class ChartColors{
   // bar chart
   Color barStart(BuildContext context) =>
       colorBlend(
-          Color.fromRGBO(0, 140, 110, 1),
+          Color.fromRGBO(0, 220, 200, 1),
           blendColor(context),
-          0.4
+          0.9
       )!;
   Color barEnd(BuildContext context) =>
       colorBlend(
-          Color.fromRGBO(0, 220, 200, 1),
-          blendColor(context),
+          Color.fromRGBO(0, 220, 180, 1),
+          Theme.of(context).colorScheme.surface,
           0.2
       )!;
 
