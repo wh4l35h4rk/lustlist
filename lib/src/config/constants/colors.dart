@@ -38,6 +38,8 @@ class AppColors {
   );
 
   static Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
+
+  static Color divider(BuildContext context) => Theme.of(context).dividerColor;
 }
 
 
@@ -189,7 +191,22 @@ class ChartColors{
 
   Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
   Color subtitle(BuildContext context) => Theme.of(context).colorScheme.secondary;
+  Color text(BuildContext context) => Theme.of(context).colorScheme.onSurface;
 
+  Color tooltipSurface(BuildContext context) =>
+      colorBlend(
+          Theme.of(context).colorScheme.surface,
+          Theme.of(context).colorScheme.secondaryContainer, 0.5
+      )!;
+
+  Color bgIcon(BuildContext context) =>
+      colorBlend(
+          Theme.of(context).colorScheme.surface,
+          Colors.grey, 0.07
+      )!;
+
+
+  // partners pie chart
   Color male(BuildContext context) =>
       colorBlend(Colors.lightBlue, blendColor(context), 0.4)!;
   Color female(BuildContext context) =>
@@ -213,6 +230,8 @@ class ChartColors{
   Color nonbinaryAccent(BuildContext context) =>
       colorBlend(nonbinary(context), blendColor(context), 0.6)!;
 
+
+  // line chart
   Color sexLine(BuildContext context) =>
       colorBlend(
         blendColor(context),
@@ -224,18 +243,8 @@ class ChartColors{
         Theme.of(context).colorScheme.secondary, 0.1
       )!;
 
-  Color tooltipSurface(BuildContext context) =>
-      colorBlend(
-          Theme.of(context).colorScheme.surface,
-          Theme.of(context).colorScheme.secondaryContainer, 0.5
-      )!;
 
-  Color bgIcon(BuildContext context) =>
-      colorBlend(
-          Theme.of(context).colorScheme.surface,
-          Colors.grey, 0.07
-      )!;
-
+  // cards
   Color cardTop(BuildContext context) =>
       colorBlend(
         Theme.of(context).colorScheme.tertiaryContainer,
@@ -251,5 +260,23 @@ class ChartColors{
       )!;
 
   Color cardTitle(BuildContext context) => Theme.of(context).colorScheme.onPrimary;
+
+
+  // bar chart
+  Color barStart(BuildContext context) =>
+      colorBlend(
+          Color.fromRGBO(0, 140, 110, 1),
+          blendColor(context),
+          0.4
+      )!;
+  Color barEnd(BuildContext context) =>
+      colorBlend(
+          Color.fromRGBO(0, 220, 200, 1),
+          blendColor(context),
+          0.2
+      )!;
+
+  //Color barStart() => Color.fromRGBO(0, 140, 110, 1);
+  //Color barEnd() => Color.fromRGBO(0, 220, 200, 1);
 }
 

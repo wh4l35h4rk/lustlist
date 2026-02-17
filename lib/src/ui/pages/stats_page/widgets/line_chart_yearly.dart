@@ -149,6 +149,7 @@ class _LineChart extends StatelessWidget {
     return LineChart(
       data,
       duration: const Duration(milliseconds: chartDuration),
+      curve: Curves.linear,
     );
   }
 
@@ -274,7 +275,9 @@ class _LineChart extends StatelessWidget {
   FlGridData get gridData => FlGridData(
     show: true,
     drawHorizontalLine: true,
-    drawVerticalLine: true
+    drawVerticalLine: true,
+    verticalInterval: monthInMs * 2,
+    horizontalInterval: 1,
   );
 
   // bottom border of chart

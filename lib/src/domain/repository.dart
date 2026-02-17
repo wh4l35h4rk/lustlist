@@ -9,6 +9,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'entities/calendar_event.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 
@@ -295,11 +296,30 @@ class EventRepository {
     }
   }
 
+
   Future<List<EOption>> getOptionsList(int eventId, String categorySlug) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
     return options;
   }
+
+  Future<List<OptionRank>?> getOptionsRanked({
+    required String categorySlug,
+    int limit = 5,
+    bool isReversed = false
+  }) async {
+    int categoryId = await db.getCategoryIdBySlug(categorySlug);
+    List<OptionRank> values = await db.getTopOptionsInCategory(categoryId, limit, isReversed);
+
+    values.sort((a, b) {
+      int aValue = isReversed ? a.value : -1 * a.value;
+      int bValue = isReversed ? b.value : -1 * b.value;
+      return aValue.compareTo(bValue);
+    });
+    return values;
+  }
+
+
 
   Future<DateTime> getPartnerLastEventDate(int partnerId) async {
     List<Event> events = await db.getEventsByPartnerId(partnerId);

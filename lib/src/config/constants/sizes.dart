@@ -42,4 +42,6 @@ class AppSizes {
 
   static const double numStatsLarge = 55;
   static const double numStatsMedium = 35;
+
+  static const double barWidth = 20;
 }

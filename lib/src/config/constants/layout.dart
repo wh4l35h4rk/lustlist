@@ -35,15 +35,24 @@ class AppInsets {
     horizontal: 20,
     vertical: 15
   );
+
   static const EdgeInsets lineChart = EdgeInsets.only(
-      left: 20,
-      right: 10 + AppSizes.chartSideTitlesSpace
+    left: 20,
+    right: 10 + AppSizes.chartSideTitlesSpace
   );
+
+  static const EdgeInsets barChart = EdgeInsets.only(
+    left: 20,
+    right: 10 + AppSizes.chartSideTitlesSpace,
+    top: 20,
+    bottom: 15
+  );
+
   static const EdgeInsets chartTitle = EdgeInsets.only(
-      right: 8.0,
-      left: 8.0,
-      top: 20,
-      bottom: 15
+    right: 8.0,
+    left: 8.0,
+    top: 20,
+    bottom: 15
   );
   
   static const EdgeInsets pieChart = EdgeInsets.all(40.0);

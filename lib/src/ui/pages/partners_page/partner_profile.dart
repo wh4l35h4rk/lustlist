@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -145,11 +146,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 3),
                         child: Text(
                             MiscStrings.noPartnerEvents,
-                            style: TextStyle(
-                              fontSize: AppSizes.textBasic,
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.defaultTile(context)
-                            ),
+                            style: AppStyles.noDataText(context)
                           ),
                       )
                       : SizedBox.shrink(),

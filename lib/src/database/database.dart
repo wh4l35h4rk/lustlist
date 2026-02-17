@@ -3,6 +3,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:lustlist/src/database/tables/categories.dart';
 import 'package:lustlist/src/database/tables/events.dart';
@@ -283,6 +284,36 @@ class AppDatabase extends _$AppDatabase {
       t.eventId.equals(eventId) & t.optionId.equals(optionId))).getSingle();
     return result.testStatus;
   }
+  
+  Future<List<OptionRank>> getTopOptionsInCategory(int categoryId, int limit, bool isReversed) async {
+    final amountOfOccurrence = eOptions.id.count();
+    
+    final query = select(eventsOptions).join([
+      innerJoin(
+        eOptions, 
+        eOptions.id.equalsExp(eventsOptions.optionId),
+      ),
+    ])..where(eOptions.categoryId.equals(categoryId));
+
+    query
+      ..addColumns([amountOfOccurrence])
+      ..groupBy([eOptions.id])
+      ..orderBy([isReversed ? OrderingTerm.asc(amountOfOccurrence) : OrderingTerm.desc(amountOfOccurrence)])
+      ..limit(limit);
+
+    final result = await query.get();
+
+    List<OptionRank> resultList = [];
+    for (final row in result) {
+      int? optionId = row.read(eOptions.id);
+      String? displayedName = row.read(eOptions.name);
+      int? amount = row.read(amountOfOccurrence);
+      if (optionId != null && displayedName != null && amount != null) {
+        resultList.add(OptionRank(displayedName, amount));
+      }
+    }
+    return resultList;
+  }
 
 
   // INSERT:
@@ -331,6 +362,9 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+        },
         onCreate: (m) async {
           await m.createAll();
           await batch((batch) {

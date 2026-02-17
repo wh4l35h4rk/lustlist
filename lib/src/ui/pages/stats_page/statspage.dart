@@ -4,10 +4,12 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/default_divider.dart';
+import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/top_practices_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/total_duration_widget.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
@@ -32,6 +34,7 @@ class _StatsPageState extends State<StatsPage> {
   EventDurationStats? sexDurationStats;
   EventDurationStats? mstbDurationStats;
   List<int?>? totalDurationStats;
+  List<OptionRank>? topPractices;
 
   @override
   void initState() {
@@ -78,6 +81,9 @@ class _StatsPageState extends State<StatsPage> {
       final sexTotal = await repo.getTotalDuration("sex");
       final mstbTotal = await repo.getTotalDuration("masturbation");
 
+      // top options
+      final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
+
       setState(() {
         yearlySpots = [
           sexSpots,
@@ -89,6 +95,7 @@ class _StatsPageState extends State<StatsPage> {
           sexTotal,
           mstbTotal
         ];
+        topPractices = topPracticesList;
 
         _isLoading = false;
         _isError = false;
@@ -128,6 +135,8 @@ class _StatsPageState extends State<StatsPage> {
                 mstbStats: mstbDurationStats!,
                 sexStats: sexDurationStats!,
               ),
+              DefaultDivider(),
+              TopPracticesChart(optionsList: topPractices!),
               DefaultDivider(),
               TotalDuration(
                 sexDuration: totalDurationStats![0],
