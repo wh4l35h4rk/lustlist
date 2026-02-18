@@ -263,18 +263,22 @@ class ChartColors{
 
 
   // bar chart
-  Color barStart(BuildContext context) =>
+  Color practicesAccent() => Color.fromRGBO(80, 220, 200, 1);
+  Color posesAccent() => Color.fromRGBO(90, 200, 240, 1);
+
+  Color barStart(Color accentColor, BuildContext context) =>
       colorBlend(
-          Color.fromRGBO(0, 220, 200, 1),
+          accentColor,
           blendColor(context),
           0.9
       )!;
-  Color barEnd(BuildContext context) =>
+  Color barEnd(Color accentColor, BuildContext context) =>
       colorBlend(
-          Color.fromRGBO(0, 220, 180, 1),
+          accentColor,
           Theme.of(context).colorScheme.surface,
           0.2
       )!;
+
 
   //Color barStart() => Color.fromRGBO(0, 140, 110, 1);
   //Color barEnd() => Color.fromRGBO(0, 220, 200, 1);

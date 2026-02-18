@@ -198,28 +198,26 @@ class _PartnersChartState extends State<PartnersChart> {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _getPartnersGenderAmount(widget.partners, Gender.female) != 0
-            ? Padding(
+        if (_getPartnersGenderAmount(widget.partners, Gender.female) != 0)
+            Padding(
               padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.female(context),
                 text: Gender.female.label,
                 isSquare: false,
               ),
-            )
-            : SizedBox.shrink(),
-        _getPartnersGenderAmount(widget.partners, Gender.male) != 0
-            ? Padding(
+            ),
+        if (_getPartnersGenderAmount(widget.partners, Gender.male) != 0)
+            Padding(
               padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.male(context),
                 text: Gender.male.label,
                 isSquare: false,
               ),
-            )
-            : SizedBox.shrink(),
-        _getPartnersGenderAmount(widget.partners, Gender.nonbinary) != 0
-            ? Padding(
+            ),
+        if (_getPartnersGenderAmount(widget.partners, Gender.nonbinary) != 0)
+            Padding(
               padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.nonbinary(context),
@@ -227,7 +225,6 @@ class _PartnersChartState extends State<PartnersChart> {
                 isSquare: false,
               ),
             )
-            : SizedBox.shrink()
       ],
     );
   }

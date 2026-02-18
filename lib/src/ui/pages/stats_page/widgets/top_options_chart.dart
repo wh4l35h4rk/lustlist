@@ -10,12 +10,16 @@ import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
 
-class TopPracticesChart extends StatelessWidget {
+class TopOptionsChart extends StatelessWidget {
   final List<OptionRank> optionsList;
+  final String title;
+  final Color? barAccentColor;
 
-  const TopPracticesChart({
+  const TopOptionsChart({
     super.key,
-    required this.optionsList
+    required this.optionsList,
+    required this.title,
+    this.barAccentColor
   });
 
   @override
@@ -26,7 +30,7 @@ class TopPracticesChart extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            StringFormatter.colon(ChartStrings.topPracticesChart),
+            StringFormatter.colon(title),
             style: AppStyles.chartTitle(context),
             textAlign: TextAlign.center,
           ),
@@ -41,7 +45,10 @@ class TopPracticesChart extends StatelessWidget {
           )
           : AspectRatio(
             aspectRatio: calculateRatio(),
-            child: _BarChart(optionsList: optionsList),
+            child: _BarChart(
+              optionsList: optionsList,
+              barAccentColor: barAccentColor,
+            ),
           ),
         ],
       ),
@@ -50,16 +57,18 @@ class TopPracticesChart extends StatelessWidget {
 
   double calculateRatio(){
     int length = optionsList.length;
-    return pow(0.55, length - 3.45) + 1.25;
+    return pow(0.55, length - 3.45) + 1.3;
   }
 }
 
 
 class _BarChart extends StatelessWidget {
   final List<OptionRank> optionsList;
+  final Color? barAccentColor;
 
   const _BarChart({
-    required this.optionsList
+    required this.optionsList,
+    this.barAccentColor
   });
 
   @override
@@ -113,7 +122,7 @@ class _BarChart extends StatelessWidget {
     String text = optionsList[value.round()].displayedName;
     return SideTitleWidget(
       meta: meta,
-      space: 10,
+      space: 12,
       child: Text(
         text,
         style: style,
@@ -149,7 +158,7 @@ class _BarChart extends StatelessWidget {
   // chart border
   FlBorderData borderData(BuildContext context) {
     return FlBorderData(
-        show: false,
+        show: true,
         border: Border(bottom: BorderSide(
           color: AppColors.divider(context),
         ))
@@ -160,8 +169,8 @@ class _BarChart extends StatelessWidget {
   LinearGradient _barsGradient(BuildContext context) {
     return LinearGradient(
     colors: [
-      AppColors.chart.barStart(context),
-      AppColors.chart.barEnd(context),
+      AppColors.chart.barStart(barAccentColor ?? AppColors.primary(context), context),
+      AppColors.chart.barEnd(barAccentColor ?? AppColors.primary(context), context),
     ],
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
@@ -178,7 +187,7 @@ class _BarChart extends StatelessWidget {
             toY: optionsList[i].value.toDouble(),
             width: AppSizes.barWidth,
             gradient: _barsGradient(context),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(12), bottom: Radius.circular(5))
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12))
           )
         ],
         showingTooltipIndicators: [0],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
+import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/default_divider.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
@@ -9,7 +11,7 @@ import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/top_practices_chart.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/top_options_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/total_duration_widget.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
@@ -35,6 +37,7 @@ class _StatsPageState extends State<StatsPage> {
   EventDurationStats? mstbDurationStats;
   List<int?>? totalDurationStats;
   List<OptionRank>? topPractices;
+  List<OptionRank>? topPoses;
 
   @override
   void initState() {
@@ -83,6 +86,7 @@ class _StatsPageState extends State<StatsPage> {
 
       // top options
       final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
+      final topPosesList = await repo.getOptionsRanked(categorySlug: "poses");
 
       setState(() {
         yearlySpots = [
@@ -96,6 +100,7 @@ class _StatsPageState extends State<StatsPage> {
           mstbTotal
         ];
         topPractices = topPracticesList;
+        topPoses = topPosesList;
 
         _isLoading = false;
         _isError = false;
@@ -136,11 +141,21 @@ class _StatsPageState extends State<StatsPage> {
                 sexStats: sexDurationStats!,
               ),
               DefaultDivider(),
-              TopPracticesChart(optionsList: topPractices!),
+              TopOptionsChart(
+                optionsList: topPractices!,
+                title: ChartStrings.topPracticesChart,
+                barAccentColor: AppColors.chart.practicesAccent(),
+              ),
               DefaultDivider(),
               TotalDuration(
                 sexDuration: totalDurationStats![0],
                 mstbDuration: totalDurationStats![1],
+              ),
+              DefaultDivider(),
+              TopOptionsChart(
+                optionsList: topPoses!,
+                title: ChartStrings.topPosesChart,
+                barAccentColor: AppColors.chart.posesAccent(),
               ),
               DefaultDivider(),
               LineChartYearly(spots: yearlySpots!)
