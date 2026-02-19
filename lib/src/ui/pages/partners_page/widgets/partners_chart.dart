@@ -26,8 +26,9 @@ class _PartnersChartState extends State<PartnersChart> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 16,
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
           height: AppSizes.roundChartSize,
@@ -59,7 +60,7 @@ class _PartnersChartState extends State<PartnersChart> {
             curve: Curves.linear,
           ),
         ),
-        chartLegend(),
+        Expanded(child: chartLegend()),
       ],
     );
   }

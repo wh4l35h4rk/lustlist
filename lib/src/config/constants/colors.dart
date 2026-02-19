@@ -188,6 +188,8 @@ class EventDataColors {
 
 class ChartColors{
   Color blendColor(BuildContext context) => Theme.of(context).colorScheme.inversePrimary;
+  Color colorAccent(Color color, BuildContext context) =>
+      colorBlend(color, blendColor(context), 0.6)!;
 
   Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
   Color subtitle(BuildContext context) => Theme.of(context).colorScheme.secondary;
@@ -211,7 +213,6 @@ class ChartColors{
       colorBlend(Colors.lightBlue, blendColor(context), 0.4)!;
   Color female(BuildContext context) =>
       colorBlend(Colors.redAccent, blendColor(context), 0.4)!;
-
   Color nonbinary(BuildContext context) =>
       colorBlend(
           colorBlend(
@@ -223,12 +224,17 @@ class ChartColors{
           0.4
       )!;
 
-  Color femaleAccent(BuildContext context) =>
-      colorBlend(female(context), blendColor(context), 0.6)!;
-  Color maleAccent(BuildContext context) =>
-      colorBlend(male(context), blendColor(context), 0.6)!;
-  Color nonbinaryAccent(BuildContext context) =>
-      colorBlend(nonbinary(context), blendColor(context), 0.6)!;
+  Color femaleAccent(BuildContext context) => colorAccent(female(context), context);
+  Color maleAccent(BuildContext context) => colorAccent(male(context), context);
+  Color nonbinaryAccent(BuildContext context) => colorAccent(nonbinary(context), context);
+
+  // orgasm ratio pie chart
+  Color user(BuildContext context) =>
+      colorBlend(Colors.redAccent, blendColor(context), 0.4)!;
+  Color partners(BuildContext context) =>
+      colorBlend(Colors.amber.shade600, blendColor(context), 0.4)!;
+  Color userAccent(BuildContext context) => colorAccent(user(context), context);
+  Color partnersAccent(BuildContext context) => colorAccent(partners(context), context);
 
 
   // line chart

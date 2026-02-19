@@ -31,11 +31,14 @@ class LegendRow extends StatelessWidget {
         const SizedBox(
           width: 6,
         ),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: AppSizes.textBasic,
-            color: textColor,
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: AppSizes.textBasic,
+              color: textColor,
+            ),
+            softWrap: true,
           ),
         )
       ],

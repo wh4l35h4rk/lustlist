@@ -55,7 +55,6 @@ class EventRepository {
   DateTime addMonth(DateTime date) {
     var year = date.year + ((date.month + 1) ~/ 12);
     var month = (date.month + 1) % 12;
-    // if (month == 0) month = 12;
     var day = date.day;
 
     if (day > 28) {
@@ -294,6 +293,18 @@ class EventRepository {
       CalendarEvent event = await dbToCalendarEvent(randomItem);
       return event;
     }
+  }
+
+
+  Future<int> getUserOrgasmsAmount(String typeSlug) async {
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    int? amount = await db.getUserOrgasmsAmount(typeId);
+    return amount ?? 0;
+  }
+
+  Future<int> getPartnersOrgasmsAmount() async {
+    int? amount = await db.getPartnersOrgasmsAmount();
+    return amount ?? 0;
   }
 
 

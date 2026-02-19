@@ -11,6 +11,10 @@ class StringFormatter {
   static String endl(String s){
     return "$s\n";
   }
+
+  static String percentage(int value){
+    return "$value%";
+  }
   
   static String orgasmsAmount(int? orgasmsAmount) {
     if (orgasmsAmount == null) return MiscStrings.unknown;

@@ -56,6 +56,13 @@ class AppInsets {
   );
   
   static const EdgeInsets pieChart = EdgeInsets.all(40.0);
+  static const EdgeInsets pieChartWithTitle = EdgeInsets.only(
+      right: 30,
+      left: 30,
+      top: 20,
+      bottom: 25
+  );
+
   static const EdgeInsets chartIcon = EdgeInsets.all(4.0);
   static const EdgeInsets legendRow = EdgeInsets.symmetric(vertical: 2.0);
 

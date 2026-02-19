@@ -154,6 +154,28 @@ class AppDatabase extends _$AppDatabase {
     return query.map((row) => row.read(totalDuration)).getSingleOrNull();
   }
 
+  Future<int?> getUserOrgasmsAmount(int typeId) async {
+    final totalAmount = eventDataTable.userOrgasms.sum();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(events.typeId.equals(typeId));
+    query.addColumns([totalAmount]);
+
+    return query.map((row) => row.read(totalAmount)).getSingleOrNull();
+  }
+
+  Future<int?> getPartnersOrgasmsAmount() async {
+    final totalAmount = eventsPartners.partnerOrgasms.sum();
+
+    final query = select(eventsPartners).join([
+      innerJoin(events, events.id.equalsExp(eventsPartners.eventId))
+    ]);
+    query.addColumns([totalAmount]);
+
+    return query.map((row) => row.read(totalAmount)).getSingleOrNull();
+  }
+
 
   // Get Type
   Future<Type> getTypeByEventId(Event event) async {

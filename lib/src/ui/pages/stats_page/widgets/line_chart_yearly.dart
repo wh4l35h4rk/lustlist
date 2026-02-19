@@ -56,7 +56,7 @@ class LineChartYearlyState extends State<LineChartYearly> {
                 child: Column(
                   children: [
                     Text(
-                      ChartStrings.lastYearChart,
+                      StringFormatter.colon(ChartStrings.lastYearChart),
                       style: AppStyles.chartTitle(context),
                       textAlign: TextAlign.center,
                     ),

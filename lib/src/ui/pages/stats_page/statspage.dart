@@ -7,6 +7,7 @@ import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/default_divider.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/orgasms_ratio_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
@@ -38,6 +39,7 @@ class _StatsPageState extends State<StatsPage> {
   List<int?>? totalDurationStats;
   List<OptionRank>? topPractices;
   List<OptionRank>? topPoses;
+  List<int>? orgasmsAmount;
 
   @override
   void initState() {
@@ -88,6 +90,10 @@ class _StatsPageState extends State<StatsPage> {
       final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
       final topPosesList = await repo.getOptionsRanked(categorySlug: "poses");
 
+      // orgasm ratio
+      final userOrgasms = await repo.getUserOrgasmsAmount("sex");
+      final partnersOrgasms = await repo.getPartnersOrgasmsAmount();
+
       setState(() {
         yearlySpots = [
           sexSpots,
@@ -101,6 +107,11 @@ class _StatsPageState extends State<StatsPage> {
         ];
         topPractices = topPracticesList;
         topPoses = topPosesList;
+
+        orgasmsAmount = [
+          userOrgasms,
+          partnersOrgasms
+        ];
 
         _isLoading = false;
         _isError = false;
@@ -145,6 +156,11 @@ class _StatsPageState extends State<StatsPage> {
                 optionsList: topPractices!,
                 title: ChartStrings.topPracticesChart,
                 barAccentColor: AppColors.chart.practicesAccent(),
+              ),
+              DefaultDivider(),
+              OrgasmsRatioChart(
+                userAmount: orgasmsAmount![0],
+                partnersAmount: orgasmsAmount![1],
               ),
               DefaultDivider(),
               TotalDuration(
