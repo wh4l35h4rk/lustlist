@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
@@ -29,7 +30,6 @@ class TotalDuration extends StatelessWidget {
             StringFormatter.colon(ChartStrings.totalDuration),
             style: AppStyles.chartTitle(context)
           ),
-          SizedBox(height: 10),
           Row(
             children: [
               Expanded(
@@ -38,6 +38,7 @@ class TotalDuration extends StatelessWidget {
                   event: null,
                   title: DataStrings.sex,
                   value: sexDuration != null ? EventDuration(sexDuration!) : null,
+                  iconData: CategoryIcons.two,
                 ),
               ),
               SizedBox(width: 10),
@@ -47,6 +48,7 @@ class TotalDuration extends StatelessWidget {
                   event: null,
                   title: DataStrings.mstb,
                   value: mstbDuration != null ? EventDuration(mstbDuration!) : null,
+                  iconData: Icons.front_hand,
                 ),
               ),
             ]

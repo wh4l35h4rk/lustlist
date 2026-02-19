@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
@@ -14,12 +15,14 @@ class MinMaxDurationColumn extends StatelessWidget {
     super.key,
     required this.event,
     required this.title,
-    this.value
+    this.value,
+    this.iconData,
   });
 
   final CalendarEvent? event;
   final String title;
   final EventDuration? value;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -34,41 +37,51 @@ class MinMaxDurationColumn extends StatelessWidget {
     double iconPadding = 12;
     TextStyle titleStyle = AppStyles.numStatsTitle(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
+      alignment: AlignmentGeometry.center,
       children: [
-        Text(
-            StringFormatter.colon(title),
-            textAlign: TextAlign.center,
-            style: titleStyle
+        if (iconData != null) Icon(
+          iconData,
+          color: AppColors.chart.bgIcon(context),
+          size: 120
         ),
-        !valueNotEvent && eventHasDuration ?
-        InkWell(
-          onTap: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EventPage(event: event!),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+                StringFormatter.colon(title),
+                textAlign: TextAlign.center,
+                style: titleStyle
+            ),
+            !valueNotEvent && eventHasDuration ?
+            InkWell(
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventPage(event: event!),
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(width: AppSizes.iconSmall + iconPadding),
+                  DurationText(durationNullable: eventDuration, isMain: false,),
+                  Padding(
+                    padding: EdgeInsets.only(left: iconPadding),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: AppSizes.iconSmall,
+                    ),
+                  ),
+                ],
               ),
-            );
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(width: AppSizes.iconSmall + iconPadding),
-              DurationText(durationNullable: eventDuration, isMain: false,),
-              Padding(
-                padding: EdgeInsets.only(left: iconPadding),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: AppSizes.iconSmall,
-                ),
-              ),
-            ],
-          ),
-        ) : DurationText(durationNullable: eventDuration, isMain: false,),
+            ) : DurationText(durationNullable: eventDuration, isMain: false,),
+          ],
+        ),
       ],
     );
   }

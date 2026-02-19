@@ -277,7 +277,6 @@ class _LineChart extends StatelessWidget {
     drawHorizontalLine: true,
     drawVerticalLine: true,
     verticalInterval: monthInMs * 2,
-    horizontalInterval: 1,
   );
 
   // bottom border of chart

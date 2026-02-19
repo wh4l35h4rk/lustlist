@@ -271,6 +271,7 @@ class ChartColors{
   // bar chart
   Color practicesAccent() => Color.fromRGBO(80, 220, 200, 1);
   Color posesAccent() => Color.fromRGBO(90, 200, 240, 1);
+  Color soloPracticesAccent() => Color.fromRGBO(150, 150, 220, 1);
 
   Color barStart(Color accentColor, BuildContext context) =>
       colorBlend(

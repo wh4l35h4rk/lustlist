@@ -38,6 +38,7 @@ class _StatsPageState extends State<StatsPage> {
   EventDurationStats? mstbDurationStats;
   List<int?>? totalDurationStats;
   List<OptionRank>? topPractices;
+  List<OptionRank>? topSoloPractices;
   List<OptionRank>? topPoses;
   List<int>? orgasmsAmount;
 
@@ -88,6 +89,7 @@ class _StatsPageState extends State<StatsPage> {
 
       // top options
       final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
+      final topSoloPracticesList = await repo.getOptionsRanked(categorySlug: "solo practices");
       final topPosesList = await repo.getOptionsRanked(categorySlug: "poses");
 
       // orgasm ratio
@@ -107,6 +109,7 @@ class _StatsPageState extends State<StatsPage> {
         ];
         topPractices = topPracticesList;
         topPoses = topPosesList;
+        topSoloPractices = topSoloPracticesList;
 
         orgasmsAmount = [
           userOrgasms,
@@ -158,6 +161,12 @@ class _StatsPageState extends State<StatsPage> {
                 barAccentColor: AppColors.chart.practicesAccent(),
               ),
               DefaultDivider(),
+              TopOptionsChart(
+                optionsList: topPoses!,
+                title: ChartStrings.topPosesChart,
+                barAccentColor: AppColors.chart.posesAccent(),
+              ),
+              DefaultDivider(),
               OrgasmsRatioChart(
                 userAmount: orgasmsAmount![0],
                 partnersAmount: orgasmsAmount![1],
@@ -169,9 +178,9 @@ class _StatsPageState extends State<StatsPage> {
               ),
               DefaultDivider(),
               TopOptionsChart(
-                optionsList: topPoses!,
-                title: ChartStrings.topPosesChart,
-                barAccentColor: AppColors.chart.posesAccent(),
+                optionsList: topSoloPractices!,
+                title: ChartStrings.topSoloPracticesChart,
+                barAccentColor: AppColors.chart.soloPracticesAccent(),
               ),
               DefaultDivider(),
               LineChartYearly(spots: yearlySpots!)
