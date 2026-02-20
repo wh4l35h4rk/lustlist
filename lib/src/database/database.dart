@@ -55,6 +55,16 @@ class AppDatabase extends _$AppDatabase {
   Future<Event> getEventById(int id) async {
     return (select(events)..where((t) => t.id.equals(id))).getSingle();
   }
+  
+  Future<int?> countEventsOfType(int typeId) async {
+    final count = events.id.count();
+    final query = select(events).join([
+      innerJoin(types, events.typeId.equalsExp(types.id))
+    ])..where(types.id.equals(typeId));
+    query.addColumns([count]);
+
+    return query.map((row) => row.read(count)).getSingleOrNull();
+  }
 
   Future<List<Event>> getEventsByPartnerId(int partnerId) async {
     final query = select(eventsPartners).join([
@@ -154,7 +164,7 @@ class AppDatabase extends _$AppDatabase {
     return query.map((row) => row.read(totalDuration)).getSingleOrNull();
   }
 
-  Future<int?> getUserOrgasmsAmount(int typeId) async {
+  Future<int?> countUserOrgasms(int typeId) async {
     final totalAmount = eventDataTable.userOrgasms.sum();
 
     final query = select(eventDataTable).join([
@@ -165,7 +175,7 @@ class AppDatabase extends _$AppDatabase {
     return query.map((row) => row.read(totalAmount)).getSingleOrNull();
   }
 
-  Future<int?> getPartnersOrgasmsAmount() async {
+  Future<int?> countPartnersAmount() async {
     final totalAmount = eventsPartners.partnerOrgasms.sum();
 
     final query = select(eventsPartners).join([
@@ -174,6 +184,28 @@ class AppDatabase extends _$AppDatabase {
     query.addColumns([totalAmount]);
 
     return query.map((row) => row.read(totalAmount)).getSingleOrNull();
+  }
+
+  Future<int?> countSoloWithPorn() async {
+    final amount = eventDataTable.id.count();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(eventDataTable.didWatchPorn.equals(true));
+    query.addColumns([amount]);
+
+    return query.map((row) => row.read(amount)).getSingleOrNull();
+  }
+
+  Future<int?> countSoloWithToys() async {
+    final amount = eventDataTable.id.count();
+
+    final query = select(eventDataTable).join([
+      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
+    ])..where(eventDataTable.didUseToys.equals(true));
+    query.addColumns([amount]);
+
+    return query.map((row) => row.read(amount)).getSingleOrNull();
   }
 
 

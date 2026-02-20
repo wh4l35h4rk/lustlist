@@ -9,26 +9,36 @@ class RowData {
 
 
   List<String> get contraceptionOptionNames => [
-    "Pulling out", "Condom",  "Pill", "Latex napkin", "IUD", "Spermicides", "Hormonal ring"
+    "Pulling out", "Condom", "Pill", "Latex napkin", "IUD", "Spermicides", "Hormonal ring", "Vasectomy"
   ];
   List<String> get contraceptionOptionSlugs => [
-    "pulling out", "condom",  "pill", "latex napkin", "iud", "spermicides", "hormonal ring"
+    "pulling out", "condom", "pill", "latex napkin", "iud", "spermicides", "hormonal ring", "vasectomy"
   ];
 
   List<String> get posesOptionNames => [
-    "Missionary", "Cowgirl", "Doggystyle", "CAT", "Standing", "Side", "Prone bone", "69", "Lotus", "Eagle", "Reverse cowgirl"
+    "Missionary", "Legs on shoulders", "CAT",
+    "Cowgirl", "Reverse cowgirl",
+    "Doggystyle", "Prone bone",
+    "Standing", "Standing from behind",
+    "Side", "69", "Lotus",
   ];
   List<String> get posesOptionSlugs => [
-    "missionary", "cowgirl", "doggystyle", "cat", "standing", "side", "prone bone", "69", "lotus", "eagle", "reverse cowgirl"
+    "missionary", "legs on shoulders", "cat",
+    "cowgirl", "reverse cowgirl",
+    "doggystyle", "prone bone",
+    "standing", "standing from behind",
+    "side", "69", "lotus",
   ];
 
   List<String> get practicesOptionNames => [
     "Vaginal", "Petting", "Frottage", "Cunnilingus", "Blowjob", "Fingering", "Handjob", "Mutual masturbation",
-    "Intermammary", "Intercrural", "Anal", "Rimming", "Pegging", "Bondage", "Choking", "Toys", "Roleplay", "Waxplay",
+    "Intermammary", "Intercrural", "Anal", "Rimming", "Pegging", "Bondage", "Choking", "Toy usage", "Roleplay", "Waxplay",
+    "Spanking", "Handcuffing", "Tying up", "Masturbation"
   ];
   List<String> get practicesOptionSlugs => [
     "vaginal", "petting", "frottage", "cunnilingus", "blowjob", "fingering", "handjob", "mutual masturbation",
-    "intermammary", "intercrural", "anal", "rimming", "pegging", "bondage", "choking", "toys", "roleplay", "waxplay",
+    "intermammary", "intercrural", "anal", "rimming", "pegging", "bondage", "choking", "toy usage", "roleplay", "waxplay",
+    "spanking", "handcuffing", "tying up", "masturbation"
   ];
 
   List<String> get placeOptionNames => [
@@ -40,9 +50,9 @@ class RowData {
     "school", "university", "my place", "partner's place", "public space"
   ];
 
-  List<String> get soloPracticesOptionNames => ["Fingering", "Handjob", "Toys", "Frottage", "Anal"];
+  List<String> get soloPracticesOptionNames => ["Fingering", "Handjob", "Frottage", "Anal"];
   List<String> get soloPracticesOptionSlugs => [
-    "solo fingering", "solo handjob", "solo toys", "solo frottage", "solo anal"
+    "solo fingering", "solo handjob", "solo frottage", "solo anal"
   ];
 
   List<String> get stiOptionNames => [

@@ -8,6 +8,7 @@ class EditEventDataController {
   DateTime time;
   EventDuration? duration;
   bool? didWatchPorn;
+  bool? didUseToys;
   int? rating = 0;
   int? orgasmAmount;
 
@@ -16,6 +17,7 @@ class EditEventDataController {
     required this.time,
     required this.duration,
     required this.didWatchPorn,
+    required this.didUseToys,
     required this.rating,
     required this.orgasmAmount,
   });
@@ -24,6 +26,7 @@ class EditEventDataController {
   late final TimeController timeController = TimeController(time: time);
   late final TimeController durationController = TimeController(time: duration?.toDateTime());
   late final SwitchController pornController = SwitchController(value: didWatchPorn ?? false);
+  late final SwitchController toysController = SwitchController(value: didUseToys ?? false);
 
   void setRating(int newValue) {
     rating = newValue;

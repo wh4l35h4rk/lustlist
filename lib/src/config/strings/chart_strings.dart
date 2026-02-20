@@ -15,9 +15,11 @@ class ChartStrings{
   static String get totalDuration => "Total time spent";
 
   static String get noOptions => "You haven't tried anything yet!";
+  static String get noOrgasms => "No orgasms during sex yet!";
 
   static String get userOrgasms => "Your orgasms";
   static String get partnersOrgasms => "Partners' orgasms";
 
-  static String get noOrgasms => "No orgasms during sex yet!";
+  static String get pornRatio => "Porn watching";
+  static String get toyRatio => "Toys usage";
 }

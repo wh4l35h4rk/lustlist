@@ -66,7 +66,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     partners = _partnersController.getSelectedPartners();
 
     var id = await repo.loadEvent("sex", date, time, notes);
-    repo.loadEventData(id, rating, duration, orgasmAmount, null);
+    repo.loadEventData(id, rating, duration, orgasmAmount, null, null);
 
     for (var p in partners.keys) {
       repo.loadEventPartner(id, p.id, partners[p]);

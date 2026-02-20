@@ -24,4 +24,6 @@ class DataStrings {
   static const String place = "Place";
 
   static const String source = "Source code";
+
+  static String get toys => "Toys";
 }

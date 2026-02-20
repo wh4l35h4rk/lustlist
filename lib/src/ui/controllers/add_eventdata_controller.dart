@@ -13,6 +13,7 @@ class AddEventDataController {
   final TimeController timeController = TimeController();
   final TimeController durationController = TimeController();
   final SwitchController pornController = SwitchController(value: false);
+  final SwitchController toysController = SwitchController(value: false);
 
   int rating = 0;
   int? orgasmAmount;

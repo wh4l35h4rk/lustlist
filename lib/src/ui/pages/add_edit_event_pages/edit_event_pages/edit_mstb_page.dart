@@ -46,6 +46,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     time: event.event.time,
     duration: event.getDuration(),
     didWatchPorn: event.data?.didWatchPorn,
+    didUseToys: event.data?.didUseToys,
     rating: event.data?.rating,
     orgasmAmount: event.data?.userOrgasms,
   );
@@ -67,11 +68,12 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
         _dataController.durationController.time.minute
     );;
     final didWatchPorn = _dataController.pornController.value;
+    final didUseToys = _dataController.toysController.value;
     final practicesOptions = _practicesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();
 
     repo.updateEvent(event.event.id, date, time, notes);
-    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, didWatchPorn);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, didWatchPorn, didUseToys);
     database.deleteEventOptions(event.event.id);
 
     var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();

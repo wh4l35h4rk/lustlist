@@ -126,7 +126,9 @@ class EventRepository {
   }
 
   
-  Future<void> loadEventData(int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn) async {
+  Future<void> loadEventData(
+      int eventId, int rating, EventDuration? duration, int? orgasmAmount,
+      bool? didWatchPorn, bool? didUseToys) async {
     EventDuration? fixedDuration = (duration != null && duration.hours == 0 && duration.minutes == 0) ? null : duration;
 
     await db.insertEventData(
@@ -136,6 +138,7 @@ class EventRepository {
         duration: Value(fixedDuration?.minutesTotal),
         userOrgasms: Value(orgasmAmount),
         didWatchPorn: Value(didWatchPorn),
+        didUseToys: Value(didUseToys)
       ),
     );
   }
@@ -184,7 +187,7 @@ class EventRepository {
 
 
   Future<void> updateEventData(
-      int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn
+      int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn, bool? didUseToys
   ) async {
     var event = await (db.select(db.events)..where((t) => t.id.equals(eventId))).getSingleOrNull();
     if (event == null) {
@@ -202,7 +205,8 @@ class EventRepository {
           rating: Value(rating),
           duration: Value(fixedDuration?.minutesTotal),
           userOrgasms: Value(orgasmAmount),
-          didWatchPorn: Value(didWatchPorn)
+          didWatchPorn: Value(didWatchPorn),
+          didUseToys: Value(didUseToys)
       ),
     );
   }
@@ -298,12 +302,30 @@ class EventRepository {
 
   Future<int> getUserOrgasmsAmount(String typeSlug) async {
     int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? amount = await db.getUserOrgasmsAmount(typeId);
+    int? amount = await db.countUserOrgasms(typeId);
     return amount ?? 0;
   }
 
   Future<int> getPartnersOrgasmsAmount() async {
-    int? amount = await db.getPartnersOrgasmsAmount();
+    int? amount = await db.countPartnersAmount();
+    return amount ?? 0;
+  }
+
+  Future<int> getEventsWithPornAmount() async {
+    int? amount = await db.countSoloWithPorn();
+    print(amount);
+    return amount ?? 0;
+  }
+
+  Future<int> getEventsWithToysAmount() async {
+    int? amount = await db.countSoloWithToys();
+    return amount ?? 0;
+  }
+
+  Future<int> countEventsOfType(String typeSlug) async {
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    int? amount = await db.countEventsOfType(typeId);
+    print(amount);
     return amount ?? 0;
   }
 
@@ -472,6 +494,7 @@ class EventRepository {
           rating: 5,
           userOrgasms: Value(2),
           didWatchPorn: Value(false),
+          didUseToys: Value(false),
         )
     );
     await db.insertEventData(

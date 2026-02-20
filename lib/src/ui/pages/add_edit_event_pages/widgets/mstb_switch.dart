@@ -16,8 +16,10 @@ class SwitchController extends ValueNotifier<bool> {
 
 class MstbSwitch extends StatefulWidget {
   final SwitchController controller;
+  final bool isToys;
 
   const MstbSwitch(
+    this.isToys,
     this.controller,
     {super.key}
   );
@@ -31,15 +33,21 @@ class _MstbSwitchState extends State<MstbSwitch> {
 
   @override
   Widget build(BuildContext context) {
+    String falseString = widget.isToys ? MiscStrings.didNotUse : MiscStrings.didNotWatch;
+    String trueString = widget.isToys ? MiscStrings.didUse : MiscStrings.didWatch;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 8,
       children: [
         Expanded(
           flex: 1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(value ? MiscStrings.didWatch : MiscStrings.didNotWatch,
+              Text(value ? trueString : falseString,
+                softWrap: true,
+                textAlign: TextAlign.right,
                 style: TextStyle(
                     color: AppColors.addEvent.text(context),
                     fontSize: AppSizes.textBasic
@@ -48,7 +56,6 @@ class _MstbSwitchState extends State<MstbSwitch> {
             ],
           ),
         ),
-        SizedBox(width: 12),
         Expanded(
           flex: 1,
           child: Column(

@@ -12,6 +12,7 @@ import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
+import 'package:lustlist/src/ui/pages/stats_page/widgets/solo_stats.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/top_options_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/total_duration_widget.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
@@ -41,6 +42,8 @@ class _StatsPageState extends State<StatsPage> {
   List<OptionRank>? topSoloPractices;
   List<OptionRank>? topPoses;
   List<int>? orgasmsAmount;
+  List<int>? pornStats;
+  List<int>? toysStats;
 
   @override
   void initState() {
@@ -89,12 +92,18 @@ class _StatsPageState extends State<StatsPage> {
 
       // top options
       final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
-      final topSoloPracticesList = await repo.getOptionsRanked(categorySlug: "solo practices");
+      final topSoloPracticesList = await repo.getOptionsRanked(categorySlug: "solo practices", limit: 3);
       final topPosesList = await repo.getOptionsRanked(categorySlug: "poses");
 
       // orgasm ratio
       final userOrgasms = await repo.getUserOrgasmsAmount("sex");
       final partnersOrgasms = await repo.getPartnersOrgasmsAmount();
+
+      // solo stats
+      final mstbWithPorn = await repo.getEventsWithPornAmount();
+      final mstbWithToys = await repo.getEventsWithToysAmount();
+      final totalSoloEvents = await repo.countEventsOfType("masturbation");
+
 
       setState(() {
         yearlySpots = [
@@ -114,6 +123,15 @@ class _StatsPageState extends State<StatsPage> {
         orgasmsAmount = [
           userOrgasms,
           partnersOrgasms
+        ];
+
+        pornStats = [
+          mstbWithPorn,
+          totalSoloEvents
+        ];
+        toysStats = [
+          mstbWithToys,
+          totalSoloEvents
         ];
 
         _isLoading = false;
@@ -182,6 +200,8 @@ class _StatsPageState extends State<StatsPage> {
                 title: ChartStrings.topSoloPracticesChart,
                 barAccentColor: AppColors.chart.soloPracticesAccent(),
               ),
+              DefaultDivider(),
+              SoloStats(pornStats: pornStats!, toysStats: toysStats!),
               DefaultDivider(),
               LineChartYearly(spots: yearlySpots!)
           ])),

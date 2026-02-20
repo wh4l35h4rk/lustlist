@@ -21,6 +21,13 @@ class AppStyles{
     );
   }
 
+  static TextStyle numStatsSubtitle(BuildContext context) {
+    return TextStyle(
+        fontSize: AppSizes.textBasic,
+        color: AppColors.text(context)
+    );
+  }
+
   static TextStyle chartTitle(BuildContext context){
     return TextStyle(
       color: AppColors.chart.title(context),

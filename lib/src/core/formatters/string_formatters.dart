@@ -86,4 +86,8 @@ class StringFormatter {
 
     return '$hoursString:$minutesSting';
   }
+
+  static String eventRatio(int i, int j) {
+    return "($i/$j events)";
+  }
 }

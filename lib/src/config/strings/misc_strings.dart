@@ -44,4 +44,9 @@ class MiscStrings {
   static const String tagVisibilitySubtitle = "Disable unused options' visibility and customize new ones.";
   static const String dataExportSubtitle = "Export your data in machine-readable format.";
   static const String creditsSubtitle = "Learn more about developer.";
+
+  static String get didUse => "Did use";
+  static String get didNotUse => "Did not use";
+  static String get ofEvents => "events";
+
 }

@@ -28,14 +28,23 @@ class CustomIcons {
 
 
 
+// ATTRIBUTION:
+//        - https://www.flaticon.com/authors/freepik
+//        - https://www.flaticon.com/authors/those-icons
+//        - https://www.flaticon.com/authors/icon-mania
+//        - https://www.flaticon.com/authors/roundicons
+//        - https://www.flaticon.com/authors/rooman12
+
 class CategoryIcons {
   CategoryIcons._();
 
   static const String _fontFamily = 'CategoryIcons';
 
-  static const IconData sexMove = IconData(0xe900, fontFamily: _fontFamily);
-  static const IconData condom = IconData(0xe901, fontFamily: _fontFamily);
-  static const IconData uterus = IconData(0xe902, fontFamily: _fontFamily);
-  static const IconData two = IconData(0xe903, fontFamily: _fontFamily);
+  static const IconData condom = IconData(0xe900, fontFamily: _fontFamily);
+  static const IconData vibratorFilled = IconData(0xe906, fontFamily: _fontFamily);
+  static const IconData sexMove = IconData(0xe901, fontFamily: _fontFamily);
+  static const IconData vibrator = IconData(0xe905, fontFamily: _fontFamily);
   static const IconData nonbinary = IconData(0xe904, fontFamily: _fontFamily);
+  static const IconData two = IconData(0xe903, fontFamily: _fontFamily);
+  static const IconData uterus = IconData(0xe902, fontFamily: _fontFamily);
 }

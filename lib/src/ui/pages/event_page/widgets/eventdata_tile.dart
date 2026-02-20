@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -49,6 +50,10 @@ class EventDataTile extends StatelessWidget {
         return Column(
           children: [
             EventDataColumn(event: event),
+            Padding(
+                padding: AppInsets.dataDivider,
+                child: Divider()
+            ),
             InfoRow(
               iconData: Icons.play_circle,
               title: StringFormatter.colon(DataStrings.porn),
@@ -59,6 +64,17 @@ class EventDataTile extends StatelessWidget {
                   color: AppColors.eventData.text(context)
                 ),
               )
+            ),
+            InfoRow(
+                iconData: CategoryIcons.vibratorFilled,
+                title: StringFormatter.colon(DataStrings.toys),
+                child: Text(
+                  event.data!.didUseToys! ? MiscStrings.didUse : MiscStrings.didNotUse,
+                  style: TextStyle(
+                      fontSize: AppSizes.textBasic,
+                      color: AppColors.eventData.text(context)
+                  ),
+                )
             )
           ]);
       case "medical":

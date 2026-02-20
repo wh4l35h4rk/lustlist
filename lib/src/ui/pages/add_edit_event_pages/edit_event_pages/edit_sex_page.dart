@@ -47,6 +47,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     time: event.event.time,
     duration: event.getDuration(),
     didWatchPorn: event.data?.didWatchPorn,
+    didUseToys: event.data?.didUseToys,
     rating: event.data?.rating,
     orgasmAmount: event.data?.userOrgasms,
   );
@@ -84,7 +85,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     partners = _partnersController.getSelectedPartners();
 
     repo.updateEvent(event.event.id, date, time, notes);
-    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, null);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, null, null);
     database.deleteEventPartners(event.event.id);
     database.deleteEventOptions(event.event.id);
 
