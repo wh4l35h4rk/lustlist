@@ -62,6 +62,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   AddCategoryController? _practicesController;
   AddCategoryController? _posesController;
   AddCategoryController? _placeController;
+  AddCategoryController? _ejaculationController;
 
   void _onPressed() async {
     final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
@@ -77,6 +78,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     final practicesOptions = _practicesController!.getSelectedOptions();
     final posesOptions = _posesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();
+    final ejaculationOptions = _ejaculationController!.getSelectedOptions();
 
     var partners = _partnersController.getSelectedPartners();
     if (partners.isEmpty){
@@ -95,7 +97,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
 
     var allOptionsList = [
       contraceptionOptions, practicesOptions,
-      posesOptions, placeOptions
+      posesOptions, placeOptions, ejaculationOptions
     ].expand((x) => x).toList();
     for (var o in allOptionsList) {
       repo.loadOptions(event.event.id, o.id, null);
@@ -161,6 +163,11 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
                 iconSize: 27,
               ),
               AddCategoryTile(
+                category: categoriesMap['ejaculation']!,
+                controller: _ejaculationController!,
+                iconData: Icons.water_drop_outlined,
+              ),
+              AddCategoryTile(
                 category: categoriesMap['place']!,
                 controller: _placeController!,
                 iconData: Icons.bed,
@@ -189,6 +196,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     final practicesOptions = await repo.getOptionsList(event.event.id, "practices");
     final posesOptions = await repo.getOptionsList(event.event.id, "poses");
     final placeOptions = await repo.getOptionsList(event.event.id, "place");
+    final ejaculationOptions = await repo.getOptionsList(event.event.id, "ejaculation");
 
     setState(() {
       _contraceptionController = AddCategoryController(
@@ -202,6 +210,9 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
       );
       _placeController = AddCategoryController(
         selectedOptionsList: placeOptions,
+      );
+      _ejaculationController = AddCategoryController(
+        selectedOptionsList: ejaculationOptions
       );
       _isLoading = false;
     });

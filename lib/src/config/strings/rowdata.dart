@@ -4,8 +4,14 @@ class RowData {
   List<String> get typeNames => ["Sex", "Solo", "Medical"];
   List<String> get typeSlugs => ["sex", "masturbation", "medical"];
 
-  List<String> get categoryNames => ["Contraception", "Poses", "Practices", "Place", "Practices", "STI test", "OB-GYN visit"];
-  List<String> get categorySlugs => ["contraception", "poses", "practices", "place", "solo practices", "sti", "obgyn"];
+  List<String> get categoryNames => [
+    "Contraception", "Poses", "Practices", "Ejaculation", "Place",
+    "Practices", "STI test", "OB-GYN visit",
+  ];
+  List<String> get categorySlugs => [
+    "contraception", "poses", "practices", "ejaculation", "place",
+    "solo practices", "sti", "obgyn"
+  ];
 
 
   List<String> get contraceptionOptionNames => [
@@ -39,6 +45,17 @@ class RowData {
     "vaginal", "petting", "frottage", "cunnilingus", "blowjob", "fingering", "handjob", "mutual masturbation",
     "intermammary", "intercrural", "anal", "rimming", "pegging", "bondage", "choking", "toy usage", "roleplay", "waxplay",
     "spanking", "handcuffing", "tying up", "masturbation"
+  ];
+
+  List<String> get ejaculationOptionNames => [
+    "No ejaculation", "In condom", "Inside vagina", "Inside rectum", "In mouth",
+    "On back", "On stomach", "On neck", "On face", "On feet", "On buttocks",
+    "On surroundings"
+  ];
+  List<String> get ejaculationOptionSlugs => [
+    "no ejaculation", "in condom", "inside vagina", "inside rectum", "in mouth",
+    "on back", "on stomach", "on neck", "on face", "on feet", "on buttocks",
+    "on surroundings"
   ];
 
   List<String> get placeOptionNames => [

@@ -477,6 +477,7 @@ class AppDatabase extends _$AppDatabase {
           final contraceptionCategoryId = await getCategoryIdBySlug('contraception');
           final posesCategoryId = await getCategoryIdBySlug('poses');
           final practicesCategoryId = await getCategoryIdBySlug('practices');
+          final ejaculationCategoryId = await getCategoryIdBySlug('ejaculation');
           final soloPracticesCategoryId = await getCategoryIdBySlug('solo practices');
           final placeCategoryId = await getCategoryIdBySlug('place');
           final stiCategoryId = await getCategoryIdBySlug('sti');
@@ -489,6 +490,7 @@ class AppDatabase extends _$AppDatabase {
               CategoriesTypesCompanion.insert(categoryId: posesCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: practicesCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: sexTypeId),
+              CategoriesTypesCompanion.insert(categoryId: ejaculationCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: soloPracticesCategoryId, typeId: masturbationTypeId),
               CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: masturbationTypeId),
               CategoriesTypesCompanion.insert(categoryId: stiCategoryId, typeId: medicalTypeId),
@@ -533,6 +535,16 @@ class AppDatabase extends _$AppDatabase {
                     slug: rowData.placeOptionSlugs[index],
                     categoryId: placeCategoryId
                 )),
+            );
+
+            assert (rowData.ejaculationOptionNames.length == rowData.ejaculationOptionSlugs.length);
+            batch.insertAll(eOptions,
+              List<Insertable<EOption>>.generate(rowData.ejaculationOptionNames.length, (int index) =>
+                  EOptionsCompanion.insert(
+                      name: rowData.ejaculationOptionNames[index],
+                      slug: rowData.ejaculationOptionSlugs[index],
+                      categoryId: ejaculationCategoryId
+                  )),
             );
 
             assert (rowData.soloPracticesOptionNames.length == rowData.soloPracticesOptionSlugs.length);

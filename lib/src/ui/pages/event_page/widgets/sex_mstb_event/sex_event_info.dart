@@ -46,6 +46,12 @@ class SexEventInfo extends StatelessWidget {
         ),
         CategoryTile(
           event: event,
+          title: StringFormatter.colon(DataStrings.ejaculation),
+          categorySlug: "ejaculation",
+          iconData: Icons.water_drop_outlined,
+        ),
+        CategoryTile(
+          event: event,
           title: StringFormatter.colon(DataStrings.place),
           categorySlug: "place",
           iconData: Icons.bed

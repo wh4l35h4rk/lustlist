@@ -41,6 +41,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
   final _practicesController = AddCategoryController();
   final _posesController = AddCategoryController();
   final _placeController = AddCategoryController();
+  final _ejaculationController = AddCategoryController();
   final _notesController = NotesTileController();
 
   void _onPressed() async {
@@ -58,6 +59,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     final practicesOptions = _practicesController.getSelectedOptions();
     final posesOptions = _posesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();
+    final ejaculationOptions = _ejaculationController.getSelectedOptions();
 
     var partners = _partnersController.getSelectedPartners();
     if (partners.isEmpty){
@@ -74,7 +76,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
 
     var allOptionsList = [
       contraceptionOptions, practicesOptions,
-      posesOptions, placeOptions
+      posesOptions, placeOptions, ejaculationOptions
     ].expand((x) => x).toList();
     for (var o in allOptionsList) {
       repo.loadOptions(id, o.id, null);
@@ -135,6 +137,11 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
                 controller: _posesController,
                 iconData: CategoryIcons.sexMove,
                 iconSize: 27,
+              ),
+              AddCategoryTile(
+                category: categoriesMap['ejaculation']!,
+                controller: _ejaculationController,
+                iconData: Icons.water_drop_outlined,
               ),
               AddCategoryTile(
                 category: categoriesMap['place']!,
