@@ -9,6 +9,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/domain/entities/events_bar_rod.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'entities/calendar_event.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
@@ -224,12 +225,6 @@ class EventRepository {
     return partnerId;
   }
 
-  
-  Future<Map<DateTime, int>> getEventAmountAfterDate(String typeSlug, DateTime afterDate) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    Map<DateTime, int> map = await db.getEventsAmountAfterDateGroupByMonth(typeId, afterDate);
-    return map;
-  }
 
   Future<List<FlSpot>> getSpotsListByMonth(String typeSlug, DateTime period) async {
     // get date range from current datetime and period
@@ -252,7 +247,9 @@ class EventRepository {
     }
 
     // get map of amount of events corresponding to their time period
-    var dbMap = await getEventAmountAfterDate(typeSlug, date1);
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    var dbMap = await db.getEventsAmountAfterDateGroupByMonth(typeId, date1);
+
     var formattedMap = {};
     for (var k in dbMap.keys) {
       DateTime key = DateFormatter.yearMonthOnly(k);
@@ -267,6 +264,67 @@ class EventRepository {
         list.add(FlSpot(d.millisecondsSinceEpoch.toDouble(), formattedMap[d]!.toDouble()));
       } else {
         list.add(FlSpot(d.millisecondsSinceEpoch.toDouble(), 0));
+      }
+    }
+    return list;
+  }
+
+
+  Future<List<EventsAmountRodData>> getEventAmountListByDay(String typeSlug, DateTime period) async {
+    // get date range from current datetime and period
+    DateTime date2 = DateTime.now();
+    DateTime date1 = DateTime(
+      date2.year - period.year,
+      date2.month - period.month,
+      date2.day - period.day,
+    );
+
+    // form list of days to be displayed on X-axis of chart
+    List<DateTime> dates = [];
+    DateTime dummyDate = date1.add(const Duration(hours: 24));
+    dummyDate = DateFormatter.dateOnly(dummyDate);
+    while (dummyDate.isBefore(date2) || dummyDate.isAtSameMomentAs(date2)) {
+      dates.add(dummyDate);
+      DateTime newDate = dummyDate.add(const Duration(hours: 24));
+      newDate = DateFormatter.dateOnly(newDate);
+      dummyDate = newDate;
+    }
+
+    // get map of amount of events corresponding to their time period
+    int typeId = await db.getTypeIdBySlug(typeSlug);
+    var dbMap = await db.getEventsAmountAfterDateGroupByDay(typeId, date1);
+
+    var formattedMap = {};
+    for (var k in dbMap.keys) {
+      DateTime key = DateFormatter.dateOnly(k);
+      formattedMap[key] = dbMap[k]!;
+    }
+
+    // if there are events in a day, write amount to list of values, otherwise write zero
+    List<EventsAmountRodData> list = [];
+    List<double> listValues = [];
+    for (var d in dates){
+      d = DateFormatter.dateOnly(d);
+      if (formattedMap[d] != null) {
+        listValues.add(formattedMap[d]!.toDouble());
+      } else {
+        listValues.add(0);
+      }
+    }
+
+    // sort values to fina maximal
+    listValues.sort();
+    var maxValue = listValues.last;
+    print(maxValue);
+    var defaultValue = maxValue / 30;
+
+    // if there are events in a day, write amount to list, otherwise write default value
+    for (var d in dates){
+      d = DateFormatter.dateOnly(d);
+      if (formattedMap[d] != null) {
+        list.add(EventsAmountRodData(d.millisecondsSinceEpoch.toDouble(), formattedMap[d]!.toDouble()));
+      } else {
+        list.add(EventsAmountRodData(d.millisecondsSinceEpoch.toDouble(), defaultValue));
       }
     }
     return list;
@@ -313,7 +371,6 @@ class EventRepository {
 
   Future<int> getEventsWithPornAmount() async {
     int? amount = await db.countSoloWithPorn();
-    print(amount);
     return amount ?? 0;
   }
 
@@ -325,7 +382,6 @@ class EventRepository {
   Future<int> countEventsOfType(String typeSlug) async {
     int typeId = await db.getTypeIdBySlug(typeSlug);
     int? amount = await db.countEventsOfType(typeId);
-    print(amount);
     return amount ?? 0;
   }
 

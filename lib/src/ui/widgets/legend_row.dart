@@ -6,15 +6,15 @@ class LegendRow extends StatelessWidget {
     super.key,
     required this.color,
     required this.text,
-    required this.isSquare,
+    this.notExpanded = false,
     this.size = 16,
     this.textColor,
   });
   final Color color;
   final String text;
-  final bool isSquare;
   final double size;
   final Color? textColor;
+  final bool notExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,22 @@ class LegendRow extends StatelessWidget {
           width: size,
           height: size,
           decoration: BoxDecoration(
-            shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
+            shape: BoxShape.circle,
             color: color,
           ),
         ),
         const SizedBox(
           width: 6,
         ),
+        notExpanded ?
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: AppSizes.textBasic,
+            color: textColor,
+          ),
+          softWrap: true,
+        ) :
         Expanded(
           child: Text(
             text,

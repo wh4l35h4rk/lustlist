@@ -1,5 +1,6 @@
 class ChartStrings{
   static const String lastYearChart = 'Last year dynamics';
+  static const String lastWeekChart = 'Last week dynamics';
   static const String topPracticesChart = 'Your top practices';
   static const String topSoloPracticesChart = 'Your top solo activities';
   static const String topPosesChart = 'Your top poses';

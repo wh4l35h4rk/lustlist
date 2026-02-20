@@ -204,8 +204,7 @@ class _PartnersChartState extends State<PartnersChart> {
               padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.female(context),
-                text: Gender.female.label,
-                isSquare: false,
+                text: Gender.female.label
               ),
             ),
         if (_getPartnersGenderAmount(widget.partners, Gender.male) != 0)
@@ -214,7 +213,6 @@ class _PartnersChartState extends State<PartnersChart> {
               child: LegendRow(
                 color: AppColors.chart.male(context),
                 text: Gender.male.label,
-                isSquare: false,
               ),
             ),
         if (_getPartnersGenderAmount(widget.partners, Gender.nonbinary) != 0)
@@ -222,8 +220,7 @@ class _PartnersChartState extends State<PartnersChart> {
               padding: AppInsets.legendRow,
               child: LegendRow(
                 color: AppColors.chart.nonbinary(context),
-                text: Gender.nonbinary.label,
-                isSquare: false,
+                text: Gender.nonbinary.label
               ),
             )
       ],

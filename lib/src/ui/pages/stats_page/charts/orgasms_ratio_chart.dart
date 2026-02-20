@@ -158,16 +158,14 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
           padding: AppInsets.legendRow,
           child: LegendRow(
             color: AppColors.chart.user(context),
-            text: ChartStrings.userOrgasms,
-            isSquare: false,
+            text: ChartStrings.userOrgasms
           ),
         ),
         Padding(
           padding: AppInsets.legendRow,
           child: LegendRow(
             color: AppColors.chart.partners(context),
-            text: ChartStrings.partnersOrgasms,
-            isSquare: false,
+            text: ChartStrings.partnersOrgasms
           ),
         )
       ],

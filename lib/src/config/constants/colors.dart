@@ -210,18 +210,18 @@ class ChartColors{
 
   // partners pie chart
   Color male(BuildContext context) =>
-      colorBlend(Colors.lightBlue, blendColor(context), 0.4)!;
+      colorBlend(Colors.lightBlue.shade300, blendColor(context), 0.2)!;
   Color female(BuildContext context) =>
-      colorBlend(Colors.redAccent, blendColor(context), 0.4)!;
+      colorBlend(Colors.redAccent.shade200, blendColor(context), 0.2)!;
   Color nonbinary(BuildContext context) =>
       colorBlend(
           colorBlend(
-              Colors.deepPurpleAccent,
-              Colors.purpleAccent,
+              Colors.deepPurpleAccent.shade200,
+              Colors.purpleAccent.shade200,
               0.5
           )!,
           blendColor(context),
-          0.4
+          0.3
       )!;
 
   Color femaleAccent(BuildContext context) => colorAccent(female(context), context);
@@ -230,9 +230,9 @@ class ChartColors{
 
   // orgasm ratio pie chart
   Color user(BuildContext context) =>
-      colorBlend(Colors.redAccent, blendColor(context), 0.4)!;
+      colorBlend(Colors.redAccent.shade200, blendColor(context), 0.2)!;
   Color partners(BuildContext context) =>
-      colorBlend(Colors.amber.shade600, blendColor(context), 0.4)!;
+      colorBlend(Colors.amber.shade400, blendColor(context), 0.25)!;
   Color userAccent(BuildContext context) => colorAccent(user(context), context);
   Color partnersAccent(BuildContext context) => colorAccent(partners(context), context);
 
@@ -241,13 +241,8 @@ class ChartColors{
   Color sexLine(BuildContext context) =>
       colorBlend(
         blendColor(context),
-        Theme.of(context).colorScheme.secondary, 0.7)!;
-  
-  Color mstbLine(BuildContext context) =>
-      colorBlend(
-        blendColor(context),
-        Theme.of(context).colorScheme.secondary, 0.1
-      )!;
+        Theme.of(context).colorScheme.primary, 0.7)!;
+  Color mstbLine(BuildContext context) => vividBarStart(mstbBarStart(), context);
 
 
   // cards
@@ -273,6 +268,12 @@ class ChartColors{
   Color posesAccent() => Color.fromRGBO(90, 200, 240, 1);
   Color soloPracticesAccent() => Color.fromRGBO(150, 150, 220, 1);
 
+
+  Color sexBarAccent(BuildContext context) => colorBlend(Colors.redAccent.shade200, blendColor(context), 0.2)!;
+  Color mstbBarStart() => Color.fromRGBO(250, 120, 120, 1);
+  Color mstbBarAccent() => Color.fromRGBO(250, 200, 100, 1);
+
+
   Color barStart(Color accentColor, BuildContext context) =>
       colorBlend(
           accentColor,
@@ -283,11 +284,20 @@ class ChartColors{
       colorBlend(
           accentColor,
           Theme.of(context).colorScheme.surface,
-          0.2
+          0.1
       )!;
 
-
-  //Color barStart() => Color.fromRGBO(0, 140, 110, 1);
-  //Color barEnd() => Color.fromRGBO(0, 220, 200, 1);
+  Color vividBarStart(Color accentColor, BuildContext context) =>
+      colorBlend(
+          accentColor,
+          blendColor(context),
+          0.3
+      )!;
+  Color vividBarEnd(Color accentColor, BuildContext context) =>
+      colorBlend(
+          accentColor,
+          blendColor(context),
+          0.2
+      )!;
 }
 

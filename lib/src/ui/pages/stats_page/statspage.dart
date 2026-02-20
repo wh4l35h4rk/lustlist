@@ -6,14 +6,16 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/default_divider.dart';
+import 'package:lustlist/src/domain/entities/events_bar_rod.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/orgasms_ratio_chart.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_stats.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/last_week_bar_chart.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/orgasms_ratio_chart.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/line_chart_yearly.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/solo_stats.dart';
-import 'package:lustlist/src/ui/pages/stats_page/widgets/top_options_chart.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/line_chart_yearly.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/solo_stats.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/top_options_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/total_duration_widget.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
@@ -34,6 +36,7 @@ class _StatsPageState extends State<StatsPage> {
   bool _isLoading = true;
   bool _isError = false;
 
+  List<List<EventsAmountRodData>>? weeklySpots;
   List<List<FlSpot>>? yearlySpots;
   EventDurationStats? sexDurationStats;
   EventDurationStats? mstbDurationStats;
@@ -72,11 +75,16 @@ class _StatsPageState extends State<StatsPage> {
 
     try {
       final repo = EventRepository(database);
-      DateTime period = DateTime(1, 0, 0);
+      DateTime periodYear = DateTime(1, 0, 0);
+      DateTime periodWeek = DateTime(0, 0, 7);
+      
+      // last week data bar chart
+      final sexBarData = await repo.getEventAmountListByDay("sex", periodWeek);
+      final mstbBarData = await repo.getEventAmountListByDay("masturbation", periodWeek);
 
       // last year data line chart
-      final sexSpots = await repo.getSpotsListByMonth("sex", period);
-      final mstbSpots = await repo.getSpotsListByMonth("masturbation", period);
+      final sexSpots = await repo.getSpotsListByMonth("sex", periodYear);
+      final mstbSpots = await repo.getSpotsListByMonth("masturbation", periodYear);
 
       // duration stats
       final sexAvg = await repo.getAvgDuration("sex");
@@ -106,10 +114,15 @@ class _StatsPageState extends State<StatsPage> {
 
 
       setState(() {
+        weeklySpots = [
+          sexBarData,
+          mstbBarData
+        ];
         yearlySpots = [
           sexSpots,
           mstbSpots
         ];
+        
         sexDurationStats = EventDurationStats(sexAvg, sexMinEvent, sexMaxEvent);
         mstbDurationStats = EventDurationStats(mstbAvg, mstbMinEvent, mstbMaxEvent);
         totalDurationStats = [
@@ -168,6 +181,11 @@ class _StatsPageState extends State<StatsPage> {
           ])) :
           SliverList(
             delegate: SliverChildListDelegate([
+              LastWeekBarChart(
+                sexAmountList: weeklySpots![0],
+                mstbAmountList: weeklySpots![1],
+              ),
+              DefaultDivider(),
               DurationStats(
                 mstbStats: mstbDurationStats!,
                 sexStats: sexDurationStats!,

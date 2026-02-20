@@ -185,7 +185,7 @@ class _BarChart extends StatelessWidget {
         barRods: [
           BarChartRodData(
             toY: optionsList[i].value.toDouble(),
-            width: AppSizes.barWidth,
+            width: AppSizes.defaultBarWidth,
             gradient: _barsGradient(context),
             borderRadius: BorderRadius.vertical(top: Radius.circular(12))
           )

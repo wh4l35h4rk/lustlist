@@ -5,6 +5,7 @@ class DateFormatter {
   static String dateWithoutDay(DateTime date) => DateFormat.yMMMM().format(date);
   static String time(DateTime time) => DateFormat.Hm().format(time);
   static String month(int month) => DateFormat.MMM().format(DateTime(0, month)).toUpperCase();
+  static String weekday(DateTime date) => DateFormat('E').format(date);
 
   static DateTime dateOnly (DateTime datetime) => DateTime(
     datetime.year,

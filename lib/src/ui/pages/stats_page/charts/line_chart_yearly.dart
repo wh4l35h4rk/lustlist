@@ -223,6 +223,10 @@ class _LineChart extends StatelessWidget {
 
   // left chart titles, Y-axis
   Widget leftTitleWidgets(double value, TitleMeta meta) {
+    if (value % 1 != 0) {
+      return const SizedBox.shrink();
+    }
+
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: AppSizes.textBasic,
