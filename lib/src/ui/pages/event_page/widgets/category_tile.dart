@@ -29,74 +29,74 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicTile(
-      surfaceColor: AppColors.categoryTile.surface(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+    return FutureBuilder(
+      future: _getOptions(database, context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SizedBox.shrink();
+        } else if (snapshot.hasError) {
+          return buildBody(
               Text(
-                title,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: AppColors.categoryTile.title(context),
-                  fontSize: AppSizes.titleLarge,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Icon(
-                iconData,
-                size: iconSize,
-                color: AppColors.categoryTile.leadingIcon(context),
-              ),
-            ],
-          ),
-          SizedBox(height: 5),
-          FutureBuilder<Widget>(
-            future: _getOptions(database, context),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text(
-                  MiscStrings.loading,
+                  MiscStrings.errorLoadingData,
                   style: TextStyle(
                     color: AppColors.categoryTile.text(context),
                     fontSize: AppSizes.titleSmall,
                   )
-                );
-              } else if (snapshot.hasError) {
-                return Text(
-                    MiscStrings.errorLoadingData,
-                    style: TextStyle(
-                      color: AppColors.categoryTile.text(context),
-                      fontSize: AppSizes.titleSmall,
-                    )
-                );
-              } else if (snapshot.hasData) {
-                return snapshot.data!;
-              } else {
-                return Text(
-                  MiscStrings.noData,
-                  style: TextStyle(
-                    color: AppColors.categoryTile.text(context),
-                    fontSize: AppSizes.titleSmall,
-                  )
-                );
-              }
-            },
-          ),
-        ],
-      ),
+              ),
+              context
+          );
+        } else if (snapshot.hasData) {
+          return buildBody(
+            snapshot.data!,
+            context
+          );
+        } else {
+          return SizedBox.shrink();
+        }
+      }
     );
   }
 
-  Future<Widget> _getOptions(AppDatabase db, context) async {
+
+  BasicTile buildBody(Widget child, BuildContext context) {
+    return BasicTile(
+        surfaceColor: AppColors.categoryTile.surface(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: AppColors.categoryTile.title(context),
+                    fontSize: AppSizes.titleLarge,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Icon(
+                  iconData,
+                  size: iconSize,
+                  color: AppColors.categoryTile.leadingIcon(context),
+                ),
+              ],
+            ),
+            SizedBox(height: 5),
+            child
+          ],
+        ),
+      );
+  }
+
+
+  Future<Widget?> _getOptions(AppDatabase db, context) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getEventOptionsByCategory(event.event.id, categoryId);
 
     if (options.isEmpty){
-      return Text(onNoResultsText);
+      return null;
     } else {
       return Wrap(
         spacing: 8,
