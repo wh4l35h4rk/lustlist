@@ -181,6 +181,7 @@ class _StatsPageState extends State<StatsPage> {
           ])) :
           SliverList(
             delegate: SliverChildListDelegate([
+              SizedBox(height: 15,),
               LastWeekBarChart(
                 sexAmountList: weeklySpots![0],
                 mstbAmountList: weeklySpots![1],
@@ -221,7 +222,8 @@ class _StatsPageState extends State<StatsPage> {
               DefaultDivider(),
               SoloStats(pornStats: pornStats!, toysStats: toysStats!),
               DefaultDivider(),
-              LineChartYearly(spots: yearlySpots!)
+              LineChartYearly(spots: yearlySpots!),
+              SizedBox(height: 25)
           ])),
         ]
     );

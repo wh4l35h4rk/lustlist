@@ -132,6 +132,26 @@ class CalendarColors {
 
   Color selectedEvent(BuildContext context) =>
       Theme.of(context).colorScheme.inversePrimary;
+
+  Color basicText(BuildContext context) => AppColors.text(context);
+  Color weekendText(BuildContext context) =>
+      colorBlend(
+          basicText(context),
+          Theme.of(context).colorScheme.primary,
+          0.9
+      )!;
+  Color disabledText(BuildContext context) =>
+      colorBlend(
+          basicText(context),
+          Theme.of(context).colorScheme.surface,
+          0.8
+      )!;
+  Color outsideText(BuildContext context) =>
+      colorBlend(
+          basicText(context),
+          Theme.of(context).colorScheme.surface,
+          0.6
+      )!;
 }
 
 class AppBarColors {

@@ -94,7 +94,8 @@ class _CalendarState extends State<Calendar> {
               data: CupertinoThemeData(
                 textTheme: CupertinoTextThemeData(
                   dateTimePickerTextStyle: TextStyle(
-                    fontSize: AppSizes.titleSmall
+                    fontSize: AppSizes.titleSmall,
+                    color: AppColors.text(context)
                   ),
                 )
               ),
@@ -196,9 +197,24 @@ class _CalendarState extends State<Calendar> {
                       },
                     ),
                     calendarStyle: CalendarStyle(
+                      defaultTextStyle: TextStyle(
+                        color: AppColors.calendar.basicText(context),
+                      ),
+                      weekendTextStyle: TextStyle(
+                        color: AppColors.calendar.weekendText(context)
+                      ),
+                      disabledTextStyle: TextStyle(
+                          color: AppColors.calendar.disabledText(context)
+                      ),
+                      outsideTextStyle: TextStyle(
+                          color: AppColors.calendar.outsideText(context)
+                      ),
                       selectedDecoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppColors.calendar.selectedEvent(context),
+                      ),
+                      todayTextStyle: TextStyle(
+                        color: AppColors.calendar.weekendText(context),
                       ),
                       todayDecoration: BoxDecoration(
                         shape: BoxShape.circle,
