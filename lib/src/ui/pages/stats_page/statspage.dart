@@ -3,11 +3,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/default_divider.dart';
-import 'package:lustlist/src/domain/entities/events_bar_rod.dart';
+import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
+import 'package:lustlist/src/domain/entities/events_amount_data.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
+import 'package:lustlist/src/domain/repository_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/last_week_bar_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/orgasms_ratio_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/duration_stats.dart';
@@ -36,8 +39,9 @@ class _StatsPageState extends State<StatsPage> {
   bool _isLoading = true;
   bool _isError = false;
 
-  List<List<EventsAmountRodData>>? weeklySpots;
-  List<List<FlSpot>>? yearlySpots;
+  List<EventsAmountData>? weeklyRodData;
+  List<EventsAmountData>? yearlyRodData;
+  List<List<FlSpot>>? monthlySpots;
   EventDurationStats? sexDurationStats;
   EventDurationStats? mstbDurationStats;
   List<int?>? totalDurationStats;
@@ -75,17 +79,16 @@ class _StatsPageState extends State<StatsPage> {
 
     try {
       final repo = EventRepository(database);
-      DateTime periodYear = DateTime(1, 0, 0);
-      DateTime periodWeek = DateTime(0, 0, 7);
-      
-      // last week data bar chart
-      final sexBarData = await repo.getEventAmountListByDay("sex", periodWeek);
-      final mstbBarData = await repo.getEventAmountListByDay("masturbation", periodWeek);
+
+      // events amount bar chart
+      final barDataWeekly = await repo.getEventAmountListByDay(Duration(days: 7));
+      final barDataYearly = await repo.getEventAmountYearly();
 
       // last year data line chart
-      final sexSpots = await repo.getSpotsListByMonth("sex", periodYear);
-      final mstbSpots = await repo.getSpotsListByMonth("masturbation", periodYear);
+      final sexSpots = await repo.getSpotsListByMonth("sex");
+      final mstbSpots = await repo.getSpotsListByMonth("masturbation");
 
+      
       // duration stats
       final sexAvg = await repo.getAvgDuration("sex");
       final sexMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max);
@@ -114,14 +117,12 @@ class _StatsPageState extends State<StatsPage> {
 
 
       setState(() {
-        weeklySpots = [
-          sexBarData,
-          mstbBarData
-        ];
-        yearlySpots = [
+        weeklyRodData = barDataWeekly;
+        monthlySpots = [
           sexSpots,
           mstbSpots
         ];
+        yearlyRodData = barDataYearly;
         
         sexDurationStats = EventDurationStats(sexAvg, sexMinEvent, sexMaxEvent);
         mstbDurationStats = EventDurationStats(mstbAvg, mstbMinEvent, mstbMaxEvent);
@@ -182,9 +183,12 @@ class _StatsPageState extends State<StatsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               SizedBox(height: 15,),
-              LastWeekBarChart(
-                sexAmountList: weeklySpots![0],
-                mstbAmountList: weeklySpots![1],
+              SexMstbEventsBarChart(
+                eventAmountList: weeklyRodData!,
+                getBottomTitles: _getBottomTitlesWeekly,
+                title: ChartStrings.lastWeekChart,
+                isWeekly: true,
+                gridHorizontalInterval: 1,
               ),
               DefaultDivider(),
               DurationStats(
@@ -222,10 +226,54 @@ class _StatsPageState extends State<StatsPage> {
               DefaultDivider(),
               SoloStats(pornStats: pornStats!, toysStats: toysStats!),
               DefaultDivider(),
-              LineChartYearly(spots: yearlySpots!),
+              LineChartMonthly(spots: monthlySpots!),
+              DefaultDivider(),
+              SexMstbEventsBarChart(
+                eventAmountList: yearlyRodData!,
+                title: ChartStrings.allYearsChart,
+                isWeekly: false,
+                getBottomTitles: _getBottomTitlesYearly,
+              ),
               SizedBox(height: 25)
           ])),
         ]
+    );
+  }
+
+
+  Widget _getBottomTitlesWeekly(double value, TitleMeta meta, BuildContext context) {
+    final style = AppStyles.chartSideTitles(context);
+
+    final DateTime date = DateTime.now().subtract(Duration(days: 6 - value.toInt()));
+    final String text = DateFormatter.weekday(date);
+
+    return SideTitleWidget(
+      meta: meta,
+      space: 8,
+      child: Text(
+        text,
+        style: style,
+        textAlign: TextAlign.center,
+        softWrap: true,
+      ),
+    );
+  }
+
+  Widget _getBottomTitlesYearly(double value, TitleMeta meta, BuildContext context) {
+    final style = AppStyles.chartSideTitles(context);
+
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
+    String text = date.year.toString();
+
+    return SideTitleWidget(
+      meta: meta,
+      space: 8,
+      child: Text(
+        text,
+        style: style,
+        textAlign: TextAlign.right,
+        softWrap: true,
+      ),
     );
   }
 }

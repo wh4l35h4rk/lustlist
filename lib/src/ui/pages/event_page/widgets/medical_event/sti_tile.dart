@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';

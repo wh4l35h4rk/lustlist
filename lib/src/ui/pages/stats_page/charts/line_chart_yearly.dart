@@ -14,8 +14,8 @@ import 'package:lustlist/src/ui/pages/stats_page/widgets/checkmark_legend_row.da
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_legend.dart';
 
 
-class LineChartYearly extends StatefulWidget {
-  const LineChartYearly({
+class LineChartMonthly extends StatefulWidget {
+  const LineChartMonthly({
     super.key,
     required this.spots,
   });
@@ -23,10 +23,10 @@ class LineChartYearly extends StatefulWidget {
   final List<List<FlSpot>> spots;
 
   @override
-  State<StatefulWidget> createState() => LineChartYearlyState();
+  State<StatefulWidget> createState() => LineChartMonthlyState();
 }
 
-class LineChartYearlyState extends State<LineChartYearly> {
+class LineChartMonthlyState extends State<LineChartMonthly> {
   late List<FlSpot> sexSpots = widget.spots[0];
   late List<FlSpot> mstbSpots = widget.spots[1];
 
@@ -147,7 +147,7 @@ class _LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      data,
+      data(context),
       duration: const Duration(milliseconds: chartDuration),
       curve: Curves.linear,
     );
@@ -155,13 +155,15 @@ class _LineChart extends StatelessWidget {
 
 
   // general chart data
-  LineChartData get data => LineChartData(
-    lineTouchData: lineTouchData,
-    gridData: gridData,
-    titlesData: titlesData,
-    borderData: borderData,
-    lineBarsData: lineBarsData,
-  );
+  LineChartData data(BuildContext context) {
+    return LineChartData(
+      lineTouchData: lineTouchData,
+      gridData: gridData,
+      titlesData: titlesData(context),
+      borderData: borderData,
+      lineBarsData: lineBarsData,
+    );
+  }
 
 
   // on-touch properties
@@ -205,9 +207,10 @@ class _LineChart extends StatelessWidget {
 
 
   // general axis titles data
-  FlTitlesData get titlesData => FlTitlesData(
+  FlTitlesData titlesData(BuildContext context) {
+    return FlTitlesData(
     bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
+      sideTitles: bottomTitles(context),
     ),
     rightTitles: const AxisTitles(
       sideTitles: SideTitles(showTitles: false),
@@ -216,21 +219,19 @@ class _LineChart extends StatelessWidget {
       sideTitles: SideTitles(showTitles: false),
     ),
     leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
+      sideTitles: leftTitles(context),
     ),
   );
+  }
 
 
   // left chart titles, Y-axis
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
+  Widget leftTitleWidgets(double value, TitleMeta meta, BuildContext context) {
     if (value % 1 != 0) {
       return const SizedBox.shrink();
     }
 
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: AppSizes.textBasic,
-    );
+    var style = AppStyles.chartSideTitles(context);
     String text = value.toInt().toString();
 
     return SideTitleWidget(
@@ -243,8 +244,8 @@ class _LineChart extends StatelessWidget {
     );
   }
 
-  SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
+  SideTitles leftTitles(BuildContext context) => SideTitles(
+    getTitlesWidget: (value, meta) => leftTitleWidgets(value, meta, context),
     showTitles: true,
     interval: 1,
     reservedSize: AppSizes.chartSideTitlesSpace,
@@ -252,11 +253,8 @@ class _LineChart extends StatelessWidget {
 
 
   // bottom chart titles, X-axis
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: AppSizes.titleSmall,
-    );
+  Widget bottomTitleWidgets(double value, TitleMeta meta, BuildContext context) {
+    TextStyle style = AppStyles.chartSideTitles(context);
     DateTime date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
     String text = DateFormatter.month(date.month);
 
@@ -267,12 +265,14 @@ class _LineChart extends StatelessWidget {
     );
   }
 
-  SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: AppSizes.chartBottomTitlesSpace,
-    interval: monthInMs * 5,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+  SideTitles bottomTitles(BuildContext context) {
+    return SideTitles(
+      showTitles: true,
+      reservedSize: AppSizes.chartBottomTitlesSpace,
+      interval: monthInMs * 5,
+      getTitlesWidget:  (value, meta) => bottomTitleWidgets(value, meta, context),
+    );
+  }
 
 
   // chart grid

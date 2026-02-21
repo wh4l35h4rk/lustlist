@@ -5,22 +5,26 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
-import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/domain/entities/events_bar_rod.dart';
+import 'package:lustlist/src/domain/entities/events_amount_data.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
 
 
-class LastWeekBarChart extends StatelessWidget {
-  final List<EventsAmountRodData> sexAmountList;
-  final List<EventsAmountRodData> mstbAmountList;
+class SexMstbEventsBarChart extends StatelessWidget {
+  final List<EventsAmountData> eventAmountList;
+  final Function getBottomTitles;
+  final double? gridHorizontalInterval;
+  final bool isWeekly;
+  final String title;
 
-  const LastWeekBarChart({
+  const SexMstbEventsBarChart({
     super.key,
-    required this.sexAmountList,
-    required this.mstbAmountList,
+    required this.eventAmountList,
+    required this.getBottomTitles,
+    required this.isWeekly,
+    required this.title,
+    this.gridHorizontalInterval,
   });
 
   @override
@@ -31,7 +35,7 @@ class LastWeekBarChart extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            StringFormatter.colon(ChartStrings.lastWeekChart),
+            StringFormatter.colon(title),
             style: AppStyles.chartTitle(context),
             textAlign: TextAlign.center,
           ),
@@ -41,12 +45,12 @@ class LastWeekBarChart extends StatelessWidget {
             spacing: 20,
             children: [
               LegendRow(
-                color: AppColors.chart.vividBarEnd(AppColors.chart.sexBarAccent(context), context),
+                color: AppColors.chart.sexLine(context),
                 text: DataStrings.sex,
                 notExpanded: true,
               ),
               LegendRow(
-                color: AppColors.chart.vividBarEnd(AppColors.chart.mstbBarAccent(), context),
+                color: AppColors.chart.mstbLine(context),
                 text: DataStrings.mstb,
                 notExpanded: true,
               )
@@ -55,8 +59,10 @@ class LastWeekBarChart extends StatelessWidget {
           AspectRatio(
             aspectRatio: 1.45,
             child: _BarChart(
-              sexAmountList: sexAmountList,
-              mstbAmountList: mstbAmountList,
+              eventAmountList: eventAmountList,
+              getBottomTitles: getBottomTitles,
+              isWeekly: isWeekly,
+              gridHorizontalInterval: gridHorizontalInterval,
             ),
           ),
         ],
@@ -67,22 +73,24 @@ class LastWeekBarChart extends StatelessWidget {
 
 
 class _BarChart extends StatelessWidget {
-  final List<EventsAmountRodData> sexAmountList;
-  final List<EventsAmountRodData> mstbAmountList;
+  final List<EventsAmountData> eventAmountList;
+  final Function getBottomTitles;
+  final double? gridHorizontalInterval;
+  final bool isWeekly;
 
   const _BarChart({
-    required this.sexAmountList,
-    required this.mstbAmountList,
+    required this.eventAmountList,
+    required this.getBottomTitles,
+    required this.isWeekly,
+    this.gridHorizontalInterval,
   });
 
   @override
   Widget build(BuildContext context) {
     List<double> listValues = [];
-    for (var d in sexAmountList){
-      listValues.add(d.value);
-    }
-    for (var d in mstbAmountList){
-      listValues.add(d.value);
+    for (var d in eventAmountList){
+      listValues.add(d.sexValue);
+      listValues.add(d.mstbValue);
     }
     listValues.sort();
     var maxValue = listValues.last;
@@ -128,40 +136,30 @@ class _BarChart extends StatelessWidget {
     );
   }
 
-  Widget getBottomTitles(double value, TitleMeta meta, BuildContext context) {
-    final style = TextStyle(
-      color: AppColors.chart.subtitle(context),
-      fontWeight: FontWeight.bold,
-      fontSize: AppSizes.textBasic,
-    );
-
-    final DateTime date = DateTime.now().subtract(Duration(days: 6 - value.toInt()));
-
-    final String text = DateFormatter.weekday(date);
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 8,
-      child: Text(
-        text,
-        style: style,
-        textAlign: TextAlign.right,
-        softWrap: true,
-      ),
-    );
-  }
+  // Widget getBottomTitles(double value, TitleMeta meta, BuildContext context) {
+  //   final style = AppStyles.chartSideTitles(context);
+  //
+  //   final DateTime date = DateTime.now().subtract(Duration(days: 6 - value.toInt()));
+  //   final String text = DateFormatter.weekday(date);
+  //
+  //   return SideTitleWidget(
+  //     meta: meta,
+  //     space: 8,
+  //     child: Text(
+  //       text,
+  //       style: style,
+  //       textAlign: TextAlign.right,
+  //       softWrap: true,
+  //     ),
+  //   );
+  // }
 
   Widget getLeftTitles(double value, TitleMeta meta, BuildContext context) {
+    final style = AppStyles.chartSideTitles(context);
+
     if (value % 1 != 0) {
       return const SizedBox.shrink();
     }
-
-    final style = TextStyle(
-      color: AppColors.chart.subtitle(context),
-      fontWeight: FontWeight.bold,
-      fontSize: AppSizes.textBasic,
-    );
-
     String text = value.toInt().toString();
 
     return SideTitleWidget(
@@ -221,13 +219,13 @@ class _BarChart extends StatelessWidget {
     show: true,
     drawHorizontalLine: true,
     drawVerticalLine: false,
-    horizontalInterval: 1,
+    horizontalInterval: gridHorizontalInterval,
   );
 
   // chart bars
   LinearGradient _sexBarsGradient(BuildContext context) {
-    Color baseColor = AppColors.chart.vividBarStart(AppColors.chart.mstbBarStart(), context);
-    Color mainColor = AppColors.chart.vividBarEnd(AppColors.chart.sexBarAccent(context), context);
+    Color baseColor = AppColors.chart.softBarStart(AppColors.chart.sexLine(context), context);
+    Color mainColor = AppColors.chart.sexLine(context);
 
     return LinearGradient(
       colors: [
@@ -242,8 +240,8 @@ class _BarChart extends StatelessWidget {
   }
 
   LinearGradient _mstbBarsGradient(BuildContext context) {
-    Color baseColor = AppColors.chart.vividBarStart(AppColors.chart.mstbBarStart(), context);
-    Color mainColor = AppColors.chart.vividBarEnd(AppColors.chart.mstbBarAccent(), context);
+    Color baseColor = AppColors.chart.softBarStart(AppColors.chart.mstbLine(context), context);
+    Color mainColor = AppColors.chart.mstbLine(context);
 
     return LinearGradient(
       colors: [
@@ -259,18 +257,19 @@ class _BarChart extends StatelessWidget {
 
   List<BarChartGroupData> barGroups(BuildContext context){
     return List<BarChartGroupData>.generate(
-        7, (i) => BarChartGroupData(
-          x: i,
+        eventAmountList.length,
+        (i) => BarChartGroupData(
+          x: isWeekly? i : eventAmountList[i].dateInMs.toInt(),
           barsSpace: 4,
           barRods: [
             BarChartRodData(
-                toY: sexAmountList[i].value.toDouble(),
+                toY: eventAmountList[i].sexValue.toDouble(),
                 width: AppSizes.narrowBarWidth,
                 gradient: _sexBarsGradient(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))
             ),
             BarChartRodData(
-                toY: mstbAmountList[i].value.toDouble(),
+                toY: eventAmountList[i].mstbValue.toDouble(),
                 width: AppSizes.narrowBarWidth,
                 gradient: _mstbBarsGradient(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))

@@ -36,4 +36,12 @@ class AppStyles{
       letterSpacing: AppSizes.chartTitleSpacing,
     );
   }
+
+  static TextStyle chartSideTitles(BuildContext context) {
+    return TextStyle(
+      color: AppColors.chart.subtitle(context),
+      fontWeight: FontWeight.bold,
+      fontSize: AppSizes.textBasic,
+    );
+  }
 }

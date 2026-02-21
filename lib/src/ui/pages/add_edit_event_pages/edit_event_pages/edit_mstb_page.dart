@@ -66,7 +66,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
         0,
         _dataController.durationController.time.hour,
         _dataController.durationController.time.minute
-    );;
+    );
     final didWatchPorn = _dataController.pornController.value;
     final didUseToys = _dataController.toysController.value;
     final practicesOptions = _practicesController!.getSelectedOptions();

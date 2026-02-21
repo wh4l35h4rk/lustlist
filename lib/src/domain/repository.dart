@@ -1,15 +1,11 @@
-import 'dart:math';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
-import 'package:lustlist/src/domain/entities/events_bar_rod.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'entities/calendar_event.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
@@ -52,16 +48,8 @@ class EventRepository {
     }
   }
 
-
-  DateTime addMonth(DateTime date) {
-    var year = date.year + ((date.month + 1) ~/ 12);
-    var month = (date.month + 1) % 12;
-    var day = date.day;
-
-    if (day > 28) {
-      day = min(day, DateTime(year, month + 1, 0).day);
-    }
-    return DateTime(year, month, day, date.hour, date.minute, date.second, date.millisecond, date.microsecond);
+  Future<Partner?> getUnknownPartner() async {
+    return await (db.select(db.partners)..where((t) => t.id.equals(unknownPartnerId))).getSingleOrNull();
   }
 
 
@@ -226,165 +214,6 @@ class EventRepository {
   }
 
 
-  Future<List<FlSpot>> getSpotsListByMonth(String typeSlug, DateTime period) async {
-    // get date range from current datetime and period
-    DateTime date2 = DateTime.now();
-    DateTime date1 = DateTime(
-      date2.year - period.year,
-      date2.month - period.month,
-      date2.day - period.day,
-    );
-
-    // form list of months to be displayed on X-axis of chart
-    List<DateTime> dates = [];
-    DateTime dummyDate = addMonth(date1);
-    dummyDate = DateFormatter.yearMonthOnly(dummyDate);
-    while (dummyDate.isBefore(date2) || dummyDate.isAtSameMomentAs(date2)) {
-      dates.add(dummyDate);
-      DateTime newDate = addMonth(dummyDate);
-      newDate = DateFormatter.yearMonthOnly(newDate);
-      dummyDate = newDate;
-    }
-
-    // get map of amount of events corresponding to their time period
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    var dbMap = await db.getEventsAmountAfterDateGroupByMonth(typeId, date1);
-
-    var formattedMap = {};
-    for (var k in dbMap.keys) {
-      DateTime key = DateFormatter.yearMonthOnly(k);
-      formattedMap[key] = dbMap[k]!;
-    }
-
-    // if there are events in a month, write them to map, otherwise write zero
-    List<FlSpot> list = [];
-    for (var d in dates){
-      d = DateFormatter.yearMonthOnly(d);
-      if (formattedMap[d] != null) {
-        list.add(FlSpot(d.millisecondsSinceEpoch.toDouble(), formattedMap[d]!.toDouble()));
-      } else {
-        list.add(FlSpot(d.millisecondsSinceEpoch.toDouble(), 0));
-      }
-    }
-    return list;
-  }
-
-
-  Future<List<EventsAmountRodData>> getEventAmountListByDay(String typeSlug, DateTime period) async {
-    // get date range from current datetime and period
-    DateTime date2 = DateTime.now();
-    DateTime date1 = DateTime(
-      date2.year - period.year,
-      date2.month - period.month,
-      date2.day - period.day,
-    );
-
-    // form list of days to be displayed on X-axis of chart
-    List<DateTime> dates = [];
-    DateTime dummyDate = date1.add(const Duration(hours: 24));
-    dummyDate = DateFormatter.dateOnly(dummyDate);
-    while (dummyDate.isBefore(date2) || dummyDate.isAtSameMomentAs(date2)) {
-      dates.add(dummyDate);
-      DateTime newDate = dummyDate.add(const Duration(hours: 24));
-      newDate = DateFormatter.dateOnly(newDate);
-      dummyDate = newDate;
-    }
-
-    // get map of amount of events corresponding to their time period
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    var dbMap = await db.getEventsAmountAfterDateGroupByDay(typeId, date1);
-
-    var formattedMap = {};
-    for (var k in dbMap.keys) {
-      DateTime key = DateFormatter.dateOnly(k);
-      formattedMap[key] = dbMap[k]!;
-    }
-
-    // if there are events in a day, write amount to list of values, otherwise write zero
-    List<EventsAmountRodData> list = [];
-    List<double> listValues = [];
-    for (var d in dates){
-      d = DateFormatter.dateOnly(d);
-      if (formattedMap[d] != null) {
-        listValues.add(formattedMap[d]!.toDouble());
-      } else {
-        listValues.add(0);
-      }
-    }
-
-    // sort values to fina maximal
-    listValues.sort();
-    var maxValue = listValues.last;
-    print(maxValue);
-    var defaultValue = maxValue / 30;
-
-    // if there are events in a day, write amount to list, otherwise write default value
-    for (var d in dates){
-      d = DateFormatter.dateOnly(d);
-      if (formattedMap[d] != null) {
-        list.add(EventsAmountRodData(d.millisecondsSinceEpoch.toDouble(), formattedMap[d]!.toDouble()));
-      } else {
-        list.add(EventsAmountRodData(d.millisecondsSinceEpoch.toDouble(), defaultValue));
-      }
-    }
-    return list;
-  }
-
-
-  Future<double?> getAvgDuration(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    double? avg = await db.getAvgDuration(typeId);
-    return avg;
-  }
-
-  Future<int?> getTotalDuration(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? total = await db.getTotalDuration(typeId);
-    return total;
-  }
-
-  Future<CalendarEvent?> getMaxOrMinDurationCalendarEvent(String typeSlug, AggroType agg) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    List<Event?> list = (agg == AggroType.max)
-        ? await db.getMaxDurationEvents(typeId)
-        : await db.getMinDurationEvents(typeId);
-    if (list.isEmpty || list.first == null) {
-      return null;
-    } else {
-      Event randomItem = (list..shuffle()).first!;
-      CalendarEvent event = await dbToCalendarEvent(randomItem);
-      return event;
-    }
-  }
-
-
-  Future<int> getUserOrgasmsAmount(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? amount = await db.countUserOrgasms(typeId);
-    return amount ?? 0;
-  }
-
-  Future<int> getPartnersOrgasmsAmount() async {
-    int? amount = await db.countPartnersAmount();
-    return amount ?? 0;
-  }
-
-  Future<int> getEventsWithPornAmount() async {
-    int? amount = await db.countSoloWithPorn();
-    return amount ?? 0;
-  }
-
-  Future<int> getEventsWithToysAmount() async {
-    int? amount = await db.countSoloWithToys();
-    return amount ?? 0;
-  }
-
-  Future<int> countEventsOfType(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? amount = await db.countEventsOfType(typeId);
-    return amount ?? 0;
-  }
-
 
   Future<List<EOption>> getOptionsList(int eventId, String categorySlug) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
@@ -407,7 +236,6 @@ class EventRepository {
     });
     return values;
   }
-
 
 
   Future<DateTime> getPartnerLastEventDate(int partnerId) async {
@@ -440,10 +268,6 @@ class EventRepository {
     }
 
     return partners;
-  }
-
-  Future<Partner?> getUnknownPartner() async {
-    return await (db.select(db.partners)..where((t) => t.id.equals(unknownPartnerId))).getSingleOrNull();
   }
 
 

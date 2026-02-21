@@ -19,4 +19,8 @@ class DateFormatter {
     datetime.second
   );
   static DateTime yearMonthOnly (DateTime date) => DateTime(date.year, date.month);
+
+  static DateTime yearOnly(DateTime datetime) => DateTime(
+      datetime.year
+  );
 }

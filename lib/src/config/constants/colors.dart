@@ -262,7 +262,14 @@ class ChartColors{
       colorBlend(
         blendColor(context),
         Theme.of(context).colorScheme.primary, 0.7)!;
-  Color mstbLine(BuildContext context) => vividBarStart(mstbBarStart(), context);
+  Color mstbLine(BuildContext context) => colorBlend(
+      colorBlend(
+          Theme.of(context).colorScheme.inversePrimary,
+          blendColor(context), 0.7)!,
+      Theme.of(context).colorScheme.primaryFixed, 0.2
+  )!;
+
+
 
 
   // cards
@@ -289,10 +296,6 @@ class ChartColors{
   Color soloPracticesAccent() => Color.fromRGBO(150, 150, 220, 1);
 
 
-  Color sexBarAccent(BuildContext context) => colorBlend(Colors.redAccent.shade200, blendColor(context), 0.2)!;
-  Color mstbBarStart() => Color.fromRGBO(250, 120, 120, 1);
-  Color mstbBarAccent() => Color.fromRGBO(250, 200, 100, 1);
-
 
   Color barStart(Color accentColor, BuildContext context) =>
       colorBlend(
@@ -307,17 +310,11 @@ class ChartColors{
           0.1
       )!;
 
-  Color vividBarStart(Color accentColor, BuildContext context) =>
+  Color softBarStart(Color accentColor, BuildContext context) =>
       colorBlend(
           accentColor,
-          blendColor(context),
+          Theme.of(context).colorScheme.surface,
           0.3
-      )!;
-  Color vividBarEnd(Color accentColor, BuildContext context) =>
-      colorBlend(
-          accentColor,
-          blendColor(context),
-          0.2
       )!;
 }
 

@@ -169,6 +169,38 @@ class AppDatabase extends _$AppDatabase {
     return resultMap;
   }
 
+  Future<Map<DateTime, int>> getEventsAmountGroupByYear(int typeId) async {
+    final amountOfEvents = events.id.count();
+    final eventsYear = events.date.year;
+
+    final query = select(types).join([
+      innerJoin(
+        events,
+        events.typeId.equalsExp(types.id),
+        useColumns: false,
+      ),
+    ])..where(
+        events.typeId.equals(typeId)
+    );
+    query
+      ..addColumns([eventsYear, amountOfEvents])
+      ..groupBy([types.id, eventsYear]);
+
+    final result = await query.get();
+
+    Map<DateTime, int> resultMap = {};
+    for (final row in result) {
+      int? amount = row.read(amountOfEvents);
+      int? year = row.read(eventsYear);
+      if (year != null && amount != null) {
+        DateTime date = DateTime(year);
+        resultMap[date] = amount;
+      }
+    }
+    return resultMap;
+  }
+
+
   // Get EventData
   Future<EventData?> getDataById(int id) async {
     return (select(eventDataTable)..where((t) => t.id.equals(id))).getSingleOrNull();
