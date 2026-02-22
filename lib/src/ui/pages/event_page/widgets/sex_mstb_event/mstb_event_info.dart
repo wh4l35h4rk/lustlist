@@ -30,10 +30,16 @@ class MstbEventInfo extends StatelessWidget {
           iconSize: AppSizes.iconPractices,
         ),
         CategoryTile(
-            event: event,
-            title: StringFormatter.colon(DataStrings.place),
-            categorySlug: "place",
-            iconData: Icons.bed
+          event: event,
+          title: StringFormatter.colon(DataStrings.place),
+          categorySlug: "place",
+          iconData: Icons.bed
+        ),
+        CategoryTile(
+          event: event,
+          title: StringFormatter.colon(DataStrings.complicacies),
+          categorySlug: "complicacies",
+          iconData: Icons.error
         ),
         NotesTile(event: event),
         SizedBox(height: 10)

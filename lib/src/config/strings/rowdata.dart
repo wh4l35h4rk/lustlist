@@ -6,11 +6,11 @@ class RowData {
 
   List<String> get categoryNames => [
     "Contraception", "Poses", "Practices", "Ejaculation", "Place",
-    "Practices", "STI test", "OB-GYN visit",
+    "Practices", "Complicacies", "STI test", "OB-GYN visit",
   ];
   List<String> get categorySlugs => [
     "contraception", "poses", "practices", "ejaculation", "place",
-    "solo practices", "sti", "obgyn"
+    "solo practices", "complicacies", "sti", "obgyn",
   ];
 
 
@@ -65,6 +65,13 @@ class RowData {
   List<String> get placeOptionSlugs => [
     "bed", "bathroom", "table", "chair", "car", "pool", "office", "hotel", "beach", "rooftop", "forest", "field",
     "school", "university", "my place", "partner's place", "public space"
+  ];
+
+  List<String> get complicaciesOptionNames => [
+    "Menstruation", "Soreness", "Pain upon penetration", "Cervix pain", "Weak erection", "Unwanted activity"
+  ];
+  List<String> get complicaciesOptionSlugs => [
+    "menstruation", "soreness", "pain upon penetration", "cervix pain", "weak erection", "unwanted activity"
   ];
 
   List<String> get soloPracticesOptionNames => ["Fingering", "Handjob", "Frottage", "Anal"];

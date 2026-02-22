@@ -55,6 +55,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
 
   AddCategoryController? _practicesController;
   AddCategoryController? _placeController;
+  AddCategoryController? _complicaciesController;
 
   void _onPressed() async {
     final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
@@ -71,12 +72,13 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     final didUseToys = _dataController.toysController.value;
     final practicesOptions = _practicesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();
+    final complicaciesOptions = _complicaciesController!.getSelectedOptions();
 
     repo.updateEvent(event.event.id, date, time, notes);
     repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, didWatchPorn, didUseToys);
     database.deleteEventOptions(event.event.id);
 
-    var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
+    var allOptionsList = [practicesOptions, placeOptions, complicaciesOptions].expand((x) => x).toList();
     for (var o in allOptionsList) {
       repo.loadOptions(event.event.id, o.id, null);
     }
@@ -131,6 +133,11 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
                 controller: _placeController!,
                 iconData: Icons.bed,
               ),
+              AddCategoryTile(
+                category: categoriesMap['complicacies']!,
+                controller: _complicaciesController!,
+                iconData: Icons.error,
+              ),
               AddNotesTile(
                 controller: _notesController,
               ),
@@ -153,6 +160,7 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
   Future<void> _initControllers() async {
     final practicesOptions = await repo.getOptionsList(event.event.id, "solo practices");
     final placeOptions = await repo.getOptionsList(event.event.id, "place");
+    final complicaciesOptions = await repo.getOptionsList(event.event.id, "complicacies");
 
     setState(() {
       _practicesController = AddCategoryController(
@@ -160,6 +168,9 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
       );
       _placeController = AddCategoryController(
         selectedOptionsList: placeOptions,
+      );
+      _complicaciesController = AddCategoryController(
+        selectedOptionsList: complicaciesOptions,
       );
       _isLoading = false;
     });

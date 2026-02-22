@@ -512,6 +512,7 @@ class AppDatabase extends _$AppDatabase {
           final ejaculationCategoryId = await getCategoryIdBySlug('ejaculation');
           final soloPracticesCategoryId = await getCategoryIdBySlug('solo practices');
           final placeCategoryId = await getCategoryIdBySlug('place');
+          final complicaciesCategoryId = await getCategoryIdBySlug('complicacies');
           final stiCategoryId = await getCategoryIdBySlug('sti');
           final obgynCategoryId = await getCategoryIdBySlug('obgyn');
 
@@ -523,8 +524,10 @@ class AppDatabase extends _$AppDatabase {
               CategoriesTypesCompanion.insert(categoryId: practicesCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: ejaculationCategoryId, typeId: sexTypeId),
+              CategoriesTypesCompanion.insert(categoryId: complicaciesCategoryId, typeId: sexTypeId),
               CategoriesTypesCompanion.insert(categoryId: soloPracticesCategoryId, typeId: masturbationTypeId),
               CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: masturbationTypeId),
+              CategoriesTypesCompanion.insert(categoryId: complicaciesCategoryId, typeId: masturbationTypeId),
               CategoriesTypesCompanion.insert(categoryId: stiCategoryId, typeId: medicalTypeId),
               CategoriesTypesCompanion.insert(categoryId: obgynCategoryId, typeId: medicalTypeId),
             ]);
@@ -567,6 +570,16 @@ class AppDatabase extends _$AppDatabase {
                     slug: rowData.placeOptionSlugs[index],
                     categoryId: placeCategoryId
                 )),
+            );
+
+            assert (rowData.complicaciesOptionNames.length == rowData.complicaciesOptionSlugs.length);
+            batch.insertAll(eOptions,
+              List<Insertable<EOption>>.generate(rowData.complicaciesOptionNames.length, (int index) =>
+                  EOptionsCompanion.insert(
+                      name: rowData.complicaciesOptionNames[index],
+                      slug: rowData.complicaciesOptionSlugs[index],
+                      categoryId: complicaciesCategoryId
+                  )),
             );
 
             assert (rowData.ejaculationOptionNames.length == rowData.ejaculationOptionSlugs.length);

@@ -63,8 +63,8 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
                     CheckmarkLegendRow(
                       title: DataStrings.sex,
                       iconData: _showSex ?
-                        Icons.check_box_outlined :
-                        Icons.check_box_outline_blank_outlined,
+                        Icons.adjust :
+                        Icons.brightness_1_outlined,
                       onTap: () {
                         setState(() {
                           _showSex = !_showSex;
@@ -78,8 +78,8 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
                     CheckmarkLegendRow(
                       title: DataStrings.mstb,
                       iconData: _showMstb ?
-                        Icons.check_box_outlined :
-                        Icons.check_box_outline_blank_outlined,
+                        Icons.adjust :
+                        Icons.brightness_1_outlined,
                       onTap: () {
                         setState(() {
                           _showMstb = !_showMstb;

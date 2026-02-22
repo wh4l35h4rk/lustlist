@@ -23,6 +23,7 @@ class DataStrings {
   static const String poses = "Poses";
   static const String place = "Place";
   static String get ejaculation => "Ejaculation";
+  static String get complicacies => "Complicacies";
 
   static const String source = "Source code";
 

@@ -38,6 +38,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
   final repo = EventRepository(database);
   final _practicesController = AddCategoryController();
   final _placeController = AddCategoryController();
+  final _complicaciesController = AddCategoryController();
   final _notesController = NotesTileController();
 
   void _onPressed() async {                  
@@ -55,11 +56,12 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
     final didUseToys = _dataController.toysController.value;
     final practicesOptions = _practicesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();
+    final complicaciesOptions = _complicaciesController.getSelectedOptions();
     
     var id = await repo.loadEvent("masturbation", date, time, notes);
     repo.loadEventData(id, rating, duration, orgasmAmount, didWatchPorn, didUseToys);
     
-    var allOptionsList = [practicesOptions, placeOptions].expand((x) => x).toList();
+    var allOptionsList = [practicesOptions, placeOptions, complicaciesOptions].expand((x) => x).toList();
     for (var o in allOptionsList) {
       repo.loadOptions(id, o.id, null);
     }
@@ -110,6 +112,11 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
                 category: categoriesMap['place']!,
                 controller: _placeController,
                 iconData: Icons.bed,
+              ),
+              AddCategoryTile(
+                category: categoriesMap['complicacies']!,
+                controller: _complicaciesController,
+                iconData: Icons.error,
               ),
               AddNotesTile(
                 controller: _notesController,
