@@ -294,6 +294,7 @@ class ChartColors{
   Color practicesAccent() => Color.fromRGBO(80, 220, 200, 1);
   Color posesAccent() => Color.fromRGBO(90, 200, 240, 1);
   Color soloPracticesAccent() => Color.fromRGBO(150, 150, 220, 1);
+  Color ejaculationAccent() => Color.fromRGBO(180, 150, 220, 1);
 
 
 
@@ -316,5 +317,6 @@ class ChartColors{
           Theme.of(context).colorScheme.surface,
           0.3
       )!;
+
 }
 

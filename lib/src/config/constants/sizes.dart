@@ -44,5 +44,6 @@ class AppSizes {
   static const double numStatsMedium = 35;
 
   static const double defaultBarWidth = 20;
+  static const double mediumBarWidth = 16;
   static const double narrowBarWidth = 12;
 }

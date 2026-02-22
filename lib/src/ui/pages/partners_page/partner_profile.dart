@@ -272,7 +272,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
       var calendarEvent = await repo.dbToCalendarEvent(e);
       calendarEvents.add(calendarEvent);
     }
-    calendarEvents.sort((a, b) => repo.sortDateTime(a.event, b.event));
+    calendarEvents.sort((a, b) => repo.sortDateTimeDesc(a.event, b.event));
     return calendarEvents;
   }
 

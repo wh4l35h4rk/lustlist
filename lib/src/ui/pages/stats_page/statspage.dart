@@ -11,7 +11,7 @@ import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/domain/entities/events_amount_data.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'package:lustlist/src/domain/repository_chart.dart';
-import 'package:lustlist/src/ui/pages/stats_page/charts/last_week_bar_chart.dart';
+import 'package:lustlist/src/ui/pages/stats_page/charts/events_bar_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/orgasms_ratio_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
@@ -48,6 +48,7 @@ class _StatsPageState extends State<StatsPage> {
   List<OptionRank>? topPractices;
   List<OptionRank>? topSoloPractices;
   List<OptionRank>? topPoses;
+  List<OptionRank>? topEjaculation;
   List<int>? orgasmsAmount;
   List<int>? pornStats;
   List<int>? toysStats;
@@ -88,7 +89,6 @@ class _StatsPageState extends State<StatsPage> {
       final sexSpots = await repo.getSpotsListByMonth("sex");
       final mstbSpots = await repo.getSpotsListByMonth("masturbation");
 
-      
       // duration stats
       final sexAvg = await repo.getAvgDuration("sex");
       final sexMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max);
@@ -105,6 +105,7 @@ class _StatsPageState extends State<StatsPage> {
       final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
       final topSoloPracticesList = await repo.getOptionsRanked(categorySlug: "solo practices", limit: 3);
       final topPosesList = await repo.getOptionsRanked(categorySlug: "poses");
+      final topEjaculationList = await repo.getOptionsRanked(categorySlug: "ejaculation");
 
       // orgasm ratio
       final userOrgasms = await repo.getUserOrgasmsAmount("sex");
@@ -130,9 +131,11 @@ class _StatsPageState extends State<StatsPage> {
           sexTotal,
           mstbTotal
         ];
+
         topPractices = topPracticesList;
         topPoses = topPosesList;
         topSoloPractices = topSoloPracticesList;
+        topEjaculation = topEjaculationList;
 
         orgasmsAmount = [
           userOrgasms,
@@ -183,7 +186,7 @@ class _StatsPageState extends State<StatsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               SizedBox(height: 15,),
-              SexMstbEventsBarChart(
+              EventsBarChart(
                 eventAmountList: weeklyRodData!,
                 getBottomTitles: _getBottomTitlesWeekly,
                 title: ChartStrings.lastWeekChart,
@@ -207,6 +210,12 @@ class _StatsPageState extends State<StatsPage> {
                 title: ChartStrings.topPosesChart,
                 barAccentColor: AppColors.chart.posesAccent(),
               ),
+              if (topEjaculation!.isNotEmpty) DefaultDivider(),
+              if (topEjaculation!.isNotEmpty) TopOptionsChart(
+                optionsList: topEjaculation!,
+                title: ChartStrings.topEjaculationChart,
+                barAccentColor: AppColors.chart.ejaculationAccent(),
+              ),
               DefaultDivider(),
               OrgasmsRatioChart(
                 userAmount: orgasmsAmount![0],
@@ -228,7 +237,7 @@ class _StatsPageState extends State<StatsPage> {
               DefaultDivider(),
               LineChartMonthly(spots: monthlySpots!),
               DefaultDivider(),
-              SexMstbEventsBarChart(
+              EventsBarChart(
                 eventAmountList: yearlyRodData!,
                 title: ChartStrings.allYearsChart,
                 isWeekly: false,

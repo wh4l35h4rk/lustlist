@@ -23,7 +23,7 @@ class EventRepository {
     return t1.minute.compareTo(t2.minute);
   }
 
-  int sortDateTime(Event a, Event b) {
+  int sortDateTimeDesc(Event a, Event b) {
     final d1 = DateFormatter.dateOnly(a.date);
     final d2 = DateFormatter.dateOnly(b.date);
     final t1 = DateFormatter.timeOnly(a.date);
@@ -33,18 +33,18 @@ class EventRepository {
       if (d1.month == d2.month) {
         if (d1.day == d2.day) {
           if (t1.hour == t2.hour) {
-            return t1.minute.compareTo(t2.minute);
+            return -1 * t1.minute.compareTo(t2.minute);
           } else {
-            return t1.hour.compareTo(t2.hour);
+            return -1 * t1.hour.compareTo(t2.hour);
           }
         } else {
-          return d1.day.compareTo(d2.day);
+          return -1 * d1.day.compareTo(d2.day);
         }
       } else {
-        return d1.month.compareTo(d2.month);
+        return -1 * d1.month.compareTo(d2.month);
       }
     } else {
-      return d1.year.compareTo(d2.year);
+      return -1 * d1.year.compareTo(d2.year);
     }
   }
 
@@ -241,8 +241,8 @@ class EventRepository {
   Future<DateTime> getPartnerLastEventDate(int partnerId) async {
     List<Event> events = await db.getEventsByPartnerId(partnerId);
     if (events.isEmpty) return defaultDate;
-    events.sort(sortDateTime);
-    return events.last.date;
+    events.sort(sortDateTimeDesc);
+    return events.first.date;
   }
 
   Future<List<Partner>> getPartnersSorted(bool withUnknown) async {
