@@ -18,6 +18,7 @@ class DataStrings {
   static const String sti = "STI";
   static const String obgyn = "ONG-GYN visit";
 
+  static const String types = "Types";
   static const String contraception = "Contraception";
   static const String practices = "Practices";
   static const String poses = "Poses";

@@ -19,6 +19,36 @@ class AppStyles{
     );
   }
 
+  static TextStyle addEventBasicText(BuildContext context) {
+    return TextStyle(
+        fontSize: AppSizes.textBasic,
+        color: AppColors.addEvent.text(context)
+    );
+  }
+
+  static ButtonStyle filterButton<T>(BuildContext context, List<T> selectedValues, T value){
+    return OutlinedButton.styleFrom(
+      backgroundColor: selectedValues.contains(value)
+          ? AppColors.filterSelected(context)
+          : AppColors.filterSurface(context),
+      side: BorderSide(
+          width: 1.2,
+          color: AppColors.addEvent.border(context)
+      ),
+    );
+  }
+
+  static ButtonStyle filterAllButton(BuildContext context){
+    return OutlinedButton.styleFrom(
+      backgroundColor: AppColors.filterSurface(context),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      side: BorderSide(
+          width: 1.2,
+          color: AppColors.addEvent.border(context)
+      ),
+    );
+  }
+
 
   static TextStyle numStatsTitle(BuildContext context){
     return TextStyle(

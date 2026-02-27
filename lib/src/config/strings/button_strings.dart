@@ -5,4 +5,7 @@ class ButtonStrings {
   static const String delete = "Delete";
   static const String leave = "Leave";
   static const String ok = "OK";
+
+  static const String selectAll = "Select all";
+  static const String removeAll = "Remove all";
 }

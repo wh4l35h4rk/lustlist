@@ -62,10 +62,12 @@ class AppIconData {
   static const IconData noData = Icons.question_mark;
   static const IconData arrowLeft = Icons.arrow_back_ios;
   static const IconData arrowRight = Icons.arrow_forward_ios;
-  static const IconData selected = Icons.check;
   static const IconData edit = Icons.edit;
   static const IconData delete = Icons.delete;
 
   static const IconData lightTheme = Icons.light_mode;
   static const IconData darkTheme = Icons.dark_mode;
+
+  static const IconData selected = Icons.check;
+  static const IconData notSelected = Icons.close;
 }

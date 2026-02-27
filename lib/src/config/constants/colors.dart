@@ -37,6 +37,13 @@ class AppColors {
       0.5
   );
 
+  static Color filterSurface(BuildContext context) => AppColors.categoryTile.surface(context);
+  static Color? filterSelected(BuildContext context) => colorBlend(
+      filterSurface(context),
+      Theme.of(context).colorScheme.secondaryContainer,
+      0.5
+  );
+
   static Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
 
   static Color divider(BuildContext context) => Theme.of(context).dividerColor;

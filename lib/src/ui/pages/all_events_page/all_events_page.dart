@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/enums/type.dart';
+import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -6,7 +12,10 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/all_events_list_tile.dart';
+import 'package:lustlist/src/ui/controllers/filter_controller.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/add_remove_all_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/selectable_value_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -35,6 +44,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
   bool _isLoading = true;
   bool _isError = false;
   List<CalendarEvent>? events;
+
+  List<EOption>? contraceptionOptions;
+
+  final _typeFilterController = FilterController<EventType>(selectedValuesList: EventType.entries);
 
   @override
   void initState() {
@@ -79,7 +92,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,38 +116,78 @@ class _AllEventsPageState extends State<AllEventsPage> {
                   child: ErrorTile(),
               ),
               if (!_isLoading && !_isError)
-                ListView(
-                children: [
-                  ListView.builder(
-                    itemCount: events!.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      CalendarEvent event = events![index];
-                      return Column(
-                        children: [
-                          index == 0 ? Padding(
-                            padding: AppInsets.divider,
-                            child: Divider(
-                              height: AppSizes.dividerMinimal,
-                            ),
-                          ) : SizedBox.shrink(),
-                          AllEventsListTile(
-                            onTap: () => _onEventListTileTap(event),
-                            event: event,
-                          ),
-                          Padding(
-                            padding: AppInsets.divider,
-                            child: Divider(
-                              height: AppSizes.dividerMinimal,
-                            ),
-                          )
-                        ],
-                      );
+                ValueListenableBuilder(
+                  valueListenable: _typeFilterController.selectedValues,
+                  builder: (context, value, child) {
+                    List<CalendarEvent> filteredEvents;
+                    if (value.isEmpty) {
+                      filteredEvents = [];
+                    } else {
+                      filteredEvents = events!
+                        .where((e) => value.any((t) => t == e.type))
+                        .toList();
                     }
-                  )
-                ]
-              ),
+
+                    return Column(
+                      children: [
+                        SizedBox(height: 6,),
+                        BasicTile(
+                          surfaceColor: AppColors.filterSurface(context),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    StringFormatter.colon(DataStrings.types),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: AppColors.categoryTile.title(context),
+                                      fontSize: AppSizes.titleLarge,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.category,
+                                    size: AppSizes.iconBasic,
+                                    color: AppColors.categoryTile.leadingIcon(context),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              SizedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AddRemoveAllButton(
+                                      title: ButtonStrings.selectAll,
+                                      onPressed: () => {
+                                        _typeFilterController.addAll(EventType.entries)
+                                      },
+                                    ),
+                                    AddRemoveAllButton(
+                                      title: ButtonStrings.removeAll,
+                                      onPressed: () => {
+                                        _typeFilterController.removeAll()
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: typeButtonList(context)
+                              ),
+                            ]
+                          )
+                        ),
+                        SizedBox(height: 10,),
+                        AllEventsList(list: filteredEvents)
+                      ]
+                    );
+                  }
+                ),
               Positioned(
                 bottom: 20,
                 right: 20,
@@ -150,6 +202,26 @@ class _AllEventsPageState extends State<AllEventsPage> {
   }
 
 
+  Widget typeButtonList(BuildContext context) {
+    List<Widget> buttonList = List.generate(
+      EventType.entries.length,
+        (index) => SelectableValueButton(
+          controller: _typeFilterController, 
+          value: EventType.entries[index], 
+          title: EventType.entries[index].name
+        )
+    );
+
+    return Scrollbar(
+      thickness: 1,
+      radius: Radius.circular(20),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: buttonList
+      ),
+    );
+  }
+
   Future<void> _onAddEventTap(int index) async {
     StatefulWidget widget;
     if (index == 0) {
@@ -162,15 +234,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
     await Navigator.push(context,
       MaterialPageRoute(builder: (_) => widget),
-    );
-  }
-
-  Future<void> _onEventListTileTap(CalendarEvent event) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EventPage(event: event),
-      ),
     );
   }
 }

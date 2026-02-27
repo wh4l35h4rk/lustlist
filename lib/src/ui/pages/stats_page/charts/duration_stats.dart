@@ -31,7 +31,7 @@ class DurationStats extends StatelessWidget{
                 child: AvgDurationColumn(
                   avgInMinutes: sexStats.avgInMinutes,
                   title: ChartStrings.avgSexDuration,
-                  bgIconData: CupertinoIcons.time,
+                  bgIconData: AppIconData.duration,
                 ),
               ),
               Expanded(
@@ -77,7 +77,7 @@ class DurationStats extends StatelessWidget{
                   child: AvgDurationColumn(
                     avgInMinutes: mstbStats.avgInMinutes,
                     title: ChartStrings.avgMstbDuration,
-                    bgIconData: AppIconData.mstbOutlined,
+                    bgIconData: AppIconData.mstbSecondary,
                     bgIconSize: 150,
                   ),
                 ),
