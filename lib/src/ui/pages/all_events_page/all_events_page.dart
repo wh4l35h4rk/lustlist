@@ -17,7 +17,6 @@ import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 
 

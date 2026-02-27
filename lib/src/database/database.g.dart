@@ -3,250 +3,6 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $TypesTable extends Types with TableInfo<$TypesTable, Type> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TypesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 1,
-      maxTextLength: 20,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
-  );
-  static const VerificationMeta _slugMeta = const VerificationMeta('slug');
-  @override
-  late final GeneratedColumn<String> slug = GeneratedColumn<String>(
-    'slug',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 1,
-      maxTextLength: 20,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, name, slug];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'types';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<Type> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('slug')) {
-      context.handle(
-        _slugMeta,
-        slug.isAcceptableOrUnknown(data['slug']!, _slugMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_slugMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Type map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Type(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      slug: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}slug'],
-      )!,
-    );
-  }
-
-  @override
-  $TypesTable createAlias(String alias) {
-    return $TypesTable(attachedDatabase, alias);
-  }
-}
-
-class Type extends DataClass implements Insertable<Type> {
-  final int id;
-  final String name;
-  final String slug;
-  const Type({required this.id, required this.name, required this.slug});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    map['slug'] = Variable<String>(slug);
-    return map;
-  }
-
-  TypesCompanion toCompanion(bool nullToAbsent) {
-    return TypesCompanion(id: Value(id), name: Value(name), slug: Value(slug));
-  }
-
-  factory Type.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Type(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      slug: serializer.fromJson<String>(json['slug']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'slug': serializer.toJson<String>(slug),
-    };
-  }
-
-  Type copyWith({int? id, String? name, String? slug}) =>
-      Type(id: id ?? this.id, name: name ?? this.name, slug: slug ?? this.slug);
-  Type copyWithCompanion(TypesCompanion data) {
-    return Type(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      slug: data.slug.present ? data.slug.value : this.slug,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Type(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('slug: $slug')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, name, slug);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Type &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.slug == this.slug);
-}
-
-class TypesCompanion extends UpdateCompanion<Type> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<String> slug;
-  const TypesCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.slug = const Value.absent(),
-  });
-  TypesCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    required String slug,
-  }) : name = Value(name),
-       slug = Value(slug);
-  static Insertable<Type> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<String>? slug,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (slug != null) 'slug': slug,
-    });
-  }
-
-  TypesCompanion copyWith({
-    Value<int>? id,
-    Value<String>? name,
-    Value<String>? slug,
-  }) {
-    return TypesCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      slug: slug ?? this.slug,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (slug.present) {
-      map['slug'] = Variable<String>(slug.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TypesCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('slug: $slug')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $CategoriesTable extends Categories
     with TableInfo<$CategoriesTable, Category> {
   @override
@@ -968,18 +724,15 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _typeIdMeta = const VerificationMeta('typeId');
   @override
-  late final GeneratedColumn<int> typeId = GeneratedColumn<int>(
-    'type_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES types (id)',
-    ),
-  );
+  late final GeneratedColumnWithTypeConverter<EventType, int> type =
+      GeneratedColumn<int>(
+        'type',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      ).withConverter<EventType>($EventsTable.$convertertype);
   static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
   late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
@@ -1023,7 +776,7 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
   @override
   List<GeneratedColumn> get $columns => [
     id,
-    typeId,
+    type,
     date,
     time,
     notes,
@@ -1043,14 +796,6 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('type_id')) {
-      context.handle(
-        _typeIdMeta,
-        typeId.isAcceptableOrUnknown(data['type_id']!, _typeIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_typeIdMeta);
     }
     if (data.containsKey('date')) {
       context.handle(
@@ -1091,10 +836,12 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      typeId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}type_id'],
-      )!,
+      type: $EventsTable.$convertertype.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}type'],
+        )!,
+      ),
       date: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}date'],
@@ -1118,18 +865,21 @@ class $EventsTable extends Events with TableInfo<$EventsTable, Event> {
   $EventsTable createAlias(String alias) {
     return $EventsTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<EventType, int, int> $convertertype =
+      const EnumIndexConverter<EventType>(EventType.values);
 }
 
 class Event extends DataClass implements Insertable<Event> {
   final int id;
-  final int typeId;
+  final EventType type;
   final DateTime date;
   final DateTime time;
   final String? notes;
   final DateTime createdAt;
   const Event({
     required this.id,
-    required this.typeId,
+    required this.type,
     required this.date,
     required this.time,
     this.notes,
@@ -1139,7 +889,9 @@ class Event extends DataClass implements Insertable<Event> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['type_id'] = Variable<int>(typeId);
+    {
+      map['type'] = Variable<int>($EventsTable.$convertertype.toSql(type));
+    }
     map['date'] = Variable<DateTime>(date);
     map['time'] = Variable<DateTime>(time);
     if (!nullToAbsent || notes != null) {
@@ -1152,7 +904,7 @@ class Event extends DataClass implements Insertable<Event> {
   EventsCompanion toCompanion(bool nullToAbsent) {
     return EventsCompanion(
       id: Value(id),
-      typeId: Value(typeId),
+      type: Value(type),
       date: Value(date),
       time: Value(time),
       notes: notes == null && nullToAbsent
@@ -1169,7 +921,9 @@ class Event extends DataClass implements Insertable<Event> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Event(
       id: serializer.fromJson<int>(json['id']),
-      typeId: serializer.fromJson<int>(json['typeId']),
+      type: $EventsTable.$convertertype.fromJson(
+        serializer.fromJson<int>(json['type']),
+      ),
       date: serializer.fromJson<DateTime>(json['date']),
       time: serializer.fromJson<DateTime>(json['time']),
       notes: serializer.fromJson<String?>(json['notes']),
@@ -1181,7 +935,7 @@ class Event extends DataClass implements Insertable<Event> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'typeId': serializer.toJson<int>(typeId),
+      'type': serializer.toJson<int>($EventsTable.$convertertype.toJson(type)),
       'date': serializer.toJson<DateTime>(date),
       'time': serializer.toJson<DateTime>(time),
       'notes': serializer.toJson<String?>(notes),
@@ -1191,14 +945,14 @@ class Event extends DataClass implements Insertable<Event> {
 
   Event copyWith({
     int? id,
-    int? typeId,
+    EventType? type,
     DateTime? date,
     DateTime? time,
     Value<String?> notes = const Value.absent(),
     DateTime? createdAt,
   }) => Event(
     id: id ?? this.id,
-    typeId: typeId ?? this.typeId,
+    type: type ?? this.type,
     date: date ?? this.date,
     time: time ?? this.time,
     notes: notes.present ? notes.value : this.notes,
@@ -1207,7 +961,7 @@ class Event extends DataClass implements Insertable<Event> {
   Event copyWithCompanion(EventsCompanion data) {
     return Event(
       id: data.id.present ? data.id.value : this.id,
-      typeId: data.typeId.present ? data.typeId.value : this.typeId,
+      type: data.type.present ? data.type.value : this.type,
       date: data.date.present ? data.date.value : this.date,
       time: data.time.present ? data.time.value : this.time,
       notes: data.notes.present ? data.notes.value : this.notes,
@@ -1219,7 +973,7 @@ class Event extends DataClass implements Insertable<Event> {
   String toString() {
     return (StringBuffer('Event(')
           ..write('id: $id, ')
-          ..write('typeId: $typeId, ')
+          ..write('type: $type, ')
           ..write('date: $date, ')
           ..write('time: $time, ')
           ..write('notes: $notes, ')
@@ -1229,13 +983,13 @@ class Event extends DataClass implements Insertable<Event> {
   }
 
   @override
-  int get hashCode => Object.hash(id, typeId, date, time, notes, createdAt);
+  int get hashCode => Object.hash(id, type, date, time, notes, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Event &&
           other.id == this.id &&
-          other.typeId == this.typeId &&
+          other.type == this.type &&
           other.date == this.date &&
           other.time == this.time &&
           other.notes == this.notes &&
@@ -1244,14 +998,14 @@ class Event extends DataClass implements Insertable<Event> {
 
 class EventsCompanion extends UpdateCompanion<Event> {
   final Value<int> id;
-  final Value<int> typeId;
+  final Value<EventType> type;
   final Value<DateTime> date;
   final Value<DateTime> time;
   final Value<String?> notes;
   final Value<DateTime> createdAt;
   const EventsCompanion({
     this.id = const Value.absent(),
-    this.typeId = const Value.absent(),
+    this.type = const Value.absent(),
     this.date = const Value.absent(),
     this.time = const Value.absent(),
     this.notes = const Value.absent(),
@@ -1259,16 +1013,16 @@ class EventsCompanion extends UpdateCompanion<Event> {
   });
   EventsCompanion.insert({
     this.id = const Value.absent(),
-    required int typeId,
+    required EventType type,
     required DateTime date,
     this.time = const Value.absent(),
     this.notes = const Value.absent(),
     this.createdAt = const Value.absent(),
-  }) : typeId = Value(typeId),
+  }) : type = Value(type),
        date = Value(date);
   static Insertable<Event> custom({
     Expression<int>? id,
-    Expression<int>? typeId,
+    Expression<int>? type,
     Expression<DateTime>? date,
     Expression<DateTime>? time,
     Expression<String>? notes,
@@ -1276,7 +1030,7 @@ class EventsCompanion extends UpdateCompanion<Event> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (typeId != null) 'type_id': typeId,
+      if (type != null) 'type': type,
       if (date != null) 'date': date,
       if (time != null) 'time': time,
       if (notes != null) 'notes': notes,
@@ -1286,7 +1040,7 @@ class EventsCompanion extends UpdateCompanion<Event> {
 
   EventsCompanion copyWith({
     Value<int>? id,
-    Value<int>? typeId,
+    Value<EventType>? type,
     Value<DateTime>? date,
     Value<DateTime>? time,
     Value<String?>? notes,
@@ -1294,7 +1048,7 @@ class EventsCompanion extends UpdateCompanion<Event> {
   }) {
     return EventsCompanion(
       id: id ?? this.id,
-      typeId: typeId ?? this.typeId,
+      type: type ?? this.type,
       date: date ?? this.date,
       time: time ?? this.time,
       notes: notes ?? this.notes,
@@ -1308,8 +1062,10 @@ class EventsCompanion extends UpdateCompanion<Event> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (typeId.present) {
-      map['type_id'] = Variable<int>(typeId.value);
+    if (type.present) {
+      map['type'] = Variable<int>(
+        $EventsTable.$convertertype.toSql(type.value),
+      );
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
@@ -1330,7 +1086,7 @@ class EventsCompanion extends UpdateCompanion<Event> {
   String toString() {
     return (StringBuffer('EventsCompanion(')
           ..write('id: $id, ')
-          ..write('typeId: $typeId, ')
+          ..write('type: $type, ')
           ..write('date: $date, ')
           ..write('time: $time, ')
           ..write('notes: $notes, ')
@@ -2253,20 +2009,17 @@ class $CategoriesTypesTable extends CategoriesTypes
       'REFERENCES categories (id)',
     ),
   );
-  static const VerificationMeta _typeIdMeta = const VerificationMeta('typeId');
   @override
-  late final GeneratedColumn<int> typeId = GeneratedColumn<int>(
-    'type_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES types (id)',
-    ),
-  );
+  late final GeneratedColumnWithTypeConverter<EventType, int> type =
+      GeneratedColumn<int>(
+        'type',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      ).withConverter<EventType>($CategoriesTypesTable.$convertertype);
   @override
-  List<GeneratedColumn> get $columns => [categoryId, typeId];
+  List<GeneratedColumn> get $columns => [categoryId, type];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2287,19 +2040,11 @@ class $CategoriesTypesTable extends CategoriesTypes
     } else if (isInserting) {
       context.missing(_categoryIdMeta);
     }
-    if (data.containsKey('type_id')) {
-      context.handle(
-        _typeIdMeta,
-        typeId.isAcceptableOrUnknown(data['type_id']!, _typeIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_typeIdMeta);
-    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {categoryId, typeId};
+  Set<GeneratedColumn> get $primaryKey => {categoryId, type};
   @override
   CategoryType map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -2308,10 +2053,12 @@ class $CategoriesTypesTable extends CategoriesTypes
         DriftSqlType.int,
         data['${effectivePrefix}category_id'],
       )!,
-      typeId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}type_id'],
-      )!,
+      type: $CategoriesTypesTable.$convertertype.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}type'],
+        )!,
+      ),
     );
   }
 
@@ -2319,24 +2066,31 @@ class $CategoriesTypesTable extends CategoriesTypes
   $CategoriesTypesTable createAlias(String alias) {
     return $CategoriesTypesTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<EventType, int, int> $convertertype =
+      const EnumIndexConverter<EventType>(EventType.values);
 }
 
 class CategoryType extends DataClass implements Insertable<CategoryType> {
   final int categoryId;
-  final int typeId;
-  const CategoryType({required this.categoryId, required this.typeId});
+  final EventType type;
+  const CategoryType({required this.categoryId, required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['category_id'] = Variable<int>(categoryId);
-    map['type_id'] = Variable<int>(typeId);
+    {
+      map['type'] = Variable<int>(
+        $CategoriesTypesTable.$convertertype.toSql(type),
+      );
+    }
     return map;
   }
 
   CategoriesTypesCompanion toCompanion(bool nullToAbsent) {
     return CategoriesTypesCompanion(
       categoryId: Value(categoryId),
-      typeId: Value(typeId),
+      type: Value(type),
     );
   }
 
@@ -2347,7 +2101,9 @@ class CategoryType extends DataClass implements Insertable<CategoryType> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CategoryType(
       categoryId: serializer.fromJson<int>(json['categoryId']),
-      typeId: serializer.fromJson<int>(json['typeId']),
+      type: $CategoriesTypesTable.$convertertype.fromJson(
+        serializer.fromJson<int>(json['type']),
+      ),
     );
   }
   @override
@@ -2355,20 +2111,22 @@ class CategoryType extends DataClass implements Insertable<CategoryType> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'categoryId': serializer.toJson<int>(categoryId),
-      'typeId': serializer.toJson<int>(typeId),
+      'type': serializer.toJson<int>(
+        $CategoriesTypesTable.$convertertype.toJson(type),
+      ),
     };
   }
 
-  CategoryType copyWith({int? categoryId, int? typeId}) => CategoryType(
+  CategoryType copyWith({int? categoryId, EventType? type}) => CategoryType(
     categoryId: categoryId ?? this.categoryId,
-    typeId: typeId ?? this.typeId,
+    type: type ?? this.type,
   );
   CategoryType copyWithCompanion(CategoriesTypesCompanion data) {
     return CategoryType(
       categoryId: data.categoryId.present
           ? data.categoryId.value
           : this.categoryId,
-      typeId: data.typeId.present ? data.typeId.value : this.typeId,
+      type: data.type.present ? data.type.value : this.type,
     );
   }
 
@@ -2376,56 +2134,56 @@ class CategoryType extends DataClass implements Insertable<CategoryType> {
   String toString() {
     return (StringBuffer('CategoryType(')
           ..write('categoryId: $categoryId, ')
-          ..write('typeId: $typeId')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(categoryId, typeId);
+  int get hashCode => Object.hash(categoryId, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CategoryType &&
           other.categoryId == this.categoryId &&
-          other.typeId == this.typeId);
+          other.type == this.type);
 }
 
 class CategoriesTypesCompanion extends UpdateCompanion<CategoryType> {
   final Value<int> categoryId;
-  final Value<int> typeId;
+  final Value<EventType> type;
   final Value<int> rowid;
   const CategoriesTypesCompanion({
     this.categoryId = const Value.absent(),
-    this.typeId = const Value.absent(),
+    this.type = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CategoriesTypesCompanion.insert({
     required int categoryId,
-    required int typeId,
+    required EventType type,
     this.rowid = const Value.absent(),
   }) : categoryId = Value(categoryId),
-       typeId = Value(typeId);
+       type = Value(type);
   static Insertable<CategoryType> custom({
     Expression<int>? categoryId,
-    Expression<int>? typeId,
+    Expression<int>? type,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (categoryId != null) 'category_id': categoryId,
-      if (typeId != null) 'type_id': typeId,
+      if (type != null) 'type': type,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   CategoriesTypesCompanion copyWith({
     Value<int>? categoryId,
-    Value<int>? typeId,
+    Value<EventType>? type,
     Value<int>? rowid,
   }) {
     return CategoriesTypesCompanion(
       categoryId: categoryId ?? this.categoryId,
-      typeId: typeId ?? this.typeId,
+      type: type ?? this.type,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2436,8 +2194,10 @@ class CategoriesTypesCompanion extends UpdateCompanion<CategoryType> {
     if (categoryId.present) {
       map['category_id'] = Variable<int>(categoryId.value);
     }
-    if (typeId.present) {
-      map['type_id'] = Variable<int>(typeId.value);
+    if (type.present) {
+      map['type'] = Variable<int>(
+        $CategoriesTypesTable.$convertertype.toSql(type.value),
+      );
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2449,7 +2209,7 @@ class CategoriesTypesCompanion extends UpdateCompanion<CategoryType> {
   String toString() {
     return (StringBuffer('CategoriesTypesCompanion(')
           ..write('categoryId: $categoryId, ')
-          ..write('typeId: $typeId, ')
+          ..write('type: $type, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3028,7 +2788,6 @@ class EventsPartnersCompanion extends UpdateCompanion<EventPartner> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $TypesTable types = $TypesTable(this);
   late final $CategoriesTable categories = $CategoriesTable(this);
   late final $PartnersTable partners = $PartnersTable(this);
   late final $EventsTable events = $EventsTable(this);
@@ -3044,7 +2803,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    types,
     categories,
     partners,
     events,
@@ -3090,342 +2848,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       const DriftDatabaseOptions(storeDateTimeAsText: true);
 }
 
-typedef $$TypesTableCreateCompanionBuilder =
-    TypesCompanion Function({
-      Value<int> id,
-      required String name,
-      required String slug,
-    });
-typedef $$TypesTableUpdateCompanionBuilder =
-    TypesCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<String> slug,
-    });
-
-final class $$TypesTableReferences
-    extends BaseReferences<_$AppDatabase, $TypesTable, Type> {
-  $$TypesTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<$EventsTable, List<Event>> _eventsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.events,
-    aliasName: $_aliasNameGenerator(db.types.id, db.events.typeId),
-  );
-
-  $$EventsTableProcessedTableManager get eventsRefs {
-    final manager = $$EventsTableTableManager(
-      $_db,
-      $_db.events,
-    ).filter((f) => f.typeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_eventsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<$CategoriesTypesTable, List<CategoryType>>
-  _categoriesTypesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.categoriesTypes,
-    aliasName: $_aliasNameGenerator(db.types.id, db.categoriesTypes.typeId),
-  );
-
-  $$CategoriesTypesTableProcessedTableManager get categoriesTypesRefs {
-    final manager = $$CategoriesTypesTableTableManager(
-      $_db,
-      $_db.categoriesTypes,
-    ).filter((f) => f.typeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _categoriesTypesRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$TypesTableFilterComposer extends Composer<_$AppDatabase, $TypesTable> {
-  $$TypesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get slug => $composableBuilder(
-    column: $table.slug,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> eventsRefs(
-    Expression<bool> Function($$EventsTableFilterComposer f) f,
-  ) {
-    final $$EventsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.events,
-      getReferencedColumn: (t) => t.typeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsTableFilterComposer(
-            $db: $db,
-            $table: $db.events,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> categoriesTypesRefs(
-    Expression<bool> Function($$CategoriesTypesTableFilterComposer f) f,
-  ) {
-    final $$CategoriesTypesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.categoriesTypes,
-      getReferencedColumn: (t) => t.typeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTypesTableFilterComposer(
-            $db: $db,
-            $table: $db.categoriesTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$TypesTableOrderingComposer
-    extends Composer<_$AppDatabase, $TypesTable> {
-  $$TypesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get slug => $composableBuilder(
-    column: $table.slug,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$TypesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TypesTable> {
-  $$TypesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get slug =>
-      $composableBuilder(column: $table.slug, builder: (column) => column);
-
-  Expression<T> eventsRefs<T extends Object>(
-    Expression<T> Function($$EventsTableAnnotationComposer a) f,
-  ) {
-    final $$EventsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.events,
-      getReferencedColumn: (t) => t.typeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EventsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.events,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> categoriesTypesRefs<T extends Object>(
-    Expression<T> Function($$CategoriesTypesTableAnnotationComposer a) f,
-  ) {
-    final $$CategoriesTypesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.categoriesTypes,
-      getReferencedColumn: (t) => t.typeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CategoriesTypesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.categoriesTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$TypesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $TypesTable,
-          Type,
-          $$TypesTableFilterComposer,
-          $$TypesTableOrderingComposer,
-          $$TypesTableAnnotationComposer,
-          $$TypesTableCreateCompanionBuilder,
-          $$TypesTableUpdateCompanionBuilder,
-          (Type, $$TypesTableReferences),
-          Type,
-          PrefetchHooks Function({bool eventsRefs, bool categoriesTypesRefs})
-        > {
-  $$TypesTableTableManager(_$AppDatabase db, $TypesTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$TypesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$TypesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$TypesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<String> slug = const Value.absent(),
-              }) => TypesCompanion(id: id, name: name, slug: slug),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String name,
-                required String slug,
-              }) => TypesCompanion.insert(id: id, name: name, slug: slug),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$TypesTableReferences(db, table, e)),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({eventsRefs = false, categoriesTypesRefs = false}) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (eventsRefs) db.events,
-                    if (categoriesTypesRefs) db.categoriesTypes,
-                  ],
-                  addJoins: null,
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (eventsRefs)
-                        await $_getPrefetchedData<Type, $TypesTable, Event>(
-                          currentTable: table,
-                          referencedTable: $$TypesTableReferences
-                              ._eventsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$TypesTableReferences(db, table, p0).eventsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.typeId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (categoriesTypesRefs)
-                        await $_getPrefetchedData<
-                          Type,
-                          $TypesTable,
-                          CategoryType
-                        >(
-                          currentTable: table,
-                          referencedTable: $$TypesTableReferences
-                              ._categoriesTypesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$TypesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).categoriesTypesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.typeId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$TypesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $TypesTable,
-      Type,
-      $$TypesTableFilterComposer,
-      $$TypesTableOrderingComposer,
-      $$TypesTableAnnotationComposer,
-      $$TypesTableCreateCompanionBuilder,
-      $$TypesTableUpdateCompanionBuilder,
-      (Type, $$TypesTableReferences),
-      Type,
-      PrefetchHooks Function({bool eventsRefs, bool categoriesTypesRefs})
-    >;
 typedef $$CategoriesTableCreateCompanionBuilder =
     CategoriesCompanion Function({
       Value<int> id,
@@ -4117,7 +3539,7 @@ typedef $$PartnersTableProcessedTableManager =
 typedef $$EventsTableCreateCompanionBuilder =
     EventsCompanion Function({
       Value<int> id,
-      required int typeId,
+      required EventType type,
       required DateTime date,
       Value<DateTime> time,
       Value<String?> notes,
@@ -4126,7 +3548,7 @@ typedef $$EventsTableCreateCompanionBuilder =
 typedef $$EventsTableUpdateCompanionBuilder =
     EventsCompanion Function({
       Value<int> id,
-      Value<int> typeId,
+      Value<EventType> type,
       Value<DateTime> date,
       Value<DateTime> time,
       Value<String?> notes,
@@ -4136,23 +3558,6 @@ typedef $$EventsTableUpdateCompanionBuilder =
 final class $$EventsTableReferences
     extends BaseReferences<_$AppDatabase, $EventsTable, Event> {
   $$EventsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $TypesTable _typeIdTable(_$AppDatabase db) =>
-      db.types.createAlias($_aliasNameGenerator(db.events.typeId, db.types.id));
-
-  $$TypesTableProcessedTableManager get typeId {
-    final $_column = $_itemColumn<int>('type_id')!;
-
-    final manager = $$TypesTableTableManager(
-      $_db,
-      $_db.types,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_typeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
 
   static MultiTypedResultKey<$EventDataTableTable, List<EventData>>
   _eventDataTableRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
@@ -4223,6 +3628,12 @@ class $$EventsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnWithTypeConverterFilters<EventType, EventType, int> get type =>
+      $composableBuilder(
+        column: $table.type,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
   ColumnFilters<DateTime> get date => $composableBuilder(
     column: $table.date,
     builder: (column) => ColumnFilters(column),
@@ -4242,29 +3653,6 @@ class $$EventsTableFilterComposer
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
   );
-
-  $$TypesTableFilterComposer get typeId {
-    final $$TypesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableFilterComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 
   Expression<bool> eventDataTableRefs(
     Expression<bool> Function($$EventDataTableTableFilterComposer f) f,
@@ -4356,6 +3744,11 @@ class $$EventsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get date => $composableBuilder(
     column: $table.date,
     builder: (column) => ColumnOrderings(column),
@@ -4375,29 +3768,6 @@ class $$EventsTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
-
-  $$TypesTableOrderingComposer get typeId {
-    final $$TypesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableOrderingComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$EventsTableAnnotationComposer
@@ -4412,6 +3782,9 @@ class $$EventsTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
+  GeneratedColumnWithTypeConverter<EventType, int> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
   GeneratedColumn<DateTime> get date =>
       $composableBuilder(column: $table.date, builder: (column) => column);
 
@@ -4423,29 +3796,6 @@ class $$EventsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  $$TypesTableAnnotationComposer get typeId {
-    final $$TypesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 
   Expression<T> eventDataTableRefs<T extends Object>(
     Expression<T> Function($$EventDataTableTableAnnotationComposer a) f,
@@ -4537,7 +3887,6 @@ class $$EventsTableTableManager
           (Event, $$EventsTableReferences),
           Event,
           PrefetchHooks Function({
-            bool typeId,
             bool eventDataTableRefs,
             bool eventsOptionsRefs,
             bool eventsPartnersRefs,
@@ -4557,14 +3906,14 @@ class $$EventsTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<int> typeId = const Value.absent(),
+                Value<EventType> type = const Value.absent(),
                 Value<DateTime> date = const Value.absent(),
                 Value<DateTime> time = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => EventsCompanion(
                 id: id,
-                typeId: typeId,
+                type: type,
                 date: date,
                 time: time,
                 notes: notes,
@@ -4573,14 +3922,14 @@ class $$EventsTableTableManager
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required int typeId,
+                required EventType type,
                 required DateTime date,
                 Value<DateTime> time = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => EventsCompanion.insert(
                 id: id,
-                typeId: typeId,
+                type: type,
                 date: date,
                 time: time,
                 notes: notes,
@@ -4594,7 +3943,6 @@ class $$EventsTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
-                typeId = false,
                 eventDataTableRefs = false,
                 eventsOptionsRefs = false,
                 eventsPartnersRefs = false,
@@ -4606,38 +3954,7 @@ class $$EventsTableTableManager
                     if (eventsOptionsRefs) db.eventsOptions,
                     if (eventsPartnersRefs) db.eventsPartners,
                   ],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (typeId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.typeId,
-                                    referencedTable: $$EventsTableReferences
-                                        ._typeIdTable(db),
-                                    referencedColumn: $$EventsTableReferences
-                                        ._typeIdTable(db)
-                                        .id,
-                                  )
-                                  as T;
-                        }
-
-                        return state;
-                      },
+                  addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (eventDataTableRefs)
@@ -4724,7 +4041,6 @@ typedef $$EventsTableProcessedTableManager =
       (Event, $$EventsTableReferences),
       Event,
       PrefetchHooks Function({
-        bool typeId,
         bool eventDataTableRefs,
         bool eventsOptionsRefs,
         bool eventsPartnersRefs,
@@ -5521,13 +4837,13 @@ typedef $$EOptionsTableProcessedTableManager =
 typedef $$CategoriesTypesTableCreateCompanionBuilder =
     CategoriesTypesCompanion Function({
       required int categoryId,
-      required int typeId,
+      required EventType type,
       Value<int> rowid,
     });
 typedef $$CategoriesTypesTableUpdateCompanionBuilder =
     CategoriesTypesCompanion Function({
       Value<int> categoryId,
-      Value<int> typeId,
+      Value<EventType> type,
       Value<int> rowid,
     });
 
@@ -5557,24 +4873,6 @@ final class $$CategoriesTypesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
-
-  static $TypesTable _typeIdTable(_$AppDatabase db) => db.types.createAlias(
-    $_aliasNameGenerator(db.categoriesTypes.typeId, db.types.id),
-  );
-
-  $$TypesTableProcessedTableManager get typeId {
-    final $_column = $_itemColumn<int>('type_id')!;
-
-    final manager = $$TypesTableTableManager(
-      $_db,
-      $_db.types,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_typeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
 }
 
 class $$CategoriesTypesTableFilterComposer
@@ -5586,6 +4884,12 @@ class $$CategoriesTypesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnWithTypeConverterFilters<EventType, EventType, int> get type =>
+      $composableBuilder(
+        column: $table.type,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
   $$CategoriesTableFilterComposer get categoryId {
     final $$CategoriesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -5608,29 +4912,6 @@ class $$CategoriesTypesTableFilterComposer
     );
     return composer;
   }
-
-  $$TypesTableFilterComposer get typeId {
-    final $$TypesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableFilterComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$CategoriesTypesTableOrderingComposer
@@ -5642,6 +4923,11 @@ class $$CategoriesTypesTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<int> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CategoriesTableOrderingComposer get categoryId {
     final $$CategoriesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -5664,29 +4950,6 @@ class $$CategoriesTypesTableOrderingComposer
     );
     return composer;
   }
-
-  $$TypesTableOrderingComposer get typeId {
-    final $$TypesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableOrderingComposer(
-            $db: $db,
-            $table: $db.types,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$CategoriesTypesTableAnnotationComposer
@@ -5698,6 +4961,9 @@ class $$CategoriesTypesTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumnWithTypeConverter<EventType, int> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
   $$CategoriesTableAnnotationComposer get categoryId {
     final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -5712,29 +4978,6 @@ class $$CategoriesTypesTableAnnotationComposer
           }) => $$CategoriesTableAnnotationComposer(
             $db: $db,
             $table: $db.categories,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$TypesTableAnnotationComposer get typeId {
-    final $$TypesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.typeId,
-      referencedTable: $db.types,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TypesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.types,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5758,7 +5001,7 @@ class $$CategoriesTypesTableTableManager
           $$CategoriesTypesTableUpdateCompanionBuilder,
           (CategoryType, $$CategoriesTypesTableReferences),
           CategoryType,
-          PrefetchHooks Function({bool categoryId, bool typeId})
+          PrefetchHooks Function({bool categoryId})
         > {
   $$CategoriesTypesTableTableManager(
     _$AppDatabase db,
@@ -5776,21 +5019,21 @@ class $$CategoriesTypesTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> categoryId = const Value.absent(),
-                Value<int> typeId = const Value.absent(),
+                Value<EventType> type = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CategoriesTypesCompanion(
                 categoryId: categoryId,
-                typeId: typeId,
+                type: type,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required int categoryId,
-                required int typeId,
+                required EventType type,
                 Value<int> rowid = const Value.absent(),
               }) => CategoriesTypesCompanion.insert(
                 categoryId: categoryId,
-                typeId: typeId,
+                type: type,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -5801,7 +5044,7 @@ class $$CategoriesTypesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({categoryId = false, typeId = false}) {
+          prefetchHooksCallback: ({categoryId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -5836,21 +5079,6 @@ class $$CategoriesTypesTableTableManager
                               )
                               as T;
                     }
-                    if (typeId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.typeId,
-                                referencedTable:
-                                    $$CategoriesTypesTableReferences
-                                        ._typeIdTable(db),
-                                referencedColumn:
-                                    $$CategoriesTypesTableReferences
-                                        ._typeIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
 
                     return state;
                   },
@@ -5875,7 +5103,7 @@ typedef $$CategoriesTypesTableProcessedTableManager =
       $$CategoriesTypesTableUpdateCompanionBuilder,
       (CategoryType, $$CategoriesTypesTableReferences),
       CategoryType,
-      PrefetchHooks Function({bool categoryId, bool typeId})
+      PrefetchHooks Function({bool categoryId})
     >;
 typedef $$EventsOptionsTableCreateCompanionBuilder =
     EventsOptionsCompanion Function({
@@ -6635,8 +5863,6 @@ typedef $$EventsPartnersTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$TypesTableTableManager get types =>
-      $$TypesTableTableManager(_db, _db.types);
   $$CategoriesTableTableManager get categories =>
       $$CategoriesTableTableManager(_db, _db.categories);
   $$PartnersTableTableManager get partners =>

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
@@ -10,7 +11,6 @@ import 'package:lustlist/src/database/tables/events.dart';
 import 'package:lustlist/src/database/tables/options.dart';
 import 'package:lustlist/src/database/tables/partners.dart';
 import 'package:lustlist/src/database/tables/event_data.dart';
-import 'package:lustlist/src/database/tables/types.dart';
 import 'package:lustlist/src/database/tables/categories_types.dart';
 import 'package:lustlist/src/database/tables/events_options.dart';
 import 'package:lustlist/src/database/tables/events_partners.dart';
@@ -19,7 +19,7 @@ import 'package:lustlist/src/config/enums/gender.dart';
 part 'database.g.dart';
 
 
-@DriftDatabase(tables: [Types, Categories, Partners, EventDataTable, Events, EOptions,
+@DriftDatabase(tables: [Categories, Partners, EventDataTable, Events, EOptions,
                         CategoriesTypes, EventsOptions, EventsPartners])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
@@ -38,7 +38,6 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  Future<List<Type>> get allTypes => select(types).get();
   Future<List<Category>> get allCategories => select(categories).get();
   Future<List<EOption>> get allOptions => select(eOptions).get();
   Future<List<Partner>> get allPartners => select(partners).get();
@@ -55,15 +54,12 @@ class AppDatabase extends _$AppDatabase {
   Future<Event> getEventById(int id) async {
     return (select(events)..where((t) => t.id.equals(id))).getSingle();
   }
-  
-  Future<int?> countEventsOfType(int typeId) async {
-    final count = events.id.count();
-    final query = select(events).join([
-      innerJoin(types, events.typeId.equalsExp(types.id))
-    ])..where(types.id.equals(typeId));
-    query.addColumns([count]);
 
-    return query.map((row) => row.read(count)).getSingleOrNull();
+  Future<int?> countEventsOfType(EventType type) async {
+    final query = select(events)
+      ..where((e) => e.type.equals(type.index));
+    final result = await query.get();
+    return result.length;
   }
 
   Future<List<Event>> getEventsByPartnerId(int partnerId) async {
@@ -71,87 +67,72 @@ class AppDatabase extends _$AppDatabase {
       innerJoin(events, events.id.equalsExp(eventsPartners.eventId)),
       innerJoin(partners, partners.id.equalsExp(eventsPartners.partnerId))
     ])..where(eventsPartners.partnerId.equals(partnerId));
+
     final result = await query.get();
     return result.map((row) => row.readTable(events)).toList();
   }
 
-  Future<List<Event?>> getMaxDurationEvents(int typeId) async {
+  Future<List<Event?>> getMaxDurationEvents(EventType type) async {
     final maxDuration = eventDataTable.duration.max();
 
     final query = select(eventDataTable).join([
       innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(events.typeId.equals(typeId));
+    ])..where(events.type.equals(type.index));
     query.addColumns([maxDuration]);
 
     final result = await query.get();
     return result.map((row) => row.readTableOrNull(events)).toList();
   }
 
-  Future<List<Event?>> getMinDurationEvents(int typeId) async {
+  Future<List<Event?>> getMinDurationEvents(EventType type) async {
     final minDuration = eventDataTable.duration.min();
 
     final query = select(eventDataTable).join([
       innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(events.typeId.equals(typeId));
+    ])..where(events.type.equals(type.index));
     query.addColumns([minDuration]);
 
     final result = await query.get();
     return result.map((row) => row.readTableOrNull(events)).toList();
   }
 
-  Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByMonth(int typeId, DateTime date) async {
+  Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByMonth(EventType type, DateTime date) async {
     final amountOfEvents = events.id.count();
     final eventsYear = events.date.year;
     final eventsMonth = events.date.month;
 
-    final query = select(types).join([
-      innerJoin(
-        events,
-        events.typeId.equalsExp(types.id),
-        useColumns: false,
-      ),
-    ])..where(
-        events.typeId.equals(typeId) &
-        events.date.isBiggerThanValue(date)
-    );
-    query
+    final query = selectOnly(events)
       ..addColumns([eventsYear, eventsMonth, amountOfEvents])
-      ..groupBy([types.id, eventsYear, eventsMonth]);
-
+      ..where(events.type.equals(type.index))
+      ..where(events.date.isBiggerThanValue(date))
+      ..groupBy([eventsYear, eventsMonth]);
     final result = await query.get();
 
     Map<DateTime, int> resultMap = {};
     for (final row in result) {
-      int? amount = row.read(amountOfEvents);
-      int? year = row.read(eventsYear);
-      int? month = row.read(eventsMonth);
+      final amount = row.read(amountOfEvents);
+      final year = row.read(eventsYear);
+      final month = row.read(eventsMonth);
       if (year != null && month != null && amount != null) {
-        DateTime date = DateTime(year, month);
-        resultMap[date] = amount;
+        resultMap[DateTime(year, month)] = amount;
       }
     }
     return resultMap;
   }
 
-  Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByDay(int typeId, DateTime date) async {
+  Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByDay(EventType type, DateTime date) async {
     final amountOfEvents = events.id.count();
     final eventsYear = events.date.year;
     final eventsMonth = events.date.month;
     final eventsDay = events.date.day;
 
-    final query = select(types).join([
-      innerJoin(
-        events,
-        events.typeId.equalsExp(types.id),
-        useColumns: false,
-      ),
-    ])..where(
-        events.typeId.equals(typeId) &
-        events.date.isBiggerThanValue(date)
-    );
+    final query = selectOnly(events)
+      ..where(events.type.equals(type.index))
+      ..where(events.date.isBiggerThanValue(date));
+    
     query
       ..addColumns([eventsYear, eventsMonth, eventsDay, amountOfEvents])
-      ..groupBy([types.id, eventsYear, eventsMonth, eventsDay]);
+      ..groupBy([events.type, eventsYear, eventsMonth, eventsDay]);
 
     final result = await query.get();
 
@@ -169,22 +150,15 @@ class AppDatabase extends _$AppDatabase {
     return resultMap;
   }
 
-  Future<Map<DateTime, int>> getEventsAmountGroupByYear(int typeId) async {
+  Future<Map<DateTime, int>> getEventsAmountGroupByYear(EventType type) async {
     final amountOfEvents = events.id.count();
     final eventsYear = events.date.year;
 
-    final query = select(types).join([
-      innerJoin(
-        events,
-        events.typeId.equalsExp(types.id),
-        useColumns: false,
-      ),
-    ])..where(
-        events.typeId.equals(typeId)
-    );
+    final query = selectOnly(events)
+      ..where(events.type.equals(type.index));
     query
       ..addColumns([eventsYear, amountOfEvents])
-      ..groupBy([types.id, eventsYear]);
+      ..groupBy([events.type, eventsYear]);
 
     final result = await query.get();
 
@@ -210,34 +184,34 @@ class AppDatabase extends _$AppDatabase {
     return await (select(eventDataTable)..where((t) => t.eventId.equals(id))).getSingleOrNull();
   }
 
-  Future<double?> getAvgDuration(int typeId) async {
+  Future<double?> getAvgDuration(EventType type) async {
     final avgDuration = eventDataTable.duration.avg();
 
     final query = select(eventDataTable).join([
       innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(events.typeId.equals(typeId));
+    ])..where(events.type.equals(type.index));
     query.addColumns([avgDuration]);
 
     return query.map((row) => row.read(avgDuration)).getSingleOrNull();
   }
 
-  Future<int?> getTotalDuration(int typeId) async {
+  Future<int?> getTotalDuration(EventType type) async {
     final totalDuration = eventDataTable.duration.sum();
 
     final query = select(eventDataTable).join([
       innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(events.typeId.equals(typeId));
+    ])..where(events.type.equals(type.index));
     query.addColumns([totalDuration]);
 
     return query.map((row) => row.read(totalDuration)).getSingleOrNull();
   }
 
-  Future<int?> countUserOrgasms(int typeId) async {
+  Future<int?> countUserOrgasms(EventType type) async {
     final totalAmount = eventDataTable.userOrgasms.sum();
 
     final query = select(eventDataTable).join([
       innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(events.typeId.equals(typeId));
+    ])..where(events.type.equals(type.index));
     query.addColumns([totalAmount]);
 
     return query.map((row) => row.read(totalAmount)).getSingleOrNull();
@@ -275,19 +249,7 @@ class AppDatabase extends _$AppDatabase {
 
     return query.map((row) => row.read(amount)).getSingleOrNull();
   }
-
-
-  // Get Type
-  Future<Type> getTypeByEventId(Event event) async {
-    return (select(types)..where((t) => t.id.equals(event.typeId))).getSingle();
-  }
-
-  Future<int> getTypeIdBySlug(String name) async {
-    final query = select(types)..where((t) => t.slug.equals(name));
-    final result = await query.getSingleOrNull();
-    return result!.id;
-  }
-
+  
 
   // Get Partners
   Future<Partner> getPartnerById(int id) async {
@@ -490,21 +452,11 @@ class AppDatabase extends _$AppDatabase {
         onCreate: (m) async {
           await m.createAll();
           await batch((batch) {
-            assert (rowData.typeNames.length == rowData.typeSlugs.length);
-            batch.insertAll(types, List<Insertable<Type>>.generate(rowData.typeNames.length, (int index) =>
-                TypesCompanion.insert(name: rowData.typeNames[index], slug: rowData.typeSlugs[index]),
-            ));
-
             assert (rowData.categoryNames.length == rowData.categorySlugs.length);
             batch.insertAll(categories, List<Insertable<Category>>.generate(rowData.categoryNames.length, (int index) =>
                 CategoriesCompanion.insert(name: rowData.categoryNames[index], slug: rowData.categorySlugs[index]),
             ));
           });
-
-
-          final sexTypeId = await getTypeIdBySlug('sex');
-          final masturbationTypeId = await getTypeIdBySlug('masturbation');
-          final medicalTypeId = await getTypeIdBySlug('medical');
 
           final contraceptionCategoryId = await getCategoryIdBySlug('contraception');
           final posesCategoryId = await getCategoryIdBySlug('poses');
@@ -519,17 +471,17 @@ class AppDatabase extends _$AppDatabase {
 
           await batch((batch) {
             batch.insertAll(categoriesTypes, [
-              CategoriesTypesCompanion.insert(categoryId: contraceptionCategoryId, typeId: sexTypeId),
-              CategoriesTypesCompanion.insert(categoryId: posesCategoryId, typeId: sexTypeId),
-              CategoriesTypesCompanion.insert(categoryId: practicesCategoryId, typeId: sexTypeId),
-              CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: sexTypeId),
-              CategoriesTypesCompanion.insert(categoryId: ejaculationCategoryId, typeId: sexTypeId),
-              CategoriesTypesCompanion.insert(categoryId: complicaciesCategoryId, typeId: sexTypeId),
-              CategoriesTypesCompanion.insert(categoryId: soloPracticesCategoryId, typeId: masturbationTypeId),
-              CategoriesTypesCompanion.insert(categoryId: placeCategoryId, typeId: masturbationTypeId),
-              CategoriesTypesCompanion.insert(categoryId: complicaciesCategoryId, typeId: masturbationTypeId),
-              CategoriesTypesCompanion.insert(categoryId: stiCategoryId, typeId: medicalTypeId),
-              CategoriesTypesCompanion.insert(categoryId: obgynCategoryId, typeId: medicalTypeId),
+              CategoriesTypesCompanion.insert(categoryId: contraceptionCategoryId, type: EventType.sex),
+              CategoriesTypesCompanion.insert(categoryId: posesCategoryId, type: EventType.sex),
+              CategoriesTypesCompanion.insert(categoryId: practicesCategoryId, type: EventType.sex),
+              CategoriesTypesCompanion.insert(categoryId: placeCategoryId, type: EventType.sex),
+              CategoriesTypesCompanion.insert(categoryId: ejaculationCategoryId, type: EventType.sex),
+              CategoriesTypesCompanion.insert(categoryId: complicaciesCategoryId, type: EventType.sex),
+              CategoriesTypesCompanion.insert(categoryId: soloPracticesCategoryId, type: EventType.masturbation),
+              CategoriesTypesCompanion.insert(categoryId: placeCategoryId, type: EventType.masturbation),
+              CategoriesTypesCompanion.insert(categoryId: complicaciesCategoryId, type: EventType.masturbation),
+              CategoriesTypesCompanion.insert(categoryId: stiCategoryId, type: EventType.medical),
+              CategoriesTypesCompanion.insert(categoryId: obgynCategoryId, type: EventType.medical),
             ]);
 
             assert (rowData.contraceptionOptionNames.length == rowData.contraceptionOptionSlugs.length);

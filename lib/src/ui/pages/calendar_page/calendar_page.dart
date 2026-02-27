@@ -7,15 +7,11 @@ import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
 import '../../../core/formatters/datetime_formatters.dart';
-
-
-List<IconData> iconsData = [Icons.favorite, Icons.front_hand, Icons.medical_services];
 
 
 class CalendarPage extends StatefulWidget {
@@ -39,11 +35,6 @@ class _CalendarPageState extends State<CalendarPage> {
   Future<void> _loadEvents() async {
     final data = await repo.getEventsDatedMap();
     _events.value = LinkedHashMap<DateTime, List<CalendarEvent>>(equals: isSameDay, hashCode: getHashCode)..addAll(data);
-
-    final types = await database.allTypes;
-    for (final type in types) {
-      iconDataMap[type.id] = getTypeIconData(type.slug);
-    }
   }
 
   List<CalendarEvent> _getEventsForDay(DateTime day) {

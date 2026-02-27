@@ -183,7 +183,7 @@ class _CalendarState extends State<Calendar> {
                                 return Icon(
                                   index == maxCalendarEventsAmount - 1 && events.length > maxCalendarEventsAmount
                                     ? Icons.add
-                                    : iconDataMap[events[index].getTypeId()],
+                                    : events[index].type.iconData,
                                   size: 12,
                                   color: (day.month == _focusedDay.value.month) ?
                                   AppColors.calendar.eventIcon(context) :

@@ -1,8 +1,10 @@
+import 'package:lustlist/src/config/enums/type.dart';
+
 class RowData {
   RowData();
 
   List<String> get typeNames => ["Sex", "Solo", "Medical"];
-  List<String> get typeSlugs => ["sex", "masturbation", "medical"];
+  List<String> get typeSlugs => [EventType.sex.name, EventType.masturbation.name, EventType.medical.name];
 
   List<String> get categoryNames => [
     "Contraception", "Poses", "Practices", "Ejaculation", "Place",

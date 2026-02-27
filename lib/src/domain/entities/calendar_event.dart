@@ -1,3 +1,4 @@
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
 
@@ -5,7 +6,7 @@ import 'package:lustlist/src/domain/entities/event_duration.dart';
 class CalendarEvent {
   final int id;
   final Event event;
-  final Type type;
+  final EventType type;
   final Map<Partner, int?>? partnersMap;
   final EventData? data;
 
@@ -20,8 +21,7 @@ class CalendarEvent {
   }
 
   int getEventId() => event.id;
-  int getTypeId() => event.typeId;
-  String getTypeSlug() => type.slug;
+  String getTypeName() => type.name;
   DateTime getDate() => event.date;
   DateTime getTime() => event.time;
   EventDuration? getDuration() => data?.duration != null ? EventDuration(data!.duration!) : null;

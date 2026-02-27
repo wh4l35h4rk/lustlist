@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/ui/pages/calendar_page/calendar_page.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 
 class AddEventFloatingButton extends StatelessWidget {
   final Function onEventTap;
@@ -39,7 +39,7 @@ class AddEventFloatingButton extends StatelessWidget {
           onPressed: () {
             onEventTap(index);
           },
-          child: Icon(iconsData[index])
+          child: Icon(EventType.entries[index].iconData)
         ),
       ),
     );

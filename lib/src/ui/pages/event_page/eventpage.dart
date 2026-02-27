@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
@@ -97,30 +98,26 @@ class _EventPageState extends State<EventPage> {
   }
 
   Widget _getEventTypeWidget(CalendarEvent event) {
-    final String type = event.type.slug;
+    final EventType type = event.type;
     switch (type) {
-      case "sex":
+      case EventType.sex:
         return SexEventInfo(event: event);
-      case "masturbation":
+      case EventType.masturbation:
         return MstbEventInfo(event: event);
-      case "medical":
+      case EventType.medical:
         return MedEventInfo(event: event);
-      default:
-        throw FormatException("Wrong type: $type");
     }
   }
 
   Widget _getEditEventTypeWidget(CalendarEvent event) {
-    final String type = event.type.slug;
+    final EventType type = event.type;
     switch (type) {
-      case "sex":
+      case EventType.sex:
         return EditSexEventPage(event: event);
-      case "masturbation":
+      case EventType.masturbation:
         return EditMstbEventPage(event: event);
-      case "medical":
+      case EventType.medical:
         return EditMedEventPage(event: event);
-      default:
-        throw FormatException("Wrong type: $type");
     }
   }
 

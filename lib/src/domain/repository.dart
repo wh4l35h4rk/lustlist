@@ -9,6 +9,7 @@ import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'entities/calendar_event.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 
 
 class EventRepository {
@@ -94,7 +95,7 @@ class EventRepository {
 
   Future<CalendarEvent> dbToCalendarEvent(Event dbEvent) async {
     int eventId = dbEvent.id;
-    Type type = await db.getTypeByEventId(dbEvent);
+    EventType type = dbEvent.type;
     List<Partner> partners = await db.getPartnersByEventId(eventId);
 
     for (var p in partners){
@@ -115,15 +116,14 @@ class EventRepository {
   }
   
   
-  Future<int> loadEvent(String slug, DateTime date, DateTime time, String notes) async {
-    int typeId = await db.getTypeIdBySlug(slug);
+  Future<int> loadEvent(EventType type, DateTime date, DateTime time, String notes) async {
     int eventId = await db.insertEvent(
-        EventsCompanion.insert(
-          typeId: typeId,
-          date: date,
-          time: Value(time),
-          notes: Value(notes),
-        )
+      EventsCompanion.insert(
+        type: type,
+        date: date,
+        time: Value(time),
+        notes: Value(notes),
+      )
     );
     return eventId;
   }
@@ -299,9 +299,6 @@ class EventRepository {
   
 
   Future<void> insertMockEntries() async{
-    final sexTypeId = await db.getTypeIdBySlug("sex");
-    final mstbTypeId = await db.getTypeIdBySlug("masturbation");
-    final medTypeId = await db.getTypeIdBySlug("medical");
     final cuniOptionId = await db.getOptionIdBySlug("cunnilingus");
     final chairOptionId = await db.getOptionIdBySlug("chair");
     final chlamydiaOptionId = await db.getOptionIdBySlug("chlamydia");
@@ -324,7 +321,7 @@ class EventRepository {
 
     final event1Id = await db.insertEvent(
         EventsCompanion.insert(
-          typeId: sexTypeId,
+          type: EventType.sex,
           date: DateTime(DateTime.now().year - 1, DateTime.now().month, DateTime.now().day),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 11, 20)),
           notes: Value("The following is a partial list of minor planets, running from minor-planet number 571001 through 572000, inclusive. The primary data for this and other partial lists is based on JPL's Small-Body Orbital Elements and data available from the Minor Planet Center. Critical list information is also provided by the MPC, unless otherwise specified from Lowell Observatory. A detailed description of the table's columns and additional sources are given on the main page including a complete list of every page in this series, and a statistical break-up on the dynamical classification of minor planets."),
@@ -332,35 +329,35 @@ class EventRepository {
     );
     final event2Id = await db.insertEvent(
         EventsCompanion.insert(
-            typeId: mstbTypeId,
+            type: EventType.masturbation,
             date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
             time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 8, 10))
         )
     );
     final event3Id = await db.insertEvent(
         EventsCompanion.insert(
-          typeId: medTypeId,
+          type: EventType.medical,
           date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 1),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 0)),
         )
     );
     final event4Id = await db.insertEvent(
         EventsCompanion.insert(
-          typeId: sexTypeId,
+          type: EventType.sex,
           date: DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day - 3),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 30)),
         )
     );
     final event5Id = await db.insertEvent(
         EventsCompanion.insert(
-          typeId: medTypeId,
+          type: EventType.medical,
           date: DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day + 2),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 19, 30)),
         )
     );
     final event6Id = await db.insertEvent(
         EventsCompanion.insert(
-          typeId: sexTypeId,
+          type: EventType.sex,
           date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - 3),
           time: Value(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 30)),
         )

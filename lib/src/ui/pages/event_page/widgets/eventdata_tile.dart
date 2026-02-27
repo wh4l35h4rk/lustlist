@@ -3,6 +3,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
@@ -33,9 +34,9 @@ class EventDataTile extends StatelessWidget {
 
 
   Widget buildTileBottom(BuildContext context) {
-    String type = event.type.slug;
+    EventType type = event.type;
     switch (type) {
-      case "sex":
+      case EventType.sex:
         return Column(
           children: [
             EventDataColumn(event: event),
@@ -46,7 +47,7 @@ class EventDataTile extends StatelessWidget {
             PartnersColumn(event: event),
           ],
         );
-      case "masturbation":
+      case EventType.masturbation:
         return Column(
           children: [
             EventDataColumn(event: event),
@@ -77,10 +78,8 @@ class EventDataTile extends StatelessWidget {
                 )
             )
           ]);
-      case "medical":
+      case EventType.medical:
         return MedicalData(event: event);
-      default:
-        throw FormatException("Wrong type: $type");
     }
   }
 }

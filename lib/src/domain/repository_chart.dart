@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -87,15 +88,14 @@ extension EventRepositoryChart on EventRepository {
     );
   }
 
-  Future<List<FlSpot>> getSpotsListByMonth(String typeSlug) async {
+  Future<List<FlSpot>> getSpotsListByMonth(EventType type) async {
     Function formatter = DateFormatter.yearMonthOnly;
 
     DateTime startDate = oneYearAgo(DateTime.now());
     List<DateTime> dates = makeDateListInPeriod(startDate, addMonth, formatter);
 
     // get map of amount of events corresponding to their time period
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    var map = await db.getEventsAmountAfterDateGroupByMonth(typeId, startDate);
+    var map = await db.getEventsAmountAfterDateGroupByMonth(type, startDate);
     map = formatMapKeys(map, formatter);
 
     // if there are events in a month, write them to map, otherwise write zero
@@ -122,10 +122,8 @@ extension EventRepositoryChart on EventRepository {
     );
 
     // get map of amount of events corresponding to their time period
-    int sexTypeId = await db.getTypeIdBySlug("sex");
-    int mstbTypeId = await db.getTypeIdBySlug("masturbation");
-    var sexMap = await db.getEventsAmountAfterDateGroupByDay(sexTypeId, startDate);
-    var mstbMap = await db.getEventsAmountAfterDateGroupByDay(mstbTypeId, startDate);
+    var sexMap = await db.getEventsAmountAfterDateGroupByDay(EventType.sex, startDate);
+    var mstbMap = await db.getEventsAmountAfterDateGroupByDay(EventType.masturbation, startDate);
 
     sexMap = formatMapKeys(sexMap, formatDate);
     mstbMap = formatMapKeys(mstbMap, formatDate);
@@ -156,10 +154,8 @@ extension EventRepositoryChart on EventRepository {
     Function formatDate = DateFormatter.yearOnly;
 
     // get map of amount of events corresponding to their year
-    int sexTypeId = await db.getTypeIdBySlug("sex");
-    int mstbTypeId = await db.getTypeIdBySlug("masturbation");
-    var sexMap = await db.getEventsAmountGroupByYear(sexTypeId);
-    var mstbMap = await db.getEventsAmountGroupByYear(mstbTypeId);
+    var sexMap = await db.getEventsAmountGroupByYear(EventType.sex);
+    var mstbMap = await db.getEventsAmountGroupByYear(EventType.masturbation);
 
     sexMap = formatMapKeys(sexMap, formatDate);
     mstbMap = formatMapKeys(mstbMap, formatDate);
@@ -224,23 +220,20 @@ extension EventRepositoryChart on EventRepository {
     return list;
   }
 
-  Future<double?> getAvgDuration(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    double? avg = await db.getAvgDuration(typeId);
+  Future<double?> getAvgDuration(EventType type) async {
+    double? avg = await db.getAvgDuration(type);
     return avg;
   }
 
-  Future<int?> getTotalDuration(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? total = await db.getTotalDuration(typeId);
+  Future<int?> getTotalDuration(EventType type) async {
+    int? total = await db.getTotalDuration(type);
     return total;
   }
 
-  Future<CalendarEvent?> getMaxOrMinDurationCalendarEvent(String typeSlug, AggroType agg) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
+  Future<CalendarEvent?> getMaxOrMinDurationCalendarEvent(EventType type, AggroType agg) async {
     List<Event?> list = (agg == AggroType.max)
-        ? await db.getMaxDurationEvents(typeId)
-        : await db.getMinDurationEvents(typeId);
+        ? await db.getMaxDurationEvents(type)
+        : await db.getMinDurationEvents(type);
     if (list.isEmpty || list.first == null) {
       return null;
     } else {
@@ -250,9 +243,8 @@ extension EventRepositoryChart on EventRepository {
     }
   }
 
-  Future<int> getUserOrgasmsAmount(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? amount = await db.countUserOrgasms(typeId);
+  Future<int> getUserOrgasmsAmount(EventType type) async {
+    int? amount = await db.countUserOrgasms(type);
     return amount ?? 0;
   }
 
@@ -271,9 +263,8 @@ extension EventRepositoryChart on EventRepository {
     return amount ?? 0;
   }
 
-  Future<int> countEventsOfType(String typeSlug) async {
-    int typeId = await db.getTypeIdBySlug(typeSlug);
-    int? amount = await db.countEventsOfType(typeId);
+  Future<int> countEventsOfType(EventType type) async {
+    int? amount = await db.countEventsOfType(type);
     return amount ?? 0;
   }
 }

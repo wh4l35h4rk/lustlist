@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -58,7 +57,7 @@ class EventDataColumn extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
-                iconDataMap[event.getTypeId()],
+                event.type.iconData,
                 color: AppColors.eventData.leadingIcon(context),
               ),
             ],

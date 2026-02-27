@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -31,8 +32,8 @@ class PartnerEventListTile extends StatelessWidget {
   }
 
   Color _getBorderColor(BuildContext context) {
-    final typeSlug = event.getTypeSlug();
-    if ((typeSlug == "sex" || typeSlug == "masturbation") && event.data != null) {
+    final typeSlug = event.type;
+    if ((typeSlug == EventType.sex || typeSlug == EventType.masturbation) && event.data != null) {
       final int rating = event.data!.rating;
       switch (rating) {
         case 1:

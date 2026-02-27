@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -58,7 +59,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
     final placeOptions = _placeController.getSelectedOptions();
     final complicaciesOptions = _complicaciesController.getSelectedOptions();
     
-    var id = await repo.loadEvent("masturbation", date, time, notes);
+    var id = await repo.loadEvent(EventType.masturbation, date, time, notes);
     repo.loadEventData(id, rating, duration, orgasmAmount, didWatchPorn, didUseToys);
     
     var allOptionsList = [practicesOptions, placeOptions, complicaciesOptions].expand((x) => x).toList();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -47,7 +48,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
     final stiStatuses = _stiController.statusMap;
     final obgynOptions = _obgynController.getSelectedOptions();
 
-    var id = await repo.loadEvent("medical", date, time, notes);
+    var id = await repo.loadEvent(EventType.medical, date, time, notes);
     for (var o in obgynOptions) {
       repo.loadOptions(id, o.id, null);
     }

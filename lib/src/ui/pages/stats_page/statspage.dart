@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
@@ -86,20 +87,20 @@ class _StatsPageState extends State<StatsPage> {
       final barDataYearly = await repo.getEventAmountYearly();
 
       // last year data line chart
-      final sexSpots = await repo.getSpotsListByMonth("sex");
-      final mstbSpots = await repo.getSpotsListByMonth("masturbation");
+      final sexSpots = await repo.getSpotsListByMonth(EventType.sex);
+      final mstbSpots = await repo.getSpotsListByMonth(EventType.masturbation);
 
       // duration stats
-      final sexAvg = await repo.getAvgDuration("sex");
-      final sexMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.max);
-      final sexMinEvent = await repo.getMaxOrMinDurationCalendarEvent("sex", AggroType.min);
-      final mstbAvg = await repo.getAvgDuration("masturbation");
-      final mstbMaxEvent = await repo.getMaxOrMinDurationCalendarEvent("masturbation", AggroType.max);
-      final mstbMinEvent = await repo.getMaxOrMinDurationCalendarEvent("masturbation", AggroType.min);
+      final sexAvg = await repo.getAvgDuration(EventType.sex);
+      final sexMaxEvent = await repo.getMaxOrMinDurationCalendarEvent(EventType.sex, AggroType.max);
+      final sexMinEvent = await repo.getMaxOrMinDurationCalendarEvent(EventType.sex, AggroType.min);
+      final mstbAvg = await repo.getAvgDuration(EventType.masturbation);
+      final mstbMaxEvent = await repo.getMaxOrMinDurationCalendarEvent(EventType.masturbation, AggroType.max);
+      final mstbMinEvent = await repo.getMaxOrMinDurationCalendarEvent(EventType.masturbation, AggroType.min);
 
       // total duration stats
-      final sexTotal = await repo.getTotalDuration("sex");
-      final mstbTotal = await repo.getTotalDuration("masturbation");
+      final sexTotal = await repo.getTotalDuration(EventType.sex);
+      final mstbTotal = await repo.getTotalDuration(EventType.masturbation);
 
       // top options
       final topPracticesList = await repo.getOptionsRanked(categorySlug: "practices");
@@ -108,13 +109,13 @@ class _StatsPageState extends State<StatsPage> {
       final topEjaculationList = await repo.getOptionsRanked(categorySlug: "ejaculation");
 
       // orgasm ratio
-      final userOrgasms = await repo.getUserOrgasmsAmount("sex");
+      final userOrgasms = await repo.getUserOrgasmsAmount(EventType.sex);
       final partnersOrgasms = await repo.getPartnersOrgasmsAmount();
 
       // solo stats
       final mstbWithPorn = await repo.getEventsWithPornAmount();
       final mstbWithToys = await repo.getEventsWithToysAmount();
-      final totalSoloEvents = await repo.countEventsOfType("masturbation");
+      final totalSoloEvents = await repo.countEventsOfType(EventType.masturbation);
 
 
       setState(() {

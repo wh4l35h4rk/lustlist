@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -69,7 +70,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
     }
     partners = _partnersController.getSelectedPartners();
 
-    var id = await repo.loadEvent("sex", date, time, notes);
+    var id = await repo.loadEvent(EventType.sex, date, time, notes);
     repo.loadEventData(id, rating, duration, orgasmAmount, null, null);
 
     for (var p in partners.keys) {

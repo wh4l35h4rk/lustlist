@@ -1,18 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 
-IconData getTypeIconData(String slug)  {
-  switch (slug) {
-    case "sex":
-      return Icons.favorite;
-    case "masturbation":
-      return Icons.front_hand;
-    case "medical":
-      return Icons.medical_services;
-    default:
-      throw FormatException('Invalid type: $slug');
-  }
-}
 
 final kToday = DateTime.now();
 final kFirstDay = defaultDate;

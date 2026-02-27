@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
@@ -25,7 +27,6 @@ class AllEventsListTile extends StatelessWidget {
     return StringFormatter.dateTimeTitle(event.event.date, event.event.time);
   }
 
-
   Future<String> _getSubtitleMedical(AppDatabase db) async {
     final categoryNames = await db.getCategoryNamesOfEvent(event.getEventId());
     if (categoryNames != null && categoryNames.isNotEmpty) {
@@ -36,12 +37,12 @@ class AllEventsListTile extends StatelessWidget {
   }
 
   String _getSubtitle() {
-    final typeSlug = event.getTypeSlug();
+    final type = event.type;
     String partners;
-    switch (typeSlug) {
-      case "sex":
+    switch (type) {
+      case EventType.sex:
         partners = StringFormatter.partnerNamesTitle(event.getPartnerNames());
-      case "masturbation":
+      case EventType.masturbation:
         partners = event.type.name;
       default:
         partners = '';
@@ -56,8 +57,8 @@ class AllEventsListTile extends StatelessWidget {
   }
 
   Color _getBorderColor(BuildContext context) {
-    final typeSlug = event.getTypeSlug();
-    if ((typeSlug == "sex" || typeSlug == "masturbation") && event.data != null) {
+    final type = event.type;
+    if ((type == EventType.sex || type == EventType.masturbation) && event.data != null) {
       final int rating = event.data!.rating;
       switch (rating) {
         case 1:
@@ -78,13 +79,22 @@ class AllEventsListTile extends StatelessWidget {
     }
   }
 
+  bool multiplePartners(){
+    EventType type = event.type;
+    if (type == EventType.sex && event.getPartnerNames().isNotEmpty) {
+      num len = event.getPartnerNames().length;
+      if (len > 1) return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    String typeSlug = event.type.slug;
+    EventType type = event.type;
 
     return EventListTile(
       title: _getTitle(),
-      subtitleWidget: typeSlug == "medical"
+      subtitleWidget: type == EventType.medical
           ? FutureBuilder<String>(
         future: _getSubtitleMedical(database),
         builder: (context, snapshot) {
@@ -106,7 +116,7 @@ class AllEventsListTile extends StatelessWidget {
           _getSubtitle(),
           style: AppStyles.basicText(context)
       ),
-      iconData: iconDataMap[event.getTypeId()],
+      iconData: multiplePartners() ? CategoryIcons.two : type.iconData,
       onTap: onTap,
       hasBorder: true,
       borderColor: _getBorderColor(context),
