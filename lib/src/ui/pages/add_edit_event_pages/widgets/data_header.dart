@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
@@ -31,7 +31,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
   int? get orgasmAmount => widget.controller.orgasmAmount;
 
   late bool isMstb = widget.isMstb;
-  late IconData iconData = isMstb ? Icons.front_hand : Icons.favorite;
+  late IconData iconData = isMstb ? AppIconData.mstb : AppIconData.sex;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InfoRow(
-                      iconData: Icons.calendar_month,
+                      iconData: AppIconData.date,
                       iconColor: iconColor,
                       title: StringFormatter.colon(DataStrings.date),
                       titleColor: titleColor,
@@ -56,7 +56,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                       )
                   ),
                   InfoRow(
-                      iconData: Icons.access_time,
+                      iconData: AppIconData.time,
                       iconColor: iconColor,
                       title: StringFormatter.colon(DataStrings.time),
                       titleColor: titleColor,
@@ -66,14 +66,14 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                       )
                   ),
                   InfoRow(
-                      iconData: Icons.star,
+                      iconData: AppIconData.rating,
                       iconColor: iconColor,
                       title: StringFormatter.colon(DataStrings.rating),
                       titleColor: titleColor,
                       child: ratingRow()
                   ),
                   InfoRow(
-                      iconData: Icons.timelapse,
+                      iconData: AppIconData.duration,
                       iconColor: iconColor,
                       title: StringFormatter.colon(DataStrings.duration),
                       titleColor: titleColor,
@@ -83,7 +83,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                       )
                   ),
                   InfoRow(
-                      iconData: Icons.auto_awesome,
+                      iconData: AppIconData.orgasms,
                       iconColor: iconColor,
                       title: StringFormatter.colon(DataStrings.myOrgasms),
                       titleColor: titleColor,
@@ -121,7 +121,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
               flex: 1,
               child: MstbSwitchColumn(
                 title: DataStrings.porn,
-                iconData: Icons.play_circle,
+                iconData: AppIconData.porn,
                 context: context,
                 widget: widget,
                 isToys: false,
@@ -131,7 +131,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
               flex: 1,
               child: MstbSwitchColumn(
                 title: DataStrings.toys,
-                iconData: CategoryIcons.vibratorFilled,
+                iconData: AppIconData.toys,
                 context: context,
                 widget: widget,
                 isToys: true,
@@ -159,7 +159,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                   });
                 },
                 icon: Icon(
-                  index <= rating ? Icons.star : Icons.star_border,
+                  index <= rating ? AppIconData.rating : AppIconData.ratingEmpty,
                   size: AppSizes.iconMedium,
                   color: AppColors.addEvent.coloredText(context),
                 ),

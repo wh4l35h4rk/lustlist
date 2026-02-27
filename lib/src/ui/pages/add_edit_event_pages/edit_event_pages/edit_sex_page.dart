@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -22,6 +21,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/select_partne
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class EditSexEventPage extends StatefulWidget{
@@ -150,34 +150,34 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
               AddCategoryTile(
                 category: categoriesMap['contraception']!,
                 controller: _contraceptionController!,
-                iconData: CategoryIcons.condom,
+                iconData: AppIconData.contraception,
               ),
               AddCategoryTile(
                 category: categoriesMap['practices']!,
                 controller: _practicesController!,
-                iconData: CustomIcons.handLizard,
+                iconData: AppIconData.practices,
                 iconSize: 22,
               ),
               AddCategoryTile(
                 category: categoriesMap['poses']!,
                 controller: _posesController!,
-                iconData: CategoryIcons.sexMove,
+                iconData: AppIconData.poses,
                 iconSize: 27,
               ),
               AddCategoryTile(
                 category: categoriesMap['ejaculation']!,
                 controller: _ejaculationController!,
-                iconData: Icons.water_drop_outlined,
+                iconData: AppIconData.ejaculation,
               ),
               AddCategoryTile(
                 category: categoriesMap['place']!,
                 controller: _placeController!,
-                iconData: Icons.bed,
+                iconData: AppIconData.place,
               ),
               AddCategoryTile(
                 category: categoriesMap['complicacies']!,
                 controller: _complicaciesController!,
-                iconData: Icons.error,
+                iconData: AppIconData.complicacies,
               ),
               AddNotesTile(
                 controller: _notesController,

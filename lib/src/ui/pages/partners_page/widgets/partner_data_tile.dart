@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -41,7 +42,7 @@ class PartnerDataTile extends StatelessWidget {
                     )
                 ),
                 InfoRow(
-                  iconData: Icons.cake,
+                  iconData: AppIconData.birthday,
                   title: StringFormatter.colon(DataStrings.birthday),
                   child: Text(
                     _formatBirthday(),
@@ -58,7 +59,7 @@ class PartnerDataTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(
-                  Icons.person,
+                  AppIconData.partners,
                   color: AppColors.eventData.leadingIcon(context),
                 ),
               ],

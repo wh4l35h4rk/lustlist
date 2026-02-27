@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -26,20 +26,20 @@ class MstbEventInfo extends StatelessWidget {
           event: event,
           title: StringFormatter.colon(DataStrings.practices),
           categorySlug: "solo practices",
-          iconData: CustomIcons.handLizard,
+          iconData: AppIconData.practices,
           iconSize: AppSizes.iconPractices,
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.place),
           categorySlug: "place",
-          iconData: Icons.bed
+          iconData: AppIconData.place
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.complicacies),
           categorySlug: "complicacies",
-          iconData: Icons.error
+          iconData: AppIconData.complicacies
         ),
         NotesTile(event: event),
         SizedBox(height: 10)

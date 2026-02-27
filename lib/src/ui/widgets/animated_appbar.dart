@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'change_theme_button.dart';
@@ -26,7 +27,7 @@ class AnimatedAppBar extends StatelessWidget{
       floating: false,
       leading: hasBackButton ? IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: Icon(Icons.arrow_back_ios),
+        icon: Icon(AppIconData.arrowLeft),
         color: AppColors.appBar.icon(context)
       ) : null,
       expandedHeight: expandedHeight,

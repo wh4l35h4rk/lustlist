@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -58,7 +58,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
           title: partner.name,
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(partnerChanged ? true : null),
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(AppIconData.arrowLeft),
             color: AppColors.appBar.icon(context),
           ),
           editButton: IconButton(
@@ -76,7 +76,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                 setState(() {});
               }
             },
-            icon: Icon(Icons.edit),
+            icon: Icon(AppIconData.edit),
             color: AppColors.appBar.icon(context),
           ),
           deleteButton: FutureBuilder(
@@ -90,7 +90,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               
               return IconButton(
                 onPressed: () => _showPopUp(context, events.isNotEmpty),
-                icon: Icon(Icons.delete),
+                icon: Icon(AppIconData.delete),
                 color: AppColors.appBar.icon(context),
               );
             }
@@ -134,7 +134,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                           ),
                           SizedBox(width: 3),
                           Icon(
-                            Icons.favorite_border,
+                            AppIconData.sexOutlined,
                             color: AppColors.categoryTile.leadingIcon(context),
                             size: AppSizes.eventCounter,
                           )
@@ -159,9 +159,9 @@ class _PartnerProfileState extends State<PartnerProfile> {
 
                         IconData partnerIcon;
                         if (event.partnersMap != null && event.partnersMap!.length > 1) {
-                          partnerIcon = CategoryIcons.two;
+                          partnerIcon = AppIconData.sexMultiplePartners;
                         } else {
-                          partnerIcon = Icons.favorite;
+                          partnerIcon = AppIconData.sex;
                         }
 
                         return Column(

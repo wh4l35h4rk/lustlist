@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 enum EventType {
-  sex('Sex', Icons.favorite),
-  masturbation('Solo', Icons.front_hand),
-  medical('Medical', Icons.medical_services);
+  sex('Sex', AppIconData.sex),
+  masturbation('Solo', AppIconData.mstb),
+  medical('Medical', AppIconData.medical);
 
   const EventType(this.name, this.iconData);
 

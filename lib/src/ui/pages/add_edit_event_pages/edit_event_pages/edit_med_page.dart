@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
@@ -22,6 +21,7 @@ import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class EditMedEventPage extends StatefulWidget{
@@ -110,7 +110,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
                     return isSti ? AddStiTile(
                       category: categoriesMap['sti']!,
                       controller: _stiController!,
-                      iconData: CustomIcons.viruses,
+                      iconData: AppIconData.sti,
                     ) : const SizedBox.shrink();
                   }
               ),
@@ -120,7 +120,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
                     return isObgyn ? AddCategoryTile(
                       category: categoriesMap['obgyn']!,
                       controller: _obgynController!,
-                      iconData: CategoryIcons.uterus,
+                      iconData: AppIconData.obgyn,
                       iconSize: 29,
                     ) : const SizedBox.shrink();
                   }

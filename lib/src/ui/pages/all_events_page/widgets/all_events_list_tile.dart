@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/enums/type.dart';
@@ -116,7 +116,7 @@ class AllEventsListTile extends StatelessWidget {
           _getSubtitle(),
           style: AppStyles.basicText(context)
       ),
-      iconData: multiplePartners() ? CategoryIcons.two : type.iconData,
+      iconData: multiplePartners() ? AppIconData.sexMultiplePartners : type.iconData,
       onTap: onTap,
       hasBorder: true,
       borderColor: _getBorderColor(context),

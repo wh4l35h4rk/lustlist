@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
@@ -56,7 +56,7 @@ class EventDataTile extends StatelessWidget {
                 child: Divider()
             ),
             InfoRow(
-              iconData: Icons.play_circle,
+              iconData: AppIconData.porn,
               title: StringFormatter.colon(DataStrings.porn),
               child: Text(
                 event.data!.didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
@@ -67,7 +67,7 @@ class EventDataTile extends StatelessWidget {
               )
             ),
             InfoRow(
-                iconData: CategoryIcons.vibratorFilled,
+                iconData: AppIconData.toys,
                 title: StringFormatter.colon(DataStrings.toys),
                 child: Text(
                   event.data!.didUseToys! ? MiscStrings.didUse : MiscStrings.didNotUse,

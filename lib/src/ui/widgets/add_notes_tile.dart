@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -72,7 +73,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
                     ),
                   ),
                   Icon(
-                    Icons.notes,
+                    AppIconData.notes,
                     color: AppColors.addEvent.leadingIcon(context)
                   ),
                 ],

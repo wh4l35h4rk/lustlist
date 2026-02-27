@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 enum Gender {
-  male('Male', Icons.male),
-  female('Female', Icons.female),
-  nonbinary('Nonbinary', CategoryIcons.nonbinary),
-  unknown('Unknown', CustomIcons.genderless);
+  male('Male', AppIconData.male),
+  female('Female', AppIconData.female),
+  nonbinary('Nonbinary', AppIconData.nonbinary),
+  unknown('Unknown', AppIconData.unknownGender);
 
   const Gender(this.label, this.iconData);
 

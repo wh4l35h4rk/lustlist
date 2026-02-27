@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -24,12 +25,12 @@ class EventDataColumn extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InfoRow(
-                  iconData: Icons.star,
+                  iconData: AppIconData.rating,
                   title: StringFormatter.colon(DataStrings.rating),
                   child: _getRatingIcons(event, context)
               ),
               InfoRow(
-                  iconData: Icons.timelapse,
+                  iconData: AppIconData.duration,
                   title: StringFormatter.colon(DataStrings.duration),
                   child: Text(
                       StringFormatter.duration(event.getDuration(), true),
@@ -40,7 +41,7 @@ class EventDataColumn extends StatelessWidget {
                   )
               ),
               InfoRow(
-                  iconData: Icons.auto_awesome,
+                  iconData: AppIconData.orgasms,
                   title: StringFormatter.colon(DataStrings.myOrgasms),
                   child: Text(
                       StringFormatter.orgasmsAmount(event.data!.userOrgasms, true),
@@ -76,7 +77,7 @@ class EventDataColumn extends StatelessWidget {
           children: [
             for (var index = 0; index < rating; index++)
               Icon(
-                Icons.star,
+                AppIconData.rating,
                 size: AppSizes.iconMedium,
                 color: AppColors.eventData.text(context)
               )
@@ -86,7 +87,7 @@ class EventDataColumn extends StatelessWidget {
           children: [
             for (var index = 0; index < 5 - rating; index++)
               Icon(
-                Icons.star_border,
+                AppIconData.ratingEmpty,
                 size: AppSizes.iconMedium,
                 color: AppColors.eventData.text(context)
               )

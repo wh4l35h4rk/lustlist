@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -45,7 +46,7 @@ class _PartnersPageState extends State<PartnersPage> {
         title: PageTitleStrings.partners,
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(partnersChanges ? true : null),
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(AppIconData.arrowLeft),
           color: AppColors.appBar.icon(context),
         ),
       ),
@@ -119,7 +120,7 @@ class _PartnersPageState extends State<PartnersPage> {
             right: 20,
             child: FloatingActionButton(
               onPressed: () => _onTap(AddPartnerPage()),
-              child: const Icon(Icons.add),
+              child: const Icon(AppIconData.add),
             ),
           )
       ]),

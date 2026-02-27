@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -9,6 +9,7 @@ import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+
 
 class StiTile extends StatelessWidget{
   final CalendarEvent event;
@@ -38,7 +39,7 @@ class StiTile extends StatelessWidget{
                 ),
               ),
               Icon(
-                CustomIcons.viruses,
+                AppIconData.sti,
                 color: AppColors.categoryTile.leadingIcon(context),
               ),
             ],
@@ -117,7 +118,7 @@ class StiTile extends StatelessWidget{
                                     return Row(
                                       children: [
                                         Icon(
-                                          Icons.question_mark,
+                                          AppIconData.noData,
                                           size: AppSizes.iconSmall,
                                           color: AppColors.categoryTile.icon(context),
                                         ),
@@ -136,7 +137,7 @@ class StiTile extends StatelessWidget{
                                     return Row(
                                       children: [
                                         Icon(
-                                          Icons.question_mark,
+                                          AppIconData.noData,
                                           size: AppSizes.iconSmall,
                                           color: AppColors.categoryTile.icon(context)
                                         ),
@@ -153,7 +154,7 @@ class StiTile extends StatelessWidget{
                                   } else if (snapshot.hasError){
                                     return Row(
                                       children: [
-                                        Icon(Icons.bug_report, size: AppSizes.iconSmall),
+                                        Icon(AppIconData.error, size: AppSizes.iconSmall),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,

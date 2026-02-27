@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -22,7 +23,7 @@ class MedicalData extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.medical_services, color: AppColors.eventData.icon(context)),
+        Icon(AppIconData.medical, color: AppColors.eventData.icon(context)),
         Padding(
           padding: AppInsets.dataIcon,
           child: Text(

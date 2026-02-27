@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -21,6 +20,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.d
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/core/widgets/loading_scaffold.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class EditMstbEventPage extends StatefulWidget{
@@ -125,18 +125,18 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
               AddCategoryTile(
                 category: categoriesMap['solo practices']!,
                 controller: _practicesController!,
-                iconData: CustomIcons.handLizard,
+                iconData: AppIconData.practices,
                 iconSize: 22,
               ),
               AddCategoryTile(
                 category: categoriesMap['place']!,
                 controller: _placeController!,
-                iconData: Icons.bed,
+                iconData: AppIconData.place,
               ),
               AddCategoryTile(
                 category: categoriesMap['complicacies']!,
                 controller: _complicaciesController!,
-                iconData: Icons.error,
+                iconData: AppIconData.complicacies,
               ),
               AddNotesTile(
                 controller: _notesController,

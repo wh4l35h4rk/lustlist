@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -27,40 +27,40 @@ class SexEventInfo extends StatelessWidget {
           event: event,
           title: StringFormatter.colon(DataStrings.contraception),
           categorySlug: "contraception",
-          iconData: CategoryIcons.condom,
+          iconData: AppIconData.contraception,
           onNoResultsText: MiscStrings.none,
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.practices),
           categorySlug: "practices",
-          iconData: CustomIcons.handLizard,
+          iconData: AppIconData.practices,
           iconSize: AppSizes.iconPractices,
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.poses),
           categorySlug: "poses",
-          iconData: CategoryIcons.sexMove,
+          iconData: AppIconData.poses,
           iconSize: AppSizes.iconPoses,
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.ejaculation),
           categorySlug: "ejaculation",
-          iconData: Icons.water_drop_outlined,
+          iconData: AppIconData.ejaculation,
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.place),
           categorySlug: "place",
-          iconData: Icons.bed
+          iconData: AppIconData.place
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.complicacies),
           categorySlug: "complicacies",
-          iconData: Icons.error
+          iconData: AppIconData.complicacies
         ),
         NotesTile(event: event),
         SizedBox(height: 20)

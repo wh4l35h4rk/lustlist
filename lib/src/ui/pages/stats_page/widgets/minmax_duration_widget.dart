@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -72,7 +73,7 @@ class MinMaxDurationColumn extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: iconPadding),
                     child: Icon(
-                      Icons.arrow_forward_ios,
+                      AppIconData.arrowRight,
                       size: AppSizes.iconSmall,
                     ),
                   ),

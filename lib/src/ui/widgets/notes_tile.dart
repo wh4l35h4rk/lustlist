@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -59,7 +60,7 @@ class NotesTile extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    Icons.notes,
+                    AppIconData.notes,
                     color: AppColors.categoryTile.leadingIcon(context)
                   ),
                 ],

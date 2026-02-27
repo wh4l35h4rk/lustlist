@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 
 class AddEventFloatingButton extends StatelessWidget {
@@ -22,7 +23,7 @@ class AddEventFloatingButton extends StatelessWidget {
               controller.open();
             }
           },
-          child: const Icon(Icons.add),
+          child: const Icon(AppIconData.add),
         );
       },
       alignmentOffset: AppInsets.floatingButtonOffset,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/all_events_page.dart';
 import 'package:lustlist/src/ui/pages/credits_page/credits_page.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partners_page.dart';
@@ -25,31 +26,31 @@ class OptionsPage extends StatelessWidget {
             OptionsListTile(
                 title: PageTitleStrings.partners,
                 subtitle: MiscStrings.partnersSubtitle,
-                iconData: Icons.person,
+                iconData: AppIconData.partners,
                 page: PartnersPage()
             ),
             OptionsListTile(
               title: PageTitleStrings.allEvents,
               subtitle: MiscStrings.allEventsSubtitle,
-              iconData: Icons.event,
+              iconData: AppIconData.allEvents,
               page: AllEventsPage()
             ),
             // OptionsListTile(
             //     title: PageTitleStrings.tagVisibility,
             //     subtitle: MiscStrings.tagVisibilitySubtitle,
-            //     iconData: Icons.tag,
+            //     iconData: AppIconData.customizeTags,
             //     page: null
             // ),
             // OptionsListTile(
             //     title: PageTitleStrings.dataExport,
             //     subtitle: MiscStrings.dataExportSubtitle,
-            //     iconData: Icons.import_export,
+            //     iconData: AppIconData.importExport,
             //     page: null
             // ),
             OptionsListTile(
                 title: PageTitleStrings.credits,
                 subtitle: MiscStrings.creditsSubtitle,
-                iconData: Icons.code,
+                iconData: AppIconData.credits,
                 page: CreditsPage()
             ),
           ]),

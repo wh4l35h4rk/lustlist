@@ -7,6 +7,7 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/ui/controllers/map_notifier.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -113,7 +114,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
             ),
             Spacer(),
             Icon(
-              Icons.person,
+              AppIconData.partners,
               color: AppColors.addEvent.leadingIcon(context),
             ),
           ],
@@ -138,7 +139,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.bug_report,
+                          AppIconData.error,
                           color: AppColors.categoryTile.leadingIcon(context),
                         ),
                         SizedBox(width: 5,),

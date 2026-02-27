@@ -8,6 +8,7 @@ import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/name_form.d
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class AddEditPartnerDataColumn extends StatefulWidget {
@@ -52,7 +53,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
               ),
             ),
             Icon(
-              Icons.person,
+              AppIconData.partners,
               color: AppColors.addEvent.leadingIcon(context),
             ),
           ],
@@ -100,7 +101,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
             )
         ),
         InfoRow(
-          iconData: Icons.cake,
+          iconData: AppIconData.birthday,
           iconColor: iconColor,
           title: StringFormatter.colon(DataStrings.birthday),
           titleColor: titleColor,

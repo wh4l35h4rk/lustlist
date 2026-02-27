@@ -4,6 +4,7 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class LoadingScaffold extends StatefulWidget{
@@ -34,7 +35,7 @@ class _LoadingScaffoldState extends State<LoadingScaffold> {
         backButton: hasBackButton ?
         IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(AppIconData.arrowLeft),
           color: AppColors.appBar.icon(context),
         ) : null
       ),

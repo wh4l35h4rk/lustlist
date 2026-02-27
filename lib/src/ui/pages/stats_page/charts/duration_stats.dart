@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
@@ -76,7 +77,7 @@ class DurationStats extends StatelessWidget{
                   child: AvgDurationColumn(
                     avgInMinutes: mstbStats.avgInMinutes,
                     title: ChartStrings.avgMstbDuration,
-                    bgIconData: Icons.front_hand_outlined,
+                    bgIconData: AppIconData.mstbOutlined,
                     bgIconSize: 150,
                   ),
                 ),

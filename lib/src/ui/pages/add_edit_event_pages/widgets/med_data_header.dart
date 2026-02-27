@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
@@ -45,7 +45,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
   
   late bool isSti = widget.controller.stiController.value;
   late bool isObgyn = widget.controller.obgynController.value;
-  late IconData iconData = Icons.medical_services;
+  late IconData iconData = AppIconData.medical;
   
   @override
   void initState() {
@@ -63,12 +63,12 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  dataRow(Icons.calendar_month, DataStrings.date, null,
+                  dataRow(AppIconData.date, DataStrings.date, null,
                       DatePicker(
                           controller: widget.controller.dateController
                       )
                   ),
-                  dataRow(Icons.access_time, DataStrings.time, null,
+                  dataRow(AppIconData.time, DataStrings.time, null,
                       TimePicker(
                         type: 0,
                         controller: widget.controller.timeController,
@@ -160,7 +160,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
             SizedBox(height: 5),
             Row(
               children: [
-                dataRow(CustomIcons.viruses, categoriesMap['sti']!.name, AppSizes.iconViruses, null),
+                dataRow(AppIconData.sti, categoriesMap['sti']!.name, AppSizes.iconViruses, null),
                 SizedBox(
                   height: 30,
                   child: Transform.scale(
@@ -181,7 +181,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
             ),
             Row(
               children: [
-                dataRow(CategoryIcons.uterus, categoriesMap['obgyn']!.name, null, null),
+                dataRow(AppIconData.obgyn, categoriesMap['obgyn']!.name, null, null),
                 SizedBox(
                   height: 30,
                   child: Transform.scale(

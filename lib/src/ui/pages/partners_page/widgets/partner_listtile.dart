@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
@@ -46,7 +47,7 @@ class PartnerListTile extends StatelessWidget {
             ],
           ),
           subtitle: _getSubtitle(context),
-          trailing: Icon(Icons.arrow_forward_ios)
+          trailing: Icon(AppIconData.arrowRight)
       ),
     );
   }

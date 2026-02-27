@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/ui/controllers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -30,7 +31,7 @@ class _ChangeThemeButtonState extends State<ChangeThemeButton> {
             });
           }
         },
-        icon: Icon(isLight ? Icons.dark_mode : Icons.light_mode),
+        icon: Icon(isLight ? AppIconData.darkTheme : AppIconData.lightTheme),
         color: AppColors.surface(context)
     );
   }

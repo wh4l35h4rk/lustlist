@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
@@ -46,7 +46,7 @@ class MedEventInfo extends StatelessWidget {
                       event: event,
                       title: StringFormatter.colon(DataStrings.obgyn),
                       categorySlug: "obgyn",
-                      iconData: CategoryIcons.uterus,
+                      iconData: AppIconData.obgyn,
                       iconSize: 29,
                     ),
                     NotesTile(event: event),
@@ -66,7 +66,7 @@ class MedEventInfo extends StatelessWidget {
                       event: event,
                       title: StringFormatter.colon(DataStrings.obgyn),
                       categorySlug: "obgyn",
-                      iconData: CategoryIcons.uterus,
+                      iconData: AppIconData.obgyn,
                       iconSize: AppSizes.iconObgyn,
                     ),
                     NotesTile(event: event),

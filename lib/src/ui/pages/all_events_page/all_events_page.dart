@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -86,7 +87,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
           title: PageTitleStrings.allEvents,
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(AppIconData.arrowLeft),
             color: AppColors.appBar.icon(context),
           ),
         ),

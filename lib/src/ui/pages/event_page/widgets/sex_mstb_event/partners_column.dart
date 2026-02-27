@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -40,7 +41,7 @@ class PartnersColumn extends StatelessWidget {
             ),
             Spacer(),
             Icon(
-              Icons.person,
+              AppIconData.partners,
               color: AppColors.eventData.leadingIcon(context),
             ),
           ],

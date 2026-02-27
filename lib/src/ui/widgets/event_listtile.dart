@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 
@@ -68,7 +69,7 @@ class EventListTile extends StatelessWidget {
                 ],
               ),
               subtitle: subtitleWidget,
-              trailing: Icon(Icons.arrow_forward_ios)
+              trailing: Icon(AppIconData.arrowRight)
           ),
         ),
       ],

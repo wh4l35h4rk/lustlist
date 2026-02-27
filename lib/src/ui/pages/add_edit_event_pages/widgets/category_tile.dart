@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
@@ -135,7 +136,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
           _selectedOptions.value.contains(option) ?
               Padding(
                 padding: const EdgeInsets.only(right: 5),
-                child: Icon(Icons.check),
+                child: Icon(AppIconData.selected),
               )
               : SizedBox(),
           Text(

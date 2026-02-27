@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/percentage_stats_column.dart';
@@ -29,7 +29,7 @@ class SoloStats extends StatelessWidget{
                 valueTarget: pornStats[0],
                 valueTotal: pornStats[1],
                 title: ChartStrings.pornRatio,
-                bgIconData: Icons.play_circle_outline
+                bgIconData: AppIconData.pornOutlined
               )
             ),
             Expanded(
@@ -38,7 +38,7 @@ class SoloStats extends StatelessWidget{
                   valueTarget: toysStats[0],
                   valueTotal: toysStats[1],
                   title: ChartStrings.toyRatio,
-                  bgIconData: CategoryIcons.vibrator
+                  bgIconData: AppIconData.toysOutlined
               )
             ),
           ]

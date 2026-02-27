@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -182,7 +183,7 @@ class _CalendarState extends State<Calendar> {
                                 }
                                 return Icon(
                                   index == maxCalendarEventsAmount - 1 && events.length > maxCalendarEventsAmount
-                                    ? Icons.add
+                                    ? AppIconData.add
                                     : events[index].type.iconData,
                                   size: 12,
                                   color: (day.month == _focusedDay.value.month) ?

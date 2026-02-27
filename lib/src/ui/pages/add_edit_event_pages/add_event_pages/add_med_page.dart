@@ -5,7 +5,6 @@ import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -20,6 +19,7 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/med_data_header.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class AddMedEventPage extends StatefulWidget{
@@ -97,7 +97,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
                     return isSti ? AddStiTile(
                       category: categoriesMap['sti']!,
                       controller: _stiController,
-                      iconData: CustomIcons.viruses,
+                      iconData: AppIconData.sti,
                     ) : const SizedBox.shrink();
                   }
               ),
@@ -107,7 +107,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
                   return isObgyn ? AddCategoryTile(
                     category: categoriesMap['obgyn']!,
                     controller: _obgynController,
-                    iconData: CategoryIcons.uterus,
+                    iconData: AppIconData.obgyn,
                     iconSize: AppSizes.iconObgyn,
                   ) : const SizedBox.shrink();
                 }
