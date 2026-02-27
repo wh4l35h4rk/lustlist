@@ -23,7 +23,7 @@ import 'package:lustlist/src/core/widgets/error_tile.dart';
 
 class AddMedEventPage extends StatefulWidget{
   final DateTime? initDay;
-  const AddMedEventPage(this.initDay, {super.key});
+  const AddMedEventPage({this.initDay, super.key});
 
   @override
   State<AddMedEventPage> createState() => _AddMedEventPageState();

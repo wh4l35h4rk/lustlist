@@ -25,6 +25,7 @@ class MiscStrings {
   static const String min = "minute";
   static const String mins = "minutes";
   static const String durationUnknown = "duration unknown";
+  static const String orgasmsUnknown = "orgasms amount unknown";
 
   static const String orgasmOne = "orgasm";
   static const String orgasmsMany = "orgasms";
@@ -41,6 +42,7 @@ class MiscStrings {
   static const String nameHint = "Enter name";
 
   static const String partnersSubtitle = "Manage info of all of your sexual partners.";
+  static String get allEventsSubtitle => "Browse all of your events at once.";
   static const String tagVisibilitySubtitle = "Disable unused options' visibility and customize new ones.";
   static const String dataExportSubtitle = "Export your data in machine-readable format.";
   static const String creditsSubtitle = "Learn more about developer.";

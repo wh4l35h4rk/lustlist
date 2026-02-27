@@ -16,8 +16,10 @@ class StringFormatter {
     return "$value%";
   }
   
-  static String orgasmsAmount(int? orgasmsAmount) {
-    if (orgasmsAmount == null) return MiscStrings.unknown;
+  static String orgasmsAmount(int? orgasmsAmount, bool isShort) {
+    if (orgasmsAmount == null) {
+      return isShort ? MiscStrings.unknown : MiscStrings.orgasmsUnknown;
+    }
 
     final String amountString = orgasmsAmount.toString();
     final String orgasmsString;
@@ -68,7 +70,7 @@ class StringFormatter {
   static String dateTimeTitle(DateTime date, DateTime time) {
     final dateFormatted = DateFormatter.dateWithDay(date);
     final timeFormatted = DateFormatter.time(time);
-    return "$dateFormatted, $timeFormatted";
+    return "$dateFormatted; $timeFormatted";
   }
 
   static String partnerNamesTitle(List<String> partnerNames) => partnerNames.join(", ");

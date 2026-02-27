@@ -12,6 +12,14 @@ class AppStyles{
     );
   }
 
+  static TextStyle basicText(BuildContext context) {
+    return TextStyle(
+        fontSize: AppSizes.textBasic,
+        color: AppColors.text(context)
+    );
+  }
+
+
   static TextStyle numStatsTitle(BuildContext context){
     return TextStyle(
       color: AppColors.chart.title(context),
@@ -22,10 +30,7 @@ class AppStyles{
   }
 
   static TextStyle numStatsSubtitle(BuildContext context) {
-    return TextStyle(
-        fontSize: AppSizes.textBasic,
-        color: AppColors.text(context)
-    );
+    return basicText(context);
   }
 
   static TextStyle chartTitle(BuildContext context){
@@ -44,4 +49,6 @@ class AppStyles{
       fontSize: AppSizes.textBasic,
     );
   }
+
+
 }

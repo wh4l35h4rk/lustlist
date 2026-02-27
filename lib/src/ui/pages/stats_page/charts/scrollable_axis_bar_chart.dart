@@ -59,6 +59,7 @@ class _ScrollableAxisBarChartState extends State<ScrollableAxisBarChart> {
   @override
   Widget build(BuildContext context) {
     double reservedSpace = widget.eventAmountList.length * 60;
+    double height = 270;
 
     List<double> listValues = [];
     for (var d in widget.eventAmountList){
@@ -72,7 +73,7 @@ class _ScrollableAxisBarChartState extends State<ScrollableAxisBarChart> {
       children: [
         SizedBox(
           width: 30,
-          height: 255,
+          height: height,
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0),
             child: BarChart(
@@ -102,7 +103,7 @@ class _ScrollableAxisBarChartState extends State<ScrollableAxisBarChart> {
                 scrollDirection: Axis.horizontal,
                 child: SizedBox(
                   width: chartWidth,
-                  height: 255,
+                  height: height,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 15.0),
                     child: BarChart(

@@ -24,7 +24,7 @@ import 'package:lustlist/src/domain/entities/event_duration.dart';
 
 class AddSexEventPage extends StatefulWidget{
   final DateTime? initDay;
-  const AddSexEventPage(this.initDay, {super.key});
+  const AddSexEventPage({this.initDay, super.key});
 
   @override
   State<AddSexEventPage> createState() => _AddSexEventPageState();

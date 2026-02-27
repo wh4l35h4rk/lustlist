@@ -7,7 +7,6 @@ import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';

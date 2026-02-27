@@ -26,8 +26,8 @@ class EventRepository {
   int sortDateTimeDesc(Event a, Event b) {
     final d1 = DateFormatter.dateOnly(a.date);
     final d2 = DateFormatter.dateOnly(b.date);
-    final t1 = DateFormatter.timeOnly(a.date);
-    final t2 = DateFormatter.timeOnly(b.date);
+    final t1 = DateFormatter.timeOnly(a.time);
+    final t2 = DateFormatter.timeOnly(b.time);
 
     if (d1.year == d2.year) {
       if (d1.month == d2.month) {
@@ -53,28 +53,42 @@ class EventRepository {
   }
 
 
-  Future getEventSource() async {
+  Future getEventsDatedMap() async {
     final allEvents = await db.allEvents;
-    List<CalendarEvent> testEventList = [];
+    List<CalendarEvent> eventList = [];
 
     for (var e in allEvents) {
       CalendarEvent event = await dbToCalendarEvent(e);
-      testEventList.add(event);
+      eventList.add(event);
     }
     final eventDates = List.generate(
-        testEventList.length,
-        (index) => DateFormatter.dateOnly(testEventList[index].event.date)
+        eventList.length,
+        (index) => DateFormatter.dateOnly(eventList[index].event.date)
     );
 
     final eventMap = {
       for (var date in eventDates)
-        date : testEventList.where((element) => DateFormatter.dateOnly(element.event.date) == date).toList()
+        date : eventList.where((element) => DateFormatter.dateOnly(element.event.date) == date).toList()
     };
     for (var v in eventMap.values){
       v.sort((a, b) => sortTime(a.event.time, b.event.time));
     }
 
     return eventMap;
+  }
+  
+  
+  Future<List<CalendarEvent>> getEventsSortedDescList() async {
+    final allEvents = await db.allEvents;
+    List<CalendarEvent> eventList = [];
+
+    for (var e in allEvents) {
+      CalendarEvent event = await dbToCalendarEvent(e);
+      eventList.add(event);
+    }
+    
+    eventList.sort((a, b) => sortDateTimeDesc(a.event, b.event));
+    return eventList;
   }
 
 

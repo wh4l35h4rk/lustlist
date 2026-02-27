@@ -69,7 +69,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
           onPressed: () => _showDialog(context),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            StringFormatter.orgasmsAmount(amount),
+            StringFormatter.orgasmsAmount(amount, true),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.coloredText(context)

@@ -44,7 +44,7 @@ class EventDataColumn extends StatelessWidget {
                   iconData: Icons.auto_awesome,
                   title: StringFormatter.colon(DataStrings.myOrgasms),
                   child: Text(
-                      StringFormatter.orgasmsAmount(event.data!.userOrgasms),
+                      StringFormatter.orgasmsAmount(event.data!.userOrgasms, true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
                         color: AppColors.eventData.text(context),

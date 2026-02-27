@@ -8,8 +8,8 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_event_listtile.dart';
 import 'package:lustlist/src/ui/widgets/notes_tile.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -145,8 +145,8 @@ class _PartnerProfileState extends State<PartnerProfile> {
                       ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 3),
                         child: Text(
-                            MiscStrings.noPartnerEvents,
-                            style: AppStyles.noDataText(context)
+                          MiscStrings.noPartnerEvents,
+                          style: AppStyles.noDataText(context)
                           ),
                       )
                       : SizedBox.shrink(),
@@ -166,11 +166,10 @@ class _PartnerProfileState extends State<PartnerProfile> {
 
                         return Column(
                           children: [
-                            EventListTile(
+                            PartnerEventListTile(
                               event: event,
                               partnerOrgasms: event.partnersMap?[partner],
-                              partneredIcon: partnerIcon,
-                              fromPartnerProfile: true,
+                              iconData: partnerIcon,
                               onTap: () => _onEventListTileTap(event),
                             ),
                             index != events.length - 1 ? Padding(

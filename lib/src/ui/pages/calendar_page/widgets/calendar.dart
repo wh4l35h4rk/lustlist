@@ -12,7 +12,7 @@ import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/ui/widgets/event_listtile.dart';
+import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar_event_listtile.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 
@@ -256,7 +256,7 @@ class _CalendarState extends State<Calendar> {
                                   height: AppSizes.dividerMinimal,
                                 ),
                               ) : SizedBox.shrink(),
-                              EventListTile(
+                              CalendarEventListTile(
                                 onTap: () => _onEventListTileTap(value[index]),
                                 event: value[index],
                               ),

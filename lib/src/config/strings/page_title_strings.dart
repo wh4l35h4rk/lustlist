@@ -4,6 +4,7 @@ class PageTitleStrings {
     statistics,
     options,
     partners,
+    allEvents,
   ];
 
   static const String loading = "Loading page...";
@@ -21,4 +22,6 @@ class PageTitleStrings {
   static const String addPartner = "Add new partner";
   static const String editEvent = "Edit event";
   static const String editPartner = "Edit partner profile";
+
+  static const String allEvents = "Events search";
 }

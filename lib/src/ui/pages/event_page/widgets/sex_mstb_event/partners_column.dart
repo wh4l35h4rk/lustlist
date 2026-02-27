@@ -98,7 +98,7 @@ class PartnersColumn extends StatelessWidget {
                   children: [
                     for (var amount in event.partnersMap!.values)
                       Text(
-                        StringFormatter.orgasmsAmount(amount),
+                        StringFormatter.orgasmsAmount(amount, true),
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
                           color: AppColors.eventData.text(context)

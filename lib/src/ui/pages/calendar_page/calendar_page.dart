@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
-import 'package:lustlist/src/ui/pages/calendar_page/widgets/add_event_floating_button.dart';
+import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -37,7 +37,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
 
   Future<void> _loadEvents() async {
-    final data = await repo.getEventSource();
+    final data = await repo.getEventsDatedMap();
     _events.value = LinkedHashMap<DateTime, List<CalendarEvent>>(equals: isSameDay, hashCode: getHashCode)..addAll(data);
 
     final types = await database.allTypes;
@@ -54,11 +54,11 @@ class _CalendarPageState extends State<CalendarPage> {
   Future<void> _onAddEventTap(int index) async {
     StatefulWidget widget;
     if (index == 0) {
-      widget = AddSexEventPage(_selectedDay.value);
+      widget = AddSexEventPage(initDay: _selectedDay.value);
     } else if (index == 1) {
-      widget = AddMstbEventPage(_selectedDay.value);
+      widget = AddMstbEventPage(initDay: _selectedDay.value);
     } else {
-      widget = AddMedEventPage(_selectedDay.value);
+      widget = AddMedEventPage(initDay: _selectedDay.value);
     }
 
     await Navigator.push(context,
