@@ -38,9 +38,9 @@ class AppColors {
   );
 
   static Color filterSurface(BuildContext context) => AppColors.categoryTile.surface(context);
-  static Color? filterSelected(BuildContext context) => colorBlend(
+  static Color? filterButton(BuildContext context) => colorBlend(
       filterSurface(context),
-      Theme.of(context).colorScheme.secondaryContainer,
+      Theme.of(context).colorScheme.surface,
       0.5
   );
 
@@ -76,7 +76,7 @@ class AddEventColors {
       colorBlend(
           selectedSurface(context),
           Theme.of(context).colorScheme.secondary,
-          0.5
+          0.3
       )!;
 
   Color buttonOnTap(BuildContext context) =>

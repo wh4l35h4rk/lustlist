@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/enums/type.dart';
-import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/controllers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/add_remove_all_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/selectable_value_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/type_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -27,7 +22,6 @@ import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
-import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 
 
 class AllEventsPage extends StatefulWidget {
@@ -47,7 +41,9 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   List<EOption>? contraceptionOptions;
 
-  final _typeFilterController = FilterController<EventType>(selectedValuesList: EventType.entries);
+  final _typeFilterController = FilterController<EventType>(
+      allValuesList: EventType.entries,
+      selectedValuesList: EventType.entries);
 
   @override
   void initState() {
@@ -129,60 +125,19 @@ class _AllEventsPageState extends State<AllEventsPage> {
                     }
 
                     return Column(
+                      spacing: 10,
                       children: [
-                        SizedBox(height: 6,),
-                        BasicTile(
-                          surfaceColor: AppColors.filterSurface(context),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    StringFormatter.colon(DataStrings.types),
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: AppColors.categoryTile.title(context),
-                                      fontSize: AppSizes.titleLarge,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.category,
-                                    size: AppSizes.iconBasic,
-                                    color: AppColors.categoryTile.leadingIcon(context),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5),
-                              SizedBox(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AddRemoveAllButton(
-                                      title: ButtonStrings.selectAll,
-                                      onPressed: () => {
-                                        _typeFilterController.addAll(EventType.entries)
-                                      },
-                                    ),
-                                    AddRemoveAllButton(
-                                      title: ButtonStrings.removeAll,
-                                      onPressed: () => {
-                                        _typeFilterController.removeAll()
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 40,
-                                child: typeButtonList(context)
-                              ),
-                            ]
-                          )
-                        ),
-                        SizedBox(height: 10,),
+                        SizedBox.shrink(),
+                        // BasicTile(
+                        //   surfaceColor: AppColors.filterSurface(context),
+                        //   child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //
+                        //     ]
+                        //   )
+                        // ),
+                        TypeFilterButton(controller: _typeFilterController),
                         AllEventsList(list: filteredEvents)
                       ]
                     );
@@ -192,7 +147,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                 bottom: 20,
                 right: 20,
                 child: AddEventFloatingButton(onEventTap: _onAddEventTap)
-              )
+              ),
             ]),
         bottomNavigationBar: MainBottomNavigationBar(
             context: context,

@@ -51,4 +51,7 @@ class MiscStrings {
   static String get didNotUse => "Did not use";
   static String get ofEvents => "events";
 
+  static String get selected => "Selected";
+  static String get notSelected => "Not selected";
+
 }

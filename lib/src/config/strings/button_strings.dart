@@ -6,6 +6,6 @@ class ButtonStrings {
   static const String leave = "Leave";
   static const String ok = "OK";
 
-  static const String selectAll = "Select all";
-  static const String removeAll = "Remove all";
+  static const String selectAll = "All";
+  static const String removeAll = "None";
 }

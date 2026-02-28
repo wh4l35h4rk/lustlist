@@ -3,6 +3,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
@@ -98,7 +99,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
             DropdownButton<TestStatus>(
               isDense: true,
               value: selectedStatus,
-              icon: const Icon(Icons.keyboard_arrow_down_sharp),
+              icon: Icon(AppIconData.dropList),
               alignment: Alignment.centerLeft,
               style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
               underline: Container(height: 2, color: AppColors.addEvent.border(context)),

@@ -75,7 +75,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                 DropdownButton<Gender>(
                   isDense: true,
                   value: selectedGender,
-                  icon: const Icon(Icons.keyboard_arrow_down_sharp),
+                  icon: const Icon(AppIconData.dropList),
                   alignment: Alignment.centerLeft,
                   style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
                   underline: Container(height: 2, color: AppColors.addEvent.border(context)),
