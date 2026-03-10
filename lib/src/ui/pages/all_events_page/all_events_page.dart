@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/type.dart';
+import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
@@ -274,10 +277,49 @@ class _AllEventsPageState extends State<AllEventsPage> {
                       ),
                     ];
 
+                    bool hasEvents = events!.isNotEmpty;
+                    bool hasFilteredEvents = filteredEvents.isNotEmpty;
+
+                    Widget noEventsText = Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
+                        child: Text(
+                          MiscStrings.noEvents,
+                          style: AppStyles.noDataText(context),
+                        ),
+                      ),
+                    );
+                    Widget noFilteredEventsText = Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
+                        child: Text(
+                          MiscStrings.noFilteredEvents,
+                          style: AppStyles.noDataText(context),
+                        ),
+                      ),
+                    );
+
                     return Column(
                       spacing: 10,
                       children: [
                         SizedBox.shrink(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            OutlinedButton(
+                                onPressed: () => _disableAllFilters(),
+                                style: AppStyles.filterButton(context),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  spacing: 6,
+                                  children: [
+                                    Icon(AppIconData.noFilter),
+                                    Text(ButtonStrings.disableAllFilters),
+                                  ],
+                                ),
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height: 35,
                           child: ListView.separated(
@@ -288,7 +330,9 @@ class _AllEventsPageState extends State<AllEventsPage> {
                             itemCount: buttonList.length,
                           ),
                         ),
-                        AllEventsList(list: filteredEvents)
+                        if (!hasEvents) noEventsText,
+                        if (hasEvents && !hasFilteredEvents) noFilteredEventsText,
+                        if (hasEvents && hasFilteredEvents) AllEventsList(list: filteredEvents)
                       ]
                     );
                   }
@@ -306,7 +350,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
     );
   }
 
-
   Future<void> _onAddEventTap(int index) async {
     StatefulWidget widget;
     if (index == 0) {
@@ -320,5 +363,16 @@ class _AllEventsPageState extends State<AllEventsPage> {
     await Navigator.push(context,
       MaterialPageRoute(builder: (_) => widget),
     );
+  }
+
+  void _disableAllFilters() {
+    _typeFilterController.addAll();
+    _contraceptionFilterController!.disable();
+    _practicesFilterController!.disable();
+    _posesFilterController!.disable();
+    _placeFilterController!.disable();
+    _ejaculationFilterController!.disable();
+    _complicaciesFilterController!.disable();
+    return;
   }
 }

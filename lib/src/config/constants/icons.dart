@@ -71,4 +71,5 @@ class AppIconData {
   static const IconData selected = Icons.check;
   static const IconData notSelected = Icons.close;
   static const IconData dropList = Icons.keyboard_arrow_down_sharp;
+  static const IconData noFilter = Icons.filter_alt_off;
 }

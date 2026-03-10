@@ -42,7 +42,6 @@ class FilterController<T> {
 
   void toggleEnabled() {
     enabled.value = !enabled.value;
-
   }
 
   void addAll() {
@@ -52,5 +51,8 @@ class FilterController<T> {
   void removeAll(){
     if (!isEnabled) toggleEnabled();
     selectedValues.value = [];
+  }
+  void disable(){
+    enabled.value = false;
   }
 }

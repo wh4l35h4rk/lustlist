@@ -9,4 +9,5 @@ class ButtonStrings {
   static const String selectAll = "All";
   static const String removeAll = "None";
   static const String filter = "Filter";
+  static const String disableAllFilters = "Disable all filters";
 }

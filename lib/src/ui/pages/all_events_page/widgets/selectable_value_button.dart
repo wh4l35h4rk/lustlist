@@ -27,7 +27,7 @@ class SelectableValueButton<T> extends StatelessWidget {
         onPressed: () => {
           controller.toggle(value)
         },
-        style: AppStyles.filterButton(context, selectedValues, value),
+        style: AppStyles.selectableValueButton(context, selectedValues, value),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

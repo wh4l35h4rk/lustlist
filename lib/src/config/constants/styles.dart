@@ -26,7 +26,7 @@ class AppStyles{
     );
   }
 
-  static ButtonStyle filterButton<T>(BuildContext context, List<T> selectedValues, T value){
+  static ButtonStyle selectableValueButton<T>(BuildContext context, List<T> selectedValues, T value){
     return OutlinedButton.styleFrom(
       backgroundColor: selectedValues.contains(value)
           ? AppColors.filterSurface(context)
@@ -38,7 +38,7 @@ class AppStyles{
     );
   }
 
-  static ButtonStyle filterAllButton(BuildContext context){
+  static ButtonStyle filterButton(BuildContext context){
     return OutlinedButton.styleFrom(
       backgroundColor: AppColors.surface(context),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
