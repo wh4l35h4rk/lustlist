@@ -13,7 +13,7 @@ import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/edit_eventdata_controller.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
@@ -158,9 +158,9 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
   }
 
   Future<void> _initControllers() async {
-    final practicesOptions = await repo.getOptionsList(event.event.id, "solo practices");
-    final placeOptions = await repo.getOptionsList(event.event.id, "place");
-    final complicaciesOptions = await repo.getOptionsList(event.event.id, "complicacies");
+    final practicesOptions = await repo.getEventCategoryOptions(event.event.id, "solo practices");
+    final placeOptions = await repo.getEventCategoryOptions(event.event.id, "place");
+    final complicaciesOptions = await repo.getEventCategoryOptions(event.event.id, "complicacies");
 
     setState(() {
       _practicesController = AddCategoryController(

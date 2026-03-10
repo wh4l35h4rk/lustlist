@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/ui/controllers/theme_provider.dart';
+import 'package:lustlist/src/ui/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 

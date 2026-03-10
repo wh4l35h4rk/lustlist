@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/ui/controllers/theme_provider.dart';
+import 'package:lustlist/src/ui/theme_provider.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:fl_chart/fl_chart.dart';

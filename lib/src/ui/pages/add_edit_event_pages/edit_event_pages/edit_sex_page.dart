@@ -15,7 +15,7 @@ import 'package:lustlist/src/domain/entities/event_duration.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/edit_eventdata_controller.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/select_partners_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/data_header.dart';
@@ -199,12 +199,12 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   }
 
   Future<void> _initControllers() async {
-    final contraceptionOptions = await repo.getOptionsList(event.event.id, "contraception");
-    final practicesOptions = await repo.getOptionsList(event.event.id, "practices");
-    final posesOptions = await repo.getOptionsList(event.event.id, "poses");
-    final placeOptions = await repo.getOptionsList(event.event.id, "place");
-    final ejaculationOptions = await repo.getOptionsList(event.event.id, "ejaculation");
-    final complicaciesOptions = await repo.getOptionsList(event.event.id, "complicacies");
+    final contraceptionOptions = await repo.getEventCategoryOptions(event.event.id, "contraception");
+    final practicesOptions = await repo.getEventCategoryOptions(event.event.id, "practices");
+    final posesOptions = await repo.getEventCategoryOptions(event.event.id, "poses");
+    final placeOptions = await repo.getEventCategoryOptions(event.event.id, "place");
+    final ejaculationOptions = await repo.getEventCategoryOptions(event.event.id, "ejaculation");
+    final complicaciesOptions = await repo.getEventCategoryOptions(event.event.id, "complicacies");
 
 
     setState(() {

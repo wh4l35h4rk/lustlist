@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';

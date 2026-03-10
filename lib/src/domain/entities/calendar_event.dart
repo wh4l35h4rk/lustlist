@@ -20,6 +20,14 @@ class CalendarEvent {
     }
   }
 
+  List<Partner> getPartners() {
+    if (partnersMap != null) {
+      return List.generate(partnersMap!.length, (index) => partnersMap!.keys.elementAt(index));
+    } else {
+      return [];
+    }
+  }
+
   int getEventId() => event.id;
   String getTypeName() => type.name;
   DateTime getDate() => event.date;

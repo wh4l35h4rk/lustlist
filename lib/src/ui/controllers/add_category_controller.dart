@@ -1,6 +1,6 @@
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
-import 'list_notifier.dart';
+import '../notifiers/list_notifier.dart';
 
 class AddCategoryController {
   final ListNotifier<EOption> selectedOptions = ListNotifier<EOption>();

@@ -12,7 +12,7 @@ import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/sti_tile.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/controllers/edit_meddata_controller.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/main.dart';
@@ -145,8 +145,8 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
   }
 
   Future<void> _initControllers(AppDatabase db) async {
-    final obgynOptions = await repo.getOptionsList(event.event.id, "obgyn");
-    final stiOptions = await repo.getOptionsList(event.event.id, "sti");
+    final obgynOptions = await repo.getEventCategoryOptions(event.event.id, "obgyn");
+    final stiOptions = await repo.getEventCategoryOptions(event.event.id, "sti");
 
     Map<EOption, TestStatus> statusMap = {};
     for (var o in stiOptions) {

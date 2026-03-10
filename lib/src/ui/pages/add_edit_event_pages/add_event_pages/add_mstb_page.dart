@@ -11,7 +11,7 @@ import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/main.dart';

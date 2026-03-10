@@ -6,6 +6,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
 import 'entities/calendar_event.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
@@ -113,6 +114,30 @@ class EventRepository {
 
     CalendarEvent calendarEvent = CalendarEvent(eventId, dbEvent, type, partnersMap, data);
     return calendarEvent;
+  }
+
+  Future<List<CalendarEventWithOptions>> getEventsWithOptionsSortedDescList() async {
+    final allEvents = await db.allEvents;
+    List<CalendarEventWithOptions> eventList = [];
+
+    for (var e in allEvents) {
+      CalendarEvent calendarEvent = await dbToCalendarEvent(e);
+      CalendarEventWithOptions event = await addOptionsToCalendarEvent(calendarEvent);
+      eventList.add(event);
+    }
+
+    eventList.sort((a, b) => sortDateTimeDesc(a.calendarEvent.event, b.calendarEvent.event));
+    return eventList;
+  }
+  
+  Future<CalendarEventWithOptions> addOptionsToCalendarEvent(CalendarEvent calendarEvent) async {
+    int eventId = calendarEvent.event.id;
+    List<EOption> options = await db.getOptionsByEventId(eventId);
+
+    CalendarEventWithOptions eventWithOptions = CalendarEventWithOptions(
+        calendarEvent, options
+    );
+    return eventWithOptions;
   }
   
   
@@ -229,9 +254,15 @@ class EventRepository {
 
 
 
-  Future<List<EOption>> getOptionsList(int eventId, String categorySlug) async {
+  Future<List<EOption>> getEventCategoryOptions(int eventId, String categorySlug) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
+    return options;
+  }
+
+  Future<List<EOption>> getCategoryOptions(String categorySlug) async {
+    int categoryId = await db.getCategoryIdBySlug(categorySlug);
+    List<EOption> options = await db.getOptionsByCategory(categoryId);
     return options;
   }
 

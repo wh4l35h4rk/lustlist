@@ -5,7 +5,7 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_data_controller.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';

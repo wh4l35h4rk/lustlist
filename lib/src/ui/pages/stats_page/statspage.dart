@@ -16,7 +16,7 @@ import 'package:lustlist/src/ui/pages/stats_page/charts/events_bar_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/orgasms_ratio_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/duration_stats.dart';
 import 'package:lustlist/src/domain/entities/event_duration_stats.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/line_chart_yearly.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/solo_stats.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/top_options_chart.dart';

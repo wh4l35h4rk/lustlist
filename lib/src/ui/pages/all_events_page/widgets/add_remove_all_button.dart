@@ -7,21 +7,24 @@ class AddRemoveAllButton extends StatelessWidget {
   const AddRemoveAllButton({
     required this.onPressed,
     required this.title,
+    this.backgroundColor,
+    this.icon,
     super.key,
   });
 
   final String title;
   final VoidCallback onPressed;
+  final Color? backgroundColor;
+  final Icon? icon;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.symmetric(horizontal: 3.0),
       child: OutlinedButton(
         onPressed: () => onPressed(),
         style: OutlinedButton.styleFrom(
-          backgroundColor: AppColors.surface(context),
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          backgroundColor: backgroundColor ?? AppColors.surface(context),
           side: BorderSide(
               width: 1.2,
               color: AppColors.addEvent.border(context)
@@ -30,6 +33,8 @@ class AddRemoveAllButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ?icon,
+            if (icon != null) SizedBox(width: 6,),
             Text(
               title,
               textAlign: TextAlign.left,

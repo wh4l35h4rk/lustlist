@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/pages/homepage.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/ui/controllers/theme_provider.dart';
+import 'package:lustlist/src/ui/theme_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 

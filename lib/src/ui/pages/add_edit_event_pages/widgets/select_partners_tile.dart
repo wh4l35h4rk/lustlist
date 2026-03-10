@@ -8,7 +8,7 @@ import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/ui/controllers/map_notifier.dart';
+import 'package:lustlist/src/ui/notifiers/map_notifier.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/all_events_list_tile.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/domain/entities/calendar_event.dart';
+import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 
 
 class AllEventsList extends StatelessWidget {
-  final List<CalendarEvent> list;
+  final List<CalendarEventWithOptions> list;
 
   const AllEventsList({
     required this.list,
@@ -22,7 +22,7 @@ class AllEventsList extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-            CalendarEvent event = list[index];
+            CalendarEventWithOptions event = list[index];
             return Column(
               children: [
                 index == 0 ? Padding(
@@ -33,7 +33,7 @@ class AllEventsList extends StatelessWidget {
                 ) : SizedBox.shrink(),
                 AllEventsListTile(
                   onTap: () => _onEventListTileTap(context, event),
-                  event: event,
+                  event: event.calendarEvent,
                 ),
                 Padding(
                   padding: AppInsets.divider,
@@ -49,11 +49,11 @@ class AllEventsList extends StatelessWidget {
   }
 
 
-  Future<void> _onEventListTileTap(BuildContext context, CalendarEvent event) async {
+  Future<void> _onEventListTileTap(BuildContext context, CalendarEventWithOptions event) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EventPage(event: event),
+        builder: (context) => EventPage(event: event.calendarEvent),
       ),
     );
   }

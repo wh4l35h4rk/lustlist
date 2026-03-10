@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/enums/type.dart';
+import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/ui/controllers/event_notifier.dart';
+import 'package:lustlist/src/domain/entities/event_with_options.dart';
+import 'package:lustlist/src/domain/entities/filter_data.dart';
+import 'package:lustlist/src/domain/entities/filter_query.dart';
+import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -9,7 +13,6 @@ import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/filter_controller.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/selectable_value_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/type_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
@@ -18,7 +21,6 @@ import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
@@ -37,13 +39,30 @@ class AllEventsPage extends StatefulWidget {
 class _AllEventsPageState extends State<AllEventsPage> {
   bool _isLoading = true;
   bool _isError = false;
-  List<CalendarEvent>? events;
-
-  List<EOption>? contraceptionOptions;
+  List<CalendarEventWithOptions>? events;
 
   final _typeFilterController = FilterController<EventType>(
-      allValuesList: EventType.entries,
-      selectedValuesList: EventType.entries);
+    allValuesList: EventType.entries,
+    selectedValuesList: EventType.entries,
+    isEnabledInitially: true
+  );
+
+  FilterController<EOption>? _contraceptionFilterController;
+  FilterController<EOption>? _practicesFilterController;
+  FilterController<EOption>? _posesFilterController;
+  FilterController<EOption>? _placeFilterController;
+  FilterController<EOption>? _ejaculationFilterController;
+  FilterController<EOption>? _complicaciesFilterController;
+  // FilterController<EOption>? _medicalFilterController;
+
+  bool get _filtersReady =>
+      _contraceptionFilterController != null &&
+          _practicesFilterController != null &&
+          _posesFilterController != null &&
+          _placeFilterController != null &&
+          _ejaculationFilterController != null &&
+          _complicaciesFilterController != null;
+          // _medicalFilterController != null;
 
   @override
   void initState() {
@@ -71,19 +90,63 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
     try {
       final repo = EventRepository(database);
-      final eventsList = await repo.getEventsSortedDescList();
+      final eventsList = await repo.getEventsWithOptionsSortedDescList();
+
+      final contraceptionOptions = await repo.getCategoryOptions("contraception");
+      final practicesOptions = await repo.getCategoryOptions("practices");
+      final posesOptions = await repo.getCategoryOptions("poses");
+      final placeOptions = await repo.getCategoryOptions("place");
+      final ejaculationOptions = await repo.getCategoryOptions("ejaculation");
+      final complicaciesOptions = await repo.getCategoryOptions("complicacies");
+      // final medicalOptions = await repo.getCategoryOptions("sti");
+
+      if (!mounted) return;
 
       setState(() {
         events = eventsList;
-        _isLoading = false;
+
+        _contraceptionFilterController = FilterController<EOption>(
+            allValuesList: contraceptionOptions,
+            selectedValuesList: contraceptionOptions
+        );
+        _practicesFilterController = FilterController<EOption>(
+            allValuesList: practicesOptions,
+            selectedValuesList: practicesOptions
+        );
+        _posesFilterController = FilterController<EOption>(
+            allValuesList: posesOptions,
+            selectedValuesList: posesOptions
+        );
+        _placeFilterController = FilterController<EOption>(
+            allValuesList: placeOptions,
+            selectedValuesList: placeOptions
+        );
+        _ejaculationFilterController = FilterController<EOption>(
+            allValuesList: ejaculationOptions,
+            selectedValuesList: ejaculationOptions
+        );
+        _complicaciesFilterController = FilterController<EOption>(
+            allValuesList: complicaciesOptions,
+            selectedValuesList: complicaciesOptions
+        );
+        // _medicalFilterController = FilterController<EOption>(
+        //     allValuesList: medicalOptions,
+        //     selectedValuesList: medicalOptions
+        // );
+
         _isError = false;
+        _isLoading = false;
       });
-    } catch (e) {
+    } catch (e, stack) {
+      debugPrint(e.toString());
+      debugPrint(stack.toString());
+
+      if (!mounted) return;
+
       setState(() {
         _isError = true;
         _isLoading = false;
       });
-      return;
     }
   }
 
@@ -101,43 +164,130 @@ class _AllEventsPageState extends State<AllEventsPage> {
         ),
         body: Stack(
             children: [
-              if (_isLoading)
-                Padding(
-                  padding: AppInsets.progressInList,
-                  child: Center(child: CircularProgressIndicator()),
-              ),
               if (_isError)
                 Padding(
                   padding: AppInsets.progressInList,
                   child: ErrorTile(),
+                ),
+              if ((_isLoading || !_filtersReady) && !_isError)
+                Padding(
+                  padding: AppInsets.progressInList,
+                  child: Center(child: CircularProgressIndicator()),
               ),
-              if (!_isLoading && !_isError)
-                ValueListenableBuilder(
-                  valueListenable: _typeFilterController.selectedValues,
-                  builder: (context, value, child) {
-                    List<CalendarEvent> filteredEvents;
-                    if (value.isEmpty) {
-                      filteredEvents = [];
-                    } else {
-                      filteredEvents = events!
-                        .where((e) => value.any((t) => t == e.type))
-                        .toList();
-                    }
+              if (!_isLoading && !_isError && _filtersReady)
+                AnimatedBuilder(
+                  animation: Listenable.merge([
+                    _typeFilterController.selectedValues,
+                    _typeFilterController.enabled,
+                    _contraceptionFilterController!.selectedValues,
+                    _contraceptionFilterController!.enabled,
+                    _practicesFilterController!.selectedValues,
+                    _practicesFilterController!.enabled,
+                    _posesFilterController!.selectedValues,
+                    _posesFilterController!.enabled,
+                    _placeFilterController!.selectedValues,
+                    _placeFilterController!.enabled,
+                    _ejaculationFilterController!.selectedValues,
+                    _ejaculationFilterController!.enabled,
+                    _complicaciesFilterController!.selectedValues,
+                    _complicaciesFilterController!.enabled
+                  ]),
+                  builder: (context, _) {
+                    List<CalendarEventWithOptions> filteredEvents;
+                    final query = FilterQuery(
+                      types: FilterData(
+                        values: _typeFilterController.values,
+                        isEnabled: _typeFilterController.isEnabled
+                      ),
+                      contraception: FilterData(
+                          values: _contraceptionFilterController!.values,
+                          isEnabled: _contraceptionFilterController!.isEnabled
+                      ),
+                      practices: FilterData(
+                          values: _practicesFilterController!.values,
+                          isEnabled: _practicesFilterController!.isEnabled
+                      ),
+                      places: FilterData(
+                          values: _placeFilterController!.values,
+                          isEnabled: _placeFilterController!.isEnabled
+                      ),
+                      poses: FilterData(
+                          values: _posesFilterController!.values,
+                          isEnabled: _posesFilterController!.isEnabled
+                      ),
+                      complicacies: FilterData(
+                          isEnabled: _complicaciesFilterController!.isEnabled,
+                          values: _complicaciesFilterController!.values,
+                      ),
+                      ejaculation: FilterData(
+                        isEnabled: _ejaculationFilterController!.isEnabled,
+                        values: _ejaculationFilterController!.values,
+                      ),
+                      // medical: FilterData(
+                      //   isEnabled: _medicalFilterController!.isEnabled,
+                      //   values: _medicalFilterController!.values,
+                      // ),
+                    );
+                    filteredEvents = query.filter(events!);
+
+                    List<FilterButton> buttonList = [
+                      FilterButton<EventType>(
+                        title: DataStrings.type,
+                        controller: _typeFilterController,
+                        nameBuilder: (e) => e.name,
+                        canBeDisabled: false,
+                      ),
+                      // FilterButton<EOption>(
+                      //   title: DataStrings.medical,
+                      //   controller: _medicalFilterController!,
+                      //   nameBuilder: (e) => e.name,
+                      // ),
+                      FilterButton<EOption>(
+                        title: DataStrings.contraception,
+                        controller: _contraceptionFilterController!,
+                        nameBuilder: (e) => e.name,
+                      ),
+                      FilterButton<EOption>(
+                        title: DataStrings.practices,
+                        controller: _practicesFilterController!,
+                        nameBuilder: (e) => e.name,
+                      ),
+                      FilterButton<EOption>(
+                        title: DataStrings.poses,
+                        controller: _posesFilterController!,
+                        nameBuilder: (e) => e.name,
+                      ),
+                      FilterButton<EOption>(
+                        title: DataStrings.place,
+                        controller: _placeFilterController!,
+                        nameBuilder: (e) => e.name,
+                      ),
+                      FilterButton<EOption>(
+                        title: DataStrings.ejaculation,
+                        controller: _ejaculationFilterController!,
+                        nameBuilder: (e) => e.name,
+                      ),
+                      FilterButton<EOption>(
+                        title: DataStrings.complicacies,
+                        controller: _complicaciesFilterController!,
+                        nameBuilder: (e) => e.name,
+                      ),
+                    ];
 
                     return Column(
                       spacing: 10,
                       children: [
                         SizedBox.shrink(),
-                        // BasicTile(
-                        //   surfaceColor: AppColors.filterSurface(context),
-                        //   child: Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: [
-                        //
-                        //     ]
-                        //   )
-                        // ),
-                        TypeFilterButton(controller: _typeFilterController),
+                        SizedBox(
+                          height: 35,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                            itemBuilder: (context, index) => buttonList[index],
+                            separatorBuilder: (context, int index) => SizedBox(width: 8),
+                            itemCount: buttonList.length,
+                          ),
+                        ),
                         AllEventsList(list: filteredEvents)
                       ]
                     );
@@ -156,26 +306,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
     );
   }
 
-
-  Widget typeButtonList(BuildContext context) {
-    List<Widget> buttonList = List.generate(
-      EventType.entries.length,
-        (index) => SelectableValueButton(
-          controller: _typeFilterController, 
-          value: EventType.entries[index], 
-          title: EventType.entries[index].name
-        )
-    );
-
-    return Scrollbar(
-      thickness: 1,
-      radius: Radius.circular(20),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: buttonList
-      ),
-    );
-  }
 
   Future<void> _onAddEventTap(int index) async {
     StatefulWidget widget;

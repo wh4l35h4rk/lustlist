@@ -54,4 +54,6 @@ class MiscStrings {
   static String get selected => "Selected";
   static String get notSelected => "Not selected";
 
+  static String get filterDisabled => "Filter is disabled";
+
 }
