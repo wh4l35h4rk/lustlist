@@ -16,7 +16,7 @@ class DataStrings {
   static const String myOrgasms = "My orgasms";
 
   static const String sti = "STI";
-  static const String obgyn = "ONG-GYN visit";
+  static const String obgyn = "OB-GYN visit";
 
   static const String types = "Types";
   static const String contraception = "Contraception";
@@ -30,7 +30,7 @@ class DataStrings {
 
   static String get toys => "Toys";
 
-  static String get sexFilter => "Sexual event options";
-  static String get mstbFilter => "Solo event options";
-  static String get medicalFilter => "Medical event options";
+  static String get sexFilter => "Sexual events options";
+  static String get mstbFilter => "Solo events options";
+  static String get medicalFilter => "Medical events options";
 }

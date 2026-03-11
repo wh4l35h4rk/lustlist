@@ -16,7 +16,7 @@ import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/filter_controller.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_expansion_panel.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/type_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
@@ -262,7 +262,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        FilterGroupExpansionPanel(
+                        FilterGroupPanelList(
                           headersList: [
                             DataStrings.sexFilter,
                             DataStrings.mstbFilter,
