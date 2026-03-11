@@ -29,4 +29,8 @@ class DataStrings {
   static const String source = "Source code";
 
   static String get toys => "Toys";
+
+  static String get sexFilter => "Sexual event options";
+  static String get mstbFilter => "Solo event options";
+  static String get medicalFilter => "Medical event options";
 }

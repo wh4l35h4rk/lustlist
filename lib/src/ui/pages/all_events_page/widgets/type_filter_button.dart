@@ -35,8 +35,6 @@ class FilterButton<T> extends StatelessWidget {
           ? controller.isEnabled
           : !controller.allSelected();
 
-        if (!canBeDisabled) print(changesApplied);
-
         return OutlinedButton(
           style: OutlinedButton.styleFrom(
             backgroundColor: changesApplied

@@ -5,36 +5,44 @@ import 'package:lustlist/src/domain/entities/filter_data.dart';
 
 class FilterQuery {
   final FilterData<EventType> types;
+  final FilterData<Partner> partners;
   final FilterData<EOption> contraception;
   final FilterData<EOption> practices;
   final FilterData<EOption> poses;
   final FilterData<EOption> places;
   final FilterData<EOption> complicacies;
   final FilterData<EOption> ejaculation;
-  // final FilterData<EOption> medical;
+  final FilterData<EOption> soloPractices;
+  final FilterData<EOption> sti;
+  final FilterData<EOption> obgyn;
 
   FilterQuery({
     required this.types,
-    // required this.partners,
+    required this.partners,
     required this.contraception,
     required this.practices,
     required this.poses,
     required this.places,
     required this.complicacies,
     required this.ejaculation,
-    // required this.medical,
+    required this.soloPractices,
+    required this.sti,
+    required this.obgyn
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
     return events.where((event) =>
       (!types.isEnabled || types.values.contains(event.calendarEvent.type)) &&
+      (!partners.isEnabled || _containsAny(event.calendarEvent.getPartners(), partners.values)) &&
       (!contraception.isEnabled || _containsAny(event.options, contraception.values)) &&
       (!practices.isEnabled || _containsAny(event.options, practices.values)) &&
       (!poses.isEnabled || _containsAny(event.options, poses.values)) &&
       (!places.isEnabled || _containsAny(event.options, places.values)) &&
       (!ejaculation.isEnabled || _containsAny(event.options, ejaculation.values)) &&
       (!complicacies.isEnabled || _containsAny(event.options, complicacies.values)) &&
-      // (!medical.isEnabled || _containsAny(event.options, medical.values)) &&
+      (!soloPractices.isEnabled || _containsAny(event.options, soloPractices.values)) &&
+      (!sti.isEnabled || _containsAny(event.options, sti.values)) &&
+      (!obgyn.isEnabled || _containsAny(event.options, obgyn.values)) &&
       true
     ).toList();
   }
