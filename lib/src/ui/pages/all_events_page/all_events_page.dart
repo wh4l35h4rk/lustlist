@@ -20,6 +20,7 @@ import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_input_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/options_filter_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/rating_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -53,7 +54,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
     isEnabledInitially: true
   );
 
-  final _ratingController = NumericFilterController();
+  late final _ratingFilterController = SelectableFilterController<int>(
+    allValuesList: ratingValues,
+    selectedValuesList: ratingValues,
+  );
 
   SelectableFilterController<Partner>? _partnersFilterController;
   SelectableFilterController<EOption>? _contraceptionFilterController;
@@ -266,27 +270,26 @@ class _AllEventsPageState extends State<AllEventsPage> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        // SizedBox(
-                        //   height: 35,
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         OptionsFilterButton<EventType>(
-                        //           title: DataStrings.rating,
-                        //           controller: _typeFilterController,
-                        //           nameBuilder: (e) => e.name,
-                        //         ),
-                        //         IntInputFilterButton(
-                        //           title: DataStrings.myOrgasms,
-                        //           controller: _ratingController,
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(height: 10),
+                        SizedBox(
+                          height: 35,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RatingFilterButton(
+                                  title: DataStrings.rating,
+                                  controller: _ratingFilterController
+                                ),
+                                // IntInputFilterButton(
+                                //   title: DataStrings.myOrgasms,
+                                //   controller: _ratingController,
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
                         FilterGroupPanelList(
                           headersList: [
                             DataStrings.sexFilter,
@@ -387,12 +390,18 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _stiFilterController!.enabled,
       _obgynFilterController!.selectedValues,
       _obgynFilterController!.enabled,
+      _ratingFilterController.selectedValues,
+      _ratingFilterController.enabled
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
       types: FilterData(
         values: _typeFilterController.values,
         isEnabled: _typeFilterController.isEnabled
+      ),
+      rating: FilterData(
+        isEnabled: _ratingFilterController.isEnabled,
+        values: _ratingFilterController.values
       ),
       partners: FilterData(
         values: _partnersFilterController!.values,
@@ -504,4 +513,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
       nameBuilder: (e) => e.name,
     ),
   ];
+
+  List<int> get ratingValues => List.generate(5, (var i) => i + 1);
 }

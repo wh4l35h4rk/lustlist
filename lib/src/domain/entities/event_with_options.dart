@@ -12,4 +12,8 @@ class CalendarEventWithOptions {
   String toString() {
     return '$calendarEvent, $options';
   }
+
+  bool hasData() {
+    return calendarEvent.data != null;
+  }
 }
