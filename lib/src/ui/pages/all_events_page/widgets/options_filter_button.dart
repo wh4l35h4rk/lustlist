@@ -6,11 +6,12 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/ui/controllers/filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/add_remove_all_button.dart';
+import 'package:lustlist/src/core/widgets/droplist_button.dart';
 
-class FilterButton<T> extends StatelessWidget {
-  const FilterButton({
+class OptionsFilterButton<T> extends StatelessWidget {
+  const OptionsFilterButton({
     required this.title,
     required this.controller,
     required this.nameBuilder,
@@ -19,7 +20,7 @@ class FilterButton<T> extends StatelessWidget {
   });
 
   final String title;
-  final FilterController<T> controller;
+  final SelectableFilterController<T> controller;
   final String Function(T value) nameBuilder;
   final bool canBeDisabled;
 
@@ -35,27 +36,14 @@ class FilterButton<T> extends StatelessWidget {
           ? controller.isEnabled
           : !controller.allSelected();
 
-        return OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            backgroundColor: changesApplied
-                ? AppColors.filterSurface(context)
-                : AppColors.surface(context),
-            side: BorderSide(
-                width: 1.2,
-                color: AppColors.addEvent.border(context)
-            ),
-          ),
+        return DroplistButton(
+          title: title,
+          backgroundColor: changesApplied
+              ? AppColors.filterSurface(context)
+              : AppColors.surface(context),
           onPressed: () {
             buildTypesBottomSheet(context);
           },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 6,
-            children: [
-              Text(title),
-              Icon(AppIconData.dropList)
-            ],
-          )
         );
       }
     );
@@ -146,7 +134,7 @@ class FilterButton<T> extends StatelessWidget {
                 ],
               ),
             ),
-            ValuesListView<T>(
+            _ValuesListView<T>(
               controller: controller,
               list: list,
               nameBuilder: nameBuilder,
@@ -160,15 +148,14 @@ class FilterButton<T> extends StatelessWidget {
 }
 
 
-class ValuesListView<T> extends StatelessWidget {
-  const ValuesListView({
-    super.key,
+class _ValuesListView<T> extends StatelessWidget {
+  const _ValuesListView({
     required this.controller,
     required this.list,
     required this.nameBuilder,
   });
 
-  final FilterController<T> controller;
+  final SelectableFilterController<T> controller;
   final List<T> list;
   final String Function(T value) nameBuilder;
 

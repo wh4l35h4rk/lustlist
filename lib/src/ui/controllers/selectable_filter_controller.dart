@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import '../notifiers/list_notifier.dart';
 
-class FilterController<T> {
+class SelectableFilterController<T> {
   late final List<T> allValues;
   final ListNotifier<T> selectedValues = ListNotifier<T>();
   final ValueNotifier<bool> enabled = ValueNotifier(false);
 
-  FilterController({
+  SelectableFilterController({
     required List<T> allValuesList,
     required List<T>? selectedValuesList,
     bool? isEnabledInitially,

@@ -9,3 +9,5 @@ const appTitle = "LustList";
 
 final defaultDate = DateTime(1970, 1, 1, 0, 0, 0);
 final minBirthday = DateTime(kToday.year - 120, 1, 1, 0, 0, 0);
+
+final maxOrgasms = 11;

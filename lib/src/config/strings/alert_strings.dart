@@ -12,4 +12,6 @@ class AlertStrings {
   static const String nameTooLong = 'Your name extends maximal length!';
   static const String noPartnersPassed = "No partners for this event.";
   static const String noPartners = "You haven't added any partners yet!";
+
+  static const String invalidValue = "Invalid value";
 }

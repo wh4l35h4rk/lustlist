@@ -8,16 +8,18 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
+import 'package:lustlist/src/ui/controllers/numeric_filter_controller.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/ui/controllers/filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/type_filter_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_input_filter_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/options_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -45,22 +47,24 @@ class _AllEventsPageState extends State<AllEventsPage> {
   bool _isError = false;
   List<CalendarEventWithOptions>? events;
 
-  final _typeFilterController = FilterController<EventType>(
+  final _typeFilterController = SelectableFilterController<EventType>(
     allValuesList: EventType.entries,
     selectedValuesList: EventType.entries,
     isEnabledInitially: true
   );
 
-  FilterController<Partner>? _partnersFilterController;
-  FilterController<EOption>? _contraceptionFilterController;
-  FilterController<EOption>? _practicesFilterController;
-  FilterController<EOption>? _soloPracticesFilterController;
-  FilterController<EOption>? _posesFilterController;
-  FilterController<EOption>? _placeFilterController;
-  FilterController<EOption>? _ejaculationFilterController;
-  FilterController<EOption>? _complicaciesFilterController;
-  FilterController<EOption>? _stiFilterController;
-  FilterController<EOption>? _obgynFilterController;
+  final _ratingController = NumericFilterController();
+
+  SelectableFilterController<Partner>? _partnersFilterController;
+  SelectableFilterController<EOption>? _contraceptionFilterController;
+  SelectableFilterController<EOption>? _practicesFilterController;
+  SelectableFilterController<EOption>? _soloPracticesFilterController;
+  SelectableFilterController<EOption>? _posesFilterController;
+  SelectableFilterController<EOption>? _placeFilterController;
+  SelectableFilterController<EOption>? _ejaculationFilterController;
+  SelectableFilterController<EOption>? _complicaciesFilterController;
+  SelectableFilterController<EOption>? _stiFilterController;
+  SelectableFilterController<EOption>? _obgynFilterController;
 
   bool get _filtersReady =>
       _partnersFilterController != null &&
@@ -117,43 +121,43 @@ class _AllEventsPageState extends State<AllEventsPage> {
       setState(() {
         events = eventsList;
 
-        _partnersFilterController = FilterController<Partner>(
+        _partnersFilterController = SelectableFilterController<Partner>(
             allValuesList: partners,
             selectedValuesList: partners
         );
-        _contraceptionFilterController = FilterController<EOption>(
+        _contraceptionFilterController = SelectableFilterController<EOption>(
             allValuesList: contraceptionOptions,
             selectedValuesList: contraceptionOptions
         );
-        _practicesFilterController = FilterController<EOption>(
+        _practicesFilterController = SelectableFilterController<EOption>(
             allValuesList: practicesOptions,
             selectedValuesList: practicesOptions
         );
-        _soloPracticesFilterController = FilterController<EOption>(
+        _soloPracticesFilterController = SelectableFilterController<EOption>(
             allValuesList: soloPracticesOptions,
             selectedValuesList: practicesOptions
         );
-        _posesFilterController = FilterController<EOption>(
+        _posesFilterController = SelectableFilterController<EOption>(
             allValuesList: posesOptions,
             selectedValuesList: posesOptions
         );
-        _placeFilterController = FilterController<EOption>(
+        _placeFilterController = SelectableFilterController<EOption>(
             allValuesList: placeOptions,
             selectedValuesList: placeOptions
         );
-        _ejaculationFilterController = FilterController<EOption>(
+        _ejaculationFilterController = SelectableFilterController<EOption>(
             allValuesList: ejaculationOptions,
             selectedValuesList: ejaculationOptions
         );
-        _complicaciesFilterController = FilterController<EOption>(
+        _complicaciesFilterController = SelectableFilterController<EOption>(
             allValuesList: complicaciesOptions,
             selectedValuesList: complicaciesOptions
         );
-        _stiFilterController = FilterController<EOption>(
+        _stiFilterController = SelectableFilterController<EOption>(
             allValuesList: stiOptions,
             selectedValuesList: stiOptions
         );
-        _obgynFilterController = FilterController<EOption>(
+        _obgynFilterController = SelectableFilterController<EOption>(
             allValuesList: obgynOptions,
             selectedValuesList: obgynOptions
         );
@@ -239,7 +243,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                FilterButton<EventType>(
+                                OptionsFilterButton<EventType>(
                                   title: DataStrings.type,
                                   controller: _typeFilterController,
                                   nameBuilder: (e) => e.name,
@@ -262,6 +266,27 @@ class _AllEventsPageState extends State<AllEventsPage> {
                           ),
                         ),
                         SizedBox(height: 10),
+                        // SizedBox(
+                        //   height: 35,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        //         OptionsFilterButton<EventType>(
+                        //           title: DataStrings.rating,
+                        //           controller: _typeFilterController,
+                        //           nameBuilder: (e) => e.name,
+                        //         ),
+                        //         IntInputFilterButton(
+                        //           title: DataStrings.myOrgasms,
+                        //           controller: _ratingController,
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 10),
                         FilterGroupPanelList(
                           headersList: [
                             DataStrings.sexFilter,
@@ -274,7 +299,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                             buildFilterList(medicalButtonList)
                           ],
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 20),
                         if (!hasEvents) noEventsText,
                         if (hasEvents && !hasFilteredEvents) noFilteredEventsText,
                         if (hasEvents && hasFilteredEvents) AllEventsList(list: filteredEvents)
@@ -411,69 +436,69 @@ class _AllEventsPageState extends State<AllEventsPage> {
       ),
     );
 
-  List<FilterButton> get sexButtonList => [
-    FilterButton<Partner>(
+  List<OptionsFilterButton> get sexButtonList => [
+    OptionsFilterButton<Partner>(
       title: PageTitleStrings.partners,
       controller: _partnersFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.contraception,
       controller: _contraceptionFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.practices,
       controller: _practicesFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.poses,
       controller: _posesFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.place,
       controller: _placeFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.ejaculation,
       controller: _ejaculationFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.complicacies,
       controller: _complicaciesFilterController!,
       nameBuilder: (e) => e.name,
     ),
   ];
 
-  List<FilterButton> get mstbButtonList => [
-    FilterButton<EOption>(
+  List<OptionsFilterButton> get mstbButtonList => [
+    OptionsFilterButton<EOption>(
       title: DataStrings.practices,
       controller: _soloPracticesFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.place,
       controller: _placeFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.complicacies,
       controller: _complicaciesFilterController!,
       nameBuilder: (e) => e.name,
     ),
   ];
 
-  List<FilterButton> get medicalButtonList => [
-    FilterButton<EOption>(
+  List<OptionsFilterButton> get medicalButtonList => [
+    OptionsFilterButton<EOption>(
       title: DataStrings.sti,
       controller: _stiFilterController!,
       nameBuilder: (e) => e.name,
     ),
-    FilterButton<EOption>(
+    OptionsFilterButton<EOption>(
       title: DataStrings.obgyn,
       controller: _obgynFilterController!,
       nameBuilder: (e) => e.name,

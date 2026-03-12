@@ -12,6 +12,9 @@ class AppColors {
   static Color primary(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
 
+  static Color enabledBorder(BuildContext context) =>
+      Theme.of(context).colorScheme.secondary;
+
   static Color icon(BuildContext context) =>
       Theme.of(context).colorScheme.secondary;
 

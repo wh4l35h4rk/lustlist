@@ -57,5 +57,7 @@ class MiscStrings {
   static String get notSelected => "Not selected";
 
   static String get filterDisabled => "Filter is disabled";
-
+  static String get start => "Start";
+  static String get end => "End";
+  static String get equals => "Equals";
 }

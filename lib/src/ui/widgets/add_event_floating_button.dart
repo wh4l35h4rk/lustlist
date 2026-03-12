@@ -16,6 +16,7 @@ class AddEventFloatingButton extends StatelessWidget {
     return MenuAnchor(
       builder: (BuildContext context, MenuController controller, Widget? child) {
         return FloatingActionButton(
+          elevation: 3,
           onPressed: () {
             if (controller.isOpen) {
               controller.close();
@@ -28,15 +29,15 @@ class AddEventFloatingButton extends StatelessWidget {
       },
       alignmentOffset: AppInsets.floatingButtonOffset,
       style: MenuStyle(
-          shape: WidgetStateProperty.all(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(20)
-              )
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(20)
           )
+        )
       ),
       menuChildren: List<MenuItemButton>.generate(
-          3,
-          (int index) => MenuItemButton(
+        3,
+        (int index) => MenuItemButton(
           onPressed: () {
             onEventTap(index);
           },
