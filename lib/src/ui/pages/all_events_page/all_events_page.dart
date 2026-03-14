@@ -184,25 +184,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
     }
   }
 
-  DateTimeRange? _selectedDateRange;
-
-  void _show() async {
-    final DateTimeRange? result = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2022, 1, 1),
-      lastDate: DateTime(2030, 12, 31),
-      currentDate: DateTime.now(),
-      saveText: 'Done',
-    );
-
-    if (result != null) {
-      // Rebuild the UI
-      print(result.start.toString());
-      setState(() {
-        _selectedDateRange = result;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -332,11 +313,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
               Positioned(
                 bottom: 20,
                 right: 20,
-                child: //AddEventFloatingButton(onEventTap: _onAddEventTap)
-                  FloatingActionButton(
-                  onPressed: _show,
-                  child: const Icon(Icons.date_range),
-                  ),
+                child: AddEventFloatingButton(onEventTap: _onAddEventTap)
               ),
             ]),
         bottomNavigationBar: MainBottomNavigationBar(
