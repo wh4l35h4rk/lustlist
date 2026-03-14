@@ -60,4 +60,8 @@ class MiscStrings {
   static String get start => "Start";
   static String get end => "End";
   static String get equals => "Equals";
+
+  static String get applyFilter => "Apply filter";
+  static String get clear => "Clear";
+
 }

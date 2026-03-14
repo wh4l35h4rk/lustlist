@@ -8,7 +8,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
-import 'package:lustlist/src/ui/controllers/numeric_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/date_filter_controller.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
@@ -16,9 +16,9 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/date_filter_buttom.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_input_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/options_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/rating_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
@@ -58,6 +58,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
     allValuesList: ratingValues,
     selectedValuesList: ratingValues,
   );
+
+  final _dateFilterController = DateFilterController();
 
   SelectableFilterController<Partner>? _partnersFilterController;
   SelectableFilterController<EOption>? _contraceptionFilterController;
@@ -182,6 +184,25 @@ class _AllEventsPageState extends State<AllEventsPage> {
     }
   }
 
+  DateTimeRange? _selectedDateRange;
+
+  void _show() async {
+    final DateTimeRange? result = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2022, 1, 1),
+      lastDate: DateTime(2030, 12, 31),
+      currentDate: DateTime.now(),
+      saveText: 'Done',
+    );
+
+    if (result != null) {
+      // Rebuild the UI
+      print(result.start.toString());
+      setState(() {
+        _selectedDateRange = result;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -277,14 +298,12 @@ class _AllEventsPageState extends State<AllEventsPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                DateFilterButton(
+                                  controller: _dateFilterController
+                                ),
                                 RatingFilterButton(
-                                  title: DataStrings.rating,
                                   controller: _ratingFilterController
                                 ),
-                                // IntInputFilterButton(
-                                //   title: DataStrings.myOrgasms,
-                                //   controller: _ratingController,
-                                // ),
                               ],
                             ),
                           ),
@@ -313,7 +332,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
               Positioned(
                 bottom: 20,
                 right: 20,
-                child: AddEventFloatingButton(onEventTap: _onAddEventTap)
+                child: //AddEventFloatingButton(onEventTap: _onAddEventTap)
+                  FloatingActionButton(
+                  onPressed: _show,
+                  child: const Icon(Icons.date_range),
+                  ),
               ),
             ]),
         bottomNavigationBar: MainBottomNavigationBar(
