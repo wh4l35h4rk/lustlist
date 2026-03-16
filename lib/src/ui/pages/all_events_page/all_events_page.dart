@@ -8,7 +8,9 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
+import 'package:lustlist/src/domain/entities/numeric_filter_data.dart';
 import 'package:lustlist/src/ui/controllers/date_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/numeric_filter_controller.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
@@ -19,6 +21,7 @@ import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/date_filter_buttom.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_input_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/options_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/rating_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
@@ -60,6 +63,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
   );
 
   final _dateFilterController = DateFilterController();
+  final _userOrgasmsFilterController = NumericFilterController();
 
   SelectableFilterController<Partner>? _partnersFilterController;
   SelectableFilterController<EOption>? _contraceptionFilterController;
@@ -187,6 +191,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: duration filter
+    //TODO: has notes filter
+    //TODO: partner's orgasm picker
+    //TODO: mstb special options
+
     return Scaffold(
         appBar: MainAppBar(
           title: PageTitleStrings.allEvents,
@@ -285,6 +294,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
                                 RatingFilterButton(
                                   controller: _ratingFilterController
                                 ),
+                                IntInputFilterButton(
+                                  title: DataStrings.myOrgasms,
+                                  controller: _userOrgasmsFilterController
+                                )
                               ],
                             ),
                           ),
@@ -391,58 +404,66 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _obgynFilterController!.selectedValues,
       _obgynFilterController!.enabled,
       _ratingFilterController.selectedValues,
-      _ratingFilterController.enabled
+      _ratingFilterController.enabled,
+      _userOrgasmsFilterController.enabled,
+      _userOrgasmsFilterController.startNotifier,
+      _userOrgasmsFilterController.endNotifier,
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
-      types: FilterData(
+      types: SelectableFilterData(
         values: _typeFilterController.values,
         isEnabled: _typeFilterController.isEnabled
       ),
-      rating: FilterData(
+      rating: SelectableFilterData(
         isEnabled: _ratingFilterController.isEnabled,
         values: _ratingFilterController.values
       ),
-      partners: FilterData(
+      partners: SelectableFilterData(
         values: _partnersFilterController!.values,
         isEnabled: _partnersFilterController!.isEnabled
       ),
-      contraception: FilterData(
+      contraception: SelectableFilterData(
         values: _contraceptionFilterController!.values,
         isEnabled: _contraceptionFilterController!.isEnabled
       ),
-      practices: FilterData(
+      practices: SelectableFilterData(
         values: _practicesFilterController!.values,
         isEnabled: _practicesFilterController!.isEnabled
       ),
-      soloPractices: FilterData(
+      soloPractices: SelectableFilterData(
         values: _soloPracticesFilterController!.values,
         isEnabled: _soloPracticesFilterController!.isEnabled
       ),
-      places: FilterData(
+      places: SelectableFilterData(
         values: _placeFilterController!.values,
         isEnabled: _placeFilterController!.isEnabled
       ),
-      poses: FilterData(
+      poses: SelectableFilterData(
         values: _posesFilterController!.values,
         isEnabled: _posesFilterController!.isEnabled
       ),
-      complicacies: FilterData(
+      complicacies: SelectableFilterData(
         isEnabled: _complicaciesFilterController!.isEnabled,
         values: _complicaciesFilterController!.values,
       ),
-      ejaculation: FilterData(
+      ejaculation: SelectableFilterData(
         isEnabled: _ejaculationFilterController!.isEnabled,
         values: _ejaculationFilterController!.values,
       ),
-      sti: FilterData(
+      sti: SelectableFilterData(
         isEnabled: _stiFilterController!.isEnabled,
         values: _stiFilterController!.values,
       ),
-      obgyn: FilterData(
+      obgyn: SelectableFilterData(
         isEnabled: _obgynFilterController!.isEnabled,
         values: _obgynFilterController!.values,
       ),
+      userOrgasms: NumericFilterData(
+          isEnabled: _userOrgasmsFilterController.isEnabled,
+          start: _userOrgasmsFilterController.start,
+          end: _userOrgasmsFilterController.end
+      )
     );
 
   List<OptionsFilterButton> get sexButtonList => [

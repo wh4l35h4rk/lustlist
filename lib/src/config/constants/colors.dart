@@ -50,6 +50,12 @@ class AppColors {
   static Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
 
   static Color divider(BuildContext context) => Theme.of(context).dividerColor;
+
+  static Color iconButtonSurface(BuildContext context) => colorBlend(
+      primary(context),
+      filterButton(context),
+      0.23
+  )!;
 }
 
 

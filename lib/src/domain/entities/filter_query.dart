@@ -2,20 +2,22 @@ import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
+import 'package:lustlist/src/domain/entities/numeric_filter_data.dart';
 
 class FilterQuery {
-  final FilterData<EventType> types;
-  final FilterData<int> rating;
-  final FilterData<Partner> partners;
-  final FilterData<EOption> contraception;
-  final FilterData<EOption> practices;
-  final FilterData<EOption> poses;
-  final FilterData<EOption> places;
-  final FilterData<EOption> complicacies;
-  final FilterData<EOption> ejaculation;
-  final FilterData<EOption> soloPractices;
-  final FilterData<EOption> sti;
-  final FilterData<EOption> obgyn;
+  final SelectableFilterData<EventType> types;
+  final SelectableFilterData<int> rating;
+  final SelectableFilterData<Partner> partners;
+  final SelectableFilterData<EOption> contraception;
+  final SelectableFilterData<EOption> practices;
+  final SelectableFilterData<EOption> poses;
+  final SelectableFilterData<EOption> places;
+  final SelectableFilterData<EOption> complicacies;
+  final SelectableFilterData<EOption> ejaculation;
+  final SelectableFilterData<EOption> soloPractices;
+  final SelectableFilterData<EOption> sti;
+  final SelectableFilterData<EOption> obgyn;
+  final NumericFilterData<int?> userOrgasms;
 
   FilterQuery({
     required this.types,
@@ -29,10 +31,12 @@ class FilterQuery {
     required this.ejaculation,
     required this.soloPractices,
     required this.sti,
-    required this.obgyn
+    required this.obgyn,
+    required this.userOrgasms
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
+    print(userOrgasms);
     return events.where((event) =>
         (!types.isEnabled || types.values.contains(event.calendarEvent.type)) &&
         (!partners.isEnabled || _containsAny(event.calendarEvent.getPartners(), partners.values)) &&
@@ -45,8 +49,11 @@ class FilterQuery {
         (!soloPractices.isEnabled || _containsAny(event.options, soloPractices.values)) &&
         (!sti.isEnabled || _containsAny(event.options, sti.values)) &&
         (!obgyn.isEnabled || _containsAny(event.options, obgyn.values)) &&
-        (!rating.isEnabled || _containsData(rating.values, event.calendarEvent.data?.rating)
-      )
+        (!rating.isEnabled || _containsData(rating.values, event.calendarEvent.data?.rating)) &&
+        (!userOrgasms.isEnabled || _inRange(
+            event.calendarEvent.data?.userOrgasms,
+            userOrgasms.start, userOrgasms.end
+        ))
     ).toList();
   }
 
@@ -58,5 +65,19 @@ class FilterQuery {
   bool _containsAny<T>(List<T> eventList, List<T> list){
     if (list.isEmpty && eventList.isEmpty) return true;
     return list.any((element) => eventList.contains(element));
+  }
+
+  bool _inRange(num? value, num? rangeStart, num? rangeEnd){
+    if (value == null) {
+      return rangeStart == null && rangeEnd == null;
+    } else {
+      if (rangeStart == null && rangeEnd == null) {
+        return false;
+      } else {
+        if (rangeStart == null && rangeEnd != null) return value <= rangeEnd;
+        if (rangeEnd == null && rangeStart != null) return value >= rangeStart;
+        return rangeStart! <= value && value <= rangeEnd!;
+      }
+    }
   }
 }

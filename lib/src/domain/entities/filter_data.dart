@@ -1,8 +1,8 @@
-class FilterData<T> {
+class SelectableFilterData<T> {
   final bool isEnabled;
   final List<T> values;
 
-  const FilterData({
+  const SelectableFilterData({
     required this.isEnabled,
     required this.values,
   });

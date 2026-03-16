@@ -6,7 +6,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/controllers/numeric_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/add_remove_all_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_form.dart';
 
@@ -28,10 +28,12 @@ class IntInputFilterButton extends StatelessWidget {
     return AnimatedBuilder(
       animation: Listenable.merge([
         controller.enabled,
+        controller.startNotifier,
+        controller.endNotifier
       ]),
       builder: (context, _) {
         bool changesApplied = canBeDisabled
-          ? controller.isEnabled && controller.hasValues
+          ? controller.isEnabled
           : !controller.hasValues;
 
         return DroplistButton(
@@ -91,40 +93,23 @@ class IntInputFilterButton extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Wrap(
-                          runSpacing: 8,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: controller.singleMode,
-                              builder: (context, value, child) {
-                                return AddRemoveAllButton(
-                                  title: value
-                                    ? "One value" : "Value range",
-                                  onPressed: () => {
-                                    controller.toggleMode()
-                                  },
-                                );
-                              }
-                            ),
-                            if (canBeDisabled) ValueListenableBuilder(
-                                valueListenable: controller.enabled,
-                                builder: (context, value, child) {
-                                  return AddRemoveAllButton(
-                                    title: ButtonStrings.filter,
-                                    onPressed: () => {
-                                      controller.toggleEnabled()
-                                    },
-                                    backgroundColor: controller.isEnabled
-                                        ? AppColors.filterButton(context)
-                                        : AppColors.surface(context),
-                                    icon: Icon(controller.isEnabled
-                                        ? AppIconData.selected
-                                        : AppIconData.notSelected
-                                    ),
-                                  );
-                                }
-                            ),
-                          ],
+                        if (canBeDisabled) ValueListenableBuilder(
+                          valueListenable: controller.enabled,
+                          builder: (context, value, child) {
+                            return FilterSettingsButton(
+                              title: ButtonStrings.filter,
+                              onPressed: () => {
+                                controller.toggleEnabled()
+                              },
+                              backgroundColor: controller.isEnabled
+                                  ? AppColors.filterButton(context)
+                                  : AppColors.surface(context),
+                              icon: Icon(controller.isEnabled
+                                  ? AppIconData.selected
+                                  : AppIconData.notSelected
+                              ),
+                            );
+                          }
                         ),
                       ],
                     ),
@@ -132,11 +117,11 @@ class IntInputFilterButton extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 15,),
             _NumericTextForm(
               controller: controller,
             ),
-            SizedBox(height: 80,)
+            SizedBox(height: 70,)
           ],
         );
       }
@@ -165,6 +150,29 @@ class _NumericTextForm extends StatelessWidget {
         var isEnabled = controller.isEnabled;
         var isSingleMode = controller.singleMode.value;
 
+        ValueListenableBuilder changeModeButton = ValueListenableBuilder(
+            valueListenable: controller.singleMode,
+            builder: (context, value, child) {
+              Icon icon = Icon(
+                value ? AppIconData.equals : AppIconData.range,
+                size: 15,
+                color: AppColors.surface(context),
+              );
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CircleAvatar(
+                  backgroundColor: AppColors.iconButtonSurface(context),
+                  child: IconButton(
+                    onPressed: () => {
+                      controller.toggleMode()
+                    },
+                    icon: icon,
+                  ),
+                ),
+              );
+            }
+        );
+
         Widget singleModeWidget = Center(
           child: SizedBox(
             width: width,
@@ -178,6 +186,7 @@ class _NumericTextForm extends StatelessWidget {
 
         Widget rangeModeWidget = Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               width: width,
@@ -198,7 +207,16 @@ class _NumericTextForm extends StatelessWidget {
             ),
           ],
         );
-        return isSingleMode ? singleModeWidget : rangeModeWidget;
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: isSingleMode ? singleModeWidget : rangeModeWidget
+            ),
+            changeModeButton
+          ],
+        );
       }
     );
   }

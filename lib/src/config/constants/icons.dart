@@ -72,4 +72,6 @@ class AppIconData {
   static const IconData notSelected = Icons.close;
   static const IconData dropList = Icons.keyboard_arrow_down_sharp;
   static const IconData noFilter = Icons.filter_alt_off;
+  static const IconData equals = CustomIcons.equals;
+  static const IconData range = CustomIcons.less_than_equal;
 }

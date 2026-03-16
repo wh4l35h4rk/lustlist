@@ -3,8 +3,8 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 
 
-class AddRemoveAllButton extends StatelessWidget {
-  const AddRemoveAllButton({
+class FilterSettingsButton extends StatelessWidget {
+  const FilterSettingsButton({
     required this.onPressed,
     required this.title,
     this.backgroundColor,

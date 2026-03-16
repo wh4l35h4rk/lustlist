@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/config/strings/misc_strings.dart';
 
 class IntForm extends StatefulWidget {
   final TextEditingController controller;
@@ -44,12 +44,15 @@ class _IntFormState extends State<IntForm> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12)
             ),
-            hintText: widget.hint,
+            hintText: MiscStrings.unknown,
             hintStyle: TextStyle(
                 fontSize: AppSizes.textBasic
             ),
-            labelText: widget.hint
+            labelText: widget.hint,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            helperText: " ",
         ),
+        controller: controller,
       ),
     );
   }
@@ -59,7 +62,7 @@ class _IntFormState extends State<IntForm> {
 
     try {
       int numericValue = int.parse(value);
-      if (numericValue >= 0 && numericValue <= maxOrgasms) {
+      if (numericValue >= 0) {
         return null;
       } else {
         return AlertStrings.invalidValue;

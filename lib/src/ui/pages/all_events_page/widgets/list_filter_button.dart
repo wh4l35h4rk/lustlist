@@ -7,7 +7,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/add_remove_all_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
 
 class ListFilterButton<T> extends StatelessWidget {
@@ -96,7 +96,7 @@ class ListFilterButton<T> extends StatelessWidget {
                           if (canBeDisabled) ValueListenableBuilder(
                               valueListenable: controller.enabled,
                               builder: (context, value, child) {
-                                return AddRemoveAllButton(
+                                return FilterSettingsButton(
                                   title: ButtonStrings.filter,
                                   onPressed: () => {
                                     controller.toggleEnabled()
@@ -114,13 +114,13 @@ class ListFilterButton<T> extends StatelessWidget {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              AddRemoveAllButton(
+                              FilterSettingsButton(
                                 title: ButtonStrings.selectAll,
                                 onPressed: () => {
                                   controller.addAll()
                                 },
                               ),
-                              AddRemoveAllButton(
+                              FilterSettingsButton(
                                 title: ButtonStrings.removeAll,
                                 onPressed: () => {
                                   controller.removeAll()
