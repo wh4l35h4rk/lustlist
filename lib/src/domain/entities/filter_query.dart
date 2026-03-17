@@ -18,6 +18,7 @@ class FilterQuery {
   final SelectableFilterData<EOption> sti;
   final SelectableFilterData<EOption> obgyn;
   final NumericFilterData<int?> userOrgasms;
+  final NumericFilterData<int?> partnerOrgasms;
   final NumericFilterData<int?> duration;
 
   FilterQuery({
@@ -35,6 +36,7 @@ class FilterQuery {
     required this.obgyn,
     required this.userOrgasms,
     required this.duration,
+    required this.partnerOrgasms,
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
@@ -58,6 +60,10 @@ class FilterQuery {
         (!duration.isEnabled || _inRange(
             event.calendarEvent.data?.duration,
             duration.start, duration.end
+        )) &&
+        (!partnerOrgasms.isEnabled || _listInRange(
+            event.calendarEvent.partnersMap?.values.toList(),
+            partnerOrgasms.start, partnerOrgasms.end
         ))
     ).toList();
   }
@@ -84,5 +90,10 @@ class FilterQuery {
         return rangeStart! <= value && value <= rangeEnd!;
       }
     }
+  }
+
+  bool _listInRange(List<num?>? list, num? rangeStart, num? rangeEnd){
+    if (list == null) return rangeStart == null && rangeEnd == null;
+    return list.any((element) => _inRange(element, rangeStart, rangeEnd));
   }
 }

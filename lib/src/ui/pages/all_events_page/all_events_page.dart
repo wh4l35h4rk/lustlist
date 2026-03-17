@@ -67,6 +67,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   final _dateFilterController = DateFilterController();
   final _userOrgasmsFilterController = NumericTextFilterController();
+  final _partnersOrgasmsFilterController = NumericTextFilterController();
   final _durationFilterController = NumericDurationFilterController();
 
   SelectableFilterController<Partner>? _partnersFilterController;
@@ -196,7 +197,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
   @override
   Widget build(BuildContext context) {
     //TODO: has notes filter
-    //TODO: partner's orgasm picker
     //TODO: mstb special options
     //TODO: partners gender
     //TODO: amount of partners
@@ -295,7 +295,13 @@ class _AllEventsPageState extends State<AllEventsPage> {
                             DataStrings.medicalFilter
                           ],
                           expandedBodiesList: [
-                            buildFilterList(sexButtonList),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                buildFilterList(sexButtonListTop),
+                                buildFilterList(sexButtonListBottom),
+                              ],
+                            ),
                             buildFilterList(mstbButtonList),
                             buildFilterList(medicalButtonList)
                           ],
@@ -365,6 +371,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
     _ratingFilterController.disable();
     _userOrgasmsFilterController.disable();
     _dateFilterController.disable();
+    _partnersOrgasmsFilterController.disable();
     return;
   }
 
@@ -400,6 +407,9 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _durationFilterController.enabled,
       _durationFilterController.startNotifier,
       _durationFilterController.endNotifier,
+      _partnersOrgasmsFilterController.enabled,
+      _partnersOrgasmsFilterController.startNotifier,
+      _partnersOrgasmsFilterController.endNotifier,
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
@@ -460,12 +470,24 @@ class _AllEventsPageState extends State<AllEventsPage> {
         isEnabled: _durationFilterController.isEnabled,
         start: _durationFilterController.start,
         end: _durationFilterController.end
-      )
+      ),
+      partnerOrgasms: NumericFilterData(
+        isEnabled: _partnersOrgasmsFilterController.isEnabled,
+        start: _partnersOrgasmsFilterController.start,
+        end: _partnersOrgasmsFilterController.end
+      ),
     );
 
   List<Widget> get generalButtonList => [
     DateFilterButton(
       controller: _dateFilterController
+    ),
+    NumericFilterButton(
+      title: DataStrings.duration,
+      controller: _durationFilterController,
+      child: DurationInputBody(
+        controller: _durationFilterController,
+      )
     ),
     RatingFilterButton(
       controller: _ratingFilterController
@@ -477,21 +499,24 @@ class _AllEventsPageState extends State<AllEventsPage> {
           controller: _userOrgasmsFilterController,
         )
     ),
-    NumericFilterButton(
-      title: DataStrings.duration,
-      controller: _durationFilterController,
-      child: DurationInputBody(
-        controller: _durationFilterController,
-      )
-    )
   ];
-
-  List<OptionsFilterButton> get sexButtonList => [
+  
+  List<Widget> get sexButtonListTop => [
     OptionsFilterButton<Partner>(
       title: PageTitleStrings.partners,
       controller: _partnersFilterController!,
       nameBuilder: (e) => e.name,
     ),
+    NumericFilterButton(
+      title: DataStrings.partnerOrgasms,
+      controller: _partnersOrgasmsFilterController,
+      child: NumericTextInputBody(
+        controller: _partnersOrgasmsFilterController,
+      )
+    ),
+  ];
+
+  List<OptionsFilterButton> get sexButtonListBottom => [
     OptionsFilterButton<EOption>(
       title: DataStrings.contraception,
       controller: _contraceptionFilterController!,

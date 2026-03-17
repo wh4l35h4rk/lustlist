@@ -14,6 +14,7 @@ class DataStrings {
   static const String rating = "Rating";
   static const String duration = "Duration";
   static const String myOrgasms = "My orgasms";
+  static const String partnerOrgasms = "Partner's orgasms";
 
   static const String sti = "STI";
   static const String obgyn = "OB-GYN visit";
