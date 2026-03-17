@@ -17,14 +17,24 @@ class TimePicker extends StatefulWidget {
   });
 
   @override
-  State<TimePicker> createState() => _TimePickerState();
+  State<TimePicker> createState() => TimePickerState();
 }
 
-class _TimePickerState extends State<TimePicker> {
+class TimePickerState<T extends TimePicker> extends State<T> {
   DateTime get time => widget.controller.time;
   int get type => widget.type;
 
-  void _showDialog(Widget child) {
+  void showDialog() {
+    Widget child = CupertinoDatePicker(
+      initialDateTime: time,
+      minuteInterval: 5,
+      mode: CupertinoDatePickerMode.time,
+      use24hFormat: true,
+      onDateTimeChanged: (DateTime newValue) {
+        setState(() => widget.controller.setTime(newValue));
+      },
+    );
+
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => Container(
@@ -48,17 +58,7 @@ class _TimePickerState extends State<TimePicker> {
       child: SizedBox(
         height: 24,
         child: CupertinoButton(
-          onPressed: () => _showDialog(
-            CupertinoDatePicker(
-              initialDateTime: time,
-              minuteInterval: 5,
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              onDateTimeChanged: (DateTime newValue) {
-                setState(() => widget.controller.setTime(newValue));
-              },
-            ),
-          ),
+          onPressed: () => showDialog(),
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
             type == 1 ? StringFormatter.duration(

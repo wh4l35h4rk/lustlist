@@ -3,24 +3,24 @@ import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/ui/controllers/numeric_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/numeric_filter_controller_base.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_form.dart';
 
 
-class IntInputFilterButton extends StatelessWidget {
-  const IntInputFilterButton({
+class NumericFilterButton extends StatelessWidget {
+  const NumericFilterButton({
     required this.title,
     required this.controller,
+    required this.child,
     this.canBeDisabled = true,
     super.key,
   });
 
   final String title;
-  final NumericFilterController controller;
+  final NumericFilterControllerBase controller;
+  final Widget child;
   final bool canBeDisabled;
 
   @override
@@ -118,103 +118,8 @@ class IntInputFilterButton extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15,),
-            _NumericTextForm(
-              controller: controller,
-            ),
+            child,
             SizedBox(height: 70,)
-          ],
-        );
-      }
-    );
-  }
-}
-
-
-class _NumericTextForm extends StatelessWidget {
-  const _NumericTextForm({
-    required this.controller,
-  });
-
-  final NumericFilterController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    double width = 150;
-
-    return AnimatedBuilder(
-      animation: Listenable.merge([
-        controller.enabled,
-        controller.singleMode,
-      ]),
-      builder: (context, _) {
-        var isEnabled = controller.isEnabled;
-        var isSingleMode = controller.singleMode.value;
-
-        ValueListenableBuilder changeModeButton = ValueListenableBuilder(
-            valueListenable: controller.singleMode,
-            builder: (context, value, child) {
-              Icon icon = Icon(
-                value ? AppIconData.equals : AppIconData.range,
-                size: 15,
-                color: AppColors.surface(context),
-              );
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CircleAvatar(
-                  backgroundColor: AppColors.iconButtonSurface(context),
-                  child: IconButton(
-                    onPressed: () => {
-                      controller.toggleMode()
-                    },
-                    icon: icon,
-                  ),
-                ),
-              );
-            }
-        );
-
-        Widget singleModeWidget = Center(
-          child: SizedBox(
-            width: width,
-            child: IntForm(
-              isEnabled: isEnabled,
-              controller: controller.startController,
-              hint: MiscStrings.equals,
-            )
-          ),
-        );
-
-        Widget rangeModeWidget = Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: width,
-              child: IntForm(
-                isEnabled: isEnabled,
-                controller: controller.startController,
-                hint: MiscStrings.start,
-              )
-            ),
-            SizedBox(width: 15),
-            SizedBox(
-              width: width,
-              child: IntForm(
-                isEnabled: isEnabled,
-                controller: controller.endController,
-                hint: MiscStrings.end,
-              )
-            ),
-          ],
-        );
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: isSingleMode ? singleModeWidget : rangeModeWidget
-            ),
-            changeModeButton
           ],
         );
       }

@@ -18,6 +18,7 @@ class FilterQuery {
   final SelectableFilterData<EOption> sti;
   final SelectableFilterData<EOption> obgyn;
   final NumericFilterData<int?> userOrgasms;
+  final NumericFilterData<int?> duration;
 
   FilterQuery({
     required this.types,
@@ -32,11 +33,11 @@ class FilterQuery {
     required this.soloPractices,
     required this.sti,
     required this.obgyn,
-    required this.userOrgasms
+    required this.userOrgasms,
+    required this.duration,
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
-    print(userOrgasms);
     return events.where((event) =>
         (!types.isEnabled || types.values.contains(event.calendarEvent.type)) &&
         (!partners.isEnabled || _containsAny(event.calendarEvent.getPartners(), partners.values)) &&
@@ -53,6 +54,10 @@ class FilterQuery {
         (!userOrgasms.isEnabled || _inRange(
             event.calendarEvent.data?.userOrgasms,
             userOrgasms.start, userOrgasms.end
+        )) &&
+        (!duration.isEnabled || _inRange(
+            event.calendarEvent.data?.duration,
+            duration.start, duration.end
         ))
     ).toList();
   }

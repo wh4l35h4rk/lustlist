@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lustlist/src/ui/controllers/numeric_filter_controller_base.dart';
 
-class NumericFilterController{
-  final ValueNotifier<bool> enabled = ValueNotifier(false);
-  final ValueNotifier<bool> singleMode = ValueNotifier(false);
-
+class NumericTextFilterController extends NumericFilterControllerBase{
   final TextEditingController startController = TextEditingController();
   final TextEditingController endController = TextEditingController();
-  late final ValueNotifier<int?> startNotifier = ValueNotifier(start);
-  late final ValueNotifier<int?> endNotifier = ValueNotifier(end);
 
-  NumericFilterController({
+  NumericTextFilterController({
     bool? isEnabledInitially,
   }) {
     enabled.value = isEnabledInitially ?? false;
@@ -22,27 +18,16 @@ class NumericFilterController{
     });
   }
 
+  @override
   int? get start {
     if (startController.text == "") return null;
     return int.parse(startController.text);
   }
+
+  @override
   int? get end {
     if (isSingleValueMode) return start;
     if (endController.text == "") return null;
     return int.parse(endController.text);
-  }
-  bool get isEnabled => enabled.value;
-  bool get hasValues => start != null || end != null;
-  bool get isSingleValueMode => singleMode.value;
-
-  void toggleEnabled() {
-    enabled.value = !enabled.value;
-  }
-  void disable(){
-    enabled.value = false;
-  }
-
-  void toggleMode(){
-    singleMode.value = !singleMode.value;
   }
 }

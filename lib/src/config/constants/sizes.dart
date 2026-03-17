@@ -10,6 +10,7 @@ class AppSizes {
   static const double titleLarge = 18;
   static const double titleSmall = 16;
   static const double textBasic = 14;
+  static const double textSmall = textBasic - 2;
 
   static const double eventCounter = 25;
 

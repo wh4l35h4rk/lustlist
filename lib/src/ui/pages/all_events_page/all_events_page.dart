@@ -10,7 +10,8 @@ import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
 import 'package:lustlist/src/domain/entities/numeric_filter_data.dart';
 import 'package:lustlist/src/ui/controllers/date_filter_controller.dart';
-import 'package:lustlist/src/ui/controllers/numeric_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/numeric_duration_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/numeric_text_filter_controller.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
@@ -18,10 +19,12 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/date_filter_buttom.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/date_filter_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/duration_input_body.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_input_filter_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/numeric_filter_button.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/numeric_text_input_body.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/options_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/rating_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
@@ -63,7 +66,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
   );
 
   final _dateFilterController = DateFilterController();
-  final _userOrgasmsFilterController = NumericFilterController();
+  final _userOrgasmsFilterController = NumericTextFilterController();
+  final _durationFilterController = NumericDurationFilterController();
 
   SelectableFilterController<Partner>? _partnersFilterController;
   SelectableFilterController<EOption>? _contraceptionFilterController;
@@ -191,10 +195,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: duration filter
     //TODO: has notes filter
     //TODO: partner's orgasm picker
     //TODO: mstb special options
+    //TODO: partners gender
+    //TODO: amount of partners
 
     return Scaffold(
         appBar: MainAppBar(
@@ -281,27 +286,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        SizedBox(
-                          height: 35,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DateFilterButton(
-                                  controller: _dateFilterController
-                                ),
-                                RatingFilterButton(
-                                  controller: _ratingFilterController
-                                ),
-                                IntInputFilterButton(
-                                  title: DataStrings.myOrgasms,
-                                  controller: _userOrgasmsFilterController
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        buildFilterList(generalButtonList),
                         SizedBox(height: 10),
                         FilterGroupPanelList(
                           headersList: [
@@ -408,6 +393,9 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _userOrgasmsFilterController.enabled,
       _userOrgasmsFilterController.startNotifier,
       _userOrgasmsFilterController.endNotifier,
+      _durationFilterController.enabled,
+      _durationFilterController.startNotifier,
+      _durationFilterController.endNotifier,
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
@@ -460,11 +448,39 @@ class _AllEventsPageState extends State<AllEventsPage> {
         values: _obgynFilterController!.values,
       ),
       userOrgasms: NumericFilterData(
-          isEnabled: _userOrgasmsFilterController.isEnabled,
-          start: _userOrgasmsFilterController.start,
-          end: _userOrgasmsFilterController.end
+        isEnabled: _userOrgasmsFilterController.isEnabled,
+        start: _userOrgasmsFilterController.start,
+        end: _userOrgasmsFilterController.end
+      ),
+      duration: NumericFilterData(
+        isEnabled: _durationFilterController.isEnabled,
+        start: _durationFilterController.start,
+        end: _durationFilterController.end
       )
     );
+
+  List<Widget> get generalButtonList => [
+    DateFilterButton(
+      controller: _dateFilterController
+    ),
+    RatingFilterButton(
+      controller: _ratingFilterController
+    ),
+    NumericFilterButton(
+        title: DataStrings.myOrgasms,
+        controller: _userOrgasmsFilterController,
+        child: NumericTextInputBody(
+          controller: _userOrgasmsFilterController,
+        )
+    ),
+    NumericFilterButton(
+      title: DataStrings.duration,
+      controller: _durationFilterController,
+      child: DurationInputBody(
+        controller: _durationFilterController,
+      )
+    )
+  ];
 
   List<OptionsFilterButton> get sexButtonList => [
     OptionsFilterButton<Partner>(
