@@ -11,4 +11,8 @@ class DateFilterController{
   void set(DateTimeRange? newValue) {
     rangeNotifier.value = newValue;
   }
+
+  void disable() {
+    set(null);
+  }
 }

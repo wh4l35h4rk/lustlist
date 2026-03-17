@@ -361,6 +361,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
     _placeFilterController!.disable();
     _ejaculationFilterController!.disable();
     _complicaciesFilterController!.disable();
+    _durationFilterController.disable();
+    _ratingFilterController.disable();
+    _userOrgasmsFilterController.disable();
+    _dateFilterController.disable();
     return;
   }
 
