@@ -114,15 +114,15 @@ class _AllEventsPageState extends State<AllEventsPage> {
       final eventsList = await repo.getEventsWithOptionsSortedDescList();
       final partners = await repo.getPartnersSorted(true);
 
-      final contraceptionOptions = await repo.getCategoryOptions("contraception");
-      final practicesOptions = await repo.getCategoryOptions("practices");
-      final soloPracticesOptions = await repo.getCategoryOptions("solo practices");
-      final posesOptions = await repo.getCategoryOptions("poses");
-      final placeOptions = await repo.getCategoryOptions("place");
-      final ejaculationOptions = await repo.getCategoryOptions("ejaculation");
-      final complicaciesOptions = await repo.getCategoryOptions("complicacies");
-      final stiOptions = await repo.getCategoryOptions("sti");
-      final obgynOptions = await repo.getCategoryOptions("obgyn");
+      final contraceptionOptions = await repo.getCategoryOptionsBySlug(categorySlug: "contraception");
+      final practicesOptions = await repo.getCategoryOptionsBySlug(categorySlug: "practices");
+      final soloPracticesOptions = await repo.getCategoryOptionsBySlug(categorySlug: "solo practices");
+      final posesOptions = await repo.getCategoryOptionsBySlug(categorySlug: "poses");
+      final placeOptions = await repo.getCategoryOptionsBySlug(categorySlug: "place");
+      final ejaculationOptions = await repo.getCategoryOptionsBySlug(categorySlug: "ejaculation");
+      final complicaciesOptions = await repo.getCategoryOptionsBySlug(categorySlug: "complicacies");
+      final stiOptions = await repo.getCategoryOptionsBySlug(categorySlug: "sti");
+      final obgynOptions = await repo.getCategoryOptionsBySlug(categorySlug: "obgyn");
 
       if (!mounted) return;
 
@@ -190,7 +190,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
   @override
   Widget build(BuildContext context) {
     //TODO: has notes filter
-    //TODO: mstb special options
     //TODO: amount of partners
 
     return Scaffold(

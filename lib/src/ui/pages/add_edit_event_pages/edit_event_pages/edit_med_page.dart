@@ -145,8 +145,8 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
   }
 
   Future<void> _initControllers(AppDatabase db) async {
-    final obgynOptions = await repo.getEventCategoryOptions(event.event.id, "obgyn");
-    final stiOptions = await repo.getEventCategoryOptions(event.event.id, "sti");
+    final obgynOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "obgyn");
+    final stiOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "sti");
 
     Map<EOption, TestStatus> statusMap = {};
     for (var o in stiOptions) {

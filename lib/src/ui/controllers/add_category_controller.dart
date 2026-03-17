@@ -21,4 +21,12 @@ class AddCategoryController {
   void setStatus(EOption option, TestStatus status) {
     statusMap[option] = status;
   }
+
+  void toggleSelected(EOption option) {
+    if  (selectedOptions.value.contains(option)){
+      selectedOptions.remove(option);
+    } else {
+      selectedOptions.add(option);
+    }
+  }
 }

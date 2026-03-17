@@ -41,12 +41,12 @@ class RowData {
   List<String> get practicesOptionNames => [
     "Vaginal", "Petting", "Frottage", "Cunnilingus", "Blowjob", "Fingering", "Handjob", "Mutual masturbation",
     "Intermammary", "Intercrural", "Anal", "Rimming", "Pegging", "Bondage", "Choking", "Toy usage", "Roleplay", "Waxplay",
-    "Spanking", "Handcuffing", "Tying up", "Masturbation"
+    "Spanking", "Handcuffing", "Tying up", "Masturbation", "Cockwarming"
   ];
   List<String> get practicesOptionSlugs => [
     "vaginal", "petting", "frottage", "cunnilingus", "blowjob", "fingering", "handjob", "mutual masturbation",
-    "intermammary", "intercrural", "anal", "rimming", "pegging", "bondage", "choking", "toy usage", "roleplay", "waxplay",
-    "spanking", "handcuffing", "tying up", "masturbation"
+    "intermammary", "intercrural", "anal", "rimming", "pegging", "bondage", "choking", "toys", "roleplay", "waxplay",
+    "spanking", "handcuffing", "tying up", "masturbation", "cockwarming"
   ];
 
   List<String> get ejaculationOptionNames => [
@@ -76,9 +76,9 @@ class RowData {
     "menstruation", "soreness", "pain upon penetration", "cervix pain", "weak erection", "unwanted activity"
   ];
 
-  List<String> get soloPracticesOptionNames => ["Fingering", "Handjob", "Frottage", "Anal"];
+  List<String> get soloPracticesOptionNames => ["Fingering", "Handjob", "Frottage", "Anal", "Toys", "Porn"];
   List<String> get soloPracticesOptionSlugs => [
-    "solo fingering", "solo handjob", "solo frottage", "solo anal"
+    "solo fingering", "solo handjob", "solo frottage", "solo anal", "solo toys", "porn"
   ];
 
   List<String> get stiOptionNames => [

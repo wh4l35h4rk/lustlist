@@ -45,8 +45,6 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
     date: event.event.date,
     time: event.event.time,
     duration: event.getDuration(),
-    didWatchPorn: event.data?.didWatchPorn,
-    didUseToys: event.data?.didUseToys,
     rating: event.data?.rating,
     orgasmAmount: event.data?.userOrgasms,
   );
@@ -68,14 +66,12 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
         _dataController.durationController.time.hour,
         _dataController.durationController.time.minute
     );
-    final didWatchPorn = _dataController.pornController.value;
-    final didUseToys = _dataController.toysController.value;
     final practicesOptions = _practicesController!.getSelectedOptions();
     final placeOptions = _placeController!.getSelectedOptions();
     final complicaciesOptions = _complicaciesController!.getSelectedOptions();
 
     repo.updateEvent(event.event.id, date, time, notes);
-    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, didWatchPorn, didUseToys);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount);
     database.deleteEventOptions(event.event.id);
 
     var allOptionsList = [practicesOptions, placeOptions, complicaciesOptions].expand((x) => x).toList();
@@ -115,17 +111,19 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
           return ListView(
             children: [
               BasicTile(
-                  surfaceColor: AppColors.addEvent.surface(context),
-                  margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
-                  child: AddEditEventDataColumn(
-                    controller: _dataController,
-                    isMstb: true,
-                  )
+                surfaceColor: AppColors.addEvent.surface(context),
+                margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
+                child: AddEditEventDataColumn(
+                  controller: _dataController,
+                  isMstb: true,
+                  optionsController: _practicesController!,
+                )
               ),
               AddCategoryTile(
                 category: categoriesMap['solo practices']!,
                 controller: _practicesController!,
                 iconData: AppIconData.practices,
+                isSoloPractices: true,
                 iconSize: 22,
               ),
               AddCategoryTile(
@@ -158,9 +156,12 @@ class _EditMstbEventPageState extends State<EditMstbEventPage> {
   }
 
   Future<void> _initControllers() async {
-    final practicesOptions = await repo.getEventCategoryOptions(event.event.id, "solo practices");
-    final placeOptions = await repo.getEventCategoryOptions(event.event.id, "place");
-    final complicaciesOptions = await repo.getEventCategoryOptions(event.event.id, "complicacies");
+    final practicesOptions = await repo.getEventCategoryOptions(
+      eventId: event.event.id,
+      categorySlug: "solo practices"
+    );
+    final placeOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "place");
+    final complicaciesOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "complicacies");
 
     setState(() {
       _practicesController = AddCategoryController(

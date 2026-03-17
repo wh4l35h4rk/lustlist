@@ -9,7 +9,5 @@ class EventDataTable extends Table {
   IntColumn get rating => integer().check(rating.isBetweenValues(0, 5))();
   IntColumn get duration => integer().nullable()();
   IntColumn get userOrgasms => integer().check(userOrgasms.isBetweenValues(0, 13)).nullable()();
-  BoolColumn get didWatchPorn => boolean().nullable()();
-  BoolColumn get didUseToys => boolean().nullable()();
 }
 

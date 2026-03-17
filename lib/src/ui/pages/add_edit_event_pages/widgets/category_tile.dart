@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/main.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/notifiers/list_notifier.dart';
-import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 
@@ -17,6 +18,7 @@ class AddCategoryTile extends StatefulWidget {
   final IconData iconData;
   final double iconSize;
   final Widget? body;
+  final bool isSoloPractices;
 
   const AddCategoryTile({
     super.key,
@@ -24,6 +26,7 @@ class AddCategoryTile extends StatefulWidget {
     required this.controller,
     required this.iconData,
     this.iconSize = AppSizes.iconBasic,
+    this.isSoloPractices = false,
     this.body,
   });
 
@@ -34,6 +37,7 @@ class AddCategoryTile extends StatefulWidget {
 
 class _AddCategoryTileState  extends State<AddCategoryTile> {
   late Future<List<EOption>> _optionsListFuture;
+  late EventRepository repo = EventRepository(database);
 
   ListNotifier<EOption> get _selectedOptions => widget.controller.selectedOptions;
   Category get category => widget.category;
@@ -45,7 +49,10 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   @override
   void initState() {
     super.initState();
-    _optionsListFuture = database.getOptionsByCategory(category.id);
+    _optionsListFuture = repo.getCategoryOptionsById(
+      id: category.id,
+      removeMstbSpecial: widget.isSoloPractices
+    );
   }
 
   @override
@@ -118,11 +125,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
     return OutlinedButton(
       onPressed: () {
         setState(() {
-          if  (_selectedOptions.value.contains(option)){
-            _selectedOptions.remove(option);
-          } else {
-            _selectedOptions.add(option);
-          }
+          widget.controller.toggleSelected(option);
         });
       },
       style: OutlinedButton.styleFrom(

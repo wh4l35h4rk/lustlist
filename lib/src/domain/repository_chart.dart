@@ -254,12 +254,12 @@ extension EventRepositoryChart on EventRepository {
   }
 
   Future<int> getEventsWithPornAmount() async {
-    int? amount = await db.countSoloWithPorn();
+    int? amount = await db.countEventsWithOption("porn");
     return amount ?? 0;
   }
 
   Future<int> getEventsWithToysAmount() async {
-    int? amount = await db.countSoloWithToys();
+    int? amount = await db.countEventsWithOption("solo toys");
     return amount ?? 0;
   }
 

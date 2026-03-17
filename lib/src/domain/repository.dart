@@ -155,8 +155,7 @@ class EventRepository {
 
   
   Future<void> loadEventData(
-      int eventId, int rating, EventDuration? duration, int? orgasmAmount,
-      bool? didWatchPorn, bool? didUseToys) async {
+      int eventId, int rating, EventDuration? duration, int? orgasmAmount) async {
     EventDuration? fixedDuration = (duration != null && duration.hours == 0 && duration.minutes == 0) ? null : duration;
 
     await db.insertEventData(
@@ -164,9 +163,7 @@ class EventRepository {
         eventId: eventId,
         rating: rating,
         duration: Value(fixedDuration?.minutesTotal),
-        userOrgasms: Value(orgasmAmount),
-        didWatchPorn: Value(didWatchPorn),
-        didUseToys: Value(didUseToys)
+        userOrgasms: Value(orgasmAmount)
       ),
     );
   }
@@ -215,7 +212,7 @@ class EventRepository {
 
 
   Future<void> updateEventData(
-      int eventId, int rating, EventDuration? duration, int? orgasmAmount, bool? didWatchPorn, bool? didUseToys
+      int eventId, int rating, EventDuration? duration, int? orgasmAmount
   ) async {
     var event = await (db.select(db.events)..where((t) => t.id.equals(eventId))).getSingleOrNull();
     if (event == null) {
@@ -232,9 +229,7 @@ class EventRepository {
       EventDataTableCompanion(
           rating: Value(rating),
           duration: Value(fixedDuration?.minutesTotal),
-          userOrgasms: Value(orgasmAmount),
-          didWatchPorn: Value(didWatchPorn),
-          didUseToys: Value(didUseToys)
+          userOrgasms: Value(orgasmAmount)
       ),
     );
   }
@@ -252,17 +247,47 @@ class EventRepository {
     return partnerId;
   }
 
-
-
-  Future<List<EOption>> getEventCategoryOptions(int eventId, String categorySlug) async {
-    int categoryId = await db.getCategoryIdBySlug(categorySlug);
-    List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
+  Future<List<EOption>> removeMstbSpecialFromList(List<EOption> options) async {
+    EOption pornOption = await getOption("porn");
+    EOption toysOption = await getOption("solo toys");
+    options.remove(pornOption);
+    options.remove(toysOption);
     return options;
   }
 
-  Future<List<EOption>> getCategoryOptions(String categorySlug) async {
+  Future<EOption> getOption(String slug) async {
+    int id = await db.getOptionIdBySlug(slug);
+    EOption option = await db.getOption(id);
+    return option;
+  }
+
+  Future<List<EOption>> getEventCategoryOptions({
+      required int eventId,
+      required String categorySlug,
+      bool removeMstbSpecial = false
+  }) async {
+    int categoryId = await db.getCategoryIdBySlug(categorySlug);
+    List<EOption> options = await db.getEventOptionsByCategory(eventId, categoryId);
+    if (removeMstbSpecial) options = await removeMstbSpecialFromList(options);
+    return options;
+  }
+
+  Future<List<EOption>> getCategoryOptionsBySlug({
+    required String categorySlug,
+    bool removeMstbSpecial = false
+  }) async {
     int categoryId = await db.getCategoryIdBySlug(categorySlug);
     List<EOption> options = await db.getOptionsByCategory(categoryId);
+    if (removeMstbSpecial) options = await removeMstbSpecialFromList(options);
+    return options;
+  }
+
+  Future<List<EOption>> getCategoryOptionsById({
+    required int id,
+    bool removeMstbSpecial = false
+  }) async {
+    List<EOption> options = await db.getOptionsByCategory(id);
+    if (removeMstbSpecial) options = await removeMstbSpecialFromList(options);
     return options;
   }
 
@@ -415,8 +440,6 @@ class EventRepository {
           eventId: event2Id,
           rating: 5,
           userOrgasms: Value(2),
-          didWatchPorn: Value(false),
-          didUseToys: Value(false),
         )
     );
     await db.insertEventData(

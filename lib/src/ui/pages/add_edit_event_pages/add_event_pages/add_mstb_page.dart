@@ -53,14 +53,12 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
         _dataController.durationController.time.hour,
         _dataController.durationController.time.minute
     );
-    final didWatchPorn = _dataController.pornController.value;
-    final didUseToys = _dataController.toysController.value;
     final practicesOptions = _practicesController.getSelectedOptions();
     final placeOptions = _placeController.getSelectedOptions();
     final complicaciesOptions = _complicaciesController.getSelectedOptions();
     
     var id = await repo.loadEvent(EventType.masturbation, date, time, notes);
-    repo.loadEventData(id, rating, duration, orgasmAmount, didWatchPorn, didUseToys);
+    repo.loadEventData(id, rating, duration, orgasmAmount);
     
     var allOptionsList = [practicesOptions, placeOptions, complicaciesOptions].expand((x) => x).toList();
     for (var o in allOptionsList) {
@@ -101,6 +99,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
                 child: AddEditEventDataColumn(
                   controller: _dataController,
                   isMstb: true,
+                  optionsController: _practicesController,
                 )
               ),
               AddCategoryTile(
@@ -108,6 +107,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
                 controller: _practicesController,
                 iconData: AppIconData.practices,
                 iconSize: 22,
+                isSoloPractices: true,
               ),
               AddCategoryTile(
                 category: categoriesMap['place']!,

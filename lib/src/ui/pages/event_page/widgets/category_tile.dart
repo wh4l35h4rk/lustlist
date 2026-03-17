@@ -7,6 +7,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/domain/repository.dart';
 
 
 class CategoryTile extends StatelessWidget {
@@ -18,6 +19,7 @@ class CategoryTile extends StatelessWidget {
     required this.iconData,
     this.iconSize = AppSizes.iconBasic,
     this.onNoResultsText = MiscStrings.notStated,
+    this.removeMstbSpecial = false
   });
 
   final CalendarEvent event;
@@ -26,6 +28,7 @@ class CategoryTile extends StatelessWidget {
   final IconData iconData;
   final double iconSize;
   final String onNoResultsText;
+  final bool removeMstbSpecial;
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +95,12 @@ class CategoryTile extends StatelessWidget {
 
 
   Future<Widget?> _getOptions(AppDatabase db, context) async {
-    int categoryId = await db.getCategoryIdBySlug(categorySlug);
-    List<EOption> options = await db.getEventOptionsByCategory(event.event.id, categoryId);
+    EventRepository repo = EventRepository(db);
+    List<EOption> options = await repo.getEventCategoryOptions(
+      eventId: event.event.id,
+      categorySlug: categorySlug,
+      removeMstbSpecial: true
+    );
 
     if (options.isEmpty){
       return null;

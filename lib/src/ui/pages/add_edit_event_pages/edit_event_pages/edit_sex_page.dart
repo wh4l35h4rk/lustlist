@@ -46,8 +46,6 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     date: event.event.date,
     time: event.event.time,
     duration: event.getDuration(),
-    didWatchPorn: event.data?.didWatchPorn,
-    didUseToys: event.data?.didUseToys,
     rating: event.data?.rating,
     orgasmAmount: event.data?.userOrgasms,
   );
@@ -89,7 +87,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     partners = _partnersController.getSelectedPartners();
 
     repo.updateEvent(event.event.id, date, time, notes);
-    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount, null, null);
+    repo.updateEventData(event.event.id, rating!, duration, orgasmAmount);
     database.deleteEventPartners(event.event.id);
     database.deleteEventOptions(event.event.id);
 
@@ -199,12 +197,12 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
   }
 
   Future<void> _initControllers() async {
-    final contraceptionOptions = await repo.getEventCategoryOptions(event.event.id, "contraception");
-    final practicesOptions = await repo.getEventCategoryOptions(event.event.id, "practices");
-    final posesOptions = await repo.getEventCategoryOptions(event.event.id, "poses");
-    final placeOptions = await repo.getEventCategoryOptions(event.event.id, "place");
-    final ejaculationOptions = await repo.getEventCategoryOptions(event.event.id, "ejaculation");
-    final complicaciesOptions = await repo.getEventCategoryOptions(event.event.id, "complicacies");
+    final contraceptionOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "contraception");
+    final practicesOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "practices");
+    final posesOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "poses");
+    final placeOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "place");
+    final ejaculationOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "ejaculation");
+    final complicaciesOptions = await repo.getEventCategoryOptions(eventId: event.event.id, categorySlug: "complicacies");
 
 
     setState(() {

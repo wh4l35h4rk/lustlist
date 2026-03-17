@@ -228,28 +228,17 @@ class AppDatabase extends _$AppDatabase {
     return query.map((row) => row.read(totalAmount)).getSingleOrNull();
   }
 
-  Future<int?> countSoloWithPorn() async {
-    final amount = eventDataTable.id.count();
+  Future<int?> countEventsWithOption(String optionSlug) async {
+    final optionId = await getOptionIdBySlug(optionSlug);
+    final amount = events.id.count();
 
-    final query = select(eventDataTable).join([
-      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(eventDataTable.didWatchPorn.equals(true));
+    final query = select(events).join([
+      innerJoin(eventsOptions, events.id.equalsExp(eventsOptions.eventId))
+    ])..where(eventsOptions.optionId.equals(optionId));
     query.addColumns([amount]);
 
     return query.map((row) => row.read(amount)).getSingleOrNull();
   }
-
-  Future<int?> countSoloWithToys() async {
-    final amount = eventDataTable.id.count();
-
-    final query = select(eventDataTable).join([
-      innerJoin(events, events.id.equalsExp(eventDataTable.eventId))
-    ])..where(eventDataTable.didUseToys.equals(true));
-    query.addColumns([amount]);
-
-    return query.map((row) => row.read(amount)).getSingleOrNull();
-  }
-  
 
   // Get Partners
   Future<Partner> getPartnerById(int id) async {
@@ -330,6 +319,12 @@ class AppDatabase extends _$AppDatabase {
     final query = select(eOptions)..where((t) => t.slug.equals(name));
     final result = await query.getSingleOrNull();
     return result!.id;
+  }
+
+  Future<EOption> getOption(int id) async {
+    final query = select(eOptions)..where((t) => t.id.equals(id));
+    final result = await query.getSingleOrNull();
+    return result!;
   }
 
   Future<List<EOption>> getOptionsByCategory(int categoryId) async {

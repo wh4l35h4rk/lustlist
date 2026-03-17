@@ -1,1 +1,843 @@
-{"_meta":{"description":"This file contains a serialized version of schema entities for drift.","version":"1.2.0"},"options":{"store_date_time_values_as_text":true},"entities":[{"id":0,"references":[],"type":"table","data":{"name":"categories","was_declared_in_moor":false,"columns":[{"name":"id","getter_name":"id","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"PRIMARY KEY AUTOINCREMENT","dialectAwareDefaultConstraints":{"sqlite":"PRIMARY KEY AUTOINCREMENT"},"default_dart":null,"default_client_dart":null,"dsl_features":["auto-increment"]},{"name":"name","getter_name":"name","moor_type":"string","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[{"allowed-lengths":{"min":1,"max":20}}]},{"name":"slug","getter_name":"slug","moor_type":"string","nullable":false,"customConstraints":null,"defaultConstraints":"UNIQUE","dialectAwareDefaultConstraints":{"sqlite":"UNIQUE"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"allowed-lengths":{"min":1,"max":20}},"unique"]}],"is_virtual":false,"without_rowid":false,"constraints":[]}},{"id":1,"references":[],"type":"table","data":{"name":"partners","was_declared_in_moor":false,"columns":[{"name":"id","getter_name":"id","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"PRIMARY KEY AUTOINCREMENT","dialectAwareDefaultConstraints":{"sqlite":"PRIMARY KEY AUTOINCREMENT"},"default_dart":null,"default_client_dart":null,"dsl_features":["auto-increment"]},{"name":"name","getter_name":"name","moor_type":"string","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[{"allowed-lengths":{"min":1,"max":32}}]},{"name":"gender","getter_name":"gender","moor_type":"int","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[],"type_converter":{"dart_expr":"const EnumIndexConverter<Gender>(Gender.values)","dart_type_name":"Gender"}},{"name":"birthday","getter_name":"birthday","moor_type":"dateTime","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[]},{"name":"created_at","getter_name":"createdAt","moor_type":"dateTime","nullable":false,"customConstraints":null,"default_dart":"const CustomExpression('CURRENT_TIMESTAMP')","default_client_dart":null,"dsl_features":[]},{"name":"notes","getter_name":"notes","moor_type":"string","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[]},{"name":"is_visible","getter_name":"isVisible","moor_type":"bool","nullable":false,"customConstraints":null,"defaultConstraints":"CHECK (\"is_visible\" IN (0, 1))","dialectAwareDefaultConstraints":{"sqlite":"CHECK (\"is_visible\" IN (0, 1))"},"default_dart":"const CustomExpression('1')","default_client_dart":null,"dsl_features":[]}],"is_virtual":false,"without_rowid":false,"constraints":[]}},{"id":2,"references":[],"type":"table","data":{"name":"events","was_declared_in_moor":false,"columns":[{"name":"id","getter_name":"id","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"PRIMARY KEY AUTOINCREMENT","dialectAwareDefaultConstraints":{"sqlite":"PRIMARY KEY AUTOINCREMENT"},"default_dart":null,"default_client_dart":null,"dsl_features":["auto-increment"]},{"name":"type","getter_name":"type","moor_type":"int","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[],"type_converter":{"dart_expr":"const EnumIndexConverter<EventType>(EventType.values)","dart_type_name":"EventType"}},{"name":"date","getter_name":"date","moor_type":"dateTime","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[]},{"name":"time","getter_name":"time","moor_type":"dateTime","nullable":false,"customConstraints":null,"default_dart":"const CustomExpression('\\'2006-01-01T12:00:00.000 +10:00\\'')","default_client_dart":null,"dsl_features":[]},{"name":"notes","getter_name":"notes","moor_type":"string","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[]},{"name":"created_at","getter_name":"createdAt","moor_type":"dateTime","nullable":false,"customConstraints":null,"default_dart":"const CustomExpression('CURRENT_TIMESTAMP')","default_client_dart":null,"dsl_features":[]}],"is_virtual":false,"without_rowid":false,"constraints":[]}},{"id":3,"references":[2],"type":"table","data":{"name":"event_data_table","was_declared_in_moor":false,"columns":[{"name":"id","getter_name":"id","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"PRIMARY KEY AUTOINCREMENT","dialectAwareDefaultConstraints":{"sqlite":"PRIMARY KEY AUTOINCREMENT"},"default_dart":null,"default_client_dart":null,"dsl_features":["auto-increment"]},{"name":"event_id","getter_name":"eventId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES events (id) ON DELETE CASCADE","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES events (id) ON DELETE CASCADE"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"events","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":"cascade"}}]},{"name":"rating","getter_name":"rating","moor_type":"int","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[{"check":{"dart_expression":{"elements":[{"lexeme":"ComparableExpr","import_uri":"package:drift/src/runtime/query_builder/query_builder.dart"},"(",{"lexeme":"rating","tag":"rating"},").isBetweenValues(0,5)"]}}}]},{"name":"duration","getter_name":"duration","moor_type":"int","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[]},{"name":"user_orgasms","getter_name":"userOrgasms","moor_type":"int","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[{"check":{"dart_expression":{"elements":[{"lexeme":"ComparableExpr","import_uri":"package:drift/src/runtime/query_builder/query_builder.dart"},"(",{"lexeme":"userOrgasms","tag":"userOrgasms"},").isBetweenValues(0,13)"]}}}]},{"name":"did_watch_porn","getter_name":"didWatchPorn","moor_type":"bool","nullable":true,"customConstraints":null,"defaultConstraints":"CHECK (\"did_watch_porn\" IN (0, 1))","dialectAwareDefaultConstraints":{"sqlite":"CHECK (\"did_watch_porn\" IN (0, 1))"},"default_dart":null,"default_client_dart":null,"dsl_features":[]},{"name":"did_use_toys","getter_name":"didUseToys","moor_type":"bool","nullable":true,"customConstraints":null,"defaultConstraints":"CHECK (\"did_use_toys\" IN (0, 1))","dialectAwareDefaultConstraints":{"sqlite":"CHECK (\"did_use_toys\" IN (0, 1))"},"default_dart":null,"default_client_dart":null,"dsl_features":[]}],"is_virtual":false,"without_rowid":false,"constraints":[]}},{"id":4,"references":[0],"type":"table","data":{"name":"e_options","was_declared_in_moor":false,"columns":[{"name":"id","getter_name":"id","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"PRIMARY KEY AUTOINCREMENT","dialectAwareDefaultConstraints":{"sqlite":"PRIMARY KEY AUTOINCREMENT"},"default_dart":null,"default_client_dart":null,"dsl_features":["auto-increment"]},{"name":"name","getter_name":"name","moor_type":"string","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[{"allowed-lengths":{"min":1,"max":40}}]},{"name":"slug","getter_name":"slug","moor_type":"string","nullable":false,"customConstraints":null,"defaultConstraints":"UNIQUE","dialectAwareDefaultConstraints":{"sqlite":"UNIQUE"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"allowed-lengths":{"min":1,"max":40}},"unique"]},{"name":"category_id","getter_name":"categoryId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES categories (id)","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES categories (id)"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"categories","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":null}}]},{"name":"is_visible","getter_name":"isVisible","moor_type":"bool","nullable":false,"customConstraints":null,"defaultConstraints":"CHECK (\"is_visible\" IN (0, 1))","dialectAwareDefaultConstraints":{"sqlite":"CHECK (\"is_visible\" IN (0, 1))"},"default_dart":"const CustomExpression('1')","default_client_dart":null,"dsl_features":[]},{"name":"is_basic","getter_name":"isBasic","moor_type":"bool","nullable":false,"customConstraints":null,"defaultConstraints":"CHECK (\"is_basic\" IN (0, 1))","dialectAwareDefaultConstraints":{"sqlite":"CHECK (\"is_basic\" IN (0, 1))"},"default_dart":"const CustomExpression('1')","default_client_dart":null,"dsl_features":[]}],"is_virtual":false,"without_rowid":false,"constraints":[]}},{"id":5,"references":[0],"type":"table","data":{"name":"categories_types","was_declared_in_moor":false,"columns":[{"name":"category_id","getter_name":"categoryId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES categories (id)","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES categories (id)"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"categories","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":null}}]},{"name":"type","getter_name":"type","moor_type":"int","nullable":false,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[],"type_converter":{"dart_expr":"const EnumIndexConverter<EventType>(EventType.values)","dart_type_name":"EventType"}}],"is_virtual":false,"without_rowid":false,"constraints":[],"explicit_pk":["category_id","type"]}},{"id":6,"references":[2,4],"type":"table","data":{"name":"events_options","was_declared_in_moor":false,"columns":[{"name":"event_id","getter_name":"eventId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES events (id) ON DELETE CASCADE","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES events (id) ON DELETE CASCADE"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"events","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":"cascade"}}]},{"name":"option_id","getter_name":"optionId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES e_options (id)","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES e_options (id)"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"e_options","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":null}}]},{"name":"test_status","getter_name":"testStatus","moor_type":"string","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[],"type_converter":{"dart_expr":"const EnumNameConverter<TestStatus>(TestStatus.values)","dart_type_name":"TestStatus"}}],"is_virtual":false,"without_rowid":false,"constraints":[],"explicit_pk":["event_id","option_id"]}},{"id":7,"references":[2,1],"type":"table","data":{"name":"events_partners","was_declared_in_moor":false,"columns":[{"name":"event_id","getter_name":"eventId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES events (id) ON DELETE CASCADE","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES events (id) ON DELETE CASCADE"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"events","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":"cascade"}}]},{"name":"partner_id","getter_name":"partnerId","moor_type":"int","nullable":false,"customConstraints":null,"defaultConstraints":"REFERENCES partners (id) ON DELETE CASCADE","dialectAwareDefaultConstraints":{"sqlite":"REFERENCES partners (id) ON DELETE CASCADE"},"default_dart":null,"default_client_dart":null,"dsl_features":[{"foreign_key":{"to":{"table":"partners","column":"id"},"initially_deferred":false,"on_update":null,"on_delete":"cascade"}}]},{"name":"partner_orgasms","getter_name":"partnerOrgasms","moor_type":"int","nullable":true,"customConstraints":null,"default_dart":null,"default_client_dart":null,"dsl_features":[{"check":{"dart_expression":{"elements":[{"lexeme":"ComparableExpr","import_uri":"package:drift/src/runtime/query_builder/query_builder.dart"},"(",{"lexeme":"partnerOrgasms","tag":"partnerOrgasms"},").isBetweenValues(0,13)"]}}}]}],"is_virtual":false,"without_rowid":false,"constraints":[],"explicit_pk":["event_id","partner_id"]}}]}
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": true
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "categories",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 20
+                }
+              }
+            ]
+          },
+          {
+            "name": "slug",
+            "getter_name": "slug",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "UNIQUE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "UNIQUE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 20
+                }
+              },
+              "unique"
+            ]
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 1,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "partners",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 32
+                }
+              }
+            ]
+          },
+          {
+            "name": "gender",
+            "getter_name": "gender",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumIndexConverter<Gender>(Gender.values)",
+              "dart_type_name": "Gender"
+            }
+          },
+          {
+            "name": "birthday",
+            "getter_name": "birthday",
+            "moor_type": "dateTime",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('CURRENT_TIMESTAMP')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "notes",
+            "getter_name": "notes",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "is_visible",
+            "getter_name": "isVisible",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_visible\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_visible\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 2,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "events",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "type",
+            "getter_name": "type",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumIndexConverter<EventType>(EventType.values)",
+              "dart_type_name": "EventType"
+            }
+          },
+          {
+            "name": "date",
+            "getter_name": "date",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "time",
+            "getter_name": "time",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'2006-01-01T12:00:00.000 +10:00\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "notes",
+            "getter_name": "notes",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('CURRENT_TIMESTAMP')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 3,
+      "references": [
+        2
+      ],
+      "type": "table",
+      "data": {
+        "name": "event_data_table",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "event_id",
+            "getter_name": "eventId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES events (id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES events (id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "events",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "rating",
+            "getter_name": "rating",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "check": {
+                  "dart_expression": {
+                    "elements": [
+                      {
+                        "lexeme": "ComparableExpr",
+                        "import_uri": "package:drift/src/runtime/query_builder/query_builder.dart"
+                      },
+                      "(",
+                      {
+                        "lexeme": "rating",
+                        "tag": "rating"
+                      },
+                      ").isBetweenValues(0,5)"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "duration",
+            "getter_name": "duration",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_orgasms",
+            "getter_name": "userOrgasms",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "check": {
+                  "dart_expression": {
+                    "elements": [
+                      {
+                        "lexeme": "ComparableExpr",
+                        "import_uri": "package:drift/src/runtime/query_builder/query_builder.dart"
+                      },
+                      "(",
+                      {
+                        "lexeme": "userOrgasms",
+                        "tag": "userOrgasms"
+                      },
+                      ").isBetweenValues(0,13)"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 4,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "e_options",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 40
+                }
+              }
+            ]
+          },
+          {
+            "name": "slug",
+            "getter_name": "slug",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "UNIQUE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "UNIQUE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "allowed-lengths": {
+                  "min": 1,
+                  "max": 40
+                }
+              },
+              "unique"
+            ]
+          },
+          {
+            "name": "category_id",
+            "getter_name": "categoryId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES categories (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES categories (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "categories",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "is_visible",
+            "getter_name": "isVisible",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_visible\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_visible\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "is_basic",
+            "getter_name": "isBasic",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_basic\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_basic\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 5,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "categories_types",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "category_id",
+            "getter_name": "categoryId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES categories (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES categories (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "categories",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "type",
+            "getter_name": "type",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumIndexConverter<EventType>(EventType.values)",
+              "dart_type_name": "EventType"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "category_id",
+          "type"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "references": [
+        2,
+        4
+      ],
+      "type": "table",
+      "data": {
+        "name": "events_options",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "event_id",
+            "getter_name": "eventId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES events (id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES events (id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "events",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "option_id",
+            "getter_name": "optionId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES e_options (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES e_options (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "e_options",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "test_status",
+            "getter_name": "testStatus",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<TestStatus>(TestStatus.values)",
+              "dart_type_name": "TestStatus"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "event_id",
+          "option_id"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "references": [
+        2,
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "events_partners",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "event_id",
+            "getter_name": "eventId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES events (id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES events (id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "events",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "partner_id",
+            "getter_name": "partnerId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES partners (id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES partners (id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "partners",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "partner_orgasms",
+            "getter_name": "partnerOrgasms",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "check": {
+                  "dart_expression": {
+                    "elements": [
+                      {
+                        "lexeme": "ComparableExpr",
+                        "import_uri": "package:drift/src/runtime/query_builder/query_builder.dart"
+                      },
+                      "(",
+                      {
+                        "lexeme": "partnerOrgasms",
+                        "tag": "partnerOrgasms"
+                      },
+                      ").isBetweenValues(0,13)"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "event_id",
+          "partner_id"
+        ]
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "categories",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"categories\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"slug\" TEXT NOT NULL UNIQUE);"
+        }
+      ]
+    },
+    {
+      "name": "partners",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"partners\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"gender\" INTEGER NOT NULL, \"birthday\" TEXT NULL, \"created_at\" TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP), \"notes\" TEXT NULL, \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)));"
+        }
+      ]
+    },
+    {
+      "name": "events",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"events\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"type\" INTEGER NOT NULL, \"date\" TEXT NOT NULL, \"time\" TEXT NOT NULL DEFAULT '2006-01-01T12:00:00.000 +10:00', \"notes\" TEXT NULL, \"created_at\" TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP));"
+        }
+      ]
+    },
+    {
+      "name": "event_data_table",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"event_data_table\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"event_id\" INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE, \"rating\" INTEGER NOT NULL CHECK(\"rating\" BETWEEN 0 AND 5), \"duration\" INTEGER NULL, \"user_orgasms\" INTEGER NULL CHECK(\"user_orgasms\" BETWEEN 0 AND 13));"
+        }
+      ]
+    },
+    {
+      "name": "e_options",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"e_options\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"slug\" TEXT NOT NULL UNIQUE, \"category_id\" INTEGER NOT NULL REFERENCES categories (id), \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)), \"is_basic\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_basic\" IN (0, 1)));"
+        }
+      ]
+    },
+    {
+      "name": "categories_types",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"categories_types\" (\"category_id\" INTEGER NOT NULL REFERENCES categories (id), \"type\" INTEGER NOT NULL, PRIMARY KEY (\"category_id\", \"type\"));"
+        }
+      ]
+    },
+    {
+      "name": "events_options",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"events_options\" (\"event_id\" INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE, \"option_id\" INTEGER NOT NULL REFERENCES e_options (id), \"test_status\" TEXT NULL, PRIMARY KEY (\"event_id\", \"option_id\"));"
+        }
+      ]
+    },
+    {
+      "name": "events_partners",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"events_partners\" (\"event_id\" INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE, \"partner_id\" INTEGER NOT NULL REFERENCES partners (id) ON DELETE CASCADE, \"partner_orgasms\" INTEGER NULL CHECK(\"partner_orgasms\" BETWEEN 0 AND 13), PRIMARY KEY (\"event_id\", \"partner_id\"));"
+        }
+      ]
+    }
+  ]
+}
