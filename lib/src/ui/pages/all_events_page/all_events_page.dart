@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -59,7 +60,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
     selectedValuesList: EventType.entries,
     isEnabledInitially: true
   );
-
+  final _genderFilterController = SelectableFilterController<Gender>(
+      allValuesList: Gender.entries,
+      selectedValuesList: Gender.entries
+  );
   late final _ratingFilterController = SelectableFilterController<int>(
     allValuesList: ratingValues,
     selectedValuesList: ratingValues,
@@ -80,17 +84,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
   SelectableFilterController<EOption>? _complicaciesFilterController;
   SelectableFilterController<EOption>? _stiFilterController;
   SelectableFilterController<EOption>? _obgynFilterController;
-
-  bool get _filtersReady =>
-      _partnersFilterController != null &&
-      _contraceptionFilterController != null &&
-      _practicesFilterController != null &&
-      _posesFilterController != null &&
-      _placeFilterController != null &&
-      _ejaculationFilterController != null &&
-      _complicaciesFilterController != null &&
-      _obgynFilterController != null &&
-      _stiFilterController != null;
 
   @override
   void initState() {
@@ -198,7 +191,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
   Widget build(BuildContext context) {
     //TODO: has notes filter
     //TODO: mstb special options
-    //TODO: partners gender
     //TODO: amount of partners
 
     return Scaffold(
@@ -358,6 +350,17 @@ class _AllEventsPageState extends State<AllEventsPage> {
     );
   }
 
+  bool get _filtersReady =>
+      _partnersFilterController != null &&
+      _contraceptionFilterController != null &&
+      _practicesFilterController != null &&
+      _posesFilterController != null &&
+      _placeFilterController != null &&
+      _ejaculationFilterController != null &&
+      _complicaciesFilterController != null &&
+      _obgynFilterController != null &&
+      _stiFilterController != null;
+
   void _disableAllFilters() {
     _typeFilterController.addAll();
     _partnersFilterController!.disable();
@@ -372,6 +375,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
     _userOrgasmsFilterController.disable();
     _dateFilterController.disable();
     _partnersOrgasmsFilterController.disable();
+    _genderFilterController.disable();
     return;
   }
 
@@ -410,6 +414,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _partnersOrgasmsFilterController.enabled,
       _partnersOrgasmsFilterController.startNotifier,
       _partnersOrgasmsFilterController.endNotifier,
+      _genderFilterController.enabled,
+      _genderFilterController.selectedValues,
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
@@ -476,6 +482,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
         start: _partnersOrgasmsFilterController.start,
         end: _partnersOrgasmsFilterController.end
       ),
+      gender: SelectableFilterData(
+        values: _genderFilterController.values,
+        isEnabled: _genderFilterController.isEnabled
+      ),
     );
 
   List<Widget> get generalButtonList => [
@@ -506,6 +516,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
       title: PageTitleStrings.partners,
       controller: _partnersFilterController!,
       nameBuilder: (e) => e.name,
+    ),
+    OptionsFilterButton<Gender>(
+      title: DataStrings.gender,
+      controller: _genderFilterController,
+      nameBuilder: (e) => e.label,
     ),
     NumericFilterButton(
       title: DataStrings.partnerOrgasms,

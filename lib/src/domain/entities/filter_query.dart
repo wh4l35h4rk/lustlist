@@ -1,3 +1,4 @@
+import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
@@ -20,6 +21,7 @@ class FilterQuery {
   final NumericFilterData<int?> userOrgasms;
   final NumericFilterData<int?> partnerOrgasms;
   final NumericFilterData<int?> duration;
+  final SelectableFilterData<Gender> gender;
 
   FilterQuery({
     required this.types,
@@ -37,6 +39,7 @@ class FilterQuery {
     required this.userOrgasms,
     required this.duration,
     required this.partnerOrgasms,
+    required this.gender
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
@@ -64,7 +67,8 @@ class FilterQuery {
         (!partnerOrgasms.isEnabled || _listInRange(
             event.calendarEvent.partnersMap?.values.toList(),
             partnerOrgasms.start, partnerOrgasms.end
-        ))
+        )) &&
+        (!gender.isEnabled || _containsAny(event.calendarEvent.getPartnerGenders(), gender.values))
     ).toList();
   }
 

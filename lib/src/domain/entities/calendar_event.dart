@@ -1,3 +1,4 @@
+import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
@@ -12,6 +13,14 @@ class CalendarEvent {
 
   const CalendarEvent(this.id, this.event, this.type, this.partnersMap, this.data);
 
+  List<Partner> getPartners() {
+    if (partnersMap != null) {
+      return List.generate(partnersMap!.length, (index) => partnersMap!.keys.elementAt(index));
+    } else {
+      return [];
+    }
+  }
+
   List<String> getPartnerNames() {
     if (partnersMap != null) {
       return List.generate(partnersMap!.length, (index) => partnersMap!.keys.elementAt(index).name);
@@ -20,9 +29,9 @@ class CalendarEvent {
     }
   }
 
-  List<Partner> getPartners() {
+  List<Gender> getPartnerGenders() {
     if (partnersMap != null) {
-      return List.generate(partnersMap!.length, (index) => partnersMap!.keys.elementAt(index));
+      return List.generate(partnersMap!.length, (index) => partnersMap!.keys.elementAt(index).gender);
     } else {
       return [];
     }
