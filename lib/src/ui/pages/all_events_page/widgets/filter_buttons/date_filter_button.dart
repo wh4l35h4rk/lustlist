@@ -4,7 +4,7 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
-import 'package:lustlist/src/ui/controllers/date_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/date_filter_controller.dart';
 
 class DateFilterButton extends StatelessWidget {
   const DateFilterButton({

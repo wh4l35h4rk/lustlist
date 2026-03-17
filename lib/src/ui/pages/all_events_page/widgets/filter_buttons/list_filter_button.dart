@@ -6,8 +6,8 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_settings_button.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
 
 class ListFilterButton<T> extends StatelessWidget {

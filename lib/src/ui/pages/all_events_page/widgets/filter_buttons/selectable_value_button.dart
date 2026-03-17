@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
-import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
 
 
 class SelectableValueButton<T> extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:lustlist/src/domain/entities/event_duration.dart';
-import 'package:lustlist/src/ui/controllers/numeric_filter_controller_base.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_filter_controller_base.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 
 class NumericDurationFilterController extends NumericFilterControllerBase{

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
-import 'package:lustlist/src/ui/controllers/selectable_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/list_filter_button.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/list_filter_button.dart';
 
 class OptionsFilterButton<T> extends StatelessWidget {
   const OptionsFilterButton({

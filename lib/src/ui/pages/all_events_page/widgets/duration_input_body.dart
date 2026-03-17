@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/ui/controllers/numeric_duration_filter_controller.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_duration_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/duration_picker.dart';
 
 class DurationInputBody extends StatelessWidget {

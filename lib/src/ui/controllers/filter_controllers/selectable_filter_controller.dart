@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../notifiers/list_notifier.dart';
+import '../../notifiers/list_notifier.dart';
 
 class SelectableFilterController<T> {
   late final List<T> allValues;
