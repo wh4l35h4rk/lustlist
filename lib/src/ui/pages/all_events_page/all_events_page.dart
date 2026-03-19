@@ -197,8 +197,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: has notes filter
-
     return Scaffold(
         appBar: MainAppBar(
           title: PageTitleStrings.allEvents,

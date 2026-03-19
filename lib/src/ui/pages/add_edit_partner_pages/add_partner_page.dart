@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
@@ -7,11 +9,13 @@ import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_data_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/picture_picker.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:path_provider/path_provider.dart';
 
 
 class AddPartnerPage extends StatefulWidget{
@@ -39,9 +43,29 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
     final gender = _dataController.gender;
     final notes = _notesController.notesController.text;
     final birthday = _dataController.dateController.date;
+    final picture = _dataController.pictureFile;
 
     if (name != "") {
-      await repo.loadPartner(name, gender, birthday, notes);
+      int id = await repo.loadPartner(name, gender, birthday, notes);
+
+      if (picture != null) {
+        final appDir = await getApplicationDocumentsDirectory();
+        final avatarsDir = Directory('${appDir.path}/avatars');
+        if (!await avatarsDir.exists()) {
+          await avatarsDir.create(recursive: true);
+        }
+
+        final fileName = "pfp_${id}.png";
+        final fullPath = "${avatarsDir.path}/$fileName";
+
+        // final file = File(fullPath);
+        // if (await file.exists()) {
+        // }
+
+        await File(picture.path).copy(fullPath);
+        await repo.updatePartner(id, name, gender, birthday, fullPath, notes);
+      }
+
       Navigator.of(context).pop(true);
     }
   }
@@ -58,6 +82,10 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
       title: PageTitleStrings.addPartner,
       body: ListView(
         children: [
+          SizedBox(height: 15),
+          PicturePicker(
+            controller: _dataController
+          ),
           BasicTile(
             surfaceColor: AppColors.addEvent.surface(context),
             margin: AppInsets.addDataMargin,

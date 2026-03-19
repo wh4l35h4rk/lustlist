@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/bool_filter.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/bool_notes_controller.dart';
@@ -25,14 +26,11 @@ class NotesFilterButton<T> extends StatelessWidget {
         BoolFilter value = controller.mode;
         bool changesApplied = value != BoolFilter.notSet;
         return OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              backgroundColor: changesApplied
+            style: AppStyles.outlinedButton(
+                changesApplied
                   ? AppColors.filterSurface(context)
                   : AppColors.surface(context),
-              side: BorderSide(
-                  width: 1.2,
-                  color: AppColors.addEvent.border(context)
-              ),
+                context
             ),
             onPressed: _switchMode,
             child: Row(

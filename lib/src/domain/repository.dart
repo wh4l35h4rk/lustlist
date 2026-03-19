@@ -341,13 +341,16 @@ class EventRepository {
   }
 
 
-  Future updatePartner(int id, String name, Gender gender, DateTime? birthday, String notes) async {
+  Future updatePartner(int id, String name, Gender gender, DateTime? birthday,
+      String? picturePath, String notes
+  ) async {
     await db.updatePartnerRaw(
       id,
       PartnersCompanion(
         name: Value(name),
         gender: Value(gender),
         birthday: Value(birthday),
+        picturePath: Value(picturePath),
         notes: Value(notes),
       ),
     );

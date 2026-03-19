@@ -10,4 +10,8 @@ class ButtonStrings {
   static const String removeAll = "None";
   static const String filter = "Filter";
   static const String disableAllFilters = "Disable all filters";
+
+  static const String noPicture = "No picture";
+  static const String gallery = "Gallery";
+  static const String camera = "Camera";
 }

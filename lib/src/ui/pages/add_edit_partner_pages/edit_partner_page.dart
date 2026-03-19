@@ -47,7 +47,7 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
     final notes = _notesController.notesController.text;
 
     if (name != "") {
-      await repo.updatePartner(partner.id, name, gender, birthday, notes);
+      await repo.updatePartner(partner.id, name, gender, birthday, null, notes);
 
       Navigator.of(context).pop(true);
       eventsUpdated.notifyUpdate();

@@ -9,6 +9,7 @@ class MiscStrings {
   static const String unknown = "Unknown";
 
   static const String noNotes = "There are no notes yet.";
+  static const String noPictureSelected = "Nothing is selected";
 
   static const String noEvents = "You haven't had any activities yet!";
   static const String noFilteredEvents = "No events for your filtering conditions";

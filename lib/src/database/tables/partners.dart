@@ -9,5 +9,6 @@ class Partners extends Table {
   DateTimeColumn get birthday => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   TextColumn get notes => text().nullable()();
+  TextColumn get picturePath => text().nullable()();
   BoolColumn get isVisible => boolean().withDefault(const Constant(true))();
 }

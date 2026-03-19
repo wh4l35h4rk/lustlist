@@ -162,6 +162,16 @@
             "dsl_features": []
           },
           {
+            "name": "picture_path",
+            "getter_name": "picturePath",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
             "name": "is_visible",
             "getter_name": "isVisible",
             "moor_type": "bool",
@@ -781,7 +791,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"partners\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"gender\" INTEGER NOT NULL, \"birthday\" TEXT NULL, \"created_at\" TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP), \"notes\" TEXT NULL, \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)));"
+          "sql": "CREATE TABLE IF NOT EXISTS \"partners\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"gender\" INTEGER NOT NULL, \"birthday\" TEXT NULL, \"created_at\" TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP), \"notes\" TEXT NULL, \"picture_path\" TEXT NULL, \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)));"
         }
       ]
     },

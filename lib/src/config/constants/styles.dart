@@ -49,6 +49,17 @@ class AppStyles{
     );
   }
 
+  static ButtonStyle outlinedButton(Color? backgroundColor, BuildContext context){
+    return OutlinedButton.styleFrom(
+      backgroundColor: backgroundColor,
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      side: BorderSide(
+          width: 1.2,
+          color: AppColors.addEvent.border(context)
+      ),
+    );
+  }
+
 
   static TextStyle numStatsTitle(BuildContext context){
     return TextStyle(

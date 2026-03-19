@@ -35,16 +35,16 @@ class AppColors {
   static ChartColors chart = ChartColors();
 
   static Color? notesBottom(BuildContext context) => colorBlend(
-      AppColors.categoryTile.surface(context),
-      AppColors.surface(context),
-      0.5
+    AppColors.categoryTile.surface(context),
+    AppColors.surface(context),
+    0.5
   );
 
   static Color filterSurface(BuildContext context) => AppColors.categoryTile.surface(context);
   static Color? filterButton(BuildContext context) => colorBlend(
-      filterSurface(context),
-      Theme.of(context).colorScheme.surface,
-      0.5
+    filterSurface(context),
+    Theme.of(context).colorScheme.surface,
+    0.5
   );
 
   static Color title(BuildContext context) => Theme.of(context).colorScheme.primary;
@@ -52,10 +52,12 @@ class AppColors {
   static Color divider(BuildContext context) => Theme.of(context).dividerColor;
 
   static Color iconButtonSurface(BuildContext context) => colorBlend(
-      primary(context),
-      filterButton(context),
-      0.23
+    primary(context),
+    filterButton(context),
+    0.23
   )!;
+
+  static Color? avatarIcon(BuildContext context) => icon(context).withAlpha(80);
 }
 
 

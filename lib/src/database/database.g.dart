@@ -326,6 +326,17 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _picturePathMeta = const VerificationMeta(
+    'picturePath',
+  );
+  @override
+  late final GeneratedColumn<String> picturePath = GeneratedColumn<String>(
+    'picture_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _isVisibleMeta = const VerificationMeta(
     'isVisible',
   );
@@ -349,6 +360,7 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     birthday,
     createdAt,
     notes,
+    picturePath,
     isVisible,
   ];
   @override
@@ -392,6 +404,15 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
       );
     }
+    if (data.containsKey('picture_path')) {
+      context.handle(
+        _picturePathMeta,
+        picturePath.isAcceptableOrUnknown(
+          data['picture_path']!,
+          _picturePathMeta,
+        ),
+      );
+    }
     if (data.containsKey('is_visible')) {
       context.handle(
         _isVisibleMeta,
@@ -433,6 +454,10 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
       ),
+      picturePath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}picture_path'],
+      ),
       isVisible: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_visible'],
@@ -456,6 +481,7 @@ class Partner extends DataClass implements Insertable<Partner> {
   final DateTime? birthday;
   final DateTime createdAt;
   final String? notes;
+  final String? picturePath;
   final bool isVisible;
   const Partner({
     required this.id,
@@ -464,6 +490,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     this.birthday,
     required this.createdAt,
     this.notes,
+    this.picturePath,
     required this.isVisible,
   });
   @override
@@ -483,6 +510,9 @@ class Partner extends DataClass implements Insertable<Partner> {
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
     }
+    if (!nullToAbsent || picturePath != null) {
+      map['picture_path'] = Variable<String>(picturePath);
+    }
     map['is_visible'] = Variable<bool>(isVisible);
     return map;
   }
@@ -499,6 +529,9 @@ class Partner extends DataClass implements Insertable<Partner> {
       notes: notes == null && nullToAbsent
           ? const Value.absent()
           : Value(notes),
+      picturePath: picturePath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(picturePath),
       isVisible: Value(isVisible),
     );
   }
@@ -517,6 +550,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       birthday: serializer.fromJson<DateTime?>(json['birthday']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       notes: serializer.fromJson<String?>(json['notes']),
+      picturePath: serializer.fromJson<String?>(json['picturePath']),
       isVisible: serializer.fromJson<bool>(json['isVisible']),
     );
   }
@@ -532,6 +566,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       'birthday': serializer.toJson<DateTime?>(birthday),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'notes': serializer.toJson<String?>(notes),
+      'picturePath': serializer.toJson<String?>(picturePath),
       'isVisible': serializer.toJson<bool>(isVisible),
     };
   }
@@ -543,6 +578,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     Value<DateTime?> birthday = const Value.absent(),
     DateTime? createdAt,
     Value<String?> notes = const Value.absent(),
+    Value<String?> picturePath = const Value.absent(),
     bool? isVisible,
   }) => Partner(
     id: id ?? this.id,
@@ -551,6 +587,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     birthday: birthday.present ? birthday.value : this.birthday,
     createdAt: createdAt ?? this.createdAt,
     notes: notes.present ? notes.value : this.notes,
+    picturePath: picturePath.present ? picturePath.value : this.picturePath,
     isVisible: isVisible ?? this.isVisible,
   );
   Partner copyWithCompanion(PartnersCompanion data) {
@@ -561,6 +598,9 @@ class Partner extends DataClass implements Insertable<Partner> {
       birthday: data.birthday.present ? data.birthday.value : this.birthday,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       notes: data.notes.present ? data.notes.value : this.notes,
+      picturePath: data.picturePath.present
+          ? data.picturePath.value
+          : this.picturePath,
       isVisible: data.isVisible.present ? data.isVisible.value : this.isVisible,
     );
   }
@@ -574,14 +614,23 @@ class Partner extends DataClass implements Insertable<Partner> {
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
           ..write('notes: $notes, ')
+          ..write('picturePath: $picturePath, ')
           ..write('isVisible: $isVisible')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, name, gender, birthday, createdAt, notes, isVisible);
+  int get hashCode => Object.hash(
+    id,
+    name,
+    gender,
+    birthday,
+    createdAt,
+    notes,
+    picturePath,
+    isVisible,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -592,6 +641,7 @@ class Partner extends DataClass implements Insertable<Partner> {
           other.birthday == this.birthday &&
           other.createdAt == this.createdAt &&
           other.notes == this.notes &&
+          other.picturePath == this.picturePath &&
           other.isVisible == this.isVisible);
 }
 
@@ -602,6 +652,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   final Value<DateTime?> birthday;
   final Value<DateTime> createdAt;
   final Value<String?> notes;
+  final Value<String?> picturePath;
   final Value<bool> isVisible;
   const PartnersCompanion({
     this.id = const Value.absent(),
@@ -610,6 +661,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.notes = const Value.absent(),
+    this.picturePath = const Value.absent(),
     this.isVisible = const Value.absent(),
   });
   PartnersCompanion.insert({
@@ -619,6 +671,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.notes = const Value.absent(),
+    this.picturePath = const Value.absent(),
     this.isVisible = const Value.absent(),
   }) : name = Value(name),
        gender = Value(gender);
@@ -629,6 +682,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Expression<DateTime>? birthday,
     Expression<DateTime>? createdAt,
     Expression<String>? notes,
+    Expression<String>? picturePath,
     Expression<bool>? isVisible,
   }) {
     return RawValuesInsertable({
@@ -638,6 +692,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       if (birthday != null) 'birthday': birthday,
       if (createdAt != null) 'created_at': createdAt,
       if (notes != null) 'notes': notes,
+      if (picturePath != null) 'picture_path': picturePath,
       if (isVisible != null) 'is_visible': isVisible,
     });
   }
@@ -649,6 +704,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Value<DateTime?>? birthday,
     Value<DateTime>? createdAt,
     Value<String?>? notes,
+    Value<String?>? picturePath,
     Value<bool>? isVisible,
   }) {
     return PartnersCompanion(
@@ -658,6 +714,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       birthday: birthday ?? this.birthday,
       createdAt: createdAt ?? this.createdAt,
       notes: notes ?? this.notes,
+      picturePath: picturePath ?? this.picturePath,
       isVisible: isVisible ?? this.isVisible,
     );
   }
@@ -685,6 +742,9 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
     }
+    if (picturePath.present) {
+      map['picture_path'] = Variable<String>(picturePath.value);
+    }
     if (isVisible.present) {
       map['is_visible'] = Variable<bool>(isVisible.value);
     }
@@ -700,6 +760,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
           ..write('notes: $notes, ')
+          ..write('picturePath: $picturePath, ')
           ..write('isVisible: $isVisible')
           ..write(')'))
         .toString();
@@ -3086,6 +3147,7 @@ typedef $$PartnersTableCreateCompanionBuilder =
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<String?> notes,
+      Value<String?> picturePath,
       Value<bool> isVisible,
     });
 typedef $$PartnersTableUpdateCompanionBuilder =
@@ -3096,6 +3158,7 @@ typedef $$PartnersTableUpdateCompanionBuilder =
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<String?> notes,
+      Value<String?> picturePath,
       Value<bool> isVisible,
     });
 
@@ -3162,6 +3225,11 @@ class $$PartnersTableFilterComposer
 
   ColumnFilters<String> get notes => $composableBuilder(
     column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get picturePath => $composableBuilder(
+    column: $table.picturePath,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3235,6 +3303,11 @@ class $$PartnersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get picturePath => $composableBuilder(
+    column: $table.picturePath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get isVisible => $composableBuilder(
     column: $table.isVisible,
     builder: (column) => ColumnOrderings(column),
@@ -3267,6 +3340,11 @@ class $$PartnersTableAnnotationComposer
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<String> get picturePath => $composableBuilder(
+    column: $table.picturePath,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get isVisible =>
       $composableBuilder(column: $table.isVisible, builder: (column) => column);
@@ -3331,6 +3409,7 @@ class $$PartnersTableTableManager
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<String?> picturePath = const Value.absent(),
                 Value<bool> isVisible = const Value.absent(),
               }) => PartnersCompanion(
                 id: id,
@@ -3339,6 +3418,7 @@ class $$PartnersTableTableManager
                 birthday: birthday,
                 createdAt: createdAt,
                 notes: notes,
+                picturePath: picturePath,
                 isVisible: isVisible,
               ),
           createCompanionCallback:
@@ -3349,6 +3429,7 @@ class $$PartnersTableTableManager
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<String?> picturePath = const Value.absent(),
                 Value<bool> isVisible = const Value.absent(),
               }) => PartnersCompanion.insert(
                 id: id,
@@ -3357,6 +3438,7 @@ class $$PartnersTableTableManager
                 birthday: birthday,
                 createdAt: createdAt,
                 notes: notes,
+                picturePath: picturePath,
                 isVisible: isVisible,
               ),
           withReferenceMapper: (p0) => p0
