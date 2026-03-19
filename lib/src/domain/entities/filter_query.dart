@@ -1,5 +1,7 @@
+import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/enums/bool_filter.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
+import 'package:lustlist/src/config/enums/partners_amount.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
@@ -24,6 +26,7 @@ class FilterQuery {
   final NumericFilterData<int?> duration;
   final SelectableFilterData<Gender> gender;
   final BoolFilter notes;
+  final SelectableFilterData<PartnersAmount> partnerAmount;
 
   FilterQuery({
     required this.types,
@@ -43,6 +46,7 @@ class FilterQuery {
     required this.partnerOrgasms,
     required this.gender,
     required this.notes,
+    required this.partnerAmount
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
@@ -72,7 +76,8 @@ class FilterQuery {
             partnerOrgasms.start, partnerOrgasms.end
         )) &&
         (!gender.isEnabled || _containsAny(event.calendarEvent.getPartnerGenders(), gender.values)) &&
-        _boolFilter(notes, event.calendarEvent.event.notes)
+        _boolFilter(notes, event.calendarEvent.event.notes) &&
+        (!partnerAmount.isEnabled || _partnersAmountFilter(event.calendarEvent.getPartners()))
     ).toList();
   }
 
@@ -113,6 +118,28 @@ class FilterQuery {
         return property != null;
       case BoolFilter.notSet:
         return true;
+    }
+  }
+
+  bool _partnersAmountFilter(List<Partner>? partners) {
+    if (partners == null || partners.isEmpty) return partnerAmount.values.isEmpty;
+
+    if (partnerAmount.values.contains(PartnersAmount.unknown)) {
+      return partners.any((p) => p.id == unknownPartnerId);
+    }
+
+    int amount = partners.length;
+    if (amount > 1) {
+      return partnerAmount.values.contains(
+          PartnersAmount.severalPartners);
+    } else if (amount == 1) {
+      if (partners.first.id != unknownPartnerId) {
+        return partnerAmount.values.contains(PartnersAmount.onePartner);
+      } else {
+        return partnerAmount.values.contains(PartnersAmount.unknown);
+      }
+    } else {
+      return partnerAmount.values.isEmpty;
     }
   }
 }

@@ -34,4 +34,6 @@ class DataStrings {
   static String get sexFilter => "Sexual events options";
   static String get mstbFilter => "Solo events options";
   static String get medicalFilter => "Medical events options";
+
+  static String get partnerAmount => "Amount of partners";
 }

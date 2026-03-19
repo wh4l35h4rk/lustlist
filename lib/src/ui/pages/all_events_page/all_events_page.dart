@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
+import 'package:lustlist/src/config/enums/partners_amount.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -58,17 +59,21 @@ class _AllEventsPageState extends State<AllEventsPage> {
   List<CalendarEventWithOptions>? events;
 
   final _typeFilterController = SelectableFilterController<EventType>(
-    allValuesList: EventType.entries,
-    selectedValuesList: EventType.entries,
+    allValuesList: EventType.values,
+    selectedValuesList: EventType.values,
     isEnabledInitially: true
   );
   final _genderFilterController = SelectableFilterController<Gender>(
-      allValuesList: Gender.entries,
-      selectedValuesList: Gender.entries
+      allValuesList: Gender.values,
+      selectedValuesList: Gender.values
   );
   late final _ratingFilterController = SelectableFilterController<int>(
     allValuesList: ratingValues,
     selectedValuesList: ratingValues,
+  );
+  final _partnersAmountFilterController = SelectableFilterController<PartnersAmount>(
+    allValuesList: PartnersAmount.values,
+    selectedValuesList: PartnersAmount.values
   );
 
   final _dateFilterController = DateFilterController();
@@ -371,6 +376,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
     _notesFilterController.disable();
 
     _partnersFilterController!.disable();
+    _partnersAmountFilterController.disable();
     _partnersOrgasmsFilterController.disable();
     _genderFilterController.disable();
     _contraceptionFilterController!.disable();
@@ -423,7 +429,9 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _partnersOrgasmsFilterController.endNotifier,
       _genderFilterController.enabled,
       _genderFilterController.selectedValues,
-      _notesFilterController.modeNotifier
+      _notesFilterController.modeNotifier,
+      _partnersAmountFilterController.selectedValues,
+      _partnersAmountFilterController.enabled,
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
@@ -494,7 +502,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
         values: _genderFilterController.values,
         isEnabled: _genderFilterController.isEnabled
       ),
-      notes: _notesFilterController.mode
+      notes: _notesFilterController.mode,
+      partnerAmount: SelectableFilterData(
+          values: _partnersAmountFilterController.values,
+          isEnabled: _partnersAmountFilterController.isEnabled
+      ),
     );
 
   List<Widget> get generalButtonList => [
@@ -526,6 +538,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
       title: PageTitleStrings.partners,
       controller: _partnersFilterController!,
       nameBuilder: (e) => e.name,
+    ),
+    OptionsFilterButton<PartnersAmount>(
+      title: DataStrings.partnerAmount,
+      controller: _partnersAmountFilterController,
+      nameBuilder: (e) => e.label,
     ),
     OptionsFilterButton<Gender>(
       title: DataStrings.gender,
