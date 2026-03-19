@@ -10,6 +10,7 @@ import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
 import 'package:lustlist/src/domain/entities/numeric_filter_data.dart';
+import 'package:lustlist/src/ui/controllers/filter_controllers/bool_notes_controller.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/date_filter_controller.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_duration_filter_controller.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_text_filter_controller.dart';
@@ -23,6 +24,7 @@ import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/date_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/duration_input_body.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/notes_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/numeric_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/numeric_text_input_body.dart';
@@ -73,6 +75,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
   final _userOrgasmsFilterController = NumericTextFilterController();
   final _partnersOrgasmsFilterController = NumericTextFilterController();
   final _durationFilterController = NumericDurationFilterController();
+  final _notesFilterController = BoolNotesController();
 
   SelectableFilterController<Partner>? _partnersFilterController;
   SelectableFilterController<EOption>? _contraceptionFilterController;
@@ -190,7 +193,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
   @override
   Widget build(BuildContext context) {
     //TODO: has notes filter
-    //TODO: amount of partners
 
     return Scaffold(
         appBar: MainAppBar(
@@ -362,19 +364,25 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   void _disableAllFilters() {
     _typeFilterController.addAll();
+    _dateFilterController.disable();
+    _durationFilterController.disable();
+    _ratingFilterController.disable();
+    _userOrgasmsFilterController.disable();
+    _notesFilterController.disable();
+
     _partnersFilterController!.disable();
+    _partnersOrgasmsFilterController.disable();
+    _genderFilterController.disable();
     _contraceptionFilterController!.disable();
     _practicesFilterController!.disable();
     _posesFilterController!.disable();
     _placeFilterController!.disable();
     _ejaculationFilterController!.disable();
     _complicaciesFilterController!.disable();
-    _durationFilterController.disable();
-    _ratingFilterController.disable();
-    _userOrgasmsFilterController.disable();
-    _dateFilterController.disable();
-    _partnersOrgasmsFilterController.disable();
-    _genderFilterController.disable();
+
+    _soloPracticesFilterController!.disable();
+    _stiFilterController!.disable();
+    _obgynFilterController!.disable();
     return;
   }
 
@@ -415,6 +423,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
       _partnersOrgasmsFilterController.endNotifier,
       _genderFilterController.enabled,
       _genderFilterController.selectedValues,
+      _notesFilterController.modeNotifier
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
@@ -485,6 +494,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
         values: _genderFilterController.values,
         isEnabled: _genderFilterController.isEnabled
       ),
+      notes: _notesFilterController.mode
     );
 
   List<Widget> get generalButtonList => [
@@ -508,6 +518,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
           controller: _userOrgasmsFilterController,
         )
     ),
+    NotesFilterButton(controller: _notesFilterController),
   ];
   
   List<Widget> get sexButtonListTop => [

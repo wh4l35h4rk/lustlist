@@ -1,3 +1,4 @@
+import 'package:lustlist/src/config/enums/bool_filter.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -22,6 +23,7 @@ class FilterQuery {
   final NumericFilterData<int?> partnerOrgasms;
   final NumericFilterData<int?> duration;
   final SelectableFilterData<Gender> gender;
+  final BoolFilter notes;
 
   FilterQuery({
     required this.types,
@@ -39,7 +41,8 @@ class FilterQuery {
     required this.userOrgasms,
     required this.duration,
     required this.partnerOrgasms,
-    required this.gender
+    required this.gender,
+    required this.notes,
   });
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
@@ -68,7 +71,8 @@ class FilterQuery {
             event.calendarEvent.partnersMap?.values.toList(),
             partnerOrgasms.start, partnerOrgasms.end
         )) &&
-        (!gender.isEnabled || _containsAny(event.calendarEvent.getPartnerGenders(), gender.values))
+        (!gender.isEnabled || _containsAny(event.calendarEvent.getPartnerGenders(), gender.values)) &&
+        _boolFilter(notes, event.calendarEvent.event.notes)
     ).toList();
   }
 
@@ -99,5 +103,16 @@ class FilterQuery {
   bool _listInRange(List<num?>? list, num? rangeStart, num? rangeEnd){
     if (list == null) return rangeStart == null && rangeEnd == null;
     return list.any((element) => _inRange(element, rangeStart, rangeEnd));
+  }
+
+  bool _boolFilter<T>(BoolFilter value, T? property){
+    switch (value) {
+      case BoolFilter.noValue:
+        return property == null;
+      case BoolFilter.hasValue:
+        return property != null;
+      case BoolFilter.notSet:
+        return true;
+    }
   }
 }
