@@ -8,7 +8,7 @@ import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
-import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_data_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/add_partner_data_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/picture_picker.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
@@ -19,11 +19,8 @@ import 'package:path_provider/path_provider.dart';
 
 
 class AddPartnerPage extends StatefulWidget{
-  final DateTime? initBirthday;
-  
   const AddPartnerPage({
     super.key,
-    this.initBirthday,
   });
 
   @override
@@ -31,9 +28,9 @@ class AddPartnerPage extends StatefulWidget{
 }
 
 class _AddPartnerPageState extends State<AddPartnerPage> {
-  late final DateTime _initBirthday = widget.initBirthday
-      ?? DateFormatter.dateOnly(DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day));
-  late final _dataController = AddPartnerDataController(date: _initBirthday);
+  late final DateTime _initBirthday = DateFormatter.dateOnly(
+      DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day));
+  late final _dataController = AddPartnerDataController(birthday: _initBirthday);
 
   final repo = EventRepository(database);
   final _notesController = NotesTileController();
@@ -42,7 +39,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
     final name = _dataController.nameController.text;
     final gender = _dataController.gender;
     final notes = _notesController.notesController.text;
-    final birthday = _dataController.dateController.date;
+    final birthday = _dataController.birthdayController.date;
     final picture = _dataController.pictureFile;
 
     if (name != "") {
@@ -57,10 +54,6 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
 
         final fileName = "pfp_${id}.png";
         final fullPath = "${avatarsDir.path}/$fileName";
-
-        // final file = File(fullPath);
-        // if (await file.exists()) {
-        // }
 
         await File(picture.path).copy(fullPath);
         await repo.updatePartner(id, name, gender, birthday, fullPath, notes);

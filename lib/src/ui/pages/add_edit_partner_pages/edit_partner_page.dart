@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -7,7 +9,8 @@ import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
-import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_data_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/edit_partner_data_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/picture_picker.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -33,9 +36,9 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
 
   late final _dataController = EditPartnerDataController(
     name: partner.name,
-    isBirthdayUnknown: partner.birthday == null,
     birthday: partner.birthday,
-    gender: partner.gender
+    gender: partner.gender,
+    pictureFile: partner.picturePath != null ? File(partner.picturePath!) : null
   );
   late final _notesController = NotesTileController(notes: partner.notes);
 
@@ -43,11 +46,12 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
   void _onPressed() async {
     final name = _dataController.nameController.text;
     final gender = _dataController.gender;
-    final birthday = _dataController.dateController.date;
+    final birthday = _dataController.birthdayController.date;
     final notes = _notesController.notesController.text;
+    final picturePath = _dataController.pictureFile?.path;
 
     if (name != "") {
-      await repo.updatePartner(partner.id, name, gender, birthday, null, notes);
+      await repo.updatePartner(partner.id, name, gender, birthday, picturePath, notes);
 
       Navigator.of(context).pop(true);
       eventsUpdated.notifyUpdate();
@@ -66,6 +70,10 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
       title: PageTitleStrings.editPartner,
       body: ListView(
         children: [
+          SizedBox(height: 15),
+          PicturePicker(
+            controller: _dataController
+          ),
           BasicTile(
             surfaceColor: AppColors.addEvent.surface(context),
             margin: AppInsets.addDataMargin,

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fullscreen_image_viewer/fullscreen_image_viewer.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
@@ -98,6 +101,26 @@ class _PartnerProfileState extends State<PartnerProfile> {
         ),
         body: ListView(
           children: [
+            if (partner.picturePath != null) Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 5),
+              child: GestureDetector(
+                onTap: () => FullscreenImageViewer.open(
+                  context: context,
+                  child: Image.file(File(partner.picturePath!)),
+                ),
+                child: CircleAvatar(
+                  radius: 100,
+                  child: ClipOval(
+                    child: Image.file(
+                      width: 200,
+                      height: 200,
+                      File(partner.picturePath!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             PartnerDataTile(
               partner: partner,
             ),

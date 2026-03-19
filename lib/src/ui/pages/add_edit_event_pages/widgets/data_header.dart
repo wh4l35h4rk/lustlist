@@ -71,7 +71,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                       title: StringFormatter.colon(DataStrings.date),
                       titleColor: titleColor,
                       child: DatePicker(
-                        controller: widget.controller.dateController,
+                        controller: widget.controller.birthdayController,
                       )
                   ),
                   InfoRow(

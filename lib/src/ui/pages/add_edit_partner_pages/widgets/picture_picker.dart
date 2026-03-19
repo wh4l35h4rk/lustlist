@@ -6,10 +6,10 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_data_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/partner_data_controller_base.dart';
 
 class PicturePicker extends StatefulWidget {
-  final AddPartnerDataController controller;
+  final PartnerDataControllerBase controller;
 
   const PicturePicker({
     super.key,
@@ -24,10 +24,12 @@ class _PicturePickerState extends State<PicturePicker> {
   File? galleryFile;
   final picker = ImagePicker();
 
-  late AddPartnerDataController controller = widget.controller;
+  late PartnerDataControllerBase controller = widget.controller;
 
   @override
   Widget build(BuildContext context) {
+    galleryFile = controller.pictureFile;
+
     return Builder(
       builder: (BuildContext context) {
         return Center(
@@ -38,12 +40,20 @@ class _PicturePickerState extends State<PicturePicker> {
             children: [
               CircleAvatar(
                 radius: 100,
-                backgroundImage: galleryFile != null ? FileImage(galleryFile!) : null,
-                child: galleryFile == null ? Icon(
-                  Icons.person_outlined,
-                  size: 100,
-                  color: AppColors.avatarIcon(context),
-                ) : null,
+                child: galleryFile == null
+                  ? Icon(
+                    Icons.person_outlined,
+                    size: 100,
+                    color: AppColors.avatarIcon(context),
+                  )
+                  : ClipOval(
+                    child: Image.file(
+                      width: 200,
+                      height: 200,
+                      galleryFile!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

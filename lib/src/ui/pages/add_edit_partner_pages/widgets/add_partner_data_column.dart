@@ -106,8 +106,8 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
           title: StringFormatter.colon(DataStrings.birthday),
           titleColor: titleColor,
           child: BirthdayPicker(
-            controller: widget.controller.dateController,
-            initBirthday: widget.controller.dateController.date,
+            controller: widget.controller.birthdayController,
+            initBirthday: widget.controller.birthdayController.date,
           )
         ),
       ],

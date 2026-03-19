@@ -4,21 +4,23 @@ import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 
 
-class AddPartnerDataController {
+abstract class PartnerDataControllerBase {
   String? name;
-  DateTime date;
+  DateTime? birthday;
   Gender gender;
   File? pictureFile;
 
-  AddPartnerDataController({
-    required this.date,
+  PartnerDataControllerBase({
+    required this.birthday,
+    required this.gender,
     this.name,
-    this.gender = Gender.nonbinary,
-    this.pictureFile
+    this.pictureFile,
   });
 
-  late final DateController dateController = DateController(date: date);
-  late final TextEditingController nameController = TextEditingController();
+  late final DateController birthdayController = DateController(date: birthday);
+  late final TextEditingController nameController = createNameController();
+
+  TextEditingController createNameController();
 
   void setName(String newName) {
     name = newName;

@@ -65,7 +65,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                 children: [
                   dataRow(AppIconData.date, DataStrings.date, null,
                       DatePicker(
-                          controller: widget.controller.dateController
+                          controller: widget.controller.birthdayController
                       )
                   ),
                   dataRow(AppIconData.time, DataStrings.time, null,

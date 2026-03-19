@@ -6,11 +6,7 @@ abstract class NumericFilterControllerBase{
   late final ValueNotifier<int?> startNotifier = ValueNotifier(start);
   late final ValueNotifier<int?> endNotifier = ValueNotifier(end);
 
-  NumericFilterControllerBase({
-    bool? isEnabledInitially,
-  }) {
-    enabled.value = isEnabledInitially ?? false;
-  }
+  NumericFilterControllerBase();
 
   int? get start;
   int? get end;
