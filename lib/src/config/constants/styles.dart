@@ -26,6 +26,13 @@ class AppStyles{
     );
   }
 
+  static TextStyle eventDataBasicText(BuildContext context) {
+    return TextStyle(
+        fontSize: AppSizes.textBasic,
+        color: AppColors.eventData.text(context)
+    );
+  }
+
   static ButtonStyle selectableValueButton<T>(BuildContext context, List<T> selectedValues, T value){
     return OutlinedButton.styleFrom(
       backgroundColor: selectedValues.contains(value)

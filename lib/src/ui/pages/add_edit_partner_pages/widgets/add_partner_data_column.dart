@@ -3,6 +3,8 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/partner_data_controller_base.dart';
+import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/age_textfield.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/birthday_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/name_form.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -12,7 +14,7 @@ import 'package:lustlist/src/config/constants/icons.dart';
 
 
 class AddEditPartnerDataColumn extends StatefulWidget {
-  final dynamic controller;
+  final PartnerDataControllerBase controller;
 
   const AddEditPartnerDataColumn({
     super.key,
@@ -99,6 +101,14 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                 ),
               ],
             )
+        ),
+        SizedBox(height: 2,),
+        InfoRow(
+          iconData: AppIconData.age,
+          iconColor: iconColor,
+          title: StringFormatter.colon(DataStrings.age),
+          titleColor: titleColor,
+          child: AgeTextField(controller: widget.controller.ageController)
         ),
         InfoRow(
           iconData: AppIconData.birthday,

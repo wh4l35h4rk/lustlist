@@ -64,15 +64,15 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   dataRow(AppIconData.date, DataStrings.date, null,
-                      DatePicker(
-                          controller: widget.controller.birthdayController
-                      )
+                    DatePicker(
+                      controller: widget.controller.dateController
+                    )
                   ),
                   dataRow(AppIconData.time, DataStrings.time, null,
-                      TimePicker(
-                        type: 0,
-                        controller: widget.controller.timeController,
-                      )
+                    TimePicker(
+                      type: 0,
+                      controller: widget.controller.timeController,
+                    )
                   ),
                 ],
               ),

@@ -81,7 +81,11 @@ class AddEventColors {
       Theme.of(context).colorScheme.primary;
 
   Color pickerSurface(BuildContext context) =>
-      Theme.of(context).colorScheme.secondaryContainer;
+      colorBlend(
+          Theme.of(context).colorScheme.secondaryContainer,
+          AppColors.surface(context),
+          0.5
+      )!;
 
   Color border(BuildContext context) =>
       colorBlend(

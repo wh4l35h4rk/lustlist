@@ -235,11 +235,12 @@ class EventRepository {
   }
 
 
-  Future<int> loadPartner(String name, Gender gender, DateTime? birthday, String notes) async {
+  Future<int> loadPartner(String name, Gender gender, int? age, DateTime? birthday, String notes) async {
     int partnerId = await db.insertPartner(
       PartnersCompanion.insert(
         name: name,
         gender: gender,
+        age: Value(age),
         birthday: Value(birthday),
         notes: Value(notes),
       )
@@ -341,7 +342,7 @@ class EventRepository {
   }
 
 
-  Future updatePartner(int id, String name, Gender gender, DateTime? birthday,
+  Future updatePartner(int id, String name, Gender gender, int? age, DateTime? birthday,
       String? picturePath, String notes
   ) async {
     await db.updatePartnerRaw(
@@ -349,6 +350,7 @@ class EventRepository {
       PartnersCompanion(
         name: Value(name),
         gender: Value(gender),
+        age: Value(age),
         birthday: Value(birthday),
         picturePath: Value(picturePath),
         notes: Value(notes),

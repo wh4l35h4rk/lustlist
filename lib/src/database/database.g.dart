@@ -294,6 +294,15 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
         type: DriftSqlType.int,
         requiredDuringInsert: true,
       ).withConverter<Gender>($PartnersTable.$convertergender);
+  static const VerificationMeta _ageMeta = const VerificationMeta('age');
+  @override
+  late final GeneratedColumn<int> age = GeneratedColumn<int>(
+    'age',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _birthdayMeta = const VerificationMeta(
     'birthday',
   );
@@ -357,6 +366,7 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
     id,
     name,
     gender,
+    age,
     birthday,
     createdAt,
     notes,
@@ -385,6 +395,12 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
       );
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('age')) {
+      context.handle(
+        _ageMeta,
+        age.isAcceptableOrUnknown(data['age']!, _ageMeta),
+      );
     }
     if (data.containsKey('birthday')) {
       context.handle(
@@ -442,6 +458,10 @@ class $PartnersTable extends Partners with TableInfo<$PartnersTable, Partner> {
           data['${effectivePrefix}gender'],
         )!,
       ),
+      age: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}age'],
+      ),
       birthday: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}birthday'],
@@ -478,6 +498,7 @@ class Partner extends DataClass implements Insertable<Partner> {
   final int id;
   final String name;
   final Gender gender;
+  final int? age;
   final DateTime? birthday;
   final DateTime createdAt;
   final String? notes;
@@ -487,6 +508,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     required this.id,
     required this.name,
     required this.gender,
+    this.age,
     this.birthday,
     required this.createdAt,
     this.notes,
@@ -502,6 +524,9 @@ class Partner extends DataClass implements Insertable<Partner> {
       map['gender'] = Variable<int>(
         $PartnersTable.$convertergender.toSql(gender),
       );
+    }
+    if (!nullToAbsent || age != null) {
+      map['age'] = Variable<int>(age);
     }
     if (!nullToAbsent || birthday != null) {
       map['birthday'] = Variable<DateTime>(birthday);
@@ -522,6 +547,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       id: Value(id),
       name: Value(name),
       gender: Value(gender),
+      age: age == null && nullToAbsent ? const Value.absent() : Value(age),
       birthday: birthday == null && nullToAbsent
           ? const Value.absent()
           : Value(birthday),
@@ -547,6 +573,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       gender: $PartnersTable.$convertergender.fromJson(
         serializer.fromJson<int>(json['gender']),
       ),
+      age: serializer.fromJson<int?>(json['age']),
       birthday: serializer.fromJson<DateTime?>(json['birthday']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       notes: serializer.fromJson<String?>(json['notes']),
@@ -563,6 +590,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       'gender': serializer.toJson<int>(
         $PartnersTable.$convertergender.toJson(gender),
       ),
+      'age': serializer.toJson<int?>(age),
       'birthday': serializer.toJson<DateTime?>(birthday),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'notes': serializer.toJson<String?>(notes),
@@ -575,6 +603,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     int? id,
     String? name,
     Gender? gender,
+    Value<int?> age = const Value.absent(),
     Value<DateTime?> birthday = const Value.absent(),
     DateTime? createdAt,
     Value<String?> notes = const Value.absent(),
@@ -584,6 +613,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     id: id ?? this.id,
     name: name ?? this.name,
     gender: gender ?? this.gender,
+    age: age.present ? age.value : this.age,
     birthday: birthday.present ? birthday.value : this.birthday,
     createdAt: createdAt ?? this.createdAt,
     notes: notes.present ? notes.value : this.notes,
@@ -595,6 +625,7 @@ class Partner extends DataClass implements Insertable<Partner> {
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       gender: data.gender.present ? data.gender.value : this.gender,
+      age: data.age.present ? data.age.value : this.age,
       birthday: data.birthday.present ? data.birthday.value : this.birthday,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       notes: data.notes.present ? data.notes.value : this.notes,
@@ -611,6 +642,7 @@ class Partner extends DataClass implements Insertable<Partner> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('gender: $gender, ')
+          ..write('age: $age, ')
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
           ..write('notes: $notes, ')
@@ -625,6 +657,7 @@ class Partner extends DataClass implements Insertable<Partner> {
     id,
     name,
     gender,
+    age,
     birthday,
     createdAt,
     notes,
@@ -638,6 +671,7 @@ class Partner extends DataClass implements Insertable<Partner> {
           other.id == this.id &&
           other.name == this.name &&
           other.gender == this.gender &&
+          other.age == this.age &&
           other.birthday == this.birthday &&
           other.createdAt == this.createdAt &&
           other.notes == this.notes &&
@@ -649,6 +683,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
   final Value<int> id;
   final Value<String> name;
   final Value<Gender> gender;
+  final Value<int?> age;
   final Value<DateTime?> birthday;
   final Value<DateTime> createdAt;
   final Value<String?> notes;
@@ -658,6 +693,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.gender = const Value.absent(),
+    this.age = const Value.absent(),
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.notes = const Value.absent(),
@@ -668,6 +704,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     this.id = const Value.absent(),
     required String name,
     required Gender gender,
+    this.age = const Value.absent(),
     this.birthday = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.notes = const Value.absent(),
@@ -679,6 +716,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? gender,
+    Expression<int>? age,
     Expression<DateTime>? birthday,
     Expression<DateTime>? createdAt,
     Expression<String>? notes,
@@ -689,6 +727,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (gender != null) 'gender': gender,
+      if (age != null) 'age': age,
       if (birthday != null) 'birthday': birthday,
       if (createdAt != null) 'created_at': createdAt,
       if (notes != null) 'notes': notes,
@@ -701,6 +740,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
     Value<int>? id,
     Value<String>? name,
     Value<Gender>? gender,
+    Value<int?>? age,
     Value<DateTime?>? birthday,
     Value<DateTime>? createdAt,
     Value<String?>? notes,
@@ -711,6 +751,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       id: id ?? this.id,
       name: name ?? this.name,
       gender: gender ?? this.gender,
+      age: age ?? this.age,
       birthday: birthday ?? this.birthday,
       createdAt: createdAt ?? this.createdAt,
       notes: notes ?? this.notes,
@@ -732,6 +773,9 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
       map['gender'] = Variable<int>(
         $PartnersTable.$convertergender.toSql(gender.value),
       );
+    }
+    if (age.present) {
+      map['age'] = Variable<int>(age.value);
     }
     if (birthday.present) {
       map['birthday'] = Variable<DateTime>(birthday.value);
@@ -757,6 +801,7 @@ class PartnersCompanion extends UpdateCompanion<Partner> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('gender: $gender, ')
+          ..write('age: $age, ')
           ..write('birthday: $birthday, ')
           ..write('createdAt: $createdAt, ')
           ..write('notes: $notes, ')
@@ -3144,6 +3189,7 @@ typedef $$PartnersTableCreateCompanionBuilder =
       Value<int> id,
       required String name,
       required Gender gender,
+      Value<int?> age,
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<String?> notes,
@@ -3155,6 +3201,7 @@ typedef $$PartnersTableUpdateCompanionBuilder =
       Value<int> id,
       Value<String> name,
       Value<Gender> gender,
+      Value<int?> age,
       Value<DateTime?> birthday,
       Value<DateTime> createdAt,
       Value<String?> notes,
@@ -3212,6 +3259,11 @@ class $$PartnersTableFilterComposer
         column: $table.gender,
         builder: (column) => ColumnWithTypeConverterFilters(column),
       );
+
+  ColumnFilters<int> get age => $composableBuilder(
+    column: $table.age,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get birthday => $composableBuilder(
     column: $table.birthday,
@@ -3288,6 +3340,11 @@ class $$PartnersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get age => $composableBuilder(
+    column: $table.age,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get birthday => $composableBuilder(
     column: $table.birthday,
     builder: (column) => ColumnOrderings(column),
@@ -3331,6 +3388,9 @@ class $$PartnersTableAnnotationComposer
 
   GeneratedColumnWithTypeConverter<Gender, int> get gender =>
       $composableBuilder(column: $table.gender, builder: (column) => column);
+
+  GeneratedColumn<int> get age =>
+      $composableBuilder(column: $table.age, builder: (column) => column);
 
   GeneratedColumn<DateTime> get birthday =>
       $composableBuilder(column: $table.birthday, builder: (column) => column);
@@ -3406,6 +3466,7 @@ class $$PartnersTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<Gender> gender = const Value.absent(),
+                Value<int?> age = const Value.absent(),
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
@@ -3415,6 +3476,7 @@ class $$PartnersTableTableManager
                 id: id,
                 name: name,
                 gender: gender,
+                age: age,
                 birthday: birthday,
                 createdAt: createdAt,
                 notes: notes,
@@ -3426,6 +3488,7 @@ class $$PartnersTableTableManager
                 Value<int> id = const Value.absent(),
                 required String name,
                 required Gender gender,
+                Value<int?> age = const Value.absent(),
                 Value<DateTime?> birthday = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
@@ -3435,6 +3498,7 @@ class $$PartnersTableTableManager
                 id: id,
                 name: name,
                 gender: gender,
+                age: age,
                 birthday: birthday,
                 createdAt: createdAt,
                 notes: notes,

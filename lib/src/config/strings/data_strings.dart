@@ -8,6 +8,7 @@ class DataStrings {
   static const String name = "Name";
   static const String gender = "Gender";
   static const String birthday = "Birthday";
+  static const String age = "Age";
   static const String notes = "Notes";
   static const String type = "Type";
   static const String porn = "Porn";

@@ -7,11 +7,17 @@ class EditPartnerDataController extends PartnerDataControllerBase {
     required super.birthday,
     required super.name,
     required super.gender,
+    required super.age,
     super.pictureFile
   });
 
   @override
   TextEditingController createNameController() {
     return TextEditingController(text: name);
+  }
+
+  @override
+  TextEditingController createAgeController() {
+    return TextEditingController(text: age.toString());
   }
 }

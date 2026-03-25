@@ -38,6 +38,7 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
     name: partner.name,
     birthday: partner.birthday,
     gender: partner.gender,
+    age: partner.age,
     pictureFile: partner.picturePath != null ? File(partner.picturePath!) : null
   );
   late final _notesController = NotesTileController(notes: partner.notes);
@@ -49,9 +50,10 @@ class _EditPartnerPageState extends State<EditPartnerPage> {
     final birthday = _dataController.birthdayController.date;
     final notes = _notesController.notesController.text;
     final picturePath = _dataController.pictureFile?.path;
+    final age = _dataController.ageValue;
 
     if (name != "") {
-      await repo.updatePartner(partner.id, name, gender, birthday, picturePath, notes);
+      await repo.updatePartner(partner.id, name, gender, age, birthday, picturePath, notes);
 
       Navigator.of(context).pop(true);
       eventsUpdated.notifyUpdate();

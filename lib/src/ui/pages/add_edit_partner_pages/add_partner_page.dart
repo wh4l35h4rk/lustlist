@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
@@ -38,12 +37,13 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
   void _onPressed() async {
     final name = _dataController.nameController.text;
     final gender = _dataController.gender;
+    final age = _dataController.ageValue;
     final notes = _notesController.notesController.text;
     final birthday = _dataController.birthdayController.date;
     final picture = _dataController.pictureFile;
 
     if (name != "") {
-      int id = await repo.loadPartner(name, gender, birthday, notes);
+      int id = await repo.loadPartner(name, gender, age, birthday, notes);
 
       if (picture != null) {
         final appDir = await getApplicationDocumentsDirectory();
@@ -56,7 +56,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
         final fullPath = "${avatarsDir.path}/$fileName";
 
         await File(picture.path).copy(fullPath);
-        await repo.updatePartner(id, name, gender, birthday, fullPath, notes);
+        await repo.updatePartner(id, name, gender, null, birthday, fullPath, notes);
       }
 
       Navigator.of(context).pop(true);

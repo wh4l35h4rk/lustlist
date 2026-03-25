@@ -92,4 +92,6 @@ class StringFormatter {
   static String eventRatio(int i, int j) {
     return "($i/$j events)";
   }
+
+  static String age(String value) => "$value years";
 }

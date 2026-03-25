@@ -43,6 +43,7 @@ class MiscStrings {
 
   static const String notesHint = "Write some notes!";
   static const String nameHint = "Enter name";
+  static const String ageHint = "Enter age";
 
   static const String partnersSubtitle = "Manage info of all of your sexual partners.";
   static String get allEventsSubtitle => "Browse all of your events at once.";

@@ -36,7 +36,8 @@ class AppIconData {
   static const IconData toys = CategoryIcons.vibratorFilled;
   static const IconData toysOutlined = CategoryIcons.vibrator;
 
-  static const IconData birthday = Icons.cake;
+  static const IconData age = Icons.cake;
+  static const IconData birthday = Icons.calendar_month_outlined;
 
   static const IconData contraception = CategoryIcons.condom;
   static const IconData practices = CustomIcons.handLizard;

@@ -4,24 +4,28 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 
-class IntForm extends StatefulWidget {
+class IntFilterForm extends StatefulWidget {
   final TextEditingController controller;
 
-  const IntForm({
+  const IntFilterForm({
     super.key,
     required this.controller,
     required this.isEnabled,
-    this.hint
+    this.hint,
+    this.textSize,
+    this.onChanged,
   });
 
   final bool isEnabled;
   final String? hint;
+  final double? textSize;
+  final ValueChanged? onChanged;
 
   @override
-  State<IntForm> createState() => _IntFormState();
+  State<IntFilterForm> createState() => _IntFilterFormState();
 }
 
-class _IntFormState extends State<IntForm> {
+class _IntFilterFormState extends State<IntFilterForm> {
   final _formKey = GlobalKey<FormState>();
   late final controller = widget.controller;
 
@@ -31,8 +35,13 @@ class _IntFormState extends State<IntForm> {
       key: _formKey,
       autovalidateMode: AutovalidateMode.always,
       child: TextFormField(
+        onChanged: widget.onChanged,
         enabled: widget.isEnabled,
         validator: (value) => _valueValidate(value),
+        style: TextStyle(
+          fontSize: widget.textSize ?? AppSizes.textBasic
+        ),
+        textAlign: TextAlign.center,
         decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -46,7 +55,9 @@ class _IntFormState extends State<IntForm> {
             ),
             hintText: MiscStrings.unknown,
             hintStyle: TextStyle(
-                fontSize: AppSizes.textBasic
+              fontSize: widget.textSize != null
+                ? widget.textSize! - 2
+                : AppSizes.textBasic
             ),
             labelText: widget.hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,

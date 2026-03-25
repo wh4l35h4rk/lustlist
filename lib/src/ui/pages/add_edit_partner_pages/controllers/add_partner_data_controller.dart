@@ -8,11 +8,17 @@ class AddPartnerDataController extends PartnerDataControllerBase {
     required super.birthday,
     super.gender = Gender.unknown,
     super.name,
+    super.age,
     super.pictureFile,
   });
 
   @override
   TextEditingController createNameController() {
+    return TextEditingController();
+  }
+
+  @override
+  TextEditingController createAgeController() {
     return TextEditingController();
   }
 }
