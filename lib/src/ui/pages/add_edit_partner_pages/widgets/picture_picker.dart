@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:fullscreen_image_viewer/fullscreen_image_viewer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
@@ -40,20 +41,28 @@ class _PicturePickerState extends State<PicturePicker> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(
-                radius: 100,
-                child: galleryFile == null
-                    ? Icon(
-                  Icons.person_outlined,
-                  size: 100,
-                  color: AppColors.avatarIcon(context),
-                )
-                    : ClipOval(
-                  child: Image.file(
-                    width: 200,
-                    height: 200,
-                    galleryFile!,
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: galleryFile == null
+                  ? null
+                  : () => FullscreenImageViewer.open(
+                    context: context,
+                    child: Image.file(galleryFile!),
+                  ),
+                child: CircleAvatar(
+                  radius: 100,
+                  child: galleryFile == null
+                      ? Icon(
+                    Icons.person_outlined,
+                    size: 100,
+                    color: AppColors.avatarIcon(context),
+                  )
+                      : ClipOval(
+                    child: Image.file(
+                      width: 200,
+                      height: 200,
+                      galleryFile!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

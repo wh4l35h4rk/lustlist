@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
@@ -29,12 +31,7 @@ class PartnerListTile extends StatelessWidget {
       margin: AppInsets.listTile,
       child: ListTile(
           onTap: onTap,
-          leading: Icon(
-            partner.gender.iconData,
-            size: partner.gender == Gender.nonbinary
-                ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-            color: AppColors.categoryTile.icon(context),
-          ),
+          leading: _getLeading(context),
           title: Wrap(
             children: [
               Text(
@@ -80,6 +77,33 @@ class PartnerListTile extends StatelessWidget {
             ),
           )
         ]);
+    }
+  }
+
+  Widget _getLeading(BuildContext context){
+    String? picturePath = partner.picturePath;
+    if (picturePath == null || picturePath == ""){
+      return Padding(
+        padding: const EdgeInsets.all(5),
+        child: Icon(
+          partner.gender.iconData,
+          size: partner.gender == Gender.nonbinary
+              ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
+          color: AppColors.categoryTile.icon(context),
+        ),
+      );
+    } else {
+      return CircleAvatar(
+        radius: 17,
+        child: ClipOval(
+          child: Image.file(
+            width: 200,
+            height: 200,
+            File(picturePath),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
     }
   }
 }
