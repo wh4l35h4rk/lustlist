@@ -24,4 +24,5 @@ class PageTitleStrings {
   static const String editPartner = "Edit partner profile";
 
   static const String allEvents = "Events search";
+  static const String uploadPicture = "Upload profile picture";
 }

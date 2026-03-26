@@ -7,11 +7,13 @@ import 'package:lustlist/src/config/constants/icons.dart';
 class ErrorTile extends StatelessWidget {
   final IconData iconData;
   final String title;
+  final bool colorsInverted;
 
   const ErrorTile({
     super.key,
     this.iconData = AppIconData.error,
     this.title = MiscStrings.errorLoadingData,
+    this.colorsInverted = false
   });
 
   @override
@@ -26,13 +28,13 @@ class ErrorTile extends StatelessWidget {
             Icon(
               iconData,
               size: AppSizes.iconHelper,
-              color: AppColors.categoryTile.leadingIcon(context),
+              color: colorsInverted ? AppColors.appBar.icon(context) : AppColors.categoryTile.leadingIcon(context),
             ),
             SizedBox(width: 5),
             Text(
               title,
               style: TextStyle(
-                color: AppColors.categoryTile.text(context),
+                color: colorsInverted ? AppColors.appBar.text(context) : AppColors.categoryTile.text(context),
                 fontSize: AppSizes.textBasic
               ),
             )

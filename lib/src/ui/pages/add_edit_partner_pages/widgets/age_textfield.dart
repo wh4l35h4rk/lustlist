@@ -5,7 +5,7 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_filter_form.dart';
+import 'package:lustlist/src/ui/widgets/int_text_field_form.dart';
 
 class AgeTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -78,7 +78,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
                 children: [
                   SizedBox(
                     width: 150,
-                    child: IntFilterForm(
+                    child: IntTextFieldForm(
                       controller: widget.controller,
                       hint: DataStrings.age,
                       isEnabled: true,

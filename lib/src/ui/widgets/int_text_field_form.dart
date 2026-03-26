@@ -4,10 +4,10 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 
-class IntFilterForm extends StatefulWidget {
+class IntTextFieldForm extends StatefulWidget {
   final TextEditingController controller;
 
-  const IntFilterForm({
+  const IntTextFieldForm({
     super.key,
     required this.controller,
     required this.isEnabled,
@@ -22,10 +22,10 @@ class IntFilterForm extends StatefulWidget {
   final ValueChanged? onChanged;
 
   @override
-  State<IntFilterForm> createState() => _IntFilterFormState();
+  State<IntTextFieldForm> createState() => _IntTextFieldFormState();
 }
 
-class _IntFilterFormState extends State<IntFilterForm> {
+class _IntTextFieldFormState extends State<IntTextFieldForm> {
   final _formKey = GlobalKey<FormState>();
   late final controller = widget.controller;
 

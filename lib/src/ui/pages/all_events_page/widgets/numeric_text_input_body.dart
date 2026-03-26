@@ -3,7 +3,7 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_text_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/int_filter_form.dart';
+import 'package:lustlist/src/ui/widgets/int_text_field_form.dart';
 
 class NumericTextInputBody extends StatelessWidget {
   const NumericTextInputBody({
@@ -52,7 +52,7 @@ class NumericTextInputBody extends StatelessWidget {
           Widget singleModeWidget = Center(
             child: SizedBox(
                 width: width,
-                child: IntFilterForm(
+                child: IntTextFieldForm(
                   isEnabled: isEnabled,
                   controller: controller.startController,
                   hint: MiscStrings.equals,
@@ -66,7 +66,7 @@ class NumericTextInputBody extends StatelessWidget {
             children: [
               SizedBox(
                   width: width,
-                  child: IntFilterForm(
+                  child: IntTextFieldForm(
                     isEnabled: isEnabled,
                     controller: controller.startController,
                     hint: MiscStrings.start,
@@ -75,7 +75,7 @@ class NumericTextInputBody extends StatelessWidget {
               SizedBox(width: 15),
               SizedBox(
                   width: width,
-                  child: IntFilterForm(
+                  child: IntTextFieldForm(
                     isEnabled: isEnabled,
                     controller: controller.endController,
                     hint: MiscStrings.end,
