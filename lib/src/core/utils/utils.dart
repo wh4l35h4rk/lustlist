@@ -7,7 +7,7 @@ final kLastDay = DateFormatter.dateOnly(DateTime.now());
 
 const appTitle = "LustList";
 
-final defaultDate = DateTime(1970, 1, 1, 0, 0, 0);
-final minBirthday = DateTime(kToday.year - 120, 1, 1, 0, 0, 0);
+final defaultDate = DateTime(1970, 1, 1);
+final minBirthday = DateTime(kToday.year - 130, 1, 1);
 
 final maxOrgasms = 11;

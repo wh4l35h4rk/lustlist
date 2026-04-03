@@ -56,7 +56,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
         final fullPath = "${avatarsDir.path}/$fileName";
 
         await File(picture.path).copy(fullPath);
-        await repo.updatePartner(id, name, gender, null, birthday, fullPath, notes);
+        await repo.updatePartner(id, name, gender, age, birthday, fullPath, notes);
       }
 
       Navigator.of(context).pop(true);
