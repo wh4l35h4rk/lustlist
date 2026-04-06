@@ -53,7 +53,7 @@ class _EventPageState extends State<EventPage> {
         title: _getTitle(),
         backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(eventChanged ? true : null),
-            icon: Icon(AppIconData.arrowLeft),
+            icon: Icon(AppIconData.backButton),
             color: AppColors.appBar.icon(context),
         ),
         editButton: IconButton(

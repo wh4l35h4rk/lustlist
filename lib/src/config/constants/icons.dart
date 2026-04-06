@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/custom_icons.dart';
 
 class AppIconData {
+  static const IconData backButton = Icons.arrow_back;
+  static const IconData add = Icons.add;
+  static const IconData error = Icons.bug_report;
+  static const IconData noData = Icons.question_mark;
+  static const IconData arrowLeft = Icons.arrow_back_ios;
+  static const IconData arrowRight = Icons.arrow_forward_ios;
+  static const IconData edit = Icons.edit;
+  static const IconData delete = Icons.delete;
+  static const IconData openExternal = Icons.open_in_new;
+
   static const IconData calendar = Icons.calendar_month;
   static const IconData statistics = Icons.stacked_bar_chart;
   static const IconData options = Icons.settings;
@@ -58,14 +68,6 @@ class AppIconData {
   static const IconData importExport = Icons.import_export;
   static const IconData credits = Icons.code;
 
-  static const IconData add = Icons.add;
-  static const IconData error = Icons.bug_report;
-  static const IconData noData = Icons.question_mark;
-  static const IconData arrowLeft = Icons.arrow_back_ios;
-  static const IconData arrowRight = Icons.arrow_forward_ios;
-  static const IconData edit = Icons.edit;
-  static const IconData delete = Icons.delete;
-
   static const IconData lightTheme = Icons.light_mode;
   static const IconData darkTheme = Icons.dark_mode;
 
@@ -78,4 +80,8 @@ class AppIconData {
 
   static const IconData camera = Icons.camera_alt;
   static const IconData gallery = Icons.photo_library;
+
+  static const IconData github = CustomIcons.github;
+  static const IconData feedback = Icons.feedback;
+  static const IconData license = Icons.account_balance;
 }

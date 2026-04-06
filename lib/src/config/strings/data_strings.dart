@@ -29,6 +29,8 @@ class DataStrings {
   static String get complicacies => "Complicacies";
 
   static const String source = "Source code";
+  static const String license = "License";
+  static const String feedback = "Feedback";
 
   static String get toys => "Toys";
 

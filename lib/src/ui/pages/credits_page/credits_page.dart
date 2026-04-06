@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/config/constants/custom_icons.dart';
+import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/credits_strings.dart';
@@ -8,6 +8,7 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
+import 'package:lustlist/src/ui/pages/credits_page/app_license_page.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,17 +59,43 @@ class CreditsPage extends StatelessWidget {
                   ),
                 ),
                 BasicTile(
-                    surfaceColor: surfaceColor,
-                    child: Text(
-                        CreditsStrings.license,
-                        style: basicTextStyle
-                    )
+                  surfaceColor: surfaceColor,
+                  child: Text(
+                    CreditsStrings.license,
+                    style: basicTextStyle
+                  )
                 ),
                 Padding(
                   padding: AppInsets.highDivider,
                   child: Divider(),
                 ),
-                SourceCodeButton()
+                _CreditsTile(
+                  title: DataStrings.source,
+                  subtitle: CreditsStrings.sourceSubtitle,
+                  iconData: AppIconData.github,
+                  trailingIconData: AppIconData.openExternal,
+                  onTap: () async { await goToWebPage(CreditsStrings.link); },
+                ),
+                _CreditsTile(
+                  title: DataStrings.feedback,
+                  subtitle: CreditsStrings.feedbackSubtitle,
+                  iconData: AppIconData.feedback,
+                  trailingIconData: AppIconData.openExternal,
+                  onTap: null,
+                ),
+                _CreditsTile(
+                  title: DataStrings.license,
+                  subtitle: CreditsStrings.licenseSubtitle,
+                  iconData: AppIconData.license,
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AppLicensePage(),
+                      ),
+                    );
+                  },
+                ),
               ]),
             )
           ]
@@ -79,62 +106,50 @@ class CreditsPage extends StatelessWidget {
       ),
     );
   }
-}
 
-
-
-class SourceCodeButton extends StatelessWidget {
-  const SourceCodeButton({
-    super.key
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: OutlinedButton(
-        onPressed: () async {await goToWebPage(CreditsStrings.link);},
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-            if (states.contains(WidgetState.pressed)) {
-              return null;
-            }
-            return AppColors.categoryTile.surface(context);
-          },
-          ),
-          side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
-            return BorderSide(color: AppColors.categoryTile.border(context));
-          },
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              DataStrings.source,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: AppColors.categoryTile.title(context),
-                fontSize: AppSizes.titleSmall,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(width: 5),
-            Icon(
-              CustomIcons.github,
-              color: AppColors.categoryTile.leadingIcon(context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Future<void> goToWebPage(String s) async {
     final Uri url = Uri.parse(s);
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     }
+  }
+}
+
+class _CreditsTile extends StatelessWidget {
+  final GestureTapCallback? onTap;
+  final String title;
+  final String subtitle;
+  final IconData iconData;
+  final IconData? trailingIconData;
+
+  const _CreditsTile({
+    required this.title,
+    required this.subtitle,
+    required this.iconData,
+    required this.onTap,
+    this.trailingIconData
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: AppSizes.titleLarge,
+            fontWeight: FontWeight.bold
+        ),
+      ),
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(
+          iconData
+        ),
+      ),
+      subtitle: Text(subtitle),
+      trailing: Icon(trailingIconData ?? AppIconData.arrowRight),
+      onTap: onTap,
+    );
   }
 }

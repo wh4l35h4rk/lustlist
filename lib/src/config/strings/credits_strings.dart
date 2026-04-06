@@ -7,4 +7,8 @@ class CreditsStrings {
 
   static String? get intro1 => "This project is created by ";
   static String? get intro2 => "!";
+
+  static String get sourceSubtitle => "Check LustList source code!";
+  static String get feedbackSubtitle => "Share feedback via e-mail.";
+  static String get licenseSubtitle => "Read app's license.";
 }

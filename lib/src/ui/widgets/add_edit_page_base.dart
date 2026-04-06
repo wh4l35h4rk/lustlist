@@ -47,7 +47,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
             title: widget.title,
             backButton: IconButton(
                 onPressed: () => _showPopUp(context, null),
-                icon: Icon(AppIconData.arrowLeft),
+                icon: Icon(AppIconData.backButton),
                 color: AppColors.surface(context)
             ),
             editButton: IconButton(

@@ -33,6 +33,13 @@ class AppStyles{
     );
   }
 
+  static TextStyle largeTitleText(BuildContext context) {
+    return TextStyle(
+        fontSize: AppSizes.titleLarge,
+        fontWeight: FontWeight.bold
+    );
+  }
+
   static ButtonStyle selectableValueButton<T>(BuildContext context, List<T> selectedValues, T value){
     return OutlinedButton.styleFrom(
       backgroundColor: selectedValues.contains(value)

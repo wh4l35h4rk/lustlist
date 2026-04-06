@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/constants/styles.dart';
 
 
 class OptionsListTile extends StatelessWidget {
@@ -38,10 +39,7 @@ class OptionsListTile extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: AppSizes.titleLarge,
-                  fontWeight: FontWeight.bold
-                ),
+                style: AppStyles.largeTitleText(context)
               )
             ],
           ),

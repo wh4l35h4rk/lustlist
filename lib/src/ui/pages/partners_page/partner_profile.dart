@@ -60,7 +60,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
           title: partner.name,
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(partnerChanged ? true : null),
-            icon: Icon(AppIconData.arrowLeft),
+            icon: Icon(AppIconData.backButton),
             color: AppColors.appBar.icon(context),
           ),
           editButton: IconButton(

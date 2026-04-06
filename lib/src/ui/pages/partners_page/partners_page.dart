@@ -46,7 +46,7 @@ class _PartnersPageState extends State<PartnersPage> {
         title: PageTitleStrings.partners,
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(partnersChanges ? true : null),
-          icon: Icon(AppIconData.arrowLeft),
+          icon: Icon(AppIconData.backButton),
           color: AppColors.appBar.icon(context),
         ),
       ),
