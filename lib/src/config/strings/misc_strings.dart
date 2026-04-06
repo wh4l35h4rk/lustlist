@@ -49,7 +49,7 @@ class MiscStrings {
   static String get allEventsSubtitle => "Browse all of your events at once.";
   static const String tagVisibilitySubtitle = "Disable unused options' visibility and customize new ones.";
   static const String dataExportSubtitle = "Export your data in machine-readable format.";
-  static const String creditsSubtitle = "Learn more about developer.";
+  static const String creditsSubtitle = "Feedback form, source code, licenses.";
 
   static String get didUse => "Did use";
   static String get didNotUse => "Did not use";

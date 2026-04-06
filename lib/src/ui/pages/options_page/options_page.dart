@@ -50,7 +50,7 @@ class OptionsPage extends StatelessWidget {
             OptionsListTile(
                 title: PageTitleStrings.credits,
                 subtitle: MiscStrings.creditsSubtitle,
-                iconData: AppIconData.credits,
+                iconData: AppIconData.info,
                 page: CreditsPage()
             ),
           ]),

@@ -7,6 +7,8 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/ui/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class CropImagePage extends StatefulWidget {
@@ -35,6 +37,10 @@ class _CropImagePageState extends State<CropImagePage> {
 
   @override
   Widget build(BuildContext context) {
+    late final themeProvider = context.read<ThemeProvider>();
+    late bool isLight = themeProvider.themeMode == ThemeMode.light;
+    Color itemsColor = isLight ? AppColors.surface(context) : AppColors.text(context);
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -43,7 +49,7 @@ class _CropImagePageState extends State<CropImagePage> {
           onPressed: () => Navigator.pop(context),
           icon: Icon(
             AppIconData.arrowLeft,
-            color: AppColors.appBar.icon(context),
+            color: itemsColor,
           )
         ),
         actions: [
@@ -51,14 +57,14 @@ class _CropImagePageState extends State<CropImagePage> {
             onPressed: () => _cropController.crop(),
             icon: Icon(
               AppIconData.selected,
-              color: AppColors.surface(context),
+              color: itemsColor,
             )
           ),
         ],
         title: Text(
           PageTitleStrings.uploadPicture,
           style: TextStyle(
-            color: AppColors.appBar.text(context),
+            color: itemsColor,
             fontSize: AppSizes.appbarBasic,
           )
         ),
@@ -92,7 +98,7 @@ class _CropImagePageState extends State<CropImagePage> {
                 maskColor: Colors.black.withAlpha(100),
                 baseColor: Colors.black,
                 cornerDotBuilder: (size, edgeAlignment) => DotControl(
-                  color: AppColors.surface(context),
+                  color: itemsColor,
                 ),
                 interactive: true,
                 radius: 4,

@@ -21,11 +21,6 @@ class CreditsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var surfaceColor = AppColors.notesBottom(context)!;
-    TextStyle basicTextStyle = TextStyle(
-      fontSize: AppSizes.textBasic,
-      color: AppColors.categoryTile.text(context),
-    );
-
     return Scaffold(
       body: CustomScrollView(
           slivers: [
@@ -38,33 +33,28 @@ class CreditsPage extends StatelessWidget {
                 SizedBox(height: 15),
                 BasicTile(
                   surfaceColor: surfaceColor,
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontSize: AppSizes.textBasic,
-                        color: AppColors.categoryTile.text(context),
-                        letterSpacing: 0.4,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(text: CreditsStrings.intro1),
-                        TextSpan(text: CreditsStrings.githubNickname,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.categoryTile.leadingIcon(context),
-                            letterSpacing: 0.4,
-                          )
+                  child: Center(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: AppSizes.textBasic,
+                          color: AppColors.categoryTile.text(context),
+                          letterSpacing: 0.4,
                         ),
-                        TextSpan(text: CreditsStrings.intro2),
-                      ],
+                        children: <TextSpan>[
+                          TextSpan(text: CreditsStrings.intro1),
+                          TextSpan(text: CreditsStrings.githubNickname,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.categoryTile.leadingIcon(context),
+                              letterSpacing: 0.4,
+                            )
+                          ),
+                          TextSpan(text: CreditsStrings.intro2),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                BasicTile(
-                  surfaceColor: surfaceColor,
-                  child: Text(
-                    CreditsStrings.license,
-                    style: basicTextStyle
-                  )
                 ),
                 Padding(
                   padding: AppInsets.highDivider,
@@ -134,7 +124,7 @@ class _CreditsTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.iconData,
-    required this.onTap,
+    this.onTap,
     this.trailingIconData
   });
 

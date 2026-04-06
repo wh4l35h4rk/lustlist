@@ -14,7 +14,7 @@ class AppIconData {
 
   static const IconData calendar = Icons.calendar_month;
   static const IconData statistics = Icons.stacked_bar_chart;
-  static const IconData options = Icons.settings;
+  static const IconData options = Icons.more_horiz;
 
   static const IconData sex = Icons.favorite;
   static const IconData sexOutlined = Icons.favorite_border;
@@ -66,7 +66,7 @@ class AppIconData {
   static const IconData allEvents = Icons.event;
   static const IconData customizeTags = Icons.tag;
   static const IconData importExport = Icons.import_export;
-  static const IconData credits = Icons.code;
+  static const IconData info = Icons.info_outline;
 
   static const IconData lightTheme = Icons.light_mode;
   static const IconData darkTheme = Icons.dark_mode;
