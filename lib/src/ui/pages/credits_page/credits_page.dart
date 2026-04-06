@@ -12,6 +12,7 @@ import 'package:lustlist/src/ui/pages/credits_page/app_license_page.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 
 class CreditsPage extends StatelessWidget {
@@ -47,11 +48,11 @@ class CreditsPage extends StatelessWidget {
                       children: <TextSpan>[
                         TextSpan(text: CreditsStrings.intro1),
                         TextSpan(text: CreditsStrings.githubNickname,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.categoryTile.leadingIcon(context),
-                              letterSpacing: 0.4,
-                            )
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.categoryTile.leadingIcon(context),
+                            letterSpacing: 0.4,
+                          )
                         ),
                         TextSpan(text: CreditsStrings.intro2),
                       ],
@@ -81,7 +82,13 @@ class CreditsPage extends StatelessWidget {
                   subtitle: CreditsStrings.feedbackSubtitle,
                   iconData: AppIconData.feedback,
                   trailingIconData: AppIconData.openExternal,
-                  onTap: null,
+                  onTap: () async => FlutterEmailSender.send(
+                    Email(
+                      body: CreditsStrings.emailDefault,
+                      recipients: [CreditsStrings.emailAddress],
+                      subject: CreditsStrings.emailSubject,
+                    ),
+                  )
                 ),
                 _CreditsTile(
                   title: DataStrings.license,

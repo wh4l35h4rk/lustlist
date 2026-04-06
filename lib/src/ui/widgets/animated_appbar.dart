@@ -27,7 +27,7 @@ class AnimatedAppBar extends StatelessWidget{
       floating: false,
       leading: hasBackButton ? IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: Icon(AppIconData.arrowLeft),
+        icon: Icon(AppIconData.backButton),
         color: AppColors.appBar.icon(context)
       ) : null,
       expandedHeight: expandedHeight,

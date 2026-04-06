@@ -11,4 +11,8 @@ class CreditsStrings {
   static String get sourceSubtitle => "Check LustList source code!";
   static String get feedbackSubtitle => "Share feedback via e-mail.";
   static String get licenseSubtitle => "Read app's license.";
+
+  static String get emailAddress => "your.damn.dreamer@gmail.com";
+  static String get emailSubject => "LustList feedback";
+  static String get emailDefault => 'Hi! I would like to share some feedback.';
 }
