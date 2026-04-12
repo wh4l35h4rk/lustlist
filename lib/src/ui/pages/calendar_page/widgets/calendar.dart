@@ -9,11 +9,11 @@ import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/ui/pages/calendar_page/widgets/events_animated_list.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar_event_listtile.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 
@@ -44,7 +44,6 @@ class _CalendarState extends State<Calendar> {
   final repo = EventRepository(database);
   final CalendarFormat _calendarFormat = CalendarFormat.month;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
-
 
   @override
   void initState() {
@@ -79,51 +78,6 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
-  void _showPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Center(
-              child: Text(
-                MiscStrings.selectMonth,
-                style: TextStyle(color: AppColors.calendar.title(context)),
-              )),
-          content: SizedBox(
-            height: 100,
-            child: CupertinoTheme(
-              data: CupertinoThemeData(
-                textTheme: CupertinoTextThemeData(
-                  dateTimePickerTextStyle: TextStyle(
-                    fontSize: AppSizes.titleSmall,
-                    color: AppColors.text(context)
-                  ),
-                )
-              ),
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.monthYear,
-                minimumDate: kFirstDay,
-                maximumDate: kLastDay,
-                initialDateTime: _focusedDay.value.isAfter(kLastDay) ? kLastDay : _focusedDay.value,
-                onDateTimeChanged: (DateTime newDate) {
-                  _selectedDay.value = newDate;
-                },
-              ),
-            ),
-          ),
-          actions: [
-            MaterialButton(
-              child: const Text(ButtonStrings.ok),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _focusedDay.value = _selectedDay.value!;
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,36 +87,7 @@ class _CalendarState extends State<Calendar> {
         builder: (context, value, child) {
           return Column(
             children: [
-              _CalendarHeader(
-                focusedDay: _focusedDay.value,
-                onTodayButtonTap: () {
-                  setState(() {
-                    _focusedDay.value = DateTime.now();
-                    _selectedDay.value = DateTime.now();
-                    _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
-                  });
-                },
-                onLeftArrowTap: () {
-                  _pageController.previousPage(
-                    duration: Duration(milliseconds: calendarDuration),
-                    curve: Curves.easeOut,
-                  );
-                  _selectedDay.value = null;
-                  _selectedEvents.value = [];
-                },
-                onRightArrowTap: () {
-                  _pageController.nextPage(
-                    duration: Duration(milliseconds: calendarDuration),
-                    curve: Curves.easeOut,
-                  );
-                  _selectedDay.value = null;
-                  _selectedEvents.value = [];
-                },
-                onSelectDateButtonTap: () {
-                  _showPopUp(context);
-                },
-              ),
-
+              _buildCalendarHeader(),
               ValueListenableBuilder(
                 valueListenable: widget.events,
                 builder: (context, value, child) {
@@ -197,31 +122,7 @@ class _CalendarState extends State<Calendar> {
                         return const SizedBox();
                       },
                     ),
-                    calendarStyle: CalendarStyle(
-                      defaultTextStyle: TextStyle(
-                        color: AppColors.calendar.basicText(context),
-                      ),
-                      weekendTextStyle: TextStyle(
-                        color: AppColors.calendar.weekendText(context)
-                      ),
-                      disabledTextStyle: TextStyle(
-                          color: AppColors.calendar.disabledText(context)
-                      ),
-                      outsideTextStyle: TextStyle(
-                          color: AppColors.calendar.outsideText(context)
-                      ),
-                      selectedDecoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.calendar.selectedEvent(context),
-                      ),
-                      todayTextStyle: TextStyle(
-                        color: AppColors.calendar.weekendText(context),
-                      ),
-                      todayDecoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.calendar.todayEvent(context),
-                      ),
-                    ),
+                    calendarStyle: _calendarStyle,
                     pageJumpingEnabled: true,
                     headerVisible: false,
                     eventLoader: _getEventsForDay,
@@ -241,57 +142,71 @@ class _CalendarState extends State<Calendar> {
               ),
 
               const SizedBox(height: 15.0),
-              (_selectedEvents.value.isNotEmpty) ?
-                Expanded(
-                  child: ValueListenableBuilder<List<CalendarEvent>>(
-                    valueListenable: _selectedEvents,
-                    builder: (context, value, _) {
-                      return ListView.builder(
-                        itemCount: value.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              index == 0 ? Padding(
-                                padding: AppInsets.divider,
-                                child: Divider(
-                                  height: AppSizes.dividerMinimal,
-                                ),
-                              ) : SizedBox.shrink(),
-                              CalendarEventListTile(
-                                onTap: () => _onEventListTileTap(value[index]),
-                                event: value[index],
-                              ),
-                              Padding(
-                                padding: AppInsets.divider,
-                                child: Divider(
-                                  height: AppSizes.dividerMinimal,
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      );
-                    },
+              if (_selectedDay.value != null && _selectedEvents.value.isNotEmpty)
+                Padding(
+                  padding: AppInsets.divider,
+                  child: Divider(
+                    height: AppSizes.dividerMinimal,
                   ),
-                ) :
-                Column(
-                  children: [
-                    const SizedBox(height: 15.0),
-                    Text(
-                      _selectedDay.value != null ? MiscStrings.noEventsForDaySelected : MiscStrings.noDaySelected,
-                      style: TextStyle(
-                        color: AppColors.defaultTile(context),
-                        fontSize: AppSizes.titleSmall
-                      ),
-                    ),
-                  ],
                 ),
+              ValueListenableBuilder(
+                  valueListenable: _selectedDay,
+                  builder: (context, day, _) {
+                    if (day != null) {
+                      return Expanded(
+                        child: ValueListenableBuilder<List<CalendarEvent>>(
+                          valueListenable: _selectedEvents,
+                          builder: (context, list, _) {
+                            return EventsAnimatedList(
+                              newList: list,
+                              newDate: _selectedDay.value!,
+                              onTap: _onEventListTileTap,
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 15.0),
+                          Text(
+                            MiscStrings.noDaySelected,
+                            style: TextStyle(
+                                color: AppColors.defaultTile(context),
+                                fontSize: AppSizes.titleSmall
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+              ),
+
             ],
           );
         }
       ),
     );
   }
+
+
+  CalendarStyle get _calendarStyle =>
+    CalendarStyle(
+      defaultTextStyle: TextStyle(color: AppColors.calendar.basicText(context)),
+      weekendTextStyle: TextStyle(color: AppColors.calendar.weekendText(context)),
+      disabledTextStyle: TextStyle(color: AppColors.calendar.disabledText(context)),
+      outsideTextStyle: TextStyle(color: AppColors.calendar.outsideText(context)),
+      selectedDecoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.calendar.selectedEvent(context),
+      ),
+      todayTextStyle: TextStyle(color: AppColors.calendar.weekendText(context)),
+      todayDecoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.calendar.todayEvent(context),
+      ),
+    );
+
 
   Future<void> _onEventListTileTap(CalendarEvent event) async {
     final result = await Navigator.push(
@@ -301,7 +216,6 @@ class _CalendarState extends State<Calendar> {
       ),
     );
     if (result == true) {
-      await Future.delayed(Duration(milliseconds: futureDelay * 2));
       await widget.onReload!();
       if (mounted && _selectedDay.value != null) {
         _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
@@ -309,28 +223,10 @@ class _CalendarState extends State<Calendar> {
       setState(() {});
     }
   }
-}
 
 
-
-class _CalendarHeader extends StatelessWidget {
-  final DateTime focusedDay;
-  final VoidCallback onLeftArrowTap;
-  final VoidCallback onRightArrowTap;
-  final VoidCallback onTodayButtonTap;
-  final VoidCallback onSelectDateButtonTap;
-
-  const _CalendarHeader({
-    required this.focusedDay,
-    required this.onLeftArrowTap,
-    required this.onRightArrowTap,
-    required this.onTodayButtonTap,
-    required this.onSelectDateButtonTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final headerText = DateFormatter.dateWithoutDay(focusedDay);
+  Widget _buildCalendarHeader() {
+    final headerText = DateFormatter.dateWithoutDay(_focusedDay.value);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -339,13 +235,20 @@ class _CalendarHeader extends StatelessWidget {
           const SizedBox(width: 16.0),
           IconButton(
             icon: Icon(Icons.chevron_left),
-            onPressed: onLeftArrowTap,
+            onPressed: () {
+              _pageController.previousPage(
+                duration: Duration(milliseconds: calendarDuration),
+                curve: Curves.easeOut,
+              );
+              _selectedDay.value = null;
+              _selectedEvents.value = [];
+            },
             color: AppColors.calendar.navigationIcon(context),
           ),
           SizedBox(
             width: 170,
             child: TextButton(
-              onPressed: onSelectDateButtonTap,
+              onPressed: () => _showPopUp(),
               child: Text(
                 headerText,
                 style: TextStyle(fontSize: AppSizes.titleLarge),
@@ -356,15 +259,74 @@ class _CalendarHeader extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.calendar_today, size: AppSizes.iconMedium),
             visualDensity: VisualDensity.compact,
-            onPressed: onTodayButtonTap,
+            onPressed: () {
+              setState(() {
+                _focusedDay.value = DateTime.now();
+                _selectedDay.value = DateTime.now();
+                _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
+              });
+            },
           ),
           IconButton(
             icon: Icon(Icons.chevron_right),
-            onPressed: onRightArrowTap,
+            onPressed: () {
+              _pageController.nextPage(
+                duration: Duration(milliseconds: calendarDuration),
+                curve: Curves.easeOut,
+              );
+              _selectedDay.value = null;
+              _selectedEvents.value = [];
+            },
             color: AppColors.calendar.navigationIcon(context),
           ),
         ],
       ),
+    );
+  }
+
+  void _showPopUp() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                MiscStrings.selectMonth,
+                style: TextStyle(color: AppColors.calendar.title(context)),
+              )),
+          content: SizedBox(
+            height: 100,
+            child: CupertinoTheme(
+              data: CupertinoThemeData(
+                  textTheme: CupertinoTextThemeData(
+                    dateTimePickerTextStyle: TextStyle(
+                        fontSize: AppSizes.titleSmall,
+                        color: AppColors.text(context)
+                    ),
+                  )
+              ),
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.monthYear,
+                minimumDate: kFirstDay,
+                maximumDate: kLastDay,
+                initialDateTime: _focusedDay.value.isAfter(kLastDay) ? kLastDay : _focusedDay.value,
+                onDateTimeChanged: (DateTime newDate) {
+                  _selectedDay.value = newDate;
+                },
+              ),
+            ),
+          ),
+          actions: [
+            MaterialButton(
+              child: const Text(ButtonStrings.ok),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _focusedDay.value = _selectedDay.value!;
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

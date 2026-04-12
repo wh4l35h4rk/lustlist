@@ -2,6 +2,7 @@ import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/domain/entities/event_with_options.dart';
 
 
 class CalendarEvent {
@@ -47,4 +48,18 @@ class CalendarEvent {
   String toString() {
     return '$partnersMap, $event, $data';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is CalendarEvent) {
+      return getEventId() == other.getEventId();
+    } else if (other is CalendarEventWithOptions) {
+      return getEventId() == other.calendarEvent.getEventId();
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

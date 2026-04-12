@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar.dart';
@@ -62,16 +61,16 @@ class _CalendarPageState extends State<CalendarPage> {
     if (mounted && _selectedDay.value != null) {
       _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
     }
-    _isLoading.value = false;
 
     eventsUpdated.addListener(() async {
-      await Future.delayed(Duration(milliseconds: futureDelay));
       await _loadEvents();
       if (_selectedDay.value != null) {
         _selectedEvents.value = _getEventsForDay(_selectedDay.value!);
       }
       setState(() {});
     });
+
+    _isLoading.value = false;
   }
 
   @override

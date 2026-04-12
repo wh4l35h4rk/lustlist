@@ -16,7 +16,7 @@ class EventListTile extends StatelessWidget {
     super.key,
   });
 
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
   final String title;
   final Widget subtitleWidget;
   final IconData? iconData;

@@ -14,12 +14,12 @@ import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 class CalendarEventListTile extends StatelessWidget {
   const CalendarEventListTile({
     required this.event,
-    required this.onTap,
+    this.onTap,
     super.key,
   });
 
   final CalendarEvent event;
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
 
 
   String _getTitle() {
