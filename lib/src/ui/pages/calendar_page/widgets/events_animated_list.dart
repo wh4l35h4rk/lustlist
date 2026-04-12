@@ -73,8 +73,12 @@ class _EventsAnimatedListState extends State<EventsAnimatedList> {
 
     for (int i = 0; i < newList.length; i++) {
       final item = newList[i];
-      if (_list.indexOf(item) == -1) {
+      int itemListIndex = _list.indexOf(item);
+      if (itemListIndex == -1) {
         _list.insert(i, item);
+      } else {
+        _list.update(i, item);
+        setState(() {});
       }
     }
   }
@@ -177,6 +181,10 @@ class ListModel<E> {
       });
     }
     return removedItem;
+  }
+
+  void update(int index, E item) {
+    items[index] = item;
   }
 
   int get length => items.length;
