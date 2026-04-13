@@ -16,12 +16,12 @@ import 'package:lustlist/src/core/utils/utils.dart';
 class PartnerListTile extends StatelessWidget {
   const PartnerListTile({
     required this.partner,
-    required this.onTap,
+    this.onTap,
     this.lastDate,
     super.key,
   });
 
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
   final Partner partner;
   final DateTime? lastDate;
 
