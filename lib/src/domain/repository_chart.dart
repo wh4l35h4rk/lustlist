@@ -61,7 +61,7 @@ extension EventRepositoryChart on EventRepository {
   }
 
   double getDefaultValue(List<int> data){
-    double emptyValue = 1 / 30;
+    double emptyValue = 1 / 300;
     if (data.isEmpty) return emptyValue;
 
     data.sort();

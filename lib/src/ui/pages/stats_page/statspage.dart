@@ -244,7 +244,7 @@ class _StatsPageState extends State<StatsPage> {
                 isWeekly: false,
                 getBottomTitles: _getBottomTitlesYearly,
               ),
-              SizedBox(height: 25)
+              SizedBox(height: 50)
           ])),
         ]
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/events_amount_data.dart';
@@ -29,16 +30,36 @@ class EventsBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget titleWidget = Text(
+      StringFormatter.colon(title),
+      style: AppStyles.chartTitle(context),
+      textAlign: TextAlign.center,
+    );
+
+    if (eventAmountList.isEmpty) {
+      return Padding(
+        padding: AppInsets.barChart,
+        child: Column(
+          children: [
+            titleWidget,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Text(
+                ChartStrings.noOptions,
+                style: AppStyles.noDataText(context),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     return Padding(
       padding: AppInsets.barChart,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            StringFormatter.colon(title),
-            style: AppStyles.chartTitle(context),
-            textAlign: TextAlign.center,
-          ),
+          titleWidget,
           SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
