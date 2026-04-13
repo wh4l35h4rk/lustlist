@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -6,7 +7,7 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/ui/pages/partners_page/widgets/partners_animated_list.dart';
+import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_listtile.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.dart';
@@ -28,8 +29,9 @@ class PartnersPage extends StatefulWidget {
 
 class _PartnersPageState extends State<PartnersPage> {
   bool partnersChanges = false;
-  final ValueNotifier<bool> _isLoading = ValueNotifier(true);
   final repo = EventRepository(database);
+
+  final ValueNotifier<bool> _isLoading = ValueNotifier(true);
   late final ValueNotifier<List<PartnerWithDate>> partnersNotifier = ValueNotifier([]);
 
   @override
@@ -64,8 +66,7 @@ class _PartnersPageState extends State<PartnersPage> {
             children: [
               ValueListenableBuilder(
                 valueListenable: partnersNotifier,
-                builder: (context, value, _) {
-                  List<PartnerWithDate> partners = value;
+                builder: (context, partners, _) {
 
                   if (partners.isEmpty) {
                     return Center(
@@ -92,10 +93,28 @@ class _PartnersPageState extends State<PartnersPage> {
                           height: AppSizes.dividerMinimal,
                         ),
                       ),
-                      PartnersAnimatedList(
-                        newList: partners,
-                        onTap: _onPartnerTap,
-                      )
+                      ImplicitlyAnimatedList(
+                        itemData: partners,
+                        itemBuilder: (context, partnerWithDate) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              PartnerListTile(
+                                partner: partnerWithDate.partner,
+                                onTap: () => _onTap(PartnerProfile(partner: partnerWithDate.partner)),
+                                lastDate: partnerWithDate.lastDate,
+                              ),
+                              Padding(
+                                padding: AppInsets.divider,
+                                child: Divider(
+                                  height: AppSizes.dividerMinimal,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                        shrinkWrap: true,
+                      ),
                     ]
                   );
                 }
@@ -129,10 +148,5 @@ class _PartnersPageState extends State<PartnersPage> {
       partnersNotifier.value = await repo.getPartnersWithDatesSorted(false);
       setState(() {});
     }
-  }
-
-  Future<void> _onPartnerTap(PartnerWithDate partner) async {
-    Widget page = PartnerProfile(partner: partner.partner);
-    _onTap(page);
   }
 }

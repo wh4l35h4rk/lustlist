@@ -39,6 +39,7 @@ dependencies:
   fullscreen_image_viewer: ^1.0.0
   crop_your_image: ^2.0.0
   flutter_email_sender: ^8.0.0
+  implicitly_animated_list: ^2.3.0
 
 dev_dependencies:
   flutter_test:
