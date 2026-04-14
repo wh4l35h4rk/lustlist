@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -58,7 +59,6 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
 
   MapNotifier<Partner> get _selectedPartners => widget.controller.selectedPartners;
 
-
   Future<void> addPartnerTap() async {
     final result = await Navigator.push(
       context,
@@ -72,7 +72,6 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
       setState(() {});
     }
   }
-
 
   @override
   void initState() {
@@ -199,45 +198,55 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
     return ValueListenableBuilder(
       valueListenable: _selectedPartners,
       builder: (context, partners, child) {
-        return _selectedPartners.value.isNotEmpty ?
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+        return Stack(
+          children: [
+            SizedBox(height: 48),
+            ImplicitlyAnimatedList(
+              itemData: partners.keys.toList(),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, partner) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    for (var partner in partners.keys)
-                      partnersListTile(context, partner)
-                  ],
-                ),
-                SizedBox(width: 10,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (var partner in _selectedPartners.value.keys)
-                      OrgasmsAmountPicker(
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                        ),
+                        child: partnersListTile(context, partner),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.3,
+                      ),
+                      child: OrgasmsAmountPicker(
                         amount: partners[partner],
                         onChanged: (newValue) {
                           _selectedPartners.updateValue(partner, newValue);
                         },
-                      )
+                      ),
+                    ),
                   ],
-                )
-              ],
+                );
+              },
             ),
-          ) :
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Text(
-            AlertStrings.noEventPartner,
-            style: TextStyle(
-              fontSize: AppSizes.textBasic,
-              fontStyle: FontStyle.italic,
-              color: AppColors.addEvent.coloredText(context),
-            ),
-          ),
+            if (partners.isEmpty) Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Text(
+                AlertStrings.noEventPartner,
+                style: TextStyle(
+                  fontSize: AppSizes.textBasic,
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.addEvent.coloredText(context),
+                ),
+              ),
+            )
+          ],
         );
       }
     );
@@ -289,7 +298,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
 
   Widget partnersListTile(BuildContext context, Partner partner){
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         decoration: BoxDecoration(
@@ -301,12 +310,16 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              partner.name,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.text(context)
+            Flexible(
+              child: Text(
+                partner.name,
+                softWrap: true,
+                overflow: TextOverflow.visible,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: AppSizes.textBasic,
+                    color: AppColors.addEvent.text(context)
+                ),
               ),
             ),
             SizedBox(width: 5,),

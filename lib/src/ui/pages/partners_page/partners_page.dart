@@ -99,6 +99,7 @@ class _PartnersPageState extends State<PartnersPage> {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+
                               PartnerListTile(
                                 partner: partnerWithDate.partner,
                                 onTap: () => _onTap(PartnerProfile(partner: partnerWithDate.partner)),
