@@ -18,31 +18,34 @@ class NotesFilterButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final String title = DataStrings.notes;
 
-    return AnimatedBuilder(
-      animation: Listenable.merge([
-        controller.modeNotifier,
-      ]),
-      builder: (BuildContext context, Widget? child) {
-        BoolFilter value = controller.mode;
-        bool changesApplied = value != BoolFilter.notSet;
-        return OutlinedButton(
-            style: AppStyles.outlinedButton(
-                changesApplied
-                  ? AppColors.filterSurface(context)
-                  : AppColors.surface(context),
-                context
-            ),
-            onPressed: _switchMode,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 6,
-              children: [
-                if (changesApplied) Icon(value.iconData),
-                Text(title),
-              ],
-            )
-        );
-      },
+    return AnimatedSize(
+      duration: Duration(milliseconds: 250),
+      child: AnimatedBuilder(
+        animation: Listenable.merge([
+          controller.modeNotifier,
+        ]),
+        builder: (BuildContext context, Widget? child) {
+          BoolFilter value = controller.mode;
+          bool changesApplied = value != BoolFilter.notSet;
+          return OutlinedButton(
+              style: AppStyles.outlinedButton(
+                  changesApplied
+                    ? AppColors.filterSurface(context)
+                    : AppColors.surface(context),
+                  context
+              ),
+              onPressed: _switchMode,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 6,
+                children: [
+                  if (changesApplied) Icon(value.iconData),
+                  Text(title),
+                ],
+              )
+          );
+        },
+      ),
     );
   }
 

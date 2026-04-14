@@ -48,6 +48,7 @@ class DurationInputBody extends StatelessWidget {
           );
 
           Widget singleModeWidget = Center(
+            key: const ValueKey(0),
             child: DurationPicker(
               label: MiscStrings.equals,
               controller: controller.startController,
@@ -56,6 +57,7 @@ class DurationInputBody extends StatelessWidget {
           );
 
           Widget rangeModeWidget = Row(
+            key: const ValueKey(1),
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,7 +79,12 @@ class DurationInputBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                  child: isSingleMode ? singleModeWidget : rangeModeWidget
+                child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: 250),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  child: isSingleMode ? singleModeWidget : rangeModeWidget,
+                ),
               ),
               changeModeButton
             ],

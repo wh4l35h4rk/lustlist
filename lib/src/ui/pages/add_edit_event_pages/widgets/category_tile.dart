@@ -122,35 +122,39 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   }
 
   Widget optionListButton(BuildContext context, EOption option) {
-    return OutlinedButton(
-      onPressed: () {
-        setState(() {
-          widget.controller.toggleSelected(option);
-        });
-      },
-      style: OutlinedButton.styleFrom(
-        backgroundColor: _selectedOptions.value.contains(option) ?
-          AppColors.addEvent.selectedSurface(context) : AppColors.addEvent.surface(context),
-        side: BorderSide(width: 1.2, color: AppColors.addEvent.border(context)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _selectedOptions.value.contains(option) ?
+    return AnimatedSize(
+      duration: Duration(milliseconds: 250),
+      curve: Curves.easeInOutCirc,
+      child: OutlinedButton(
+        onPressed: () {
+          setState(() {
+            widget.controller.toggleSelected(option);
+          });
+        },
+        style: OutlinedButton.styleFrom(
+          backgroundColor: _selectedOptions.value.contains(option) ?
+            AppColors.addEvent.selectedSurface(context) : AppColors.addEvent.surface(context),
+          side: BorderSide(width: 1.2, color: AppColors.addEvent.border(context)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _selectedOptions.value.contains(option) ?
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: Icon(AppIconData.selected),
               )
               : SizedBox(),
-          Text(
-            option.name,
-            textAlign: TextAlign.left,
-            style: TextStyle(
+            Text(
+              option.name,
+              textAlign: TextAlign.left,
+              style: TextStyle(
                 fontSize: AppSizes.textBasic,
                 color: AppColors.addEvent.text(context)
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

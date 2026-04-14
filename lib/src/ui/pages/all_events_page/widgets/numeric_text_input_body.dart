@@ -50,6 +50,7 @@ class NumericTextInputBody extends StatelessWidget {
           );
 
           Widget singleModeWidget = Center(
+            key: const ValueKey(0),
             child: SizedBox(
                 width: width,
                 child: IntTextFieldForm(
@@ -61,6 +62,7 @@ class NumericTextInputBody extends StatelessWidget {
           );
 
           Widget rangeModeWidget = Row(
+            key: const ValueKey(1),
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -88,7 +90,12 @@ class NumericTextInputBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                  child: isSingleMode ? singleModeWidget : rangeModeWidget
+                child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: 250),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  child: isSingleMode ? singleModeWidget : rangeModeWidget,
+                ),
               ),
               changeModeButton
             ],
