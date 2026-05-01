@@ -46,7 +46,7 @@ class _AddMstbEventPageState extends State<AddMstbEventPage> {
     final date = _dataController.dateController.date ?? DateFormatter.dateOnly(kToday);
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
-    final rating = _dataController.rating;
+    final rating = _dataController.ratingController.value ?? 0;
     final orgasmAmount = _dataController.orgasmAmount;
     final duration = EventDuration.explicit(
         0,

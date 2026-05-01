@@ -7,6 +7,7 @@ import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/rating_row.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
@@ -33,7 +34,6 @@ class AddEditEventDataColumn extends StatefulWidget {
 }
 
 class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
-  int get rating => widget.controller.rating;
   int? get orgasmAmount => widget.controller.orgasmAmount;
 
   late bool isMstb = widget.isMstb;
@@ -89,7 +89,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                       iconColor: iconColor,
                       title: StringFormatter.colon(DataStrings.rating),
                       titleColor: titleColor,
-                      child: ratingRow()
+                      child: RatingRow(controller: widget.controller.ratingController)
                   ),
                   InfoRow(
                       iconData: AppIconData.duration,
@@ -180,34 +180,6 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           }
         ) : null,
       ],
-    );
-  }
-
-
-  Widget ratingRow() {
-    return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var index = 1; index <= 5; index++)
-            SizedBox(
-              height: 20,
-              width: 20,
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    widget.controller.setRating(index);
-                  });
-                },
-                icon: Icon(
-                  index <= rating ? AppIconData.rating : AppIconData.ratingEmpty,
-                  size: AppSizes.iconMedium,
-                  color: AppColors.addEvent.coloredText(context),
-                ),
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(),
-              ),
-            )
-        ]
     );
   }
 }

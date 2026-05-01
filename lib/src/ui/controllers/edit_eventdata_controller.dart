@@ -1,4 +1,5 @@
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/ui/controllers/rating_controller.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 
@@ -22,10 +23,7 @@ class EditEventDataController {
   late final DateController dateController = DateController(date: date);
   late final TimeController timeController = TimeController(time: time);
   late final TimeController durationController = TimeController(time: duration?.toDateTime());
-
-  void setRating(int newValue) {
-    rating = newValue;
-  }
+  late final RatingController ratingController = RatingController(value: rating);
 
   void setOrgasmAmount(int? newValue) {
     orgasmAmount = newValue;
