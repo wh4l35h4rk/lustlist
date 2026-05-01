@@ -57,6 +57,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(amount);
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(

@@ -1,23 +1,27 @@
-import 'package:lustlist/src/ui/controllers/rating_controller.dart';
+import 'package:lustlist/src/ui/controllers/eventdata_controller_base.dart';
+import 'package:lustlist/src/ui/controllers/int_controller.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 
-class AddEventDataController {
+class AddEventDataController extends EventDataControllerBase {
   DateTime date;
 
   AddEventDataController({
     required this.date
   });
 
-  late final DateController dateController = DateController(date: date);
-  final TimeController timeController = TimeController();
-  final TimeController durationController = TimeController();
-  final RatingController ratingController = RatingController();
+  @override
+  DateController initDateController() => DateController(date: date);
 
+  @override
+  TimeController initTimeController() => TimeController();
 
-  int? orgasmAmount;
+  @override
+  TimeController initDurationController() => TimeController();
 
-  void setOrgasmAmount(int? newValue) {
-    orgasmAmount = newValue;
-  }
+  @override
+  IntController initOrgasmsController() => IntController();
+
+  @override
+  IntController initRatingController() => IntController();
 }

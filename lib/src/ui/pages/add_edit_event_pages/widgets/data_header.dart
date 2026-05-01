@@ -7,6 +7,7 @@ import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
+import 'package:lustlist/src/ui/controllers/eventdata_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/rating_row.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
@@ -18,7 +19,7 @@ import 'package:lustlist/src/core/widgets/info_row.dart';
 
 
 class AddEditEventDataColumn extends StatefulWidget {
-  final dynamic controller;
+  final EventDataControllerBase controller;
   final bool isMstb;
   final dynamic optionsController;
 
@@ -34,8 +35,6 @@ class AddEditEventDataColumn extends StatefulWidget {
 }
 
 class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
-  int? get orgasmAmount => widget.controller.orgasmAmount;
-
   late bool isMstb = widget.isMstb;
   late IconData iconData = isMstb ? AppIconData.mstb : AppIconData.sex;
 
@@ -66,54 +65,45 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InfoRow(
-                      iconData: AppIconData.date,
-                      iconColor: iconColor,
-                      title: StringFormatter.colon(DataStrings.date),
-                      titleColor: titleColor,
-                      child: DatePicker(
-                        controller: widget.controller.dateController,
-                      )
+                    iconData: AppIconData.date,
+                    iconColor: iconColor,
+                    title: StringFormatter.colon(DataStrings.date),
+                    titleColor: titleColor,
+                    child: DatePicker(
+                      controller: widget.controller.dateController,
+                    )
                   ),
                   InfoRow(
-                      iconData: AppIconData.time,
-                      iconColor: iconColor,
-                      title: StringFormatter.colon(DataStrings.time),
-                      titleColor: titleColor,
-                      child: TimePicker(
-                        type: 0,
-                        controller: widget.controller.timeController,
-                      )
+                    iconData: AppIconData.time,
+                    iconColor: iconColor,
+                    title: StringFormatter.colon(DataStrings.time),
+                    titleColor: titleColor,
+                    child: TimePicker(
+                      type: 0,
+                      controller: widget.controller.timeController,
+                    )
                   ),
                   InfoRow(
-                      iconData: AppIconData.rating,
-                      iconColor: iconColor,
-                      title: StringFormatter.colon(DataStrings.rating),
-                      titleColor: titleColor,
-                      child: RatingRow(controller: widget.controller.ratingController)
+                    iconData: AppIconData.rating,
+                    iconColor: iconColor,
+                    title: StringFormatter.colon(DataStrings.rating),
+                    titleColor: titleColor,
+                    child: RatingRow(controller: widget.controller.ratingController)
                   ),
                   InfoRow(
-                      iconData: AppIconData.duration,
-                      iconColor: iconColor,
-                      title: StringFormatter.colon(DataStrings.duration),
-                      titleColor: titleColor,
-                      child: TimePicker(
-                        type: 1,
-                        controller: widget.controller.durationController,
-                      )
+                    iconData: AppIconData.duration,
+                    iconColor: iconColor,
+                    title: StringFormatter.colon(DataStrings.duration),
+                    titleColor: titleColor,
+                    child: TimePicker(
+                      type: 1,
+                      controller: widget.controller.durationController,
+                    )
                   ),
-                  InfoRow(
-                      iconData: AppIconData.orgasms,
-                      iconColor: iconColor,
-                      title: StringFormatter.colon(DataStrings.myOrgasms),
-                      titleColor: titleColor,
-                      child: OrgasmsAmountPicker(
-                        amount: orgasmAmount,
-                        onChanged: (newValue) {
-                          setState(() {
-                            widget.controller.setOrgasmAmount(newValue);
-                          });
-                        },
-                      )
+                  OrgasmsPickerRow(
+                    iconColor: iconColor,
+                    titleColor: titleColor,
+                    controller: widget.controller
                   ),
                 ],
               ),
@@ -180,6 +170,43 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           }
         ) : null,
       ],
+    );
+  }
+}
+
+
+class OrgasmsPickerRow extends StatefulWidget {
+  const OrgasmsPickerRow({
+    super.key,
+    required this.iconColor,
+    required this.titleColor,
+    required this.controller,
+  });
+
+  final Color iconColor;
+  final Color titleColor;
+  final EventDataControllerBase controller;
+
+  @override
+  State<OrgasmsPickerRow> createState() => _OrgasmsPickerRowState();
+}
+
+class _OrgasmsPickerRowState extends State<OrgasmsPickerRow> {
+  @override
+  Widget build(BuildContext context) {
+    return InfoRow(
+        iconData: AppIconData.orgasms,
+        iconColor: widget.iconColor,
+        title: StringFormatter.colon(DataStrings.myOrgasms),
+        titleColor: widget.titleColor,
+        child: OrgasmsAmountPicker(
+          amount: widget.controller.orgasmsController.value,
+          onChanged: (newValue) {
+            setState(() {
+              widget.controller.orgasmsController.setValue(newValue);
+            });
+          },
+        )
     );
   }
 }

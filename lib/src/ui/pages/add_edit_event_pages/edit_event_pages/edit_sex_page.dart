@@ -68,7 +68,7 @@ class _EditSexEventPageState extends State<EditSexEventPage> {
     final time = _dataController.timeController.time;
     final notes = _notesController.notesController.text;
     final rating = _dataController.rating;
-    final orgasmAmount = _dataController.orgasmAmount;
+    final orgasmAmount = _dataController.orgasmsController.value;
     final duration = EventDuration.explicit(0,
         _dataController.durationController.time.hour,
         _dataController.durationController.time.minute

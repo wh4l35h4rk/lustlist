@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
-import 'package:lustlist/src/ui/controllers/rating_controller.dart';
+import 'package:lustlist/src/ui/controllers/int_controller.dart';
 
 
 class RatingRow extends StatefulWidget {
@@ -11,7 +11,7 @@ class RatingRow extends StatefulWidget {
     required this.controller,
   });
 
-  final RatingController controller;
+  final IntController controller;
 
   @override
   State<RatingRow> createState() => _RatingRowState();
@@ -32,7 +32,7 @@ class _RatingRowState extends State<RatingRow> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  widget.controller.setRating(index);
+                  widget.controller.setValue(index);
                 });
               },
               icon: Icon(
