@@ -6,7 +6,6 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/controllers/eventdata_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/rating_row.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
@@ -16,6 +15,7 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.d
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
+import 'package:lustlist/src/ui/widgets/switch_column_base.dart';
 
 
 class AddEditEventDataColumn extends StatefulWidget {
@@ -149,20 +149,24 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: MstbSwitchColumn(
+                  child: SwitchColumnBase(
                     title: DataStrings.porn,
                     iconData: AppIconData.porn,
-                    option: snapshot.data![0],
-                    controller: widget.optionsController,
+                    child: MstbSwitch(
+                      controller: widget.optionsController,
+                      option: snapshot.data![0],
+                    )
                   ),
                 ),
                 Expanded(
                   flex: 1,
-                  child: MstbSwitchColumn(
+                  child: SwitchColumnBase(
                     title: DataStrings.toys,
                     iconData: AppIconData.toys,
-                    option: snapshot.data![1],
-                    controller: widget.optionsController,
+                    child: MstbSwitch(
+                      option: snapshot.data![1],
+                      controller: widget.optionsController,
+                    ),
                   ),
                 )
               ],
@@ -207,54 +211,6 @@ class _OrgasmsPickerRowState extends State<OrgasmsPickerRow> {
             });
           },
         )
-    );
-  }
-}
-
-
-class MstbSwitchColumn extends StatelessWidget {
-  const MstbSwitchColumn({
-    super.key,
-    required this.title,
-    required this.iconData,
-    required this.controller,
-    required this.option,
-  });
-
-  final AddCategoryController controller;
-  final String title;
-  final IconData iconData;
-  final EOption option;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      spacing: 6,
-      children: [
-        Row(
-          spacing: 6,
-          children: [
-            Icon(
-              iconData,
-              color: AppColors.addEvent.icon(context),
-              size: AppSizes.iconBasic,
-            ),
-            Text(
-              StringFormatter.colon(title),
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: AppColors.addEvent.title(context),
-                fontSize: AppSizes.titleSmall,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        MstbSwitch(
-          controller: controller,
-          option: option,
-        )
-      ],
     );
   }
 }

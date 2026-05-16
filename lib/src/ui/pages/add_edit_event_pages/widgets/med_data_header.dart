@@ -10,8 +10,8 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/ui/widgets/switch_column_base.dart';
 
 
 class AddMedEventDataController {
@@ -144,59 +144,40 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
               child: Divider(),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  StringFormatter.colon(DataStrings.type),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: AppColors.addEvent.title(context),
-                    fontSize: AppSizes.titleLarge,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            Row(
-              children: [
-                dataRow(AppIconData.sti, categoriesMap['sti']!.name, AppSizes.iconViruses, null),
-                SizedBox(
-                  height: 30,
-                  child: Transform.scale(
-                    scale: 0.65,
+                Expanded(
+                  flex: 1,
+                  child: SwitchColumnBase(
+                    title: categoriesMap['sti']!.name,
+                    iconData: AppIconData.sti,
+                    iconSize: AppSizes.iconViruses,
                     child: Switch(
                       inactiveThumbColor: AppColors.addEvent.border(context),
                       value: isSti,
                       onChanged: (bool value) {
-                      setState(() {
-                        isSti = value;
-                        widget.controller.stiController.setValue(value);
-                      });
-                    }),
+                        setState(() {
+                          isSti = value;
+                          widget.controller.stiController.setValue(value);
+                        });
+                      }),
                   ),
                 ),
-
-              ],
-            ),
-            Row(
-              children: [
-                dataRow(AppIconData.obgyn, categoriesMap['obgyn']!.name, null, null),
-                SizedBox(
-                  height: 30,
-                  child: Transform.scale(
-                    scale: 0.65,
+                Expanded(
+                  flex: 1,
+                  child: SwitchColumnBase(
+                    title: categoriesMap['obgyn']!.name,
+                    iconData: AppIconData.obgyn,
                     child: Switch(
                       inactiveThumbColor: AppColors.addEvent.border(context),
                       value: isObgyn,
                       onChanged: (bool value) {
-                      setState(() {
-                        isObgyn = value;
-                        widget.controller.obgynController.setValue(value);
-                      });
-                    }),
+                        setState(() {
+                          isObgyn = value;
+                          widget.controller.obgynController.setValue(value);
+                        });
+                      }),
                   ),
-                ),
+                )
               ],
             ),
           ],
