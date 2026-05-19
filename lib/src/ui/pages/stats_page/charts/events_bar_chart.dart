@@ -77,6 +77,7 @@ class EventsBarChart extends StatelessWidget {
               )
             ],
           ),
+          if (!isWeekly) SizedBox(height: 10,),
           getBarChartType(context)
         ],
       ),

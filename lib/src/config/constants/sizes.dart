@@ -32,7 +32,6 @@ class AppSizes {
   static const double chartTitleSpacing = 1.3;
   static const double chartLineWidth = 3;
   static const double chartSideTitlesSpace = 30;
-  static const double chartBottomTitlesSpace = 30;
   static const double tooltipBorder = 1.5;
   static const double chartBorder = 3;
   

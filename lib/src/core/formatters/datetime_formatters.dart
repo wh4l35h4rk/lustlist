@@ -18,9 +18,16 @@ class DateFormatter {
     datetime.minute,
     datetime.second
   );
-  static DateTime yearMonthOnly (DateTime date) => DateTime(date.year, date.month);
+
+  static DateTime yearMonthOnly (DateTime date) => DateTime(date.year, date.month, 1);
 
   static DateTime yearOnly(DateTime datetime) => DateTime(
       datetime.year
   );
+
+  // deformats date that is written as YEAR * 12 + MONTH
+  static int getMonthFromFormatted(double date) {
+    var months = date % 12;
+    return months.toInt();
+  }
 }

@@ -98,15 +98,16 @@ extension EventRepositoryChart on EventRepository {
     var map = await db.getEventsAmountAfterDateGroupByMonth(type, startDate);
     map = formatMapKeys(map, formatter);
 
-    // if there are events in a month, write them to map, otherwise write zero
+    // if there are events in a month, write them to list, otherwise write zero
     List<FlSpot> list = [];
     for (var d in dates){
-      d = formatter(d);
+      int dateFormatted = d.year * 12 + d.month;
       list.add(FlSpot(
-        d.millisecondsSinceEpoch.toDouble(),
+        dateFormatted.toDouble(),
         map[d] != null ? map[d]!.toDouble() : 0
       ));
     }
+
     return list;
   }
 

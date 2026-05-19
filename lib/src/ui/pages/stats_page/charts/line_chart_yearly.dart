@@ -181,8 +181,8 @@ class _LineChart extends StatelessWidget {
           final index = entry.key;
           final flSpot = entry.value;
 
-          DateTime date = DateTime.fromMillisecondsSinceEpoch(flSpot.x.toInt());
-          String month = DateFormatter.month(date.month);
+          int date = DateFormatter.getMonthFromFormatted(flSpot.x);
+          String month = DateFormatter.month(date);
 
           return LineTooltipItem(
             index == 0 ? StringFormatter.endl(month) : MiscStrings.emptyString,
@@ -255,22 +255,28 @@ class _LineChart extends StatelessWidget {
   // bottom chart titles, X-axis
   Widget bottomTitleWidgets(double value, TitleMeta meta, BuildContext context) {
     TextStyle style = AppStyles.chartSideTitles(context);
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
-    String text = DateFormatter.month(date.month);
+    int month = DateFormatter.getMonthFromFormatted(value);
+    String text = DateFormatter.month(month);
 
-    return SideTitleWidget(
-      meta: meta,
-      space: 10,
-      child: Text(text, style: style),
+    return Padding(
+      padding: const EdgeInsets.only(right: 6.0),
+      child: SideTitleWidget(
+        meta: meta,
+        space: 10,
+        angle: -1.57,
+        child: Text(text, style: style),
+      ),
     );
   }
 
   SideTitles bottomTitles(BuildContext context) {
     return SideTitles(
       showTitles: true,
-      reservedSize: AppSizes.chartBottomTitlesSpace,
-      interval: monthInMs * 5,
-      getTitlesWidget:  (value, meta) => bottomTitleWidgets(value, meta, context),
+      reservedSize: 40,
+      interval: 1,
+      getTitlesWidget:  (value, meta) {
+        return bottomTitleWidgets(value, meta, context);
+      },
     );
   }
 

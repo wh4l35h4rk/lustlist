@@ -622,3 +622,5 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   List<int> get ratingValues => List.generate(5, (var i) => i + 1);
 }
+
+//TODO: animated list of events
