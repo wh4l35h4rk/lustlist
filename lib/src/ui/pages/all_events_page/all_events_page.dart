@@ -22,6 +22,7 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
+import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/button_stub.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/date_filter_button.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/duration_input_body.dart';
 import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
@@ -41,6 +42,7 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
+import 'package:lustlist/src/ui/widgets/shimmer_list.dart';
 
 
 class AllEventsPage extends StatefulWidget {
@@ -54,7 +56,8 @@ class AllEventsPage extends StatefulWidget {
 
 
 class _AllEventsPageState extends State<AllEventsPage> {
-  bool _isLoading = true;
+  bool _isLoadingEvents = true;
+  bool _isLoadingFilters = true;
   bool _isError = false;
   List<CalendarEventWithOptions>? events;
 
@@ -96,7 +99,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _loadFilters();
+    _loadEvents();
     eventsUpdated.addListener(_onEventsUpdated);
   }
 
@@ -108,18 +112,44 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   void _onEventsUpdated() async {
     await Future.delayed(Duration(milliseconds: futureDelay));
-    await _loadData();
+    await _loadEvents();
   }
 
-  Future<void> _loadData() async {
+
+  Future<void> _loadEvents() async {
+    try {
+      setState(() {
+        _isLoadingEvents = true;
+      });
+
+      final repo = EventRepository(database);
+      final eventsList = await repo.getEventsWithOptionsSortedDescList();
+
+      if (!mounted) return;
+      setState(() {
+        events = eventsList;
+        _isLoadingEvents = false;
+      });
+    } catch (e, stack) {
+      debugPrint(e.toString());
+      debugPrint(stack.toString());
+
+      if (!mounted) return;
+
+      setState(() {
+        _isError = true;
+        _isLoadingEvents = false;
+      });
+    }
+  }
+
+  Future<void> _loadFilters() async {
     setState(() {
-      _isLoading = true;
-      _isError = false;
+      _isLoadingFilters = true;
     });
 
     try {
       final repo = EventRepository(database);
-      final eventsList = await repo.getEventsWithOptionsSortedDescList();
       final partners = await repo.getPartnersSorted(true);
 
       final contraceptionOptions = await repo.getCategoryOptionsBySlug(categorySlug: "contraception");
@@ -135,8 +165,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
       if (!mounted) return;
 
       setState(() {
-        events = eventsList;
-
         _partnersFilterController = SelectableFilterController<Partner>(
             allValuesList: partners,
             selectedValuesList: partners
@@ -178,8 +206,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
             selectedValuesList: obgynOptions
         );
 
-        _isError = false;
-        _isLoading = false;
+        _isLoadingFilters = false;
       });
     } catch (e, stack) {
       debugPrint(e.toString());
@@ -189,7 +216,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
       setState(() {
         _isError = true;
-        _isLoading = false;
+        _isLoadingFilters = false;
       });
     }
   }
@@ -197,6 +224,9 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // _isLoadingEvents = true;
+    // _isLoadingFilters = true;
+
     return Scaffold(
         appBar: MainAppBar(
           title: PageTitleStrings.allEvents,
@@ -213,102 +243,64 @@ class _AllEventsPageState extends State<AllEventsPage> {
                   padding: AppInsets.progressInList,
                   child: ErrorTile(),
                 ),
-              if ((_isLoading || !_filtersReady) && !_isError)
-                Padding(
-                  padding: AppInsets.progressInList,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-
-              if (!_isLoading && !_isError && _filtersReady)
-                AnimatedBuilder(
-                  animation: Listenable.merge(filterListenables),
-                  builder: (context, _) {
-                    List<CalendarEventWithOptions> filteredEvents;
-                    final query = buildFilterQuery;
-                    filteredEvents = query.filter(events!);
-
-                    bool hasEvents = events!.isNotEmpty;
-                    bool hasFilteredEvents = filteredEvents.isNotEmpty;
-
-                    Widget noEventsText = Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Center(
-                        child: Text(
-                          MiscStrings.noEvents,
-                          style: AppStyles.noDataText(context),
-                        ),
+              if (!_isError)
+                ListView(
+                  children: [
+                    SizedBox(height: 15),
+                    _isLoadingFilters || !_filtersReady ?
+                      filtersStubColumn :
+                      AnimatedBuilder(
+                        animation: Listenable.merge(filterListenables),
+                        builder: (context, _) => filtersColumn
                       ),
-                    );
-                    Widget noFilteredEventsText = Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Center(
-                        child: Text(
-                          MiscStrings.noFilteredEvents,
-                          style: AppStyles.noDataText(context),
-                        ),
-                      ),
-                    );
 
-                    return ListView(
-                      children: [
-                        SizedBox(height: 15),
-                        SizedBox(
-                          height: 35,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                OptionsFilterButton<EventType>(
-                                  title: DataStrings.type,
-                                  controller: _typeFilterController,
-                                  nameBuilder: (e) => e.name,
-                                  canBeDisabled: false,
-                                ),
-                                OutlinedButton(
-                                  onPressed: () => _disableAllFilters(),
-                                  style: AppStyles.filterButton(context),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    spacing: 6,
-                                    children: [
-                                      Icon(AppIconData.noFilter),
-                                      Text(ButtonStrings.disableAllFilters),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                    SizedBox(height: 20),
+
+                    _isLoadingEvents || _isLoadingFilters || !_filtersReady ?
+                      // ShimmerList() :
+                      SizedBox.shrink() :
+                      AnimatedBuilder(
+                        animation: Listenable.merge(filterListenables),
+                        builder: (context, child) {
+                          List<CalendarEventWithOptions> filteredEvents;
+                          final query = buildFilterQuery;
+                          filteredEvents = query.filter(events!);
+
+                          bool hasEvents = events!.isNotEmpty;
+                          bool hasFilteredEvents = filteredEvents.isNotEmpty;
+
+                          Widget noEventsText = Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: Center(
+                              child: Text(
+                                MiscStrings.noEvents,
+                                style: AppStyles.noDataText(context),
+                              ),
                             ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        buildFilterList(generalButtonList),
-                        SizedBox(height: 10),
-                        FilterGroupPanelList(
-                          headersList: [
-                            DataStrings.sexFilter,
-                            DataStrings.mstbFilter,
-                            DataStrings.medicalFilter
-                          ],
-                          expandedBodiesList: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                buildFilterList(sexButtonListTop),
-                                buildFilterList(sexButtonListBottom),
-                              ],
+                          );
+                          Widget noFilteredEventsText = Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: Center(
+                              child: Text(
+                                MiscStrings.noFilteredEvents,
+                                style: AppStyles.noDataText(context),
+                              ),
                             ),
-                            buildFilterList(mstbButtonList),
-                            buildFilterList(medicalButtonList)
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        if (!hasEvents) noEventsText,
-                        if (hasEvents && !hasFilteredEvents) noFilteredEventsText,
-                        if (hasEvents && hasFilteredEvents) AllEventsList(list: filteredEvents)
-                      ]
-                    );
-                  }
+                          );
+
+                          if (!hasEvents) {
+                            return noEventsText;
+                          } else {
+                            if (!hasFilteredEvents) {
+                              return noFilteredEventsText;
+                            } else {
+                              return AllEventsList(list: filteredEvents);
+                            }
+                          }
+                        },
+                      ),
+                    SizedBox(height: 20),
+                  ],
                 ),
               Positioned(
                 bottom: 20,
@@ -323,7 +315,114 @@ class _AllEventsPageState extends State<AllEventsPage> {
     );
   }
 
-  Padding buildFilterList(List<Widget> items) {
+
+  Column get filtersColumn => Column(
+      children: [
+        SizedBox(
+          height: 35,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                OptionsFilterButton<EventType>(
+                  title: DataStrings.type,
+                  controller: _typeFilterController,
+                  nameBuilder: (e) => e.name,
+                  canBeDisabled: false,
+                ),
+                OutlinedButton(
+                  onPressed: () => _disableAllFilters(),
+                  style: AppStyles.filterButton(context),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 6,
+                    children: [
+                      Icon(AppIconData.noFilter),
+                      Text(ButtonStrings.disableAllFilters),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        buildFilterList(generalButtonList),
+        SizedBox(height: 10),
+        FilterGroupPanelList(
+          headersList: [
+            DataStrings.sexFilter,
+            DataStrings.mstbFilter,
+            DataStrings.medicalFilter
+          ],
+          expandedBodiesList: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                buildFilterList(sexButtonListTop),
+                buildFilterList(sexButtonListBottom),
+              ],
+            ),
+            buildFilterList(mstbButtonList),
+            buildFilterList(medicalButtonList)
+          ],
+        ),
+      ]
+    );
+
+  Column get filtersStubColumn => Column(
+      children: [
+        SizedBox(
+          height: 35,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ButtonStub(title: DataStrings.type),
+                OutlinedButton(
+                  onPressed: null,
+                  style: AppStyles.filterButton(context),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 6,
+                    children: [
+                      Icon(AppIconData.noFilter),
+                      Text(ButtonStrings.disableAllFilters),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        buildFilterList(generalButtonStubsList),
+        SizedBox(height: 10),
+        FilterGroupPanelList(
+          headersList: [
+            DataStrings.sexFilter,
+            DataStrings.mstbFilter,
+            DataStrings.medicalFilter
+          ],
+          expandedBodiesList: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                buildFilterList(sexButtonStubListTop),
+                buildFilterList(sexButtonStubListBottom),
+              ],
+            ),
+            buildFilterList(mstbButtonStubList),
+            buildFilterList(medicalButtonStubList)
+          ],
+        ),
+      ]
+  );
+
+
+  Widget buildFilterList(List<Widget> items) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
@@ -338,6 +437,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
       ),
     );
   }
+
 
   Future<void> _onAddEventTap(int index) async {
     StatefulWidget widget;
@@ -354,16 +454,17 @@ class _AllEventsPageState extends State<AllEventsPage> {
     );
   }
 
+
   bool get _filtersReady =>
-      _partnersFilterController != null &&
-      _contraceptionFilterController != null &&
-      _practicesFilterController != null &&
-      _posesFilterController != null &&
-      _placeFilterController != null &&
-      _ejaculationFilterController != null &&
-      _complicaciesFilterController != null &&
-      _obgynFilterController != null &&
-      _stiFilterController != null;
+    _partnersFilterController != null &&
+    _contraceptionFilterController != null &&
+    _practicesFilterController != null &&
+    _posesFilterController != null &&
+    _placeFilterController != null &&
+    _ejaculationFilterController != null &&
+    _complicaciesFilterController != null &&
+    _obgynFilterController != null &&
+    _stiFilterController != null;
 
   void _disableAllFilters() {
     _typeFilterController.addAll();
@@ -507,6 +608,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
       ),
     );
 
+
   List<Widget> get generalButtonList => [
     DateFilterButton(
       controller: _dateFilterController
@@ -522,15 +624,24 @@ class _AllEventsPageState extends State<AllEventsPage> {
       controller: _ratingFilterController
     ),
     NumericFilterButton(
-        title: DataStrings.myOrgasms,
+      title: DataStrings.myOrgasms,
+      controller: _userOrgasmsFilterController,
+      child: NumericTextInputBody(
         controller: _userOrgasmsFilterController,
-        child: NumericTextInputBody(
-          controller: _userOrgasmsFilterController,
-        )
+      )
     ),
     NotesFilterButton(controller: _notesFilterController),
   ];
-  
+
+  List<Widget> get generalButtonStubsList => [
+    ButtonStub(title: DataStrings.date),
+    ButtonStub(title: DataStrings.duration),
+    ButtonStub(title: DataStrings.rating),
+    ButtonStub(title: DataStrings.myOrgasms),
+    ButtonStub(title: DataStrings.notes, isDroplist: false,),
+  ];
+
+
   List<Widget> get sexButtonListTop => [
     OptionsFilterButton<Partner>(
       title: PageTitleStrings.partners,
@@ -555,6 +666,14 @@ class _AllEventsPageState extends State<AllEventsPage> {
       )
     ),
   ];
+
+  List<Widget> get sexButtonStubListTop => [
+    ButtonStub(title: PageTitleStrings.partners),
+    ButtonStub(title: DataStrings.partnerAmount),
+    ButtonStub(title: DataStrings.gender),
+    ButtonStub(title: DataStrings.partnerOrgasms),
+  ];
+
 
   List<OptionsFilterButton> get sexButtonListBottom => [
     OptionsFilterButton<EOption>(
@@ -589,6 +708,16 @@ class _AllEventsPageState extends State<AllEventsPage> {
     ),
   ];
 
+  List<Widget> get sexButtonStubListBottom => [
+    ButtonStub(title: DataStrings.contraception),
+    ButtonStub(title: DataStrings.practices),
+    ButtonStub(title: DataStrings.poses),
+    ButtonStub(title: DataStrings.place),
+    ButtonStub(title: DataStrings.ejaculation),
+    ButtonStub(title: DataStrings.complicacies),
+  ];
+
+
   List<OptionsFilterButton> get mstbButtonList => [
     OptionsFilterButton<EOption>(
       title: DataStrings.practices,
@@ -607,6 +736,13 @@ class _AllEventsPageState extends State<AllEventsPage> {
     ),
   ];
 
+  List<Widget> get mstbButtonStubList => [
+    ButtonStub(title: DataStrings.practices),
+    ButtonStub(title: DataStrings.place),
+    ButtonStub(title: DataStrings.complicacies),
+  ];
+
+
   List<OptionsFilterButton> get medicalButtonList => [
     OptionsFilterButton<EOption>(
       title: DataStrings.sti,
@@ -620,7 +756,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
     ),
   ];
 
+  List<Widget> get medicalButtonStubList => [
+    ButtonStub(title: DataStrings.sti),
+    ButtonStub(title: DataStrings.obgyn),
+  ];
+
+
   List<int> get ratingValues => List.generate(5, (var i) => i + 1);
 }
-
-//TODO: animated list of events

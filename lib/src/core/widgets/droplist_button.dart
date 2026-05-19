@@ -13,7 +13,7 @@ class DroplistButton<T> extends StatelessWidget {
 
   final String title;
   final Color? backgroundColor;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
