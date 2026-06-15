@@ -42,7 +42,6 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_med_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_mstb_page.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
-import 'package:lustlist/src/ui/widgets/shimmer_list.dart';
 
 
 class AllEventsPage extends StatefulWidget {
@@ -56,28 +55,23 @@ class AllEventsPage extends StatefulWidget {
 
 
 class _AllEventsPageState extends State<AllEventsPage> {
+  final repo = EventRepository(database);
+
+  late final ValueNotifier<List<CalendarEventWithOptions>> eventsNotifier = ValueNotifier([]);
+  List<CalendarEventWithOptions> get events => eventsNotifier.value;
+
   bool _isLoadingEvents = true;
   bool _isLoadingFilters = true;
   bool _isError = false;
-  List<CalendarEventWithOptions>? events;
 
   final _typeFilterController = SelectableFilterController<EventType>(
     allValuesList: EventType.values,
-    selectedValuesList: EventType.values,
     isEnabledInitially: true
   );
-  final _genderFilterController = SelectableFilterController<Gender>(
-      allValuesList: Gender.values,
-      selectedValuesList: Gender.values
-  );
-  late final _ratingFilterController = SelectableFilterController<int>(
-    allValuesList: ratingValues,
-    selectedValuesList: ratingValues,
-  );
-  final _partnersAmountFilterController = SelectableFilterController<PartnersAmount>(
-    allValuesList: PartnersAmount.values,
-    selectedValuesList: PartnersAmount.values
-  );
+  
+  late final _ratingFilterController = SelectableFilterController<int>(allValuesList: ratingValues);
+  final _genderFilterController = SelectableFilterController<Gender>(allValuesList: Gender.values);
+  final _partnersAmountFilterController = SelectableFilterController<PartnersAmount>(allValuesList: PartnersAmount.values);
 
   final _dateFilterController = DateFilterController();
   final _userOrgasmsFilterController = NumericTextFilterController();
@@ -85,16 +79,17 @@ class _AllEventsPageState extends State<AllEventsPage> {
   final _durationFilterController = NumericDurationFilterController();
   final _notesFilterController = BoolNotesController();
 
-  SelectableFilterController<Partner>? _partnersFilterController;
-  SelectableFilterController<EOption>? _contraceptionFilterController;
-  SelectableFilterController<EOption>? _practicesFilterController;
-  SelectableFilterController<EOption>? _soloPracticesFilterController;
-  SelectableFilterController<EOption>? _posesFilterController;
-  SelectableFilterController<EOption>? _placeFilterController;
-  SelectableFilterController<EOption>? _ejaculationFilterController;
-  SelectableFilterController<EOption>? _complicaciesFilterController;
-  SelectableFilterController<EOption>? _stiFilterController;
-  SelectableFilterController<EOption>? _obgynFilterController;
+  final _partnersFilterController = SelectableFilterController<Partner>(allValuesList: []);
+  final _contraceptionFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _practicesFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _soloPracticesFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _posesFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _placeFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _ejaculationFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _complicaciesFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _stiFilterController = SelectableFilterController<EOption>(allValuesList: []);
+  final _obgynFilterController = SelectableFilterController<EOption>(allValuesList: []);
+
 
   @override
   void initState() {
@@ -118,16 +113,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   Future<void> _loadEvents() async {
     try {
-      setState(() {
-        _isLoadingEvents = true;
-      });
-
-      final repo = EventRepository(database);
       final eventsList = await repo.getEventsWithOptionsSortedDescList();
-
       if (!mounted) return;
+
+      eventsNotifier.value = eventsList;
       setState(() {
-        events = eventsList;
         _isLoadingEvents = false;
       });
     } catch (e, stack) {
@@ -135,7 +125,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
       debugPrint(stack.toString());
 
       if (!mounted) return;
-
       setState(() {
         _isError = true;
         _isLoadingEvents = false;
@@ -149,7 +138,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
     });
 
     try {
-      final repo = EventRepository(database);
       final partners = await repo.getPartnersSorted(true);
 
       final contraceptionOptions = await repo.getCategoryOptionsBySlug(categorySlug: "contraception");
@@ -165,46 +153,16 @@ class _AllEventsPageState extends State<AllEventsPage> {
       if (!mounted) return;
 
       setState(() {
-        _partnersFilterController = SelectableFilterController<Partner>(
-            allValuesList: partners,
-            selectedValuesList: partners
-        );
-        _contraceptionFilterController = SelectableFilterController<EOption>(
-            allValuesList: contraceptionOptions,
-            selectedValuesList: contraceptionOptions
-        );
-        _practicesFilterController = SelectableFilterController<EOption>(
-            allValuesList: practicesOptions,
-            selectedValuesList: practicesOptions
-        );
-        _soloPracticesFilterController = SelectableFilterController<EOption>(
-            allValuesList: soloPracticesOptions,
-            selectedValuesList: practicesOptions
-        );
-        _posesFilterController = SelectableFilterController<EOption>(
-            allValuesList: posesOptions,
-            selectedValuesList: posesOptions
-        );
-        _placeFilterController = SelectableFilterController<EOption>(
-            allValuesList: placeOptions,
-            selectedValuesList: placeOptions
-        );
-        _ejaculationFilterController = SelectableFilterController<EOption>(
-            allValuesList: ejaculationOptions,
-            selectedValuesList: ejaculationOptions
-        );
-        _complicaciesFilterController = SelectableFilterController<EOption>(
-            allValuesList: complicaciesOptions,
-            selectedValuesList: complicaciesOptions
-        );
-        _stiFilterController = SelectableFilterController<EOption>(
-            allValuesList: stiOptions,
-            selectedValuesList: stiOptions
-        );
-        _obgynFilterController = SelectableFilterController<EOption>(
-            allValuesList: obgynOptions,
-            selectedValuesList: obgynOptions
-        );
+        _partnersFilterController.setValues(partners);
+        _contraceptionFilterController.setValues(contraceptionOptions);
+        _practicesFilterController.setValues(practicesOptions);
+        _soloPracticesFilterController.setValues(soloPracticesOptions);
+        _posesFilterController.setValues(posesOptions);
+        _placeFilterController.setValues(placeOptions);
+        _ejaculationFilterController.setValues(ejaculationOptions);
+        _complicaciesFilterController.setValues(complicaciesOptions);
+        _stiFilterController.setValues(stiOptions);
+        _obgynFilterController.setValues(obgynOptions);
 
         _isLoadingFilters = false;
       });
@@ -237,80 +195,82 @@ class _AllEventsPageState extends State<AllEventsPage> {
           ),
         ),
         body: Stack(
-            children: [
-              if (_isError)
-                Padding(
-                  padding: AppInsets.progressInList,
-                  child: ErrorTile(),
-                ),
-              if (!_isError)
-                ListView(
-                  children: [
-                    SizedBox(height: 15),
-                    _isLoadingFilters || !_filtersReady ?
-                      filtersStubColumn :
-                      AnimatedBuilder(
-                        animation: Listenable.merge(filterListenables),
-                        builder: (context, _) => filtersColumn
-                      ),
-
-                    SizedBox(height: 20),
-
-                    _isLoadingEvents || _isLoadingFilters || !_filtersReady ?
-                      // ShimmerList() :
-                      SizedBox.shrink() :
-                      AnimatedBuilder(
-                        animation: Listenable.merge(filterListenables),
-                        builder: (context, child) {
-                          List<CalendarEventWithOptions> filteredEvents;
-                          final query = buildFilterQuery;
-                          filteredEvents = query.filter(events!);
-
-                          bool hasEvents = events!.isNotEmpty;
-                          bool hasFilteredEvents = filteredEvents.isNotEmpty;
-
-                          Widget noEventsText = Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Center(
-                              child: Text(
-                                MiscStrings.noEvents,
-                                style: AppStyles.noDataText(context),
-                              ),
-                            ),
-                          );
-                          Widget noFilteredEventsText = Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Center(
-                              child: Text(
-                                MiscStrings.noFilteredEvents,
-                                style: AppStyles.noDataText(context),
-                              ),
-                            ),
-                          );
-
-                          if (!hasEvents) {
-                            return noEventsText;
-                          } else {
-                            if (!hasFilteredEvents) {
-                              return noFilteredEventsText;
-                            } else {
-                              return AllEventsList(list: filteredEvents);
-                            }
-                          }
-                        },
-                      ),
-                    SizedBox(height: 20),
-                  ],
-                ),
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: AddEventFloatingButton(onEventTap: _onAddEventTap)
+          children: [
+            if (_isError)
+              Padding(
+                padding: AppInsets.progressInList,
+                child: ErrorTile(),
               ),
-            ]),
+            if (!_isError)
+              ListView(
+                children: [
+                  SizedBox(height: 15),
+                  _isLoadingFilters || !_filtersReady ?
+                    filtersStubColumn :
+                    AnimatedBuilder(
+                      animation: Listenable.merge(filterListenables),
+                      builder: (context, _) => filtersColumn
+                    ),
+
+                  SizedBox(height: 20),
+
+                  _isLoadingEvents || _isLoadingFilters || !_filtersReady ?
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 150, horizontal: 185),
+                      child: CircularProgressIndicator(),
+                    ) :
+                    AnimatedBuilder(
+                      animation: Listenable.merge(eventListenables),
+                      builder: (context, _) {
+                        List<CalendarEventWithOptions> filteredEvents;
+                        final query = buildFilterQuery;
+                        filteredEvents = query.filter(events);
+
+                        bool hasEvents = events.isNotEmpty;
+                        bool hasFilteredEvents = filteredEvents.isNotEmpty;
+
+                        Widget noEventsText = Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Center(
+                            child: Text(
+                              MiscStrings.noEvents,
+                              style: AppStyles.noDataText(context),
+                            ),
+                          ),
+                        );
+                        Widget noFilteredEventsText = Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Center(
+                            child: Text(
+                              MiscStrings.noFilteredEvents,
+                              style: AppStyles.noDataText(context),
+                            ),
+                          ),
+                        );
+
+                        if (!hasEvents) {
+                          return noEventsText;
+                        } else {
+                          if (!hasFilteredEvents) {
+                            return noFilteredEventsText;
+                          } else {
+                            return AllEventsList(list: filteredEvents);
+                          }
+                        }
+                      },
+                    ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: AddEventFloatingButton(onEventTap: _onAddEventTap)
+            ),
+          ]),
         bottomNavigationBar: MainBottomNavigationBar(
-            context: context,
-            currentIndex: HomeNavigationController.pageIndex.value
+          context: context,
+          currentIndex: HomeNavigationController.pageIndex.value
         )
     );
   }
@@ -456,15 +416,15 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
 
   bool get _filtersReady =>
-    _partnersFilterController != null &&
-    _contraceptionFilterController != null &&
-    _practicesFilterController != null &&
-    _posesFilterController != null &&
-    _placeFilterController != null &&
-    _ejaculationFilterController != null &&
-    _complicaciesFilterController != null &&
-    _obgynFilterController != null &&
-    _stiFilterController != null;
+    _partnersFilterController.allValues.isNotEmpty &&
+    _contraceptionFilterController.allValues.isNotEmpty &&
+    _practicesFilterController.allValues.isNotEmpty &&
+    _posesFilterController.allValues.isNotEmpty &&
+    _placeFilterController.allValues.isNotEmpty &&
+    _ejaculationFilterController.allValues.isNotEmpty &&
+    _complicaciesFilterController.allValues.isNotEmpty &&
+    _obgynFilterController.allValues.isNotEmpty &&
+    _stiFilterController.allValues.isNotEmpty;
 
   void _disableAllFilters() {
     _typeFilterController.addAll();
@@ -474,47 +434,52 @@ class _AllEventsPageState extends State<AllEventsPage> {
     _userOrgasmsFilterController.disable();
     _notesFilterController.disable();
 
-    _partnersFilterController!.disable();
+    _partnersFilterController.disable();
     _partnersAmountFilterController.disable();
     _partnersOrgasmsFilterController.disable();
     _genderFilterController.disable();
-    _contraceptionFilterController!.disable();
-    _practicesFilterController!.disable();
-    _posesFilterController!.disable();
-    _placeFilterController!.disable();
-    _ejaculationFilterController!.disable();
-    _complicaciesFilterController!.disable();
+    _contraceptionFilterController.disable();
+    _practicesFilterController.disable();
+    _posesFilterController.disable();
+    _placeFilterController.disable();
+    _ejaculationFilterController.disable();
+    _complicaciesFilterController.disable();
 
-    _soloPracticesFilterController!.disable();
-    _stiFilterController!.disable();
-    _obgynFilterController!.disable();
+    _soloPracticesFilterController.disable();
+    _stiFilterController.disable();
+    _obgynFilterController.disable();
     return;
   }
 
 
+  List<Listenable?> get eventListenables => [
+    ...filterListenables,
+    eventsNotifier,
+  ];
+
   List<Listenable?> get filterListenables => [
       _typeFilterController.selectedValues,
       _typeFilterController.enabled,
-      _partnersFilterController!.selectedValues,
-      _partnersFilterController!.enabled,
-      _contraceptionFilterController!.selectedValues,
-      _contraceptionFilterController!.enabled,
-      _practicesFilterController!.selectedValues,
-      _practicesFilterController!.enabled,
-      _posesFilterController!.selectedValues,
-      _posesFilterController!.enabled,
-      _placeFilterController!.selectedValues,
-      _placeFilterController!.enabled,
-      _ejaculationFilterController!.selectedValues,
-      _ejaculationFilterController!.enabled,
-      _complicaciesFilterController!.selectedValues,
-      _complicaciesFilterController!.enabled,
-      _soloPracticesFilterController!.selectedValues,
-      _soloPracticesFilterController!.enabled,
-      _stiFilterController!.selectedValues,
-      _stiFilterController!.enabled,
-      _obgynFilterController!.selectedValues,
-      _obgynFilterController!.enabled,
+      _partnersFilterController.selectedValues,
+      _partnersFilterController.enabled,
+      _contraceptionFilterController.selectedValues,
+      _contraceptionFilterController.enabled,
+      _practicesFilterController.selectedValues,
+      _practicesFilterController.enabled,
+      _posesFilterController.selectedValues,
+      _posesFilterController.enabled,
+      _placeFilterController.selectedValues,
+      _placeFilterController.enabled,
+      _ejaculationFilterController.selectedValues,
+      _ejaculationFilterController.enabled,
+      _complicaciesFilterController.selectedValues,
+      _complicaciesFilterController.enabled,
+      _soloPracticesFilterController.selectedValues,
+      _soloPracticesFilterController.enabled,
+      _stiFilterController.selectedValues,
+      _stiFilterController.enabled,
+      _obgynFilterController.selectedValues,
+      _obgynFilterController.enabled,
       _ratingFilterController.selectedValues,
       _ratingFilterController.enabled,
       _userOrgasmsFilterController.enabled,
@@ -543,44 +508,44 @@ class _AllEventsPageState extends State<AllEventsPage> {
         values: _ratingFilterController.values
       ),
       partners: SelectableFilterData(
-        values: _partnersFilterController!.values,
-        isEnabled: _partnersFilterController!.isEnabled
+        values: _partnersFilterController.values,
+        isEnabled: _partnersFilterController.isEnabled
       ),
       contraception: SelectableFilterData(
-        values: _contraceptionFilterController!.values,
-        isEnabled: _contraceptionFilterController!.isEnabled
+        values: _contraceptionFilterController.values,
+        isEnabled: _contraceptionFilterController.isEnabled
       ),
       practices: SelectableFilterData(
-        values: _practicesFilterController!.values,
-        isEnabled: _practicesFilterController!.isEnabled
+        values: _practicesFilterController.values,
+        isEnabled: _practicesFilterController.isEnabled
       ),
       soloPractices: SelectableFilterData(
-        values: _soloPracticesFilterController!.values,
-        isEnabled: _soloPracticesFilterController!.isEnabled
+        values: _soloPracticesFilterController.values,
+        isEnabled: _soloPracticesFilterController.isEnabled
       ),
       places: SelectableFilterData(
-        values: _placeFilterController!.values,
-        isEnabled: _placeFilterController!.isEnabled
+        values: _placeFilterController.values,
+        isEnabled: _placeFilterController.isEnabled
       ),
       poses: SelectableFilterData(
-        values: _posesFilterController!.values,
-        isEnabled: _posesFilterController!.isEnabled
+        values: _posesFilterController.values,
+        isEnabled: _posesFilterController.isEnabled
       ),
       complicacies: SelectableFilterData(
-        isEnabled: _complicaciesFilterController!.isEnabled,
-        values: _complicaciesFilterController!.values,
+        isEnabled: _complicaciesFilterController.isEnabled,
+        values: _complicaciesFilterController.values,
       ),
       ejaculation: SelectableFilterData(
-        isEnabled: _ejaculationFilterController!.isEnabled,
-        values: _ejaculationFilterController!.values,
+        isEnabled: _ejaculationFilterController.isEnabled,
+        values: _ejaculationFilterController.values,
       ),
       sti: SelectableFilterData(
-        isEnabled: _stiFilterController!.isEnabled,
-        values: _stiFilterController!.values,
+        isEnabled: _stiFilterController.isEnabled,
+        values: _stiFilterController.values,
       ),
       obgyn: SelectableFilterData(
-        isEnabled: _obgynFilterController!.isEnabled,
-        values: _obgynFilterController!.values,
+        isEnabled: _obgynFilterController.isEnabled,
+        values: _obgynFilterController.values,
       ),
       userOrgasms: NumericFilterData(
         isEnabled: _userOrgasmsFilterController.isEnabled,
@@ -645,7 +610,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
   List<Widget> get sexButtonListTop => [
     OptionsFilterButton<Partner>(
       title: PageTitleStrings.partners,
-      controller: _partnersFilterController!,
+      controller: _partnersFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<PartnersAmount>(
@@ -678,32 +643,32 @@ class _AllEventsPageState extends State<AllEventsPage> {
   List<OptionsFilterButton> get sexButtonListBottom => [
     OptionsFilterButton<EOption>(
       title: DataStrings.contraception,
-      controller: _contraceptionFilterController!,
+      controller: _contraceptionFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.practices,
-      controller: _practicesFilterController!,
+      controller: _practicesFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.poses,
-      controller: _posesFilterController!,
+      controller: _posesFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.place,
-      controller: _placeFilterController!,
+      controller: _placeFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.ejaculation,
-      controller: _ejaculationFilterController!,
+      controller: _ejaculationFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.complicacies,
-      controller: _complicaciesFilterController!,
+      controller: _complicaciesFilterController,
       nameBuilder: (e) => e.name,
     ),
   ];
@@ -721,17 +686,17 @@ class _AllEventsPageState extends State<AllEventsPage> {
   List<OptionsFilterButton> get mstbButtonList => [
     OptionsFilterButton<EOption>(
       title: DataStrings.practices,
-      controller: _soloPracticesFilterController!,
+      controller: _soloPracticesFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.place,
-      controller: _placeFilterController!,
+      controller: _placeFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.complicacies,
-      controller: _complicaciesFilterController!,
+      controller: _complicaciesFilterController,
       nameBuilder: (e) => e.name,
     ),
   ];
@@ -746,12 +711,12 @@ class _AllEventsPageState extends State<AllEventsPage> {
   List<OptionsFilterButton> get medicalButtonList => [
     OptionsFilterButton<EOption>(
       title: DataStrings.sti,
-      controller: _stiFilterController!,
+      controller: _stiFilterController,
       nameBuilder: (e) => e.name,
     ),
     OptionsFilterButton<EOption>(
       title: DataStrings.obgyn,
-      controller: _obgynFilterController!,
+      controller: _obgynFilterController,
       nameBuilder: (e) => e.name,
     ),
   ];

@@ -67,8 +67,7 @@ class _PartnersPageState extends State<PartnersPage> {
               ValueListenableBuilder(
                 valueListenable: partnersNotifier,
                 builder: (context, partners, _) {
-
-                  if (partners.isEmpty) {
+                  if (partners.isEmpty){
                     return Center(
                       child: Text(
                         AlertStrings.noPartners,

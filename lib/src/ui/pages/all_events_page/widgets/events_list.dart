@@ -26,6 +26,7 @@ class AllEventsList extends StatelessWidget {
           ),
         ),
         ImplicitlyAnimatedList(
+          itemEquality: (a, b) => a.calendarEvent.event.id == b.calendarEvent.event.id,
           itemData: list,
           itemBuilder: (context, event) {
             return Column(
