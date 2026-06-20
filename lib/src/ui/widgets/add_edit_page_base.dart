@@ -48,12 +48,12 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
             backButton: IconButton(
                 onPressed: () => _showPopUp(context, null),
                 icon: Icon(AppIconData.backButton),
-                color: AppColors.surface(context)
+                color: MainColors.surface(context)
             ),
             editButton: IconButton(
                 onPressed: () async => widget.onPressedSave(),
                 icon: Icon(AppIconData.selected),
-                color: AppColors.surface(context)
+                color: MainColors.surface(context)
             ),
           ),
           body: widget.body,
@@ -103,7 +103,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                     Navigator.of(context).pop();
                   }
                 },
-                color: AppColors.appBar.surface(context),
+                color: AppBarColors.surface(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -111,7 +111,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                   ButtonStrings.leave,
                   style: TextStyle(
                     fontSize: AppSizes.alertButtonText,
-                    color: AppColors.appBar.text(context)
+                    color: AppBarColors.text(context)
                   ),
                 ),
               ),

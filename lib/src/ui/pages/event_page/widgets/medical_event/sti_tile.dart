@@ -33,14 +33,14 @@ class StiTile extends StatelessWidget{
                 DataStrings.sti,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: AppColors.categoryTile.title(context),
+                  color: CategoryTileColors.title(context),
                   fontSize: AppSizes.titleLarge,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Icon(
                 AppIconData.sti,
-                color: AppColors.categoryTile.leadingIcon(context),
+                color: CategoryTileColors.leadingIcon(context),
               ),
             ],
           ),
@@ -52,7 +52,7 @@ class StiTile extends StatelessWidget{
                 return Text(
                   MiscStrings.loading,
                   style: TextStyle(
-                    color: AppColors.categoryTile.text(context),
+                    color: CategoryTileColors.text(context),
                     fontSize: AppSizes.textBasic,
                   ),
                 );
@@ -60,7 +60,7 @@ class StiTile extends StatelessWidget{
                 return Text(
                   MiscStrings.errorLoadingData,
                   style: TextStyle(
-                    color: AppColors.categoryTile.text(context),
+                    color: CategoryTileColors.text(context),
                     fontSize: AppSizes.textBasic,
                   ),
                 );
@@ -68,7 +68,7 @@ class StiTile extends StatelessWidget{
                 return Text(
                   MiscStrings.notStated,
                   style: TextStyle(
-                    color: AppColors.categoryTile.text(context),
+                    color: CategoryTileColors.text(context),
                     fontSize: AppSizes.textBasic,
                   ),
                 );
@@ -89,7 +89,7 @@ class StiTile extends StatelessWidget{
                                 padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: AppColors.categoryTile.border(context),
+                                    color: CategoryTileColors.border(context),
                                   ),
                                   borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
                                 ),
@@ -97,7 +97,7 @@ class StiTile extends StatelessWidget{
                                   option.name,
                                   style: TextStyle(
                                     fontSize: AppSizes.textBasic,
-                                    color: AppColors.categoryTile.text(context)
+                                    color: CategoryTileColors.text(context)
                                   ),
                                 ),
                               ),
@@ -120,14 +120,14 @@ class StiTile extends StatelessWidget{
                                         Icon(
                                           AppIconData.noData,
                                           size: AppSizes.iconSmall,
-                                          color: AppColors.categoryTile.icon(context),
+                                          color: CategoryTileColors.icon(context),
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.loading,
                                           style: TextStyle(
                                             fontSize: AppSizes.textBasic,
-                                            color: AppColors.categoryTile.text(context),
+                                            color: CategoryTileColors.text(context),
                                           ),
                                         ),
                                       ],
@@ -139,14 +139,14 @@ class StiTile extends StatelessWidget{
                                         Icon(
                                           AppIconData.noData,
                                           size: AppSizes.iconSmall,
-                                          color: AppColors.categoryTile.icon(context)
+                                          color: CategoryTileColors.icon(context)
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,
                                           style: TextStyle(
                                             fontSize: AppSizes.textBasic,
-                                            color: AppColors.categoryTile.text(context),
+                                            color: CategoryTileColors.text(context),
                                           ),
                                         ),
                                       ],
@@ -160,7 +160,7 @@ class StiTile extends StatelessWidget{
                                           MiscStrings.noData,
                                           style: TextStyle(
                                             fontSize: AppSizes.textBasic,
-                                            color: AppColors.categoryTile.text(context),
+                                            color: CategoryTileColors.text(context),
                                           ),
                                         ),
                                       ],
@@ -179,7 +179,7 @@ class StiTile extends StatelessWidget{
                                         label,
                                         style: TextStyle(
                                           fontSize: AppSizes.textBasic,
-                                          color: AppColors.categoryTile.text(context),
+                                          color: CategoryTileColors.text(context),
                                         ),
                                       ),
                                     ],

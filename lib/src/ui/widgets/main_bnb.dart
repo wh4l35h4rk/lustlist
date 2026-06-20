@@ -26,7 +26,7 @@ class MainBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(AppIconData.statistics), label: PageTitleStrings.statistics),
         BottomNavigationBarItem(icon: Icon(AppIconData.options), label: PageTitleStrings.options),
       ],
-      backgroundColor: AppColors.bnb(context),
+      backgroundColor: MainColors.bnb(context),
       onTap: onTap ?? _onTap,
     );
   }

@@ -53,7 +53,7 @@ class _PartnersPageState extends State<PartnersPage> {
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(partnersChanges ? true : null),
           icon: Icon(AppIconData.backButton),
-          color: AppColors.appBar.icon(context),
+          color: AppBarColors.icon(context),
         ),
       ),
       body: ValueListenableBuilder(
@@ -72,7 +72,7 @@ class _PartnersPageState extends State<PartnersPage> {
                       child: Text(
                         AlertStrings.noPartners,
                         style: TextStyle(
-                          color: AppColors.defaultTile(context),
+                          color: MainColors.defaultTile(context),
                           fontStyle: FontStyle.italic,
                           fontSize: AppSizes.textBasic
                         ),

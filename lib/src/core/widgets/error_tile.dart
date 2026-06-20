@@ -28,13 +28,13 @@ class ErrorTile extends StatelessWidget {
             Icon(
               iconData,
               size: AppSizes.iconHelper,
-              color: colorsInverted ? AppColors.appBar.icon(context) : AppColors.categoryTile.leadingIcon(context),
+              color: colorsInverted ? AppBarColors.icon(context) : CategoryTileColors.leadingIcon(context),
             ),
             SizedBox(width: 5),
             Text(
               title,
               style: TextStyle(
-                color: colorsInverted ? AppColors.appBar.text(context) : AppColors.categoryTile.text(context),
+                color: colorsInverted ? AppBarColors.text(context) : CategoryTileColors.text(context),
                 fontSize: AppSizes.textBasic
               ),
             )

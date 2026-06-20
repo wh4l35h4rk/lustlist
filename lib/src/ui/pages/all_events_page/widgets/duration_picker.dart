@@ -50,7 +50,7 @@ class _DurationPickerState extends TimePickerState<DurationPicker> {
                 ),
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: enabled ? AppColors.text(context) : AppColors.defaultTile(context),
+                  color: enabled ? MainColors.text(context) : MainColors.defaultTile(context),
                   fontWeight: FontWeight.normal
                 ),
               ),
@@ -61,13 +61,13 @@ class _DurationPickerState extends TimePickerState<DurationPicker> {
           left: 10,
           top: 2,
           child: ColoredBox(
-            color: AppColors.surface(context),
+            color: MainColors.surface(context),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Text(
                 widget.label,
                 style: TextStyle(
-                    color: enabled ? AppColors.text(context) : AppColors.defaultTile(context),
+                    color: enabled ? MainColors.text(context) : MainColors.defaultTile(context),
                     fontSize: AppSizes.textSmall
                 ),
               ),

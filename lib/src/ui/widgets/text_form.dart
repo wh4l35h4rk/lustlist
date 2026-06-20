@@ -59,7 +59,7 @@ class _TextFormState extends State<TextForm> {
         return Text(
           "$currentLength/$maxLength",
           style: TextStyle(
-            color: AppColors.addEvent.coloredText(context)
+            color: AddEventColors.coloredText(context)
           ),
         );
       },
@@ -68,13 +68,13 @@ class _TextFormState extends State<TextForm> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.addEvent.coloredText(context),
+            color: AddEventColors.coloredText(context),
             width: 1.5
           ),
           borderRadius: BorderRadius.circular(20),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.addEvent.border(context)),
+          borderSide: BorderSide(color: AddEventColors.border(context)),
           borderRadius: BorderRadius.circular(20),
         ),
         hintText: widget.hint

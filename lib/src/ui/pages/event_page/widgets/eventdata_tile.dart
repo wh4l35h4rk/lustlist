@@ -88,7 +88,7 @@ class _EventDataTileState extends State<EventDataTile> {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: AppColors.eventData.surface(context),
+      surfaceColor: EventDataColors.surface(context),
       margin: AppInsets.headerTile,
       child: buildTileBottom(context),
     );
@@ -113,14 +113,14 @@ class _EventDataTileState extends State<EventDataTile> {
           return Text(MiscStrings.errorLoadingData,
             style: TextStyle(
               fontSize: AppSizes.textBasic,
-              color: AppColors.addEvent.coloredText(context),
+              color: AddEventColors.coloredText(context),
             ),
           );
         } else if (_isLoading || didUseToys == null || didWatchPorn == null) {
           return Text(MiscStrings.loading,
             style: TextStyle(
               fontSize: AppSizes.textBasic,
-              color: AppColors.addEvent.coloredText(context),
+              color: AddEventColors.coloredText(context),
             ),
           );
         }
@@ -139,7 +139,7 @@ class _EventDataTileState extends State<EventDataTile> {
                 didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.eventData.text(context)
+                  color: EventDataColors.text(context)
                 ),
               )
             ),
@@ -150,7 +150,7 @@ class _EventDataTileState extends State<EventDataTile> {
                   didUseToys! ? MiscStrings.didUse : MiscStrings.didNotUse,
                   style: TextStyle(
                       fontSize: AppSizes.textBasic,
-                      color: AppColors.eventData.text(context)
+                      color: EventDataColors.text(context)
                   ),
                 )
             )

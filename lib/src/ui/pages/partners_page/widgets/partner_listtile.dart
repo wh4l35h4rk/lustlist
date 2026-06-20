@@ -89,7 +89,7 @@ class PartnerListTile extends StatelessWidget {
           partner.gender.iconData,
           size: partner.gender == Gender.nonbinary
               ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-          color: AppColors.categoryTile.icon(context),
+          color: CategoryTileColors.icon(context),
         ),
       );
     } else {

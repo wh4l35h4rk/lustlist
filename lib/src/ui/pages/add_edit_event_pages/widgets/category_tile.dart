@@ -58,7 +58,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: AppColors.addEvent.surface(context),
+      surfaceColor: AddEventColors.surface(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,7 +69,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                 StringFormatter.colon(category.name),
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: AppColors.addEvent.title(context),
+                  color: AddEventColors.title(context),
                   fontSize: AppSizes.titleLarge,
                   fontWeight: FontWeight.bold,
                 ),
@@ -77,7 +77,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               Icon(
                 iconData,
                 size: iconSize,
-                color: AppColors.addEvent.leadingIcon(context),
+                color: AddEventColors.leadingIcon(context),
               ),
             ],
           ),
@@ -89,14 +89,14 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                   return Text(MiscStrings.loading,
                     style: TextStyle(
                       fontSize: AppSizes.textBasic,
-                      color: AppColors.addEvent.coloredText(context),
+                      color: AddEventColors.coloredText(context),
                     ),
                   );
                 } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
                   return Text(MiscStrings.errorLoadingData,
                     style: TextStyle(
                       fontSize: AppSizes.textBasic,
-                      color: AppColors.addEvent.coloredText(context),
+                      color: AddEventColors.coloredText(context),
                     ),
                   );
                 } else {
@@ -133,8 +133,8 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
         },
         style: OutlinedButton.styleFrom(
           backgroundColor: _selectedOptions.value.contains(option) ?
-            AppColors.addEvent.selectedSurface(context) : AppColors.addEvent.surface(context),
-          side: BorderSide(width: 1.2, color: AppColors.addEvent.border(context)),
+            AddEventColors.selectedSurface(context) : AddEventColors.surface(context),
+          side: BorderSide(width: 1.2, color: AddEventColors.border(context)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -150,7 +150,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AppColors.addEvent.text(context)
+                color: AddEventColors.text(context)
               ),
             ),
           ],

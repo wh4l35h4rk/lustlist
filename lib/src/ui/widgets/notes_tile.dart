@@ -54,14 +54,14 @@ class NotesTile extends StatelessWidget {
                     StringFormatter.colon(DataStrings.notes),
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: AppColors.categoryTile.title(context),
+                      color: CategoryTileColors.title(context),
                       fontSize: AppSizes.titleLarge,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     AppIconData.notes,
-                    color: AppColors.categoryTile.leadingIcon(context)
+                    color: CategoryTileColors.leadingIcon(context)
                   ),
                 ],
               ),
@@ -78,7 +78,7 @@ class NotesTile extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: AppColors.notesBottom(context),
+            color: MainColors.notesBottom(context),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12.0),
               bottomRight: Radius.circular(12.0),

@@ -111,7 +111,7 @@ class _EventsAnimatedListState extends AnimatedListBaseState<CalendarEvent, Even
                 Text(
                   MiscStrings.noEventsForDaySelected,
                   style: TextStyle(
-                    color: AppColors.defaultTile(context),
+                    color: MainColors.defaultTile(context),
                     fontSize: AppSizes.titleSmall,
                   ),
                 ),

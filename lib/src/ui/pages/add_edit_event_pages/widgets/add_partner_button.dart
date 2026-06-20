@@ -39,18 +39,18 @@ class _AddPartnerButtonState extends State<AddPartnerButton> {
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: isPressed
-                  ? AppColors.addEvent.buttonOnTap(context)
-                  : AppColors.addEvent.surface(context),
+                  ? AddEventColors.buttonOnTap(context)
+                  : AddEventColors.surface(context),
               border: Border.all(
                 width: 1.2,
-                color: AppColors.addEvent.border(context),
+                color: AddEventColors.border(context),
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               AppIconData.add,
               size: AppSizes.iconAdd,
-              color: AppColors.addEvent.icon(context),
+              color: AddEventColors.icon(context),
             ),
           ),
         ),

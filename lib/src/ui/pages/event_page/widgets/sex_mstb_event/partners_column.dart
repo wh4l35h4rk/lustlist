@@ -34,7 +34,7 @@ class PartnersColumn extends StatelessWidget {
               _getPartnersTitle(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AppColors.eventData.title(context),
+                color: EventDataColors.title(context),
                 fontSize: AppSizes.titleLarge,
                 fontWeight: FontWeight.bold,
               ),
@@ -42,7 +42,7 @@ class PartnersColumn extends StatelessWidget {
             Spacer(),
             Icon(
               AppIconData.partners,
-              color: AppColors.eventData.leadingIcon(context),
+              color: EventDataColors.leadingIcon(context),
             ),
           ],
         ),
@@ -51,7 +51,7 @@ class PartnersColumn extends StatelessWidget {
           Text(
             AlertStrings.noPartnersPassed,
             style: TextStyle(
-              color: AppColors.eventData.text(context),
+              color: EventDataColors.text(context),
               fontSize: AppSizes.textBasic,
               fontStyle: FontStyle.italic
             ),
@@ -67,7 +67,7 @@ class PartnersColumn extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () => _onPartnerTap(context, repo, partner),
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(width: 1.2, color: AppColors.eventData.border(context)),
+                          side: BorderSide(width: 1.2, color: EventDataColors.border(context)),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -77,7 +77,7 @@ class PartnersColumn extends StatelessWidget {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: AppSizes.textBasic,
-                                color: AppColors.eventData.text(context)
+                                color: EventDataColors.text(context)
                               ),
                             ),
                             SizedBox(width: 5),
@@ -85,7 +85,7 @@ class PartnersColumn extends StatelessWidget {
                               partner.gender.iconData,
                               size: partner.gender == Gender.nonbinary
                                   ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-                              color: AppColors.eventData.icon(context),
+                              color: EventDataColors.icon(context),
                             )
                           ],
                         ),
@@ -102,7 +102,7 @@ class PartnersColumn extends StatelessWidget {
                         StringFormatter.orgasmsAmount(amount, true),
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
-                          color: AppColors.eventData.text(context)
+                          color: EventDataColors.text(context)
                         ),
                       )
                   ],

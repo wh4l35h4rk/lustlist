@@ -20,7 +20,7 @@ class CreditsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var surfaceColor = AppColors.notesBottom(context)!;
+    var surfaceColor = MainColors.notesBottom(context)!;
     return Scaffold(
       body: CustomScrollView(
           slivers: [
@@ -38,7 +38,7 @@ class CreditsPage extends StatelessWidget {
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
-                          color: AppColors.categoryTile.text(context),
+                          color: CategoryTileColors.text(context),
                           letterSpacing: 0.4,
                         ),
                         children: <TextSpan>[
@@ -46,7 +46,7 @@ class CreditsPage extends StatelessWidget {
                           TextSpan(text: CreditsStrings.githubNickname,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.categoryTile.leadingIcon(context),
+                              color: CategoryTileColors.leadingIcon(context),
                               letterSpacing: 0.4,
                             )
                           ),

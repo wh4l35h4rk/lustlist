@@ -23,13 +23,13 @@ class MedicalData extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(AppIconData.medical, color: AppColors.eventData.icon(context)),
+        Icon(AppIconData.medical, color: EventDataColors.icon(context)),
         Padding(
           padding: AppInsets.dataIcon,
           child: Text(
             StringFormatter.colon(DataStrings.type),
             style: TextStyle(
-                color: AppColors.eventData.title(context),
+                color: EventDataColors.title(context),
                 fontWeight: FontWeight.bold,
                 fontSize: AppSizes.titleSmall
             ),
@@ -44,7 +44,7 @@ class MedicalData extends StatelessWidget{
                   return Text(
                     MiscStrings.loading,
                     style: TextStyle(
-                      color: AppColors.eventData.text(context),
+                      color: EventDataColors.text(context),
                       fontSize: AppSizes.textBasic,
                     ),
                   );
@@ -52,7 +52,7 @@ class MedicalData extends StatelessWidget{
                   return Text(
                     MiscStrings.errorLoadingData,
                     style: TextStyle(
-                      color: AppColors.eventData.text(context),
+                      color: EventDataColors.text(context),
                       fontSize: AppSizes.textBasic,
                     ),
                   );
@@ -62,7 +62,7 @@ class MedicalData extends StatelessWidget{
                   return Text(
                     MiscStrings.noData,
                     style: TextStyle(
-                      color: AppColors.eventData.text(context),
+                      color: EventDataColors.text(context),
                       fontSize: AppSizes.textBasic,
                     ),
                   );
@@ -87,7 +87,7 @@ class MedicalData extends StatelessWidget{
       categoryString,
       style: TextStyle(
         fontSize: AppSizes.textBasic,
-        color: AppColors.eventData.text(context)
+        color: EventDataColors.text(context)
       ),
     );
   }

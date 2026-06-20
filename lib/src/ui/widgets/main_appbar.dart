@@ -26,7 +26,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: AppColors.appBar.surface(context),
+      backgroundColor: AppBarColors.surface(context),
       title: TitleWidget(title: title, editButton: editButton),
       leading: backButton,
       actions: [
@@ -67,8 +67,8 @@ class TitleWidget extends StatelessWidget {
           ? AppSizes.appbarLarge
           : AppSizes.appbarBasic,
       color: editButton == null
-          ? AppColors.appBar.title(context)
-          : AppColors.appBar.text(context),
+          ? AppBarColors.title(context)
+          : AppBarColors.text(context),
     );
 
     final TextPainter textPainter = TextPainter(

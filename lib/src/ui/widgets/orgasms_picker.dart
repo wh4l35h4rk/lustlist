@@ -32,7 +32,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: AppColors.addEvent.pickerSurface(context),
+        color: AddEventColors.pickerSurface(context),
         child: SafeArea(
             top: false,
             child: CupertinoPicker(
@@ -60,7 +60,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AppColors.addEvent.border(context))
+              bottom: BorderSide(color: AddEventColors.border(context))
           )
       ),
       child: SizedBox(
@@ -72,7 +72,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
             StringFormatter.orgasmsAmount(amount, true),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AppColors.addEvent.coloredText(context)
+                color: AddEventColors.coloredText(context)
             ),
           ),
         ),

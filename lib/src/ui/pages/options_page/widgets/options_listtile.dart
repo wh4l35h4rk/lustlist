@@ -26,14 +26,14 @@ class OptionsListTile extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadiusGeometry.circular(AppSizes.listTileBorderRadius),
         border: Border.all(
-            color: AppColors.calendar.border(context)
+            color: CalendarColors.border(context)
         ),
       ),
       child: ListTile(
           onTap: () => _onTap(page, context),
           leading: Icon(
             iconData,
-            color: AppColors.calendar.eventIcon(context),
+            color: CalendarColors.eventIcon(context),
           ),
           title: Wrap(
             children: [

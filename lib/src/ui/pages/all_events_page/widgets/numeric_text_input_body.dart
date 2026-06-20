@@ -32,12 +32,12 @@ class NumericTextInputBody extends StatelessWidget {
                 Icon icon = Icon(
                   value ? AppIconData.equals : AppIconData.range,
                   size: 15,
-                  color: AppColors.surface(context),
+                  color: MainColors.surface(context),
                 );
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: CircleAvatar(
-                    backgroundColor: AppColors.iconButtonSurface(context),
+                    backgroundColor: MainColors.iconButtonSurface(context),
                     child: IconButton(
                       onPressed: () => {
                         controller.toggleMode()

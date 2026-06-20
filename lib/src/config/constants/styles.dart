@@ -8,28 +8,28 @@ class AppStyles{
     return TextStyle(
         fontSize: AppSizes.textBasic,
         fontStyle: FontStyle.italic,
-        color: AppColors.defaultTile(context)
+        color: MainColors.defaultTile(context)
     );
   }
 
   static TextStyle basicText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
-        color: AppColors.text(context)
+        color: MainColors.text(context)
     );
   }
 
   static TextStyle addEventBasicText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
-        color: AppColors.addEvent.text(context)
+        color: AddEventColors.text(context)
     );
   }
 
   static TextStyle eventDataBasicText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
-        color: AppColors.eventData.text(context)
+        color: EventDataColors.text(context)
     );
   }
 
@@ -43,22 +43,22 @@ class AppStyles{
   static ButtonStyle selectableValueButton<T>(BuildContext context, List<T> selectedValues, T value){
     return OutlinedButton.styleFrom(
       backgroundColor: selectedValues.contains(value)
-          ? AppColors.filterSurface(context)
-          : AppColors.surface(context),
+          ? MainColors.filterSurface(context)
+          : MainColors.surface(context),
       side: BorderSide(
           width: 1.2,
-          color: AppColors.addEvent.border(context)
+          color: AddEventColors.border(context)
       ),
     );
   }
 
   static ButtonStyle filterButton(BuildContext context){
     return OutlinedButton.styleFrom(
-      backgroundColor: AppColors.surface(context),
+      backgroundColor: MainColors.surface(context),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       side: BorderSide(
           width: 1.2,
-          color: AppColors.addEvent.border(context)
+          color: AddEventColors.border(context)
       ),
     );
   }
@@ -69,7 +69,7 @@ class AppStyles{
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       side: BorderSide(
           width: 1.2,
-          color: AppColors.addEvent.border(context)
+          color: AddEventColors.border(context)
       ),
     );
   }
@@ -77,7 +77,7 @@ class AppStyles{
 
   static TextStyle numStatsTitle(BuildContext context){
     return TextStyle(
-      color: AppColors.chart.title(context),
+      color: ChartColors.title(context),
       fontSize: AppSizes.titleSmall,
       letterSpacing: AppSizes.chartTitleSpacing,
       fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class AppStyles{
 
   static TextStyle chartTitle(BuildContext context){
     return TextStyle(
-      color: AppColors.chart.title(context),
+      color: ChartColors.title(context),
       fontSize: AppSizes.titleLarge,
       fontWeight: FontWeight.bold,
       letterSpacing: AppSizes.chartTitleSpacing,
@@ -99,7 +99,7 @@ class AppStyles{
 
   static TextStyle chartSideTitles(BuildContext context) {
     return TextStyle(
-      color: AppColors.chart.subtitle(context),
+      color: ChartColors.subtitle(context),
       fontWeight: FontWeight.bold,
       fontSize: AppSizes.textBasic,
     );

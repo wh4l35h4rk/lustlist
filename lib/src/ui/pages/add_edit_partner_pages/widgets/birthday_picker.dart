@@ -34,7 +34,7 @@ class _BirthdayPickerState extends State<BirthdayPicker> {
           child: SizedBox(
             height: 40,
             child: Switch(
-              inactiveThumbColor: AppColors.addEvent.border(context),
+              inactiveThumbColor: AddEventColors.border(context),
               value: value,
               onChanged: (bool value) {
                 setState(() {
@@ -57,7 +57,7 @@ class _BirthdayPickerState extends State<BirthdayPicker> {
             MiscStrings.unknown,
             style: TextStyle(
               fontSize: AppSizes.textBasic,
-              color: AppColors.addEvent.coloredText(context)
+              color: AddEventColors.coloredText(context)
             ),
           )
       ],

@@ -112,8 +112,8 @@ class _CalendarState extends State<Calendar> {
                                     : events[index].type.iconData,
                                   size: 12,
                                   color: (day.month == _focusedDay.value.month) ?
-                                  AppColors.calendar.eventIcon(context) :
-                                  AppColors.calendar.eventOtherMonthIcon(context)
+                                  CalendarColors.eventIcon(context) :
+                                  CalendarColors.eventOtherMonthIcon(context)
                                 );
                               })
                             ),
@@ -172,7 +172,7 @@ class _CalendarState extends State<Calendar> {
                           Text(
                             MiscStrings.noDaySelected,
                             style: TextStyle(
-                                color: AppColors.defaultTile(context),
+                                color: MainColors.defaultTile(context),
                                 fontSize: AppSizes.titleSmall
                             ),
                           ),
@@ -192,18 +192,18 @@ class _CalendarState extends State<Calendar> {
 
   CalendarStyle get _calendarStyle =>
     CalendarStyle(
-      defaultTextStyle: TextStyle(color: AppColors.calendar.basicText(context)),
-      weekendTextStyle: TextStyle(color: AppColors.calendar.weekendText(context)),
-      disabledTextStyle: TextStyle(color: AppColors.calendar.disabledText(context)),
-      outsideTextStyle: TextStyle(color: AppColors.calendar.outsideText(context)),
+      defaultTextStyle: TextStyle(color: CalendarColors.basicText(context)),
+      weekendTextStyle: TextStyle(color: CalendarColors.weekendText(context)),
+      disabledTextStyle: TextStyle(color: CalendarColors.disabledText(context)),
+      outsideTextStyle: TextStyle(color: CalendarColors.outsideText(context)),
       selectedDecoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.calendar.selectedEvent(context),
+        color: CalendarColors.selectedEvent(context),
       ),
-      todayTextStyle: TextStyle(color: AppColors.calendar.weekendText(context)),
+      todayTextStyle: TextStyle(color: CalendarColors.weekendText(context)),
       todayDecoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.calendar.todayEvent(context),
+        color: CalendarColors.todayEvent(context),
       ),
     );
 
@@ -243,7 +243,7 @@ class _CalendarState extends State<Calendar> {
               _selectedDay.value = null;
               _selectedEvents.value = [];
             },
-            color: AppColors.calendar.navigationIcon(context),
+            color: CalendarColors.navigationIcon(context),
           ),
           SizedBox(
             width: 170,
@@ -277,7 +277,7 @@ class _CalendarState extends State<Calendar> {
               _selectedDay.value = null;
               _selectedEvents.value = [];
             },
-            color: AppColors.calendar.navigationIcon(context),
+            color: CalendarColors.navigationIcon(context),
           ),
         ],
       ),
@@ -292,7 +292,7 @@ class _CalendarState extends State<Calendar> {
           title: Center(
               child: Text(
                 MiscStrings.selectMonth,
-                style: TextStyle(color: AppColors.calendar.title(context)),
+                style: TextStyle(color: CalendarColors.title(context)),
               )),
           content: SizedBox(
             height: 100,
@@ -301,7 +301,7 @@ class _CalendarState extends State<Calendar> {
                   textTheme: CupertinoTextThemeData(
                     dateTimePickerTextStyle: TextStyle(
                         fontSize: AppSizes.titleSmall,
-                        color: AppColors.text(context)
+                        color: MainColors.text(context)
                     ),
                   )
               ),

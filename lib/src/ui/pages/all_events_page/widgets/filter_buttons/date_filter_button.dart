@@ -28,8 +28,8 @@ class DateFilterButton extends StatelessWidget {
           return DroplistButton(
             title: title,
             backgroundColor: changesApplied
-                ? AppColors.filterSurface(context)
-                : AppColors.surface(context),
+                ? MainColors.filterSurface(context)
+                : MainColors.surface(context),
             onPressed: () {
               _show(context);
             },

@@ -30,14 +30,14 @@ class InfoRow extends StatelessWidget {
             iconData,
             size: iconData == Gender.nonbinary.iconData
                 ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-            color: iconColor ?? AppColors.eventData.icon(context),
+            color: iconColor ?? EventDataColors.icon(context),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Text(
               title,
               style: TextStyle(
-                  color: titleColor ?? AppColors.eventData.title(context),
+                  color: titleColor ?? EventDataColors.title(context),
                   fontWeight: FontWeight.bold,
                   fontSize: AppSizes.titleSmall,
               ),

@@ -22,7 +22,7 @@ class PartnerDataTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: AppColors.eventData.surface(context),
+      surfaceColor: EventDataColors.surface(context),
       margin: AppInsets.headerTile,
       child: IntrinsicHeight(
         child: Row(
@@ -64,7 +64,7 @@ class PartnerDataTile extends StatelessWidget {
               children: [
                 Icon(
                   AppIconData.partners,
-                  color: AppColors.eventData.leadingIcon(context),
+                  color: EventDataColors.leadingIcon(context),
                 ),
               ],
             ),

@@ -98,7 +98,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
           return ListView(
             children: [
               BasicTile(
-                  surfaceColor: AppColors.addEvent.surface(context),
+                  surfaceColor: AddEventColors.surface(context),
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
                   child: AddMedEventDataColumn(
                       controller: _dataController

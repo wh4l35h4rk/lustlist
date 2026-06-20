@@ -54,7 +54,7 @@ class _PicturePickerState extends State<PicturePicker> {
                       ? Icon(
                     Icons.person_outlined,
                     size: 100,
-                    color: AppColors.avatarIcon(context),
+                    color: MainColors.avatarIcon(context),
                   )
                       : ClipOval(
                     child: Image.file(
@@ -150,7 +150,7 @@ class _SetPictureButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: onPressed,
-      style: AppStyles.outlinedButton(AppColors.surface(context), context),
+      style: AppStyles.outlinedButton(MainColors.surface(context), context),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

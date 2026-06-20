@@ -80,7 +80,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
             controller: _dataController
           ),
           BasicTile(
-            surfaceColor: AppColors.addEvent.surface(context),
+            surfaceColor: AddEventColors.surface(context),
             margin: AppInsets.addDataMargin,
             child: AddEditPartnerDataColumn(
                 controller: _dataController

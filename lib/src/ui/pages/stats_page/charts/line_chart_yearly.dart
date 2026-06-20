@@ -41,8 +41,8 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
 
   @override
   Widget build(BuildContext context) {
-    Color sexLineColor = AppColors.chart.sexLine(context);
-    Color mstbLineColor = AppColors.chart.mstbLine(context);
+    Color sexLineColor = ChartColors.sexLine(context);
+    Color mstbLineColor = ChartColors.mstbLine(context);
 
     return AspectRatio(
       aspectRatio: 1.15,
@@ -103,8 +103,8 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
                     mstbSpots: mstbSpots,
                     sexLineColor: sexLineColor,
                     mstbLineColor: mstbLineColor,
-                    surfaceColor: AppColors.chart.tooltipSurface(context),
-                    borderColor: AppColors.primary(context),
+                    surfaceColor: ChartColors.tooltipSurface(context),
+                    borderColor: MainColors.primary(context),
                   ),
                 ),
               ),

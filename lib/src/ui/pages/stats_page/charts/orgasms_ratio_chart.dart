@@ -108,18 +108,18 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? AppSizes.titleLarge : AppSizes.textBasic;
       final radius = isTouched ? 65.0 : 55.0;
-      final fontColor = isThemeLight ? AppColors.surface(context) : AppColors.text(context);
+      final fontColor = isThemeLight ? MainColors.surface(context) : MainColors.text(context);
       final shadows = [Shadow(color: Colors.black, blurRadius: 3)];
 
       return switch (i) {
         0 => PieChartSectionData(
-            color: AppColors.chart.female(context),
+            color: ChartColors.female(context),
             value: widget.userAmount.toDouble(),
             title: widget.userAmount.toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              AppColors.chart.user(context),
-              AppColors.chart.userAccent(context)],
+              ChartColors.user(context),
+              ChartColors.userAccent(context)],
             ),
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -129,13 +129,13 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
             ),
         ),
         1 => PieChartSectionData(
-            color: AppColors.chart.male(context),
+            color: ChartColors.male(context),
             value: widget.partnersAmount.toDouble(),
             title: widget.partnersAmount.toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              AppColors.chart.partners(context),
-              AppColors.chart.partnersAccent(context)],
+              ChartColors.partners(context),
+              ChartColors.partnersAccent(context)],
             ),
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -157,14 +157,14 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
         Padding(
           padding: AppInsets.legendRow,
           child: LegendRow(
-            color: AppColors.chart.user(context),
+            color: ChartColors.user(context),
             text: ChartStrings.userOrgasms
           ),
         ),
         Padding(
           padding: AppInsets.legendRow,
           child: LegendRow(
-            color: AppColors.chart.partners(context),
+            color: ChartColors.partners(context),
             text: ChartStrings.partnersOrgasms
           ),
         )

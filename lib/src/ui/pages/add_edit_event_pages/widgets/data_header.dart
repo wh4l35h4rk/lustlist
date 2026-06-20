@@ -53,8 +53,8 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
 
   @override
   Widget build(BuildContext context) {
-    Color iconColor = AppColors.addEvent.icon(context);
-    Color titleColor = AppColors.addEvent.title(context);
+    Color iconColor = AddEventColors.icon(context);
+    Color titleColor = AddEventColors.title(context);
 
     return Column(
       children: [
@@ -113,7 +113,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                 children: [
                   Icon(
                     iconData,
-                    color: AppColors.addEvent.leadingIcon(context),
+                    color: AddEventColors.leadingIcon(context),
                   ),
                 ],
               ),
@@ -131,7 +131,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
               return Text(MiscStrings.loading,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.coloredText(context),
+                  color: AddEventColors.coloredText(context),
                 ),
               );
             } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty
@@ -140,7 +140,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
               return Text(MiscStrings.errorLoadingData,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.coloredText(context),
+                  color: AddEventColors.coloredText(context),
                 ),
               );
             }

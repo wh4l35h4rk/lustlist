@@ -46,7 +46,7 @@ class _IntTextFieldFormState extends State<IntTextFieldForm> {
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                    color: AppColors.enabledBorder(context),
+                    color: MainColors.enabledBorder(context),
                     width: 1.5
                 )
             ),

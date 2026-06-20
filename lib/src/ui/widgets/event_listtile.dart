@@ -49,7 +49,7 @@ class EventListTile extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(
-                          color: borderColor ?? AppColors.defaultTile(context),
+                          color: borderColor ?? MainColors.defaultTile(context),
                           width: 2.8
                         )
                       )

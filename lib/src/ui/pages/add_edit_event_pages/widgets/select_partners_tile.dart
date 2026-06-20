@@ -82,7 +82,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: AppColors.addEvent.surface(context),
+      surfaceColor: AddEventColors.surface(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -106,7 +106,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               StringFormatter.colon(PageTitleStrings.partners),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AppColors.addEvent.title(context),
+                color: AddEventColors.title(context),
                 fontSize: AppSizes.titleLarge,
                 fontWeight: FontWeight.bold,
               ),
@@ -114,7 +114,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
             Spacer(),
             Icon(
               AppIconData.partners,
-              color: AppColors.addEvent.leadingIcon(context),
+              color: AddEventColors.leadingIcon(context),
             ),
           ],
         ),
@@ -133,14 +133,14 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                       children: [
                         Icon(
                           AppIconData.error,
-                          color: AppColors.categoryTile.leadingIcon(context),
+                          color: CategoryTileColors.leadingIcon(context),
                         ),
                         SizedBox(width: 5,),
                         Text(
                           MiscStrings.errorLoadingData,
                           style: TextStyle(
                             fontSize: AppSizes.textBasic,
-                            color: AppColors.categoryTile.text(context),
+                            color: CategoryTileColors.text(context),
                           ),
                         ),
                       ],
@@ -156,7 +156,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                             MiscStrings.noPartners,
                             style: TextStyle(
                               fontSize: AppSizes.textBasic,
-                              color: AppColors.addEvent.coloredText(context),
+                              color: AddEventColors.coloredText(context),
                             ),
                           ),
                         ),
@@ -236,7 +236,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
                   fontStyle: FontStyle.italic,
-                  color: AppColors.addEvent.coloredText(context),
+                  color: AddEventColors.coloredText(context),
                 ),
               ),
             )
@@ -262,8 +262,8 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         },
         style: OutlinedButton.styleFrom(
           backgroundColor: _selectedPartners.value.keys.contains(partner) ?
-            AppColors.addEvent.selectedSurface(context) : AppColors.addEvent.surface(context),
-          side: BorderSide(width: 1.2, color: AppColors.addEvent.border(context)),
+            AddEventColors.selectedSurface(context) : AddEventColors.surface(context),
+          side: BorderSide(width: 1.2, color: AddEventColors.border(context)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -273,7 +273,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               textAlign: TextAlign.left,
               style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.text(context)
+                  color: AddEventColors.text(context)
               ),
             ),
             SizedBox(width: 5,),
@@ -281,7 +281,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               partner.gender.iconData,
               size: partner.gender == Gender.nonbinary
                   ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-              color: AppColors.addEvent.coloredText(context)
+              color: AddEventColors.coloredText(context)
             )
           ],
         ),
@@ -297,7 +297,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(
-            color: AppColors.addEvent.border(context),
+            color: AddEventColors.border(context),
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -312,7 +312,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     fontSize: AppSizes.textBasic,
-                    color: AppColors.addEvent.text(context)
+                    color: AddEventColors.text(context)
                 ),
               ),
             ),
@@ -321,7 +321,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
               partner.gender.iconData,
               size: partner.gender == Gender.nonbinary
                   ? AppSizes.iconMedium - 3 : AppSizes.iconMedium,
-              color: AppColors.addEvent.coloredText(context),
+              color: AddEventColors.coloredText(context),
             )
           ],
         ),

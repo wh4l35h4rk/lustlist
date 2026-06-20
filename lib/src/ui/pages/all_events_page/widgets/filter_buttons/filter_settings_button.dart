@@ -24,10 +24,10 @@ class FilterSettingsButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () => onPressed(),
         style: OutlinedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColors.surface(context),
+          backgroundColor: backgroundColor ?? MainColors.surface(context),
           side: BorderSide(
               width: 1.2,
-              color: AppColors.addEvent.border(context)
+              color: AddEventColors.border(context)
           ),
         ),
         child: Row(

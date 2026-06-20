@@ -47,10 +47,10 @@ class PartnerEventListTile extends StatelessWidget {
         case 5:
           return Colors.green;
         default:
-          return AppColors.defaultTile(context);
+          return MainColors.defaultTile(context);
       }
     } else {
-      return AppColors.defaultTile(context);
+      return MainColors.defaultTile(context);
     }
   }
 

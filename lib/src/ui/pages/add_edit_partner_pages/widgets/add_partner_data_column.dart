@@ -36,8 +36,8 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
 
   @override
   Widget build(BuildContext context) {
-    Color iconColor = AppColors.addEvent.icon(context);
-    Color titleColor = AppColors.addEvent.title(context);
+    Color iconColor = AddEventColors.icon(context);
+    Color titleColor = AddEventColors.title(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,14 +49,14 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
               StringFormatter.colon(DataStrings.name),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AppColors.addEvent.title(context),
+                color: AddEventColors.title(context),
                 fontSize: AppSizes.titleLarge,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Icon(
               AppIconData.partners,
-              color: AppColors.addEvent.leadingIcon(context),
+              color: AddEventColors.leadingIcon(context),
             ),
           ],
         ),
@@ -79,8 +79,8 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                   value: selectedGender,
                   icon: const Icon(AppIconData.dropList),
                   alignment: Alignment.centerLeft,
-                  style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
-                  underline: Container(height: 2, color: AppColors.addEvent.border(context)),
+                  style: TextStyle(color: AddEventColors.text(context), fontSize: AppSizes.textBasic),
+                  underline: Container(height: 2, color: AddEventColors.border(context)),
                   onChanged: (Gender? gender) {
                     setState(() {
                       selectedGender = gender!;
@@ -94,7 +94,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                           value.label,
                           style: TextStyle(
                             fontSize: AppSizes.textBasic,
-                            color: AppColors.addEvent.coloredText(context)
+                            color: AddEventColors.coloredText(context)
                           ),
                         ));
                   }).toList(),

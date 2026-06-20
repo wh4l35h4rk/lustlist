@@ -42,7 +42,7 @@ class CategoryTile extends StatelessWidget {
               Text(
                   MiscStrings.errorLoadingData,
                   style: TextStyle(
-                    color: AppColors.categoryTile.text(context),
+                    color: CategoryTileColors.text(context),
                     fontSize: AppSizes.titleSmall,
                   )
               ),
@@ -74,7 +74,7 @@ class CategoryTile extends StatelessWidget {
                   title,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: AppColors.categoryTile.title(context),
+                    color: CategoryTileColors.title(context),
                     fontSize: AppSizes.titleLarge,
                     fontWeight: FontWeight.bold,
                   ),
@@ -82,7 +82,7 @@ class CategoryTile extends StatelessWidget {
                 Icon(
                   iconData,
                   size: iconSize,
-                  color: AppColors.categoryTile.leadingIcon(context),
+                  color: CategoryTileColors.leadingIcon(context),
                 ),
               ],
             ),
@@ -113,7 +113,7 @@ class CategoryTile extends StatelessWidget {
             padding: AppInsets.optionsContainer,
             decoration: BoxDecoration(
               border: Border.all(
-                color: AppColors.categoryTile.border(context),
+                color: CategoryTileColors.border(context),
               ),
               borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
             ),

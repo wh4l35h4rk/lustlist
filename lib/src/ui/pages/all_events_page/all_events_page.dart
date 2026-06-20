@@ -191,7 +191,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(AppIconData.backButton),
-            color: AppColors.appBar.icon(context),
+            color: AppBarColors.icon(context),
           ),
         ),
         body: Stack(

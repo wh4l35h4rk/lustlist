@@ -32,7 +32,7 @@ class AvgDurationColumn extends StatelessWidget {
         children: [
           Icon(
             bgIconData,
-            color: AppColors.chart.bgIcon(context),
+            color: ChartColors.bgIcon(context),
             size: bgIconSize ?? 180,
           ),
           Column(

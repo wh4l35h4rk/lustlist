@@ -28,11 +28,11 @@ class AnimatedAppBar extends StatelessWidget{
       leading: hasBackButton ? IconButton(
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(AppIconData.backButton),
-        color: AppColors.appBar.icon(context)
+        color: AppBarColors.icon(context)
       ) : null,
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
-      backgroundColor: AppColors.appBar.surface(context),
+      backgroundColor: AppBarColors.surface(context),
       flexibleSpace: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             final double currentHeight = constraints.maxHeight;
@@ -48,7 +48,7 @@ class AnimatedAppBar extends StatelessWidget{
                   title,
                   style: TextStyle(
                       fontSize: AppSizes.appbarAnimated,
-                      color: AppColors.appBar.title(context)
+                      color: AppBarColors.title(context)
                   ),
                 ),
               ),
@@ -59,8 +59,8 @@ class AnimatedAppBar extends StatelessWidget{
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          AppColors.appBar.surface(context),
-                          AppColors.appBar.surfaceGradient(context),
+                          AppBarColors.surface(context),
+                          AppBarColors.surfaceGradient(context),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -71,7 +71,7 @@ class AnimatedAppBar extends StatelessWidget{
                     TexturesGet.bedgeGrunge,
                     fit: BoxFit.cover,
                     repeat: ImageRepeat.repeat,
-                    color: AppColors.appBar.surface(context).withValues(alpha: 0.8),
+                    color: AppBarColors.surface(context).withValues(alpha: 0.8),
                     colorBlendMode: BlendMode.modulate,
                   ),
                 ],
@@ -80,7 +80,7 @@ class AnimatedAppBar extends StatelessWidget{
           }
       ),
       titleTextStyle: TextStyle(
-        color: AppColors.appBar.title(context),
+        color: AppBarColors.title(context),
       ),
       actions: [
         ChangeThemeButton()

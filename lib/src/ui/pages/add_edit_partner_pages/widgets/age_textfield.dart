@@ -34,7 +34,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AppColors.addEvent.border(context))
+              bottom: BorderSide(color: AddEventColors.border(context))
           )
       ),
       child: SizedBox(
@@ -48,7 +48,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
               age,
               style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AppColors.addEvent.coloredText(context)
+                color: AddEventColors.coloredText(context)
               ),
             ),
           ),
@@ -62,7 +62,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
       widget.controller.text = "";
     }
     return showModalBottomSheet(
-        backgroundColor: AppColors.addEvent.pickerSurface(context),
+        backgroundColor: AddEventColors.pickerSurface(context),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),

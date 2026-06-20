@@ -36,7 +36,7 @@ class _LoadingScaffoldState extends State<LoadingScaffold> {
         IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(AppIconData.arrowLeft),
-          color: AppColors.appBar.icon(context),
+          color: AppBarColors.icon(context),
         ) : null
       ),
       body: const Center(child: CircularProgressIndicator()),

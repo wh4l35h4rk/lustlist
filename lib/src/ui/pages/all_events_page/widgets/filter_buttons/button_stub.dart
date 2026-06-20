@@ -18,12 +18,12 @@ class ButtonStub<T> extends StatelessWidget {
     if (isDroplist) {
       return DroplistButton(
         title: title,
-        backgroundColor: AppColors.surface(context),
+        backgroundColor: MainColors.surface(context),
         onPressed: null,
       );
     } else {
       return OutlinedButton(
-        style: AppStyles.outlinedButton(AppColors.surface(context), context),
+        style: AppStyles.outlinedButton(MainColors.surface(context), context),
         onPressed: null,
         child: Text(title),
       );

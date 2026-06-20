@@ -30,8 +30,8 @@ class NotesFilterButton<T> extends StatelessWidget {
           return OutlinedButton(
               style: AppStyles.outlinedButton(
                   changesApplied
-                    ? AppColors.filterSurface(context)
-                    : AppColors.surface(context),
+                    ? MainColors.filterSurface(context)
+                    : MainColors.surface(context),
                   context
               ),
               onPressed: _switchMode,

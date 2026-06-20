@@ -51,7 +51,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: AppColors.addEvent.surface(context),
+            color: AddEventColors.surface(context),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12.0),
               topRight: Radius.circular(12.0),
@@ -67,14 +67,14 @@ class _AddNotesTileState extends State<AddNotesTile> {
                     StringFormatter.colon(DataStrings.notes),
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: AppColors.addEvent.title(context),
+                      color: AddEventColors.title(context),
                       fontSize: AppSizes.titleLarge,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     AppIconData.notes,
-                    color: AppColors.addEvent.leadingIcon(context)
+                    color: AddEventColors.leadingIcon(context)
                   ),
                 ],
               ),
@@ -92,8 +92,8 @@ class _AddNotesTileState extends State<AddNotesTile> {
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: colorBlend(
-              AppColors.addEvent.surface(context),
-              AppColors.surface(context),
+              AddEventColors.surface(context),
+              MainColors.surface(context),
               0.5
             ),
             borderRadius: BorderRadius.only(

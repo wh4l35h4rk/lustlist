@@ -11,9 +11,9 @@ class AppLicensePage extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         appBarTheme: AppBarTheme(
-          backgroundColor: AppColors.appBar.surface(context),
+          backgroundColor: AppBarColors.surface(context),
           centerTitle: true,
-          foregroundColor: AppColors.appBar.text(context),
+          foregroundColor: AppBarColors.text(context),
         ),
       ),
       child: LicensePage()

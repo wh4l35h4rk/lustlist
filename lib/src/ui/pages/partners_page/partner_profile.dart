@@ -61,7 +61,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(partnerChanged ? true : null),
             icon: Icon(AppIconData.backButton),
-            color: AppColors.appBar.icon(context),
+            color: AppBarColors.icon(context),
           ),
           editButton: IconButton(
             onPressed: () async {
@@ -79,7 +79,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               }
             },
             icon: Icon(AppIconData.edit),
-            color: AppColors.appBar.icon(context),
+            color: AppBarColors.icon(context),
           ),
           deleteButton: FutureBuilder(
             future: partnerEventsFuture,
@@ -93,7 +93,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               return IconButton(
                 onPressed: () => _showPopUp(context, events.isNotEmpty),
                 icon: Icon(AppIconData.delete),
-                color: AppColors.appBar.icon(context),
+                color: AppBarColors.icon(context),
               );
             }
           ),
@@ -151,13 +151,13 @@ class _PartnerProfileState extends State<PartnerProfile> {
                             events.length.toString(),
                             style: TextStyle(
                               fontSize: AppSizes.eventCounter,
-                              color: AppColors.categoryTile.title(context)
+                              color: CategoryTileColors.title(context)
                             ),
                           ),
                           SizedBox(width: 3),
                           Icon(
                             AppIconData.sexOutlined,
-                            color: AppColors.categoryTile.leadingIcon(context),
+                            color: CategoryTileColors.leadingIcon(context),
                             size: AppSizes.eventCounter,
                           )
                         ]
@@ -258,7 +258,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                     Navigator.of(context).pop(true);
                     eventsUpdated.notifyUpdate();
                   },
-                  color: AppColors.appBar.surface(context),
+                  color: AppBarColors.surface(context),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppSizes.alertButtonRadius),
                   ),
@@ -266,7 +266,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                     ButtonStrings.delete,
                     style: TextStyle(
                         fontSize: AppSizes.alertButtonText,
-                        color: AppColors.appBar.text(context)
+                        color: AppBarColors.text(context)
                     ),
                   ),
                 )

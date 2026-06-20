@@ -28,7 +28,7 @@ class CheckmarkLegendRow extends StatelessWidget {
           child: Icon(
             iconData,
             size: AppSizes.iconBasic,
-            color: iconColor ?? AppColors.icon(context),
+            color: iconColor ?? MainColors.icon(context),
           ),
           onTap: () => onTap(),
         ),
@@ -39,7 +39,7 @@ class CheckmarkLegendRow extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: titleColor ?? AppColors.text(context),
+            color: titleColor ?? MainColors.text(context),
             fontSize: AppSizes.textBasic,
           ),
         )

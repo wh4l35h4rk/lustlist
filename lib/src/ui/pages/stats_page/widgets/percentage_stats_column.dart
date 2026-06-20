@@ -25,7 +25,7 @@ class PercentageStatsColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle numsStyle = TextStyle(
         fontSize: 35,
-        color: AppColors.chart.subtitle(context)
+        color: ChartColors.subtitle(context)
     );
     TextStyle titleStyle = AppStyles.numStatsTitle(context);
     TextStyle basicStyle = AppStyles.numStatsSubtitle(context);
@@ -35,7 +35,7 @@ class PercentageStatsColumn extends StatelessWidget {
         children: [
           Icon(
             bgIconData,
-            color: AppColors.chart.bgIcon(context),
+            color: ChartColors.bgIcon(context),
             size: bgIconSize ?? 120,
           ),
           Column(

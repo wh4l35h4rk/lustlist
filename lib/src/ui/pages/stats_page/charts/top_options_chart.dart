@@ -104,7 +104,7 @@ class _BarChart extends StatelessWidget {
         return BarTooltipItem(
           rod.toY.round().toString(),
           TextStyle(
-            color: AppColors.chart.text(context),
+            color: ChartColors.text(context),
             fontWeight: FontWeight.bold,
           ),
         );
@@ -115,7 +115,7 @@ class _BarChart extends StatelessWidget {
   
   Widget getTitles(double value, TitleMeta meta, BuildContext context) {
     final style = TextStyle(
-      color: AppColors.chart.subtitle(context),
+      color: ChartColors.subtitle(context),
       fontWeight: FontWeight.bold,
       fontSize: AppSizes.textBasic,
     );
@@ -160,7 +160,7 @@ class _BarChart extends StatelessWidget {
     return FlBorderData(
         show: true,
         border: Border(bottom: BorderSide(
-          color: AppColors.divider(context),
+          color: MainColors.divider(context),
         ))
     );
   }
@@ -169,8 +169,8 @@ class _BarChart extends StatelessWidget {
   LinearGradient _barsGradient(BuildContext context) {
     return LinearGradient(
     colors: [
-      AppColors.chart.barStart(barAccentColor ?? AppColors.primary(context), context),
-      AppColors.chart.barEnd(barAccentColor ?? AppColors.primary(context), context),
+      ChartColors.barStart(barAccentColor ?? MainColors.primary(context), context),
+      ChartColors.barEnd(barAccentColor ?? MainColors.primary(context), context),
     ],
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,

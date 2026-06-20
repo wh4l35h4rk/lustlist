@@ -22,7 +22,7 @@ class SelectableOptionTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(
-            color: AppColors.addEvent.border(context),
+            color: AddEventColors.border(context),
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -34,14 +34,14 @@ class SelectableOptionTile extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.text(context)
+                  color: AddEventColors.text(context)
               ),
             ),
             SizedBox(width: 5,),
             Icon(
               iconData,
               size: iconSize ?? AppSizes.iconMedium,
-              color: AppColors.addEvent.coloredText(context),
+              color: AddEventColors.coloredText(context),
             )
           ],
         ),

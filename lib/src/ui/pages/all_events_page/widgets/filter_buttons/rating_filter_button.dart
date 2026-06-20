@@ -39,7 +39,7 @@ class RatingFilterButton extends StatelessWidget {
               Icon(
                 AppIconData.rating,
                 size: AppSizes.iconMedium,
-                color: AppColors.text(context)
+                color: MainColors.text(context)
               )
           ]
         ),
@@ -49,7 +49,7 @@ class RatingFilterButton extends StatelessWidget {
               Icon(
                 AppIconData.ratingEmpty,
                 size: AppSizes.iconMedium,
-                color: AppColors.text(context)
+                color: MainColors.text(context)
               )
           ],
         ),

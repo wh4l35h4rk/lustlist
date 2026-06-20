@@ -38,7 +38,7 @@ class _RatingRowState extends State<RatingRow> {
               icon: Icon(
                 index <= rating ? AppIconData.rating : AppIconData.ratingEmpty,
                 size: AppSizes.iconMedium,
-                color: AppColors.addEvent.coloredText(context),
+                color: AddEventColors.coloredText(context),
               ),
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(),

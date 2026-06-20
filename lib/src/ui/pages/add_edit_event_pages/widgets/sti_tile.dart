@@ -64,7 +64,7 @@ class _AddStiTileState  extends State<AddStiTile> {
                 MiscStrings.loading,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.coloredText(context),
+                  color: AddEventColors.coloredText(context),
                 ),
               );
             } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
@@ -72,7 +72,7 @@ class _AddStiTileState  extends State<AddStiTile> {
                 MiscStrings.errorLoadingData,
                 style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AppColors.addEvent.coloredText(context),
+                  color: AddEventColors.coloredText(context),
                 ),
               );
             } else {

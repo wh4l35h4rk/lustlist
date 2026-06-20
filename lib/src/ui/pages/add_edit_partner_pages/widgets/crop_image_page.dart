@@ -39,7 +39,7 @@ class _CropImagePageState extends State<CropImagePage> {
   Widget build(BuildContext context) {
     late final themeProvider = context.read<ThemeProvider>();
     late bool isLight = themeProvider.themeMode == ThemeMode.light;
-    Color itemsColor = isLight ? AppColors.surface(context) : AppColors.text(context);
+    Color itemsColor = isLight ? MainColors.surface(context) : MainColors.text(context);
     
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +75,7 @@ class _CropImagePageState extends State<CropImagePage> {
           future: _imageData,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(color: AppColors.surface(context));
+              return CircularProgressIndicator(color: MainColors.surface(context));
             } else if (snapshot.hasError || !snapshot.hasData) {
               return ErrorTile();
             }

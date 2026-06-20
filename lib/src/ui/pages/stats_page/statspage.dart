@@ -203,19 +203,19 @@ class _StatsPageState extends State<StatsPage> {
               TopOptionsChart(
                 optionsList: topPractices!,
                 title: ChartStrings.topPracticesChart,
-                barAccentColor: AppColors.chart.practicesAccent(),
+                barAccentColor: ChartColors.practicesAccent(),
               ),
               DefaultDivider(),
               TopOptionsChart(
                 optionsList: topPoses!,
                 title: ChartStrings.topPosesChart,
-                barAccentColor: AppColors.chart.posesAccent(),
+                barAccentColor: ChartColors.posesAccent(),
               ),
               if (topEjaculation!.isNotEmpty) DefaultDivider(),
               if (topEjaculation!.isNotEmpty) TopOptionsChart(
                 optionsList: topEjaculation!,
                 title: ChartStrings.topEjaculationChart,
-                barAccentColor: AppColors.chart.ejaculationAccent(),
+                barAccentColor: ChartColors.ejaculationAccent(),
               ),
               DefaultDivider(),
               OrgasmsRatioChart(
@@ -231,7 +231,7 @@ class _StatsPageState extends State<StatsPage> {
               TopOptionsChart(
                 optionsList: topSoloPractices!,
                 title: ChartStrings.topSoloPracticesChart,
-                barAccentColor: AppColors.chart.soloPracticesAccent(),
+                barAccentColor: ChartColors.soloPracticesAccent(),
               ),
               DefaultDivider(),
               SoloStats(pornStats: pornStats!, toysStats: toysStats!),

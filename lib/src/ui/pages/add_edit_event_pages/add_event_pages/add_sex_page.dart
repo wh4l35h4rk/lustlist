@@ -115,7 +115,7 @@ class _AddSexEventPageState extends State<AddSexEventPage> {
           return ListView(
             children: [
               BasicTile(
-                surfaceColor: AppColors.addEvent.surface(context),
+                surfaceColor: AddEventColors.surface(context),
                 margin: AppInsets.addDataMargin,
                 child: AddEditEventDataColumn(
                   controller: _dataController,

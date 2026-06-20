@@ -36,7 +36,7 @@ class EventDataColumn extends StatelessWidget {
                       StringFormatter.duration(event.getDuration(), true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
-                        color: AppColors.eventData.text(context),
+                        color: EventDataColors.text(context),
                       )
                   )
               ),
@@ -47,7 +47,7 @@ class EventDataColumn extends StatelessWidget {
                       StringFormatter.orgasmsAmount(event.data!.userOrgasms, true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
-                        color: AppColors.eventData.text(context),
+                        color: EventDataColors.text(context),
                       )
                   )
               ),
@@ -59,7 +59,7 @@ class EventDataColumn extends StatelessWidget {
             children: [
               Icon(
                 event.type.iconData,
-                color: AppColors.eventData.leadingIcon(context),
+                color: EventDataColors.leadingIcon(context),
               ),
             ],
           ),
@@ -79,7 +79,7 @@ class EventDataColumn extends StatelessWidget {
               Icon(
                 AppIconData.rating,
                 size: AppSizes.iconMedium,
-                color: AppColors.eventData.text(context)
+                color: EventDataColors.text(context)
               )
           ]
         ),
@@ -89,7 +89,7 @@ class EventDataColumn extends StatelessWidget {
               Icon(
                 AppIconData.ratingEmpty,
                 size: AppSizes.iconMedium,
-                color: AppColors.eventData.text(context)
+                color: EventDataColors.text(context)
               )
           ],
         ),

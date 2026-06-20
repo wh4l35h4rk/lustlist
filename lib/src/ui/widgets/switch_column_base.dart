@@ -29,7 +29,7 @@ class SwitchColumnBase extends StatelessWidget {
               padding: EdgeInsets.only(right: iconSize != null ? 6 : 0),
               child: Icon(
                 iconData,
-                color: AppColors.addEvent.icon(context),
+                color: AddEventColors.icon(context),
                 size: iconSize ?? AppSizes.iconBasic,
               ),
             ),
@@ -37,7 +37,7 @@ class SwitchColumnBase extends StatelessWidget {
               StringFormatter.colon(title),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AppColors.addEvent.title(context),
+                color: AddEventColors.title(context),
                 fontSize: AppSizes.titleSmall,
                 fontWeight: FontWeight.bold,
               ),

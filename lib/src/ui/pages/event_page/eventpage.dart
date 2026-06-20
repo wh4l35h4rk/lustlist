@@ -54,7 +54,7 @@ class _EventPageState extends State<EventPage> {
         backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(eventChanged ? true : null),
             icon: Icon(AppIconData.backButton),
-            color: AppColors.appBar.icon(context),
+            color: AppBarColors.icon(context),
         ),
         editButton: IconButton(
           onPressed: () async {
@@ -72,12 +72,12 @@ class _EventPageState extends State<EventPage> {
             }
           },
           icon: Icon(AppIconData.edit),
-          color: AppColors.appBar.icon(context),
+          color: AppBarColors.icon(context),
         ),
         deleteButton: IconButton(
           onPressed: () => _showPopUp(context),
           icon: Icon(AppIconData.delete),
-          color: AppColors.appBar.icon(context),
+          color: AppBarColors.icon(context),
         ),
       ),
       body: _getEventTypeWidget(event),
@@ -160,7 +160,7 @@ class _EventPageState extends State<EventPage> {
                   Navigator.of(context).pop(true);
                   eventsUpdated.notifyUpdate();
                 },
-                color: AppColors.appBar.surface(context),
+                color: AppBarColors.surface(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -168,7 +168,7 @@ class _EventPageState extends State<EventPage> {
                   ButtonStrings.delete,
                   style: TextStyle(
                     fontSize: AppSizes.alertButtonText,
-                    color: AppColors.appBar.text(context)
+                    color: AppBarColors.text(context)
                   ),
                 ),
               ),

@@ -41,7 +41,7 @@ class TimePickerState<T extends TimePicker> extends State<T> {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: AppColors.addEvent.pickerSurface(context),
+        color: AddEventColors.pickerSurface(context),
         child: SafeArea(top: false, child: child),
       ),
     );
@@ -52,7 +52,7 @@ class TimePickerState<T extends TimePicker> extends State<T> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AppColors.addEvent.border(context))
+              bottom: BorderSide(color: AddEventColors.border(context))
           )
       ),
       child: SizedBox(
@@ -67,7 +67,7 @@ class TimePickerState<T extends TimePicker> extends State<T> {
             ) : StringFormatter.time(time),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AppColors.addEvent.coloredText(context)
+                color: AddEventColors.coloredText(context)
             ),
           ),
         ),

@@ -28,7 +28,7 @@ class DurationText extends StatelessWidget {
 
     TextStyle numsStyle = TextStyle(
         fontSize: isMain ? 55 : 35,
-        color: AppColors.chart.subtitle(context)
+        color: ChartColors.subtitle(context)
     );
     TextStyle subtextStyle = AppStyles.numStatsSubtitle(context);
 

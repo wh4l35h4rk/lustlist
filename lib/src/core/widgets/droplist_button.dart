@@ -22,7 +22,7 @@ class DroplistButton<T> extends StatelessWidget {
           backgroundColor: backgroundColor,
           side: BorderSide(
               width: 1.2,
-              color: AppColors.addEvent.border(context)
+              color: AddEventColors.border(context)
           ),
         ),
         onPressed: onPressed,

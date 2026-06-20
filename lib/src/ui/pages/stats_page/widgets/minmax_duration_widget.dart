@@ -42,7 +42,7 @@ class MinMaxDurationColumn extends StatelessWidget {
       children: [
         if (iconData != null) Icon(
           iconData,
-          color: AppColors.chart.bgIcon(context),
+          color: ChartColors.bgIcon(context),
           size: 120
         ),
         Column(

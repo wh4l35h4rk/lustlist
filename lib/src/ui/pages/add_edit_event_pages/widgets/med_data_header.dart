@@ -82,7 +82,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                 children: [
                   Icon(
                     iconData,
-                    color: AppColors.addEvent.leadingIcon(context),
+                    color: AddEventColors.leadingIcon(context),
                   ),
                 ],
               ),
@@ -104,7 +104,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
             padding: EdgeInsets.only(right: size != null ? 6 : 0),
             child: Icon(
               iconData,
-              color: AppColors.addEvent.icon(context),
+              color: AddEventColors.icon(context),
               size: size,
             ),
           ),
@@ -113,7 +113,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
             child: Text(
               "$title:",
               style: TextStyle(
-                  color: AppColors.addEvent.title(context),
+                  color: AddEventColors.title(context),
                   fontWeight: FontWeight.bold,
                   fontSize: AppSizes.titleSmall
               ),
@@ -152,7 +152,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                     iconData: AppIconData.sti,
                     iconSize: AppSizes.iconViruses,
                     child: Switch(
-                      inactiveThumbColor: AppColors.addEvent.border(context),
+                      inactiveThumbColor: AddEventColors.border(context),
                       value: isSti,
                       onChanged: (bool value) {
                         setState(() {
@@ -168,7 +168,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                     title: categoriesMap['obgyn']!.name,
                     iconData: AppIconData.obgyn,
                     child: Switch(
-                      inactiveThumbColor: AppColors.addEvent.border(context),
+                      inactiveThumbColor: AddEventColors.border(context),
                       value: isObgyn,
                       onChanged: (bool value) {
                         setState(() {

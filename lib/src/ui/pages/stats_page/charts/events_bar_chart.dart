@@ -66,12 +66,12 @@ class EventsBarChart extends StatelessWidget {
             spacing: 20,
             children: [
               LegendRow(
-                color: AppColors.chart.sexLine(context),
+                color: ChartColors.sexLine(context),
                 text: DataStrings.sex,
                 notExpanded: true,
               ),
               LegendRow(
-                color: AppColors.chart.mstbLine(context),
+                color: ChartColors.mstbLine(context),
                 text: DataStrings.mstb,
                 notExpanded: true,
               )
@@ -115,10 +115,10 @@ class EventsBarChart extends StatelessWidget {
         show: true,
         border: Border(
           bottom: BorderSide(
-            color: AppColors.divider(context),
+            color: MainColors.divider(context),
           ),
           left: BorderSide(
-            color: AppColors.divider(context),
+            color: MainColors.divider(context),
           ),
         )
     );
@@ -147,7 +147,7 @@ class EventsBarChart extends StatelessWidget {
           return BarTooltipItem(
             rod.toY.round().toString(),
             TextStyle(
-              color: AppColors.chart.text(context),
+              color: ChartColors.text(context),
               fontWeight: FontWeight.bold,
             ),
           );
@@ -177,8 +177,8 @@ class EventsBarChart extends StatelessWidget {
 
 
   LinearGradient _sexBarsGradient(BuildContext context) {
-    Color baseColor = AppColors.chart.softBarStart(AppColors.chart.sexLine(context), context);
-    Color mainColor = AppColors.chart.sexLine(context);
+    Color baseColor = ChartColors.softBarStart(ChartColors.sexLine(context), context);
+    Color mainColor = ChartColors.sexLine(context);
 
     return LinearGradient(
       colors: [
@@ -193,8 +193,8 @@ class EventsBarChart extends StatelessWidget {
   }
 
   LinearGradient _mstbBarsGradient(BuildContext context) {
-    Color baseColor = AppColors.chart.softBarStart(AppColors.chart.mstbLine(context), context);
-    Color mainColor = AppColors.chart.mstbLine(context);
+    Color baseColor = ChartColors.softBarStart(ChartColors.mstbLine(context), context);
+    Color mainColor = ChartColors.mstbLine(context);
 
     return LinearGradient(
       colors: [

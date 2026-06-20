@@ -30,7 +30,7 @@ class _DatePickerState extends State<DatePicker> {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: AppColors.addEvent.pickerSurface(context),
+        color: AddEventColors.pickerSurface(context),
         child: SafeArea(top: false, child: child),
       ),
     );
@@ -41,7 +41,7 @@ class _DatePickerState extends State<DatePicker> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AppColors.addEvent.border(context))
+              bottom: BorderSide(color: AddEventColors.border(context))
           )
       ),
       child: SizedBox(
@@ -63,7 +63,7 @@ class _DatePickerState extends State<DatePicker> {
             DateFormatter.dateWithDay(date),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AppColors.addEvent.coloredText(context)
+                color: AddEventColors.coloredText(context)
             ),
           ),
         ),

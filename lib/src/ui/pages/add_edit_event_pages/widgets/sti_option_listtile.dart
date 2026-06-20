@@ -48,7 +48,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: AppColors.addEvent.border(context),
+                        color: AddEventColors.border(context),
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -57,7 +57,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
-                          color: AppColors.addEvent.text(context),
+                          color: AddEventColors.text(context),
                         )
                     ),
                   ),
@@ -73,7 +73,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               child: SizedBox(
                 height: 40,
                 child: Switch(
-                  inactiveThumbColor: AppColors.addEvent.border(context),
+                  inactiveThumbColor: AddEventColors.border(context),
                   value: value,
                   onChanged: (bool value) {
                     setState(() {
@@ -101,8 +101,8 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               value: selectedStatus,
               icon: Icon(AppIconData.dropList),
               alignment: Alignment.centerLeft,
-              style: TextStyle(color: AppColors.addEvent.text(context), fontSize: AppSizes.textBasic),
-              underline: Container(height: 2, color: AppColors.addEvent.border(context)),
+              style: TextStyle(color: AddEventColors.text(context), fontSize: AppSizes.textBasic),
+              underline: Container(height: 2, color: AddEventColors.border(context)),
               onChanged: (TestStatus? status) {
                 setState(() {
                   selectedStatus = status!;
@@ -116,7 +116,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
             Text(
               MiscStrings.didNotTake,
               style: TextStyle(
-                  color: AppColors.addEvent.text(context),
+                  color: AddEventColors.text(context),
                   fontSize: AppSizes.textBasic,
               ),
             ),

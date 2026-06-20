@@ -39,8 +39,8 @@ class NumericFilterButton extends StatelessWidget {
         return DroplistButton(
           title: title,
           backgroundColor: changesApplied
-              ? AppColors.filterSurface(context)
-              : AppColors.surface(context),
+              ? MainColors.filterSurface(context)
+              : MainColors.surface(context),
           onPressed: () {
             buildBottomSheet(context);
           },
@@ -51,7 +51,7 @@ class NumericFilterButton extends StatelessWidget {
 
   Future<dynamic> buildBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-      backgroundColor: AppColors.surface(context),
+      backgroundColor: MainColors.surface(context),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -82,7 +82,7 @@ class NumericFilterButton extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: AppSizes.titleLarge,
-                                color: AppColors.title(context)),
+                                color: MainColors.title(context)),
                           ),
                         ),
                       ],
@@ -102,8 +102,8 @@ class NumericFilterButton extends StatelessWidget {
                                 controller.toggleEnabled()
                               },
                               backgroundColor: controller.isEnabled
-                                  ? AppColors.filterButton(context)
-                                  : AppColors.surface(context),
+                                  ? MainColors.filterButton(context)
+                                  : MainColors.surface(context),
                               icon: Icon(controller.isEnabled
                                   ? AppIconData.selected
                                   : AppIconData.notSelected

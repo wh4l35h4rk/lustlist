@@ -53,7 +53,7 @@ class MstbSwitch extends StatelessWidget {
                     softWrap: true,
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        color: AppColors.addEvent.text(context),
+                        color: AddEventColors.text(context),
                         fontSize: AppSizes.textBasic
                     ),
                   ),
@@ -66,7 +66,7 @@ class MstbSwitch extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Switch(
-                    inactiveThumbColor: AppColors.addEvent.border(context),
+                    inactiveThumbColor: AddEventColors.border(context),
                     value: value,
                     onChanged: (bool value) {
                       controller.toggleSelected(option);

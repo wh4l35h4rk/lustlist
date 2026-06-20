@@ -32,7 +32,7 @@ class _ChangeThemeButtonState extends State<ChangeThemeButton> {
           }
         },
         icon: Icon(isLight ? AppIconData.darkTheme : AppIconData.lightTheme),
-        color: AppColors.surface(context)
+        color: MainColors.surface(context)
     );
   }
 }
