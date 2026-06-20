@@ -22,7 +22,7 @@ class StiTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: AppColors.categoryTile.surface(context),
+      surfaceColor: CategoryTileColors.surface(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -15,6 +15,7 @@ import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/add_partner_button.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/shimmer_select_partners.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/add_partner_page.dart';
 import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
 
@@ -34,7 +35,7 @@ class SelectPartnersController {
     final repo = EventRepository(database);
     Partner? defaultPartner = await repo.getUnknownPartner();
     if (defaultPartner != null) {
-      selectedPartners.value = {defaultPartner: 1};
+      selectedPartners.value = {defaultPartner: null};
     }
   }
 }
@@ -68,7 +69,6 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
     );
     if (result == true) {
       _partnersListFuture = repo.getPartnersSorted(true);
-      await Future.delayed(Duration(milliseconds: 100));
       setState(() {});
     }
   }
@@ -126,13 +126,7 @@ class _SelectPartnersTileState extends State<SelectPartnersTile> {
                 future: _partnersListFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text(
-                      MiscStrings.loading,
-                      style: TextStyle(
-                        fontSize: AppSizes.textBasic,
-                        color: AppColors.addEvent.coloredText(context),
-                      ),
-                    );
+                    return ShimmerSelectPartners();
                   } else if (snapshot.hasError) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,

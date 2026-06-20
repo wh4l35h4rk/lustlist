@@ -35,12 +35,12 @@ class AppColors {
   static ChartColors chart = ChartColors();
 
   static Color? notesBottom(BuildContext context) => colorBlend(
-    AppColors.categoryTile.surface(context),
+    CategoryTileColors.surface(context),
     AppColors.surface(context),
     0.5
   );
 
-  static Color filterSurface(BuildContext context) => AppColors.categoryTile.surface(context);
+  static Color filterSurface(BuildContext context) => CategoryTileColors.surface(context);
   static Color? filterButton(BuildContext context) => colorBlend(
     filterSurface(context),
     Theme.of(context).colorScheme.surface,
@@ -62,7 +62,7 @@ class AppColors {
 
 
 class AddEventColors {
-  Color surface(BuildContext context) => categoryTile.surface(context);
+  Color surface(BuildContext context) => CategoryTileColors.surface(context);
 
   Color selectedSurface(BuildContext context) =>
       Theme.of(context).colorScheme.secondaryContainer;
@@ -105,7 +105,7 @@ class AddEventColors {
 }
 
 class CategoryTileColors {
-  Color surface(BuildContext context) =>
+  static Color surface(BuildContext context) =>
       Theme.of(context).colorScheme.surfaceContainer;
 
   Color text(BuildContext context) =>
@@ -124,6 +124,18 @@ class CategoryTileColors {
         Theme.of(context).colorScheme.primaryContainer,
         0.8
     )!;
+
+  static Color shimmerBase(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.primary,
+      0.1
+  )!;
+
+  static Color shimmerHighlight(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.primary,
+      0.05
+  )!;
 }
 
 class CalendarColors {
@@ -292,8 +304,6 @@ class ChartColors{
   )!;
 
 
-
-
   // cards
   Color cardTop(BuildContext context) =>
       colorBlend(
@@ -317,8 +327,6 @@ class ChartColors{
   Color posesAccent() => Color.fromRGBO(90, 200, 240, 1);
   Color soloPracticesAccent() => Color.fromRGBO(150, 150, 220, 1);
   Color ejaculationAccent() => Color.fromRGBO(180, 150, 220, 1);
-
-
 
   Color barStart(Color accentColor, BuildContext context) =>
       colorBlend(

@@ -63,7 +63,7 @@ class CategoryTile extends StatelessWidget {
 
   BasicTile buildBody(Widget child, BuildContext context) {
     return BasicTile(
-        surfaceColor: AppColors.categoryTile.surface(context),
+        surfaceColor: CategoryTileColors.surface(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
