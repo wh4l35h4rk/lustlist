@@ -16,6 +16,7 @@ import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/ui/widgets/switch_column_base.dart';
+import 'package:shimmer/shimmer.dart';
 
 
 class AddEditEventDataColumn extends StatefulWidget {
@@ -128,19 +129,31 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           future: Future.wait([pornOptionFuture, toysOptionFuture]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text(MiscStrings.loading,
-                style: TextStyle(
-                  fontSize: AppSizes.textBasic,
-                  color: AddEventColors.coloredText(context),
-                ),
+              return Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: buildShimmer(context),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    flex: 1,
+                    child: buildShimmer(context),
+                  ),
+                ],
               );
             } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty
                 || widget.optionsController == null
             ) {
-              return Text(MiscStrings.errorLoadingData,
-                style: TextStyle(
-                  fontSize: AppSizes.textBasic,
-                  color: AddEventColors.coloredText(context),
+              return SizedBox(
+                height: 80,
+                child: Center(
+                  child: Text(MiscStrings.errorLoadingData,
+                    style: TextStyle(
+                      fontSize: AppSizes.textBasic,
+                      color: AddEventColors.coloredText(context),
+                    ),
+                  ),
                 ),
               );
             }
@@ -174,6 +187,20 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           }
         ) : null,
       ],
+    );
+  }
+
+  Shimmer buildShimmer(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: AddEventColors.shimmerBase(context),
+      highlightColor: AddEventColors.shimmerHighlight(context),
+      child: Container(
+        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
     );
   }
 }

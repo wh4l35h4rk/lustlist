@@ -10,6 +10,7 @@ import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/notifiers/list_notifier.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/shimmer_options.dart';
 
 
 class AddCategoryTile extends StatefulWidget {
@@ -86,12 +87,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               future: _optionsListFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text(MiscStrings.loading,
-                    style: TextStyle(
-                      fontSize: AppSizes.textBasic,
-                      color: AddEventColors.coloredText(context),
-                    ),
-                  );
+                  return ShimmerOptions();
                 } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
                   return Text(MiscStrings.errorLoadingData,
                     style: TextStyle(
@@ -132,19 +128,19 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
           });
         },
         style: OutlinedButton.styleFrom(
-          backgroundColor: _selectedOptions.value.contains(option) ?
-            AddEventColors.selectedSurface(context) : AddEventColors.surface(context),
+          backgroundColor: _selectedOptions.value.contains(option)
+              ? AddEventColors.selectedSurface(context)
+              : AddEventColors.surface(context),
           side: BorderSide(width: 1.2, color: AddEventColors.border(context)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _selectedOptions.value.contains(option) ?
-              Padding(
+            _selectedOptions.value.contains(option)
+                ? Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: Icon(AppIconData.selected),
-              )
-              : SizedBox(),
+                ) : SizedBox(),
             Text(
               option.name,
               textAlign: TextAlign.left,

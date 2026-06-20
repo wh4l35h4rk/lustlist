@@ -101,7 +101,17 @@ class AddEventColors {
           0.5
       )!;
 
-  static CategoryTileColors categoryTile = CategoryTileColors();
+  static Color shimmerBase(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.primary,
+      0.1
+  )!;
+
+  static Color shimmerHighlight(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.primary,
+      0.05
+  )!;
 }
 
 class CategoryTileColors {
