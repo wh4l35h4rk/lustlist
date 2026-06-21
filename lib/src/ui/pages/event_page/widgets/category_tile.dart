@@ -40,11 +40,11 @@ class CategoryTile extends StatelessWidget {
         } else if (snapshot.hasError) {
           return buildBody(
               Text(
-                  MiscStrings.errorLoadingData,
-                  style: TextStyle(
-                    color: CategoryTileColors.text(context),
-                    fontSize: AppSizes.titleSmall,
-                  )
+                MiscStrings.errorLoadingData,
+                style: TextStyle(
+                  color: CategoryTileColors.text(context),
+                  fontSize: AppSizes.titleSmall,
+                )
               ),
               context
           );

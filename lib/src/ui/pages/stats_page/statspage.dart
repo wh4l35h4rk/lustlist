@@ -205,8 +205,8 @@ class _StatsPageState extends State<StatsPage> {
                 title: ChartStrings.topPracticesChart,
                 barAccentColor: ChartColors.practicesAccent(),
               ),
-              DefaultDivider(),
-              TopOptionsChart(
+              if (topPoses!.isNotEmpty) DefaultDivider(),
+              if (topPoses!.isNotEmpty) TopOptionsChart(
                 optionsList: topPoses!,
                 title: ChartStrings.topPosesChart,
                 barAccentColor: ChartColors.posesAccent(),

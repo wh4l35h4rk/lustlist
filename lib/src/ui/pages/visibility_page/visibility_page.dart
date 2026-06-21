@@ -9,6 +9,7 @@ import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
+import 'package:lustlist/src/ui/pages/visibility_page/widgets/shimmer_categories.dart';
 import 'package:lustlist/src/ui/pages/visibility_page/widgets/toggle_category_tile.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
@@ -60,7 +61,7 @@ class _VisibilityPageState extends State<VisibilityPage> {
             future: _categoriesMapFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return ShimmerCategories();
               } else if (snapshot.hasError || !snapshot.hasData) {
                 return ErrorTile();
               }

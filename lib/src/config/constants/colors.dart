@@ -65,6 +65,18 @@ class MainColors {
           surface(context),
           0.5
       )!;
+
+  static Color shimmerBase(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.primary,
+      0.05
+  )!;
+
+  static Color shimmerHighlight(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.primary,
+      0.025
+  )!;
 }
 
 
