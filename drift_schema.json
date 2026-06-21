@@ -69,6 +69,20 @@
               },
               "unique"
             ]
+          },
+          {
+            "name": "is_visible",
+            "getter_name": "isVisible",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_visible\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_visible\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
           }
         ],
         "is_virtual": false,
@@ -130,6 +144,16 @@
               "dart_expr": "const EnumIndexConverter<Gender>(Gender.values)",
               "dart_type_name": "Gender"
             }
+          },
+          {
+            "name": "age",
+            "getter_name": "age",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
           },
           {
             "name": "birthday",
@@ -782,7 +806,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"categories\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"slug\" TEXT NOT NULL UNIQUE);"
+          "sql": "CREATE TABLE IF NOT EXISTS \"categories\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"slug\" TEXT NOT NULL UNIQUE, \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)));"
         }
       ]
     },
@@ -791,7 +815,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"partners\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"gender\" INTEGER NOT NULL, \"birthday\" TEXT NULL, \"created_at\" TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP), \"notes\" TEXT NULL, \"picture_path\" TEXT NULL, \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)));"
+          "sql": "CREATE TABLE IF NOT EXISTS \"partners\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" TEXT NOT NULL, \"gender\" INTEGER NOT NULL, \"age\" INTEGER NULL, \"birthday\" TEXT NULL, \"created_at\" TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP), \"notes\" TEXT NULL, \"picture_path\" TEXT NULL, \"is_visible\" INTEGER NOT NULL DEFAULT 1 CHECK (\"is_visible\" IN (0, 1)));"
         }
       ]
     },

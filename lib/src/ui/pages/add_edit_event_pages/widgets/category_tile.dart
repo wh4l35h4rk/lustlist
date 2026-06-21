@@ -46,6 +46,10 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   double get iconSize => widget.iconSize;
   Widget? get body => widget.body;
 
+  late bool anySelectedAtInit = _selectedOptions.value.any(
+    (o) => o.categoryId == category.id
+        && !["porn", "solo toys"].any((e) => e == o.slug)
+  );
 
   @override
   void initState() {
@@ -58,6 +62,8 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
 
   @override
   Widget build(BuildContext context) {
+    if (!category.isVisible && !anySelectedAtInit) return SizedBox.shrink();
+
     return BasicTile(
       surfaceColor: AddEventColors.surface(context),
       child: Column(
@@ -116,6 +122,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
       ),
     );
   }
+
 
   Widget optionListButton(BuildContext context, EOption option) {
     return AnimatedSize(

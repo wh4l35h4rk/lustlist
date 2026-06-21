@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -358,6 +358,15 @@ class EventRepository {
     );
   }
   
+  Future toggleCategoryVisibility(Category category, bool value) async {
+    await db.updateCategory(
+      category.id,
+      CategoriesCompanion(
+        isVisible: Value(value)
+      )
+    );
+  }
+
 
   Future<void> insertMockEntries() async{
     final cuniOptionId = await db.getOptionIdBySlug("cunnilingus");

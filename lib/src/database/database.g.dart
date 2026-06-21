@@ -49,8 +49,23 @@ class $CategoriesTable extends Categories
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
+  static const VerificationMeta _isVisibleMeta = const VerificationMeta(
+    'isVisible',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, slug];
+  late final GeneratedColumn<bool> isVisible = GeneratedColumn<bool>(
+    'is_visible',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_visible" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, slug, isVisible];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -82,6 +97,12 @@ class $CategoriesTable extends Categories
     } else if (isInserting) {
       context.missing(_slugMeta);
     }
+    if (data.containsKey('is_visible')) {
+      context.handle(
+        _isVisibleMeta,
+        isVisible.isAcceptableOrUnknown(data['is_visible']!, _isVisibleMeta),
+      );
+    }
     return context;
   }
 
@@ -103,6 +124,10 @@ class $CategoriesTable extends Categories
         DriftSqlType.string,
         data['${effectivePrefix}slug'],
       )!,
+      isVisible: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_visible'],
+      )!,
     );
   }
 
@@ -116,13 +141,20 @@ class Category extends DataClass implements Insertable<Category> {
   final int id;
   final String name;
   final String slug;
-  const Category({required this.id, required this.name, required this.slug});
+  final bool isVisible;
+  const Category({
+    required this.id,
+    required this.name,
+    required this.slug,
+    required this.isVisible,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['slug'] = Variable<String>(slug);
+    map['is_visible'] = Variable<bool>(isVisible);
     return map;
   }
 
@@ -131,6 +163,7 @@ class Category extends DataClass implements Insertable<Category> {
       id: Value(id),
       name: Value(name),
       slug: Value(slug),
+      isVisible: Value(isVisible),
     );
   }
 
@@ -143,6 +176,7 @@ class Category extends DataClass implements Insertable<Category> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       slug: serializer.fromJson<String>(json['slug']),
+      isVisible: serializer.fromJson<bool>(json['isVisible']),
     );
   }
   @override
@@ -152,19 +186,23 @@ class Category extends DataClass implements Insertable<Category> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'slug': serializer.toJson<String>(slug),
+      'isVisible': serializer.toJson<bool>(isVisible),
     };
   }
 
-  Category copyWith({int? id, String? name, String? slug}) => Category(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    slug: slug ?? this.slug,
-  );
+  Category copyWith({int? id, String? name, String? slug, bool? isVisible}) =>
+      Category(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        slug: slug ?? this.slug,
+        isVisible: isVisible ?? this.isVisible,
+      );
   Category copyWithCompanion(CategoriesCompanion data) {
     return Category(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       slug: data.slug.present ? data.slug.value : this.slug,
+      isVisible: data.isVisible.present ? data.isVisible.value : this.isVisible,
     );
   }
 
@@ -173,46 +211,53 @@ class Category extends DataClass implements Insertable<Category> {
     return (StringBuffer('Category(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('slug: $slug')
+          ..write('slug: $slug, ')
+          ..write('isVisible: $isVisible')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, slug);
+  int get hashCode => Object.hash(id, name, slug, isVisible);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Category &&
           other.id == this.id &&
           other.name == this.name &&
-          other.slug == this.slug);
+          other.slug == this.slug &&
+          other.isVisible == this.isVisible);
 }
 
 class CategoriesCompanion extends UpdateCompanion<Category> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> slug;
+  final Value<bool> isVisible;
   const CategoriesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.slug = const Value.absent(),
+    this.isVisible = const Value.absent(),
   });
   CategoriesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required String slug,
+    this.isVisible = const Value.absent(),
   }) : name = Value(name),
        slug = Value(slug);
   static Insertable<Category> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? slug,
+    Expression<bool>? isVisible,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (slug != null) 'slug': slug,
+      if (isVisible != null) 'is_visible': isVisible,
     });
   }
 
@@ -220,11 +265,13 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     Value<int>? id,
     Value<String>? name,
     Value<String>? slug,
+    Value<bool>? isVisible,
   }) {
     return CategoriesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       slug: slug ?? this.slug,
+      isVisible: isVisible ?? this.isVisible,
     );
   }
 
@@ -240,6 +287,9 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     if (slug.present) {
       map['slug'] = Variable<String>(slug.value);
     }
+    if (isVisible.present) {
+      map['is_visible'] = Variable<bool>(isVisible.value);
+    }
     return map;
   }
 
@@ -248,7 +298,8 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     return (StringBuffer('CategoriesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('slug: $slug')
+          ..write('slug: $slug, ')
+          ..write('isVisible: $isVisible')
           ..write(')'))
         .toString();
   }
@@ -2839,12 +2890,14 @@ typedef $$CategoriesTableCreateCompanionBuilder =
       Value<int> id,
       required String name,
       required String slug,
+      Value<bool> isVisible,
     });
 typedef $$CategoriesTableUpdateCompanionBuilder =
     CategoriesCompanion Function({
       Value<int> id,
       Value<String> name,
       Value<String> slug,
+      Value<bool> isVisible,
     });
 
 final class $$CategoriesTableReferences
@@ -2915,6 +2968,11 @@ class $$CategoriesTableFilterComposer
 
   ColumnFilters<String> get slug => $composableBuilder(
     column: $table.slug,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isVisible => $composableBuilder(
+    column: $table.isVisible,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2992,6 +3050,11 @@ class $$CategoriesTableOrderingComposer
     column: $table.slug,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isVisible => $composableBuilder(
+    column: $table.isVisible,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CategoriesTableAnnotationComposer
@@ -3011,6 +3074,9 @@ class $$CategoriesTableAnnotationComposer
 
   GeneratedColumn<String> get slug =>
       $composableBuilder(column: $table.slug, builder: (column) => column);
+
+  GeneratedColumn<bool> get isVisible =>
+      $composableBuilder(column: $table.isVisible, builder: (column) => column);
 
   Expression<T> eOptionsRefs<T extends Object>(
     Expression<T> Function($$EOptionsTableAnnotationComposer a) f,
@@ -3094,13 +3160,25 @@ class $$CategoriesTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> slug = const Value.absent(),
-              }) => CategoriesCompanion(id: id, name: name, slug: slug),
+                Value<bool> isVisible = const Value.absent(),
+              }) => CategoriesCompanion(
+                id: id,
+                name: name,
+                slug: slug,
+                isVisible: isVisible,
+              ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String name,
                 required String slug,
-              }) => CategoriesCompanion.insert(id: id, name: name, slug: slug),
+                Value<bool> isVisible = const Value.absent(),
+              }) => CategoriesCompanion.insert(
+                id: id,
+                name: name,
+                slug: slug,
+                isVisible: isVisible,
+              ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (

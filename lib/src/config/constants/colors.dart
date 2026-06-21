@@ -58,6 +58,13 @@ class MainColors {
   )!;
 
   static Color? avatarIcon(BuildContext context) => icon(context).withAlpha(80);
+
+  static Color notSelected(BuildContext context) =>
+      colorBlend(
+          defaultTile(context),
+          surface(context),
+          0.5
+      )!;
 }
 
 

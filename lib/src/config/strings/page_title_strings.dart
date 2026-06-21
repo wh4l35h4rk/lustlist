@@ -14,7 +14,7 @@ class PageTitleStrings {
   static const String options = "Options";
 
   static const String partners = "Partners";
-  static const String tagVisibility = "Tag visibility";
+  static const String visibility = "Visibility";
   static const String dataExport = "Data export";
   static const String credits = "Credits";
 

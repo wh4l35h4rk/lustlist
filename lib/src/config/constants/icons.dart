@@ -84,4 +84,7 @@ class AppIconData {
   static const IconData github = CustomIcons.github;
   static const IconData feedback = Icons.feedback;
   static const IconData license = Icons.account_balance;
+
+  static const IconData checkboxSelected = Icons.check_box_outlined;
+  static const IconData checkboxNotSelected = Icons.check_box_outline_blank;
 }

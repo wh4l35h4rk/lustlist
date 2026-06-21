@@ -419,6 +419,9 @@ class AppDatabase extends _$AppDatabase {
   Future<void> updatePartnerRaw(int id, PartnersCompanion data) =>
       (update(partners)..where((t) => t.id.equals(id))).write(data);
 
+  Future<void> updateCategory(int id, CategoriesCompanion data) =>
+      (update(categories)..where((t) => t.id.equals(id))).write(data);
+
 
   // DELETE:
   Future deleteEvent(int eventId) async {
