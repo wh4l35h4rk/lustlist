@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -9,6 +11,7 @@ import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/ui/widgets/shimmer_sti.dart';
 
 
 class StiTile extends StatelessWidget{
@@ -30,7 +33,7 @@ class StiTile extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                DataStrings.sti,
+                StringFormatter.colon(DataStrings.sti),
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: CategoryTileColors.title(context),
@@ -49,29 +52,9 @@ class StiTile extends StatelessWidget{
             future: _getOptions(database, context, "sti"),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text(
-                  MiscStrings.loading,
-                  style: TextStyle(
-                    color: CategoryTileColors.text(context),
-                    fontSize: AppSizes.textBasic,
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text(
-                  MiscStrings.errorLoadingData,
-                  style: TextStyle(
-                    color: CategoryTileColors.text(context),
-                    fontSize: AppSizes.textBasic,
-                  ),
-                );
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text(
-                  MiscStrings.notStated,
-                  style: TextStyle(
-                    color: CategoryTileColors.text(context),
-                    fontSize: AppSizes.textBasic,
-                  ),
-                );
+                return ShimmerSti();
+              } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                return ErrorTile();
               } else {
                 final options = snapshot.data!;
 

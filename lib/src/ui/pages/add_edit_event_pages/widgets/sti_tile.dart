@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/sti_option_listtile.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/src/ui/widgets/shimmer_sti.dart';
 
 
 
@@ -57,40 +56,28 @@ class _AddStiTileState  extends State<AddStiTile> {
       iconData: iconData,
       iconSize: iconSize,
       body: FutureBuilder(
-          future: _optionsListFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text(
-                MiscStrings.loading,
-                style: TextStyle(
-                  fontSize: AppSizes.textBasic,
-                  color: AddEventColors.coloredText(context),
-                ),
-              );
-            } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
-              return Text(
-                MiscStrings.errorLoadingData,
-                style: TextStyle(
-                  fontSize: AppSizes.textBasic,
-                  color: AddEventColors.coloredText(context),
-                ),
-              );
-            } else {
-              return Column(
-                children: List.generate(
-                    snapshot.data!.length, (index) {
-                      EOption option = snapshot.data![index];
-                      bool isSelected = selectedOptions.contains(option) && statusMap.keys.contains(option);
-                      return StiOptionListTile(
-                        context: context,
-                        option: option,
-                        categoryController: widget.controller,
-                        initStatus: isSelected ? statusMap[option] : null,
-                      );
-                }),
-              );
-            }
+        future: _optionsListFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return ShimmerSti();
+          } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
+            return ErrorTile();
+          } else {
+            return Column(
+              children: List.generate(
+                snapshot.data!.length, (index) {
+                  EOption option = snapshot.data![index];
+                  bool isSelected = selectedOptions.contains(option) && statusMap.keys.contains(option);
+                  return StiOptionListTile(
+                    context: context,
+                    option: option,
+                    categoryController: widget.controller,
+                    initStatus: isSelected ? statusMap[option] : null,
+                  );
+              }),
+            );
           }
+        }
       ),
     );
   }
