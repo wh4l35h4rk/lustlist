@@ -22,16 +22,16 @@ import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/button_stub.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/date_filter_button.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/duration_input_body.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/events_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/notes_filter_button.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_group_panel_list.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/numeric_filter_button.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/numeric_text_input_body.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/options_filter_button.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/rating_filter_button.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/button_stub.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/date_filter_button.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/duration_input_body.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/events_list.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/notes_filter_button.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_group_panel_list.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/numeric_filter_button.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/numeric_text_input_body.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/options_filter_button.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/rating_filter_button.dart';
 import 'package:lustlist/src/ui/widgets/add_event_floating_button.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -44,17 +44,17 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_m
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/add_event_pages/add_sex_page.dart';
 
 
-class AllEventsPage extends StatefulWidget {
-  const AllEventsPage({
+class FilterEventsPage extends StatefulWidget {
+  const FilterEventsPage({
     super.key
   });
 
   @override
-  State<AllEventsPage> createState() => _AllEventsPageState();
+  State<FilterEventsPage> createState() => _FilterEventsPageState();
 }
 
 
-class _AllEventsPageState extends State<AllEventsPage> {
+class _FilterEventsPageState extends State<FilterEventsPage> {
   final repo = EventRepository(database);
 
   late final ValueNotifier<List<CalendarEventWithOptions>> eventsNotifier = ValueNotifier([]);

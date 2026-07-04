@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/all_events_list_tile.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_events_list_tile.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
@@ -31,7 +31,7 @@ class AllEventsList extends StatelessWidget {
           itemBuilder: (context, event) {
             return Column(
               children: [
-                AllEventsListTile(
+                FilterEventsListTile(
                   onTap: () => _onEventListTileTap(context, event),
                   event: event.calendarEvent,
                 ),

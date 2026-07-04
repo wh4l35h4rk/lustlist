@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/all_events_page.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/filter_events_page.dart';
 import 'package:lustlist/src/ui/pages/credits_page/credits_page.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partners_page.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -34,7 +34,7 @@ class OptionsPage extends StatelessWidget {
               title: PageTitleStrings.allEvents,
               subtitle: MiscStrings.allEventsSubtitle,
               iconData: AppIconData.allEvents,
-              page: AllEventsPage()
+              page: FilterEventsPage()
             ),
             OptionsListTile(
               title: PageTitleStrings.visibility,

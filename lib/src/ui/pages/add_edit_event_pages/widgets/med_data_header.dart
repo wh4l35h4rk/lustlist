@@ -11,6 +11,7 @@ import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/ui/widgets/shimmer_mstb_special.dart';
 import 'package:lustlist/src/ui/widgets/switch_column_base.dart';
 
 
@@ -130,7 +131,10 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
       future: _categoriesMapFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return ShimmerMstbSpecial(
+              baseColor: AddEventColors.shimmerBase(context),
+              highlightColor: AddEventColors.shimmerHighlight(context),
+          );
         } else if (snapshot.hasError || !snapshot.hasData) {
           return ErrorTile();
         }

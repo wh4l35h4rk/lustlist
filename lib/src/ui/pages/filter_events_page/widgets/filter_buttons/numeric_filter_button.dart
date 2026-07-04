@@ -5,7 +5,7 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_filter_controller_base.dart';
-import 'package:lustlist/src/ui/pages/all_events_page/widgets/filter_buttons/filter_settings_button.dart';
+import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
 
 

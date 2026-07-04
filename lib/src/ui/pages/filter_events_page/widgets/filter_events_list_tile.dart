@@ -12,8 +12,8 @@ import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 
 
-class AllEventsListTile extends StatelessWidget {
-  const AllEventsListTile({
+class FilterEventsListTile extends StatelessWidget {
+  const FilterEventsListTile({
     required this.event,
     required this.onTap,
     super.key,
