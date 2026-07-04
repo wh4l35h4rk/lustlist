@@ -182,9 +182,6 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // _isLoadingEvents = true;
-    // _isLoadingFilters = true;
-
     return Scaffold(
         appBar: MainAppBar(
           title: PageTitleStrings.allEvents,

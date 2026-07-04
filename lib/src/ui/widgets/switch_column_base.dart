@@ -9,12 +9,14 @@ class SwitchColumnBase extends StatelessWidget {
     required this.title,
     required this.iconData,
     required this.child,
+    this.invertedColors = false,
     this.iconSize,
   });
 
   final Widget child;
   final String title;
   final IconData iconData;
+  final bool invertedColors;
   final double? iconSize;
 
   @override
@@ -29,7 +31,7 @@ class SwitchColumnBase extends StatelessWidget {
               padding: EdgeInsets.only(right: iconSize != null ? 6 : 0),
               child: Icon(
                 iconData,
-                color: AddEventColors.icon(context),
+                color: invertedColors ? EventDataColors.icon(context) : AddEventColors.icon(context),
                 size: iconSize ?? AppSizes.iconBasic,
               ),
             ),
@@ -37,7 +39,7 @@ class SwitchColumnBase extends StatelessWidget {
               StringFormatter.colon(title),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AddEventColors.title(context),
+                color: invertedColors ? EventDataColors.title(context) : AddEventColors.title(context),
                 fontSize: AppSizes.titleSmall,
                 fontWeight: FontWeight.bold,
               ),

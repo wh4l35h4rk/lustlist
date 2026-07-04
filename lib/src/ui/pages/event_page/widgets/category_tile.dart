@@ -35,34 +35,60 @@ class CategoryTile extends StatelessWidget {
     return FutureBuilder(
       future: _getOptions(database, context),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox.shrink();
-        } else if (snapshot.hasError) {
-          return buildBody(
-            Text(
-              MiscStrings.errorLoadingData,
-              style: TextStyle(
-                color: CategoryTileColors.text(context),
-                fontSize: AppSizes.titleSmall,
-              )
-            ),
-            context
-          );
-        } else if (snapshot.hasData) {
-          return buildBody(
-            snapshot.data!,
-            context
-          );
-        } else {
-          return SizedBox.shrink();
-        }
+        bool isLoading = snapshot.connectionState == ConnectionState.waiting;
+        return AnimatedSwitcher(
+          duration: Duration(milliseconds: 250),
+          transitionBuilder: (child, animation) {
+            return FadeTransition(
+              opacity: animation,
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+              ),
+            );
+          },
+          child: () {
+            if (isLoading) {
+              return const SizedBox(
+                key: ValueKey('empty'),
+              );
+            }
+
+            if (snapshot.hasError) {
+              return buildTile(
+                Text(
+                  MiscStrings.errorLoadingData,
+                  style: TextStyle(
+                    color: CategoryTileColors.text(context),
+                    fontSize: AppSizes.titleSmall,
+                  ),
+                ),
+                const ValueKey('error'),
+                context,
+              );
+            }
+
+            if (!snapshot.hasData) {
+              return const SizedBox(
+                key: ValueKey('empty'),
+              );
+            }
+
+            return buildTile(
+              snapshot.data!,
+              const ValueKey('data'),
+              context,
+            );
+          }(),
+        );
       }
     );
   }
 
 
-  BasicTile buildBody(Widget child, BuildContext context) {
+  BasicTile buildTile(Widget child, Key key, BuildContext context) {
     return BasicTile(
+        key: key,
         surfaceColor: CategoryTileColors.surface(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

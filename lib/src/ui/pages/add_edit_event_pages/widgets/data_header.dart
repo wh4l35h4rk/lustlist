@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/eventdata_controller_base.dart';
@@ -15,8 +14,8 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.d
 import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
+import 'package:lustlist/src/ui/widgets/shimmer_mstb_special.dart';
 import 'package:lustlist/src/ui/widgets/switch_column_base.dart';
-import 'package:shimmer/shimmer.dart';
 
 
 class AddEditEventDataColumn extends StatefulWidget {
@@ -45,8 +44,8 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
   @override
   void initState() {
     super.initState();
-    EventRepository repo = EventRepository(database);
     if (isMstb) {
+      EventRepository repo = EventRepository(database);
       pornOptionFuture = repo.getOption("porn");
       toysOptionFuture = repo.getOption("solo toys");
     }
@@ -129,33 +128,15 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           future: Future.wait([pornOptionFuture, toysOptionFuture]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: buildShimmer(context),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    flex: 1,
-                    child: buildShimmer(context),
-                  ),
-                ],
+              return ShimmerMstbSpecial(
+                baseColor: AddEventColors.shimmerBase(context),
+                highlightColor: AddEventColors.shimmerHighlight(context),
               );
-            } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty
+            } else if (snapshot.hasError
+                || snapshot.data == null || snapshot.data!.isEmpty
                 || widget.optionsController == null
             ) {
-              return SizedBox(
-                height: 80,
-                child: Center(
-                  child: Text(MiscStrings.errorLoadingData,
-                    style: TextStyle(
-                      fontSize: AppSizes.textBasic,
-                      color: AddEventColors.coloredText(context),
-                    ),
-                  ),
-                ),
-              );
+              return ErrorTile();
             }
 
             return Row(
@@ -187,20 +168,6 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           }
         ) : null,
       ],
-    );
-  }
-
-  Shimmer buildShimmer(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: AddEventColors.shimmerBase(context),
-      highlightColor: AddEventColors.shimmerHighlight(context),
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
     );
   }
 }

@@ -20,7 +20,7 @@ class ErrorTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 36),
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 30),
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

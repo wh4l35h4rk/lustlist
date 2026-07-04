@@ -264,6 +264,18 @@ class EventDataColors {
 
   static Color border(BuildContext context) =>
       Theme.of(context).colorScheme.onPrimaryFixedVariant;
+
+  static Color shimmerBase(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.inversePrimary,
+      0.1
+  )!;
+
+  static Color shimmerHighlight(BuildContext context) => colorBlend(
+      surface(context),
+      Theme.of(context).colorScheme.inversePrimary,
+      0.05
+  )!;
 }
 
 

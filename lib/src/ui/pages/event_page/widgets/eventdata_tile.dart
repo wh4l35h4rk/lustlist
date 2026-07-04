@@ -6,9 +6,8 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
-import 'package:lustlist/src/core/widgets/info_row.dart';
+import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
-import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -17,6 +16,8 @@ import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/partners_column.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/eventdata_column.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/medical_event/medical_data_tile.dart';
+import 'package:lustlist/src/ui/widgets/shimmer_mstb_special.dart';
+import 'package:lustlist/src/ui/widgets/switch_column_base.dart';
 
 
 class EventDataTile extends StatefulWidget {
@@ -109,22 +110,6 @@ class _EventDataTileState extends State<EventDataTile> {
           ],
         );
       case EventType.masturbation:
-        if (_isError) {
-          return Text(MiscStrings.errorLoadingData,
-            style: TextStyle(
-              fontSize: AppSizes.textBasic,
-              color: AddEventColors.coloredText(context),
-            ),
-          );
-        } else if (_isLoading || didUseToys == null || didWatchPorn == null) {
-          return Text(MiscStrings.loading,
-            style: TextStyle(
-              fontSize: AppSizes.textBasic,
-              color: AddEventColors.coloredText(context),
-            ),
-          );
-        }
-
         return Column(
           children: [
             EventDataColumn(event: widget.event),
@@ -132,32 +117,82 @@ class _EventDataTileState extends State<EventDataTile> {
               padding: AppInsets.dataDivider,
               child: Divider()
             ),
-            InfoRow(
-              iconData: AppIconData.porn,
-              title: StringFormatter.colon(DataStrings.porn),
-              child: Text(
-                didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
-                style: TextStyle(
-                  fontSize: AppSizes.textBasic,
-                  color: EventDataColors.text(context)
-                ),
-              )
-            ),
-            InfoRow(
-                iconData: AppIconData.toys,
-                title: StringFormatter.colon(DataStrings.toys),
-                child: Text(
-                  didUseToys! ? MiscStrings.didUse : MiscStrings.didNotUse,
-                  style: TextStyle(
-                      fontSize: AppSizes.textBasic,
-                      color: EventDataColors.text(context)
-                  ),
-                )
-            )
+            buildMstbSpecials(context),
           ]
         );
       case EventType.medical:
         return MedicalData(event: widget.event);
     }
+  }
+
+
+  Widget buildMstbSpecials(BuildContext context) {
+    if (_isError) {
+      return ErrorTile(colorsInverted: true);
+    } else if (_isLoading || didUseToys == null || didWatchPorn == null) {
+      return ShimmerMstbSpecial(
+        baseColor: EventDataColors.shimmerBase(context),
+        highlightColor: EventDataColors.shimmerHighlight(context),
+        isDense: true,
+      );
+    }
+
+    TextStyle style = TextStyle(
+        fontSize: AppSizes.textBasic,
+        color: EventDataColors.text(context)
+    );
+
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: SwitchColumnBase(
+              title: DataStrings.porn,
+              iconData: AppIconData.porn,
+              invertedColors: true,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                    child: Icon(
+                      didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
+                      color: EventDataColors.text(context),
+                    ),
+                  ),
+                  Text(
+                    didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
+                    style: style
+                  ),
+                ],
+              )
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: SwitchColumnBase(
+            title: DataStrings.toys,
+            iconData: AppIconData.toys,
+            invertedColors: true,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                  child: Icon(
+                    didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
+                    color: EventDataColors.text(context),
+                  ),
+                ),
+                Text(
+                  didUseToys! ? MiscStrings.didUse : MiscStrings.didNotUse,
+                  style: style
+                ),
+              ],
+            )
+          ),
+        )
+      ],
+    );
   }
 }
