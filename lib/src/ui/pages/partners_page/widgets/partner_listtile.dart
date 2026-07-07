@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
@@ -89,7 +88,7 @@ class PartnerListTile extends StatelessWidget {
           partner.gender.iconData,
           size: partner.gender == Gender.nonbinary
               ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-          color: CategoryTileColors.icon(context),
+          color: context.theme.categoryTileColors.icon,
         ),
       );
     } else {

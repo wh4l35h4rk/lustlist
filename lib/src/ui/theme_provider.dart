@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-
-final lightColorScheme = ColorScheme.fromSeed(
-  brightness: Brightness.light,
-  seedColor: Colors.pink,
-);
-
-final darkColorScheme = ColorScheme.fromSeed(
-  brightness: Brightness.dark,
-  seedColor: Colors.deepPurpleAccent,
-);
+import 'package:lustlist/src/config/theme/app_theme.dart';
 
 
 class ThemeProvider with ChangeNotifier {

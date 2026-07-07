@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/notifiers/list_notifier.dart';
@@ -65,7 +65,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
     if (!category.isVisible && !anySelectedAtInit) return SizedBox.shrink();
 
     return BasicTile(
-      surfaceColor: AddEventColors.surface(context),
+      surfaceColor: context.theme.addEventColors.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -76,7 +76,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                 StringFormatter.colon(category.name),
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: AddEventColors.title(context),
+                  color: context.theme.addEventColors.title,
                   fontSize: AppSizes.titleLarge,
                   fontWeight: FontWeight.bold,
                 ),
@@ -84,7 +84,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               Icon(
                 iconData,
                 size: iconSize,
-                color: AddEventColors.leadingIcon(context),
+                color: context.theme.addEventColors.leadingIcon,
               ),
             ],
           ),
@@ -98,7 +98,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                   return Text(MiscStrings.errorLoadingData,
                     style: TextStyle(
                       fontSize: AppSizes.textBasic,
-                      color: AddEventColors.coloredText(context),
+                      color: context.theme.addEventColors.coloredText,
                     ),
                   );
                 } else {
@@ -136,9 +136,9 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
         },
         style: OutlinedButton.styleFrom(
           backgroundColor: _selectedOptions.value.contains(option)
-              ? AddEventColors.selectedSurface(context)
-              : AddEventColors.surface(context),
-          side: BorderSide(width: 1.2, color: AddEventColors.border(context)),
+              ? context.theme.addEventColors.selectedSurface
+              : context.theme.addEventColors.surface,
+          side: BorderSide(width: 1.2, color: context.theme.addEventColors.border),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -153,7 +153,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AddEventColors.text(context)
+                color: context.theme.addEventColors.text
               ),
             ),
           ],

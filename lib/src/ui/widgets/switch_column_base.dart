@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
 class SwitchColumnBase extends StatelessWidget {
@@ -31,7 +31,7 @@ class SwitchColumnBase extends StatelessWidget {
               padding: EdgeInsets.only(right: iconSize != null ? 6 : 0),
               child: Icon(
                 iconData,
-                color: invertedColors ? EventDataColors.icon(context) : AddEventColors.icon(context),
+                color: invertedColors ? context.theme.eventDataColors.icon : context.theme.addEventColors.icon,
                 size: iconSize ?? AppSizes.iconBasic,
               ),
             ),
@@ -39,7 +39,7 @@ class SwitchColumnBase extends StatelessWidget {
               StringFormatter.colon(title),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: invertedColors ? EventDataColors.title(context) : AddEventColors.title(context),
+                color: invertedColors ? context.theme.eventDataColors.title : context.theme.addEventColors.title,
                 fontSize: AppSizes.titleSmall,
                 fontWeight: FontWeight.bold,
               ),

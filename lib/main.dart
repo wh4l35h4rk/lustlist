@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/ui/pages/homepage.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -36,8 +37,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode themeMode = ThemeMode.light;
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -47,16 +46,8 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             title: 'lustlist',
             themeMode: themeProvider.themeMode,
-            theme: ThemeData(
-              useMaterial3: true,
-              fontFamily: 'Liberation Mono',
-              colorScheme: lightColorScheme
-            ),
-            darkTheme: ThemeData(
-              useMaterial3: true,
-              fontFamily: 'Liberation Mono',
-              colorScheme: darkColorScheme
-            ),
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
             home: const Homepage(),
           );
       })

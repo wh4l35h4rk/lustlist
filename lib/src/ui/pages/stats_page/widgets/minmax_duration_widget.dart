@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
@@ -42,7 +42,7 @@ class MinMaxDurationColumn extends StatelessWidget {
       children: [
         if (iconData != null) Icon(
           iconData,
-          color: ChartColors.bgIcon(context),
+          color: context.theme.chartColors.bgIcon,
           size: 120
         ),
         Column(

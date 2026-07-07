@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
@@ -20,7 +20,6 @@ import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/sex_even
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/mstb_event_info.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
-
 
 
 class EventPage extends StatefulWidget {
@@ -54,7 +53,7 @@ class _EventPageState extends State<EventPage> {
         backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(eventChanged ? true : null),
             icon: Icon(AppIconData.backButton),
-            color: AppBarColors.icon(context),
+            color: context.theme.appBarColors.icon,
         ),
         editButton: IconButton(
           onPressed: () async {
@@ -72,12 +71,12 @@ class _EventPageState extends State<EventPage> {
             }
           },
           icon: Icon(AppIconData.edit),
-          color: AppBarColors.icon(context),
+          color: context.theme.appBarColors.icon,
         ),
         deleteButton: IconButton(
           onPressed: () => _showPopUp(context),
           icon: Icon(AppIconData.delete),
-          color: AppBarColors.icon(context),
+          color: context.theme.appBarColors.icon,
         ),
       ),
       body: _getEventTypeWidget(event),
@@ -160,7 +159,7 @@ class _EventPageState extends State<EventPage> {
                   Navigator.of(context).pop(true);
                   eventsUpdated.notifyUpdate();
                 },
-                color: AppBarColors.surface(context),
+                color: context.theme.appBarColors.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -168,7 +167,7 @@ class _EventPageState extends State<EventPage> {
                   ButtonStrings.delete,
                   style: TextStyle(
                     fontSize: AppSizes.alertButtonText,
-                    color: AppBarColors.text(context)
+                    color: context.theme.appBarColors.text
                   ),
                 ),
               ),

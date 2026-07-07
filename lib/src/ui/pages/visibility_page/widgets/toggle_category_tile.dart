@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/domain/repository.dart';
 
@@ -30,7 +30,7 @@ class _ToggleCategoryTileState extends State<ToggleCategoryTile> {
 
   @override
   Widget build(BuildContext context) {
-    Color inactiveColor = MainColors.notSelected(context);
+    Color inactiveColor = context.theme.mainColors.notSelected;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -46,17 +46,17 @@ class _ToggleCategoryTileState extends State<ToggleCategoryTile> {
           title(),
           style: TextStyle(
             fontSize: AppSizes.titleSmall,
-            color: isSelected ? MainColors.text(context) : inactiveColor
+            color: isSelected ? context.theme.mainColors.text : inactiveColor
           ),
         ),
         leading: Icon(
           widget.iconData,
           size: widget.iconSize,
-          color: isSelected ? MainColors.icon(context) : inactiveColor,
+          color: isSelected ? context.theme.mainColors.icon : inactiveColor,
         ),
         trailing: Icon(
           isSelected ? AppIconData.checkboxSelected : AppIconData.checkboxNotSelected,
-          color: isSelected ? MainColors.icon(context) : inactiveColor,
+          color: isSelected ? context.theme.mainColors.icon : inactiveColor,
         ),
       ),
     );

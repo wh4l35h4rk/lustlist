@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
@@ -32,7 +32,7 @@ class AvgDurationColumn extends StatelessWidget {
         children: [
           Icon(
             bgIconData,
-            color: ChartColors.bgIcon(context),
+            color: context.theme.chartColors.bgIcon,
             size: bgIconSize ?? 180,
           ),
           Column(

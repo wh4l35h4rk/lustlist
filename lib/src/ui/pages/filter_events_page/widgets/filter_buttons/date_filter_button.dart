@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -28,8 +28,8 @@ class DateFilterButton extends StatelessWidget {
           return DroplistButton(
             title: title,
             backgroundColor: changesApplied
-                ? MainColors.filterSurface(context)
-                : MainColors.surface(context),
+                ? context.theme.mainColors.filterSurface
+                : context.theme.mainColors.surface,
             onPressed: () {
               _show(context);
             },

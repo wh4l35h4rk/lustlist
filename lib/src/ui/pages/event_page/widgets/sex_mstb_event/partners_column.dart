@@ -5,10 +5,10 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partner_profile.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/database/database.dart';
@@ -34,7 +34,7 @@ class PartnersColumn extends StatelessWidget {
               _getPartnersTitle(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: EventDataColors.title(context),
+                color: context.theme.eventDataColors.title,
                 fontSize: AppSizes.titleLarge,
                 fontWeight: FontWeight.bold,
               ),
@@ -42,7 +42,7 @@ class PartnersColumn extends StatelessWidget {
             Spacer(),
             Icon(
               AppIconData.partners,
-              color: EventDataColors.leadingIcon(context),
+              color: context.theme.eventDataColors.leadingIcon,
             ),
           ],
         ),
@@ -51,7 +51,7 @@ class PartnersColumn extends StatelessWidget {
           Text(
             AlertStrings.noPartnersPassed,
             style: TextStyle(
-              color: EventDataColors.text(context),
+              color: context.theme.eventDataColors.text,
               fontSize: AppSizes.textBasic,
               fontStyle: FontStyle.italic
             ),
@@ -67,7 +67,7 @@ class PartnersColumn extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () => _onPartnerTap(context, repo, partner),
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(width: 1.2, color: EventDataColors.border(context)),
+                          side: BorderSide(width: 1.2, color: context.theme.eventDataColors.border),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -77,7 +77,7 @@ class PartnersColumn extends StatelessWidget {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: AppSizes.textBasic,
-                                color: EventDataColors.text(context)
+                                color: context.theme.eventDataColors.text
                               ),
                             ),
                             SizedBox(width: 5),
@@ -85,7 +85,7 @@ class PartnersColumn extends StatelessWidget {
                               partner.gender.iconData,
                               size: partner.gender == Gender.nonbinary
                                   ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-                              color: EventDataColors.icon(context),
+                              color: context.theme.eventDataColors.icon,
                             )
                           ],
                         ),
@@ -102,7 +102,7 @@ class PartnersColumn extends StatelessWidget {
                         StringFormatter.orgasmsAmount(amount, true),
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
-                          color: EventDataColors.text(context)
+                          color: context.theme.eventDataColors.text
                         ),
                       )
                   ],

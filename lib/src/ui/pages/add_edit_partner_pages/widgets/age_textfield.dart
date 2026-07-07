@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -34,7 +34,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AddEventColors.border(context))
+              bottom: BorderSide(color: context.theme.addEventColors.border)
           )
       ),
       child: SizedBox(
@@ -48,7 +48,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
               age,
               style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AddEventColors.coloredText(context)
+                color: context.theme.addEventColors.coloredText
               ),
             ),
           ),
@@ -62,7 +62,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
       widget.controller.text = "";
     }
     return showModalBottomSheet(
-        backgroundColor: AddEventColors.pickerSurface(context),
+        backgroundColor: context.theme.addEventColors.pickerSurface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),

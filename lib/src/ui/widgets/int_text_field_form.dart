@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
+
 
 class IntTextFieldForm extends StatefulWidget {
   final TextEditingController controller;
@@ -46,7 +47,7 @@ class _IntTextFieldFormState extends State<IntTextFieldForm> {
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                    color: MainColors.enabledBorder(context),
+                    color: context.theme.mainColors.border,
                     width: 1.5
                 )
             ),

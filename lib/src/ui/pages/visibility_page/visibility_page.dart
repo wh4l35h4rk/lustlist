@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -13,6 +13,7 @@ import 'package:lustlist/src/ui/pages/visibility_page/widgets/shimmer_categories
 import 'package:lustlist/src/ui/pages/visibility_page/widgets/toggle_category_tile.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
+
 
 class VisibilityPage extends StatefulWidget {
   const VisibilityPage({super.key});
@@ -38,7 +39,7 @@ class _VisibilityPageState extends State<VisibilityPage> {
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(AppIconData.backButton),
-          color: AppBarColors.icon(context),
+          color: context.theme.appBarColors.icon,
         ),
       ),
       body: ListView(
@@ -48,7 +49,7 @@ class _VisibilityPageState extends State<VisibilityPage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
             child: BasicTile(
-              surfaceColor: MainColors.notesBottom(context)!,
+              surfaceColor: context.theme.mainColors.notes,
               child: Text(
                 MiscStrings.visibilityText,
                 softWrap: true,

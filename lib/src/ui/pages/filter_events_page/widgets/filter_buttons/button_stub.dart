@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
 
@@ -18,12 +18,12 @@ class ButtonStub<T> extends StatelessWidget {
     if (isDroplist) {
       return DroplistButton(
         title: title,
-        backgroundColor: MainColors.surface(context),
+        backgroundColor: context.theme.mainColors.surface,
         onPressed: null,
       );
     } else {
       return OutlinedButton(
-        style: AppStyles.outlinedButton(MainColors.surface(context), context),
+        style: AppStyles.outlinedButton(context.theme.mainColors.surface, context),
         onPressed: null,
         child: Text(title),
       );

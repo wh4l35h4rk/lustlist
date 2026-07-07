@@ -1,35 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+
 
 class AppStyles{
   static TextStyle noDataText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
         fontStyle: FontStyle.italic,
-        color: MainColors.defaultTile(context)
+        color: context.theme.mainColors.defaultWidget
     );
   }
 
   static TextStyle basicText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
-        color: MainColors.text(context)
+        color: context.theme.mainColors.text
     );
   }
 
   static TextStyle addEventBasicText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
-        color: AddEventColors.text(context)
+        color: context.theme.addEventColors.text
     );
   }
 
   static TextStyle eventDataBasicText(BuildContext context) {
     return TextStyle(
         fontSize: AppSizes.textBasic,
-        color: EventDataColors.text(context)
+        color: context.theme.eventDataColors.text
     );
   }
 
@@ -43,22 +43,22 @@ class AppStyles{
   static ButtonStyle selectableValueButton<T>(BuildContext context, List<T> selectedValues, T value){
     return OutlinedButton.styleFrom(
       backgroundColor: selectedValues.contains(value)
-          ? MainColors.filterSurface(context)
-          : MainColors.surface(context),
+          ? context.theme.mainColors.filterSurface
+          : context.theme.mainColors.surface,
       side: BorderSide(
           width: 1.2,
-          color: AddEventColors.border(context)
+          color: context.theme.addEventColors.border
       ),
     );
   }
 
   static ButtonStyle filterButton(BuildContext context){
     return OutlinedButton.styleFrom(
-      backgroundColor: MainColors.surface(context),
+      backgroundColor: context.theme.mainColors.surface,
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       side: BorderSide(
           width: 1.2,
-          color: AddEventColors.border(context)
+          color: context.theme.addEventColors.border
       ),
     );
   }
@@ -69,7 +69,7 @@ class AppStyles{
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       side: BorderSide(
           width: 1.2,
-          color: AddEventColors.border(context)
+          color: context.theme.addEventColors.border
       ),
     );
   }
@@ -77,7 +77,7 @@ class AppStyles{
 
   static TextStyle numStatsTitle(BuildContext context){
     return TextStyle(
-      color: ChartColors.title(context),
+      color: context.theme.chartColors.title,
       fontSize: AppSizes.titleSmall,
       letterSpacing: AppSizes.chartTitleSpacing,
       fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class AppStyles{
 
   static TextStyle chartTitle(BuildContext context){
     return TextStyle(
-      color: ChartColors.title(context),
+      color: context.theme.chartColors.title,
       fontSize: AppSizes.titleLarge,
       fontWeight: FontWeight.bold,
       letterSpacing: AppSizes.chartTitleSpacing,
@@ -99,7 +99,7 @@ class AppStyles{
 
   static TextStyle chartSideTitles(BuildContext context) {
     return TextStyle(
-      color: ChartColors.subtitle(context),
+      color: context.theme.chartColors.subtitle,
       fontWeight: FontWeight.bold,
       fontSize: AppSizes.textBasic,
     );

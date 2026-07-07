@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 
@@ -9,8 +9,8 @@ class ShimmerOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: AddEventColors.shimmerBase(context),
-      highlightColor: AddEventColors.shimmerHighlight(context),
+      baseColor: context.theme.addEventColors.shimmerBase,
+      highlightColor: context.theme.addEventColors.shimmerHighlight,
       child: Center(
         child: Wrap(
           alignment: WrapAlignment.spaceAround,

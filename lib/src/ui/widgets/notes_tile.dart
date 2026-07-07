@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+
 
 class NotesTile extends StatelessWidget {
   const NotesTile({
@@ -38,7 +39,7 @@ class NotesTile extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: CategoryTileColors.surface(context),
+            color: context.theme.categoryTileColors.surface,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12.0),
               topRight: Radius.circular(12.0),
@@ -54,14 +55,14 @@ class NotesTile extends StatelessWidget {
                     StringFormatter.colon(DataStrings.notes),
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: CategoryTileColors.title(context),
+                      color: context.theme.categoryTileColors.title,
                       fontSize: AppSizes.titleLarge,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     AppIconData.notes,
-                    color: CategoryTileColors.leadingIcon(context)
+                    color: context.theme.categoryTileColors.leadingIcon
                   ),
                 ],
               ),
@@ -78,7 +79,7 @@ class NotesTile extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: MainColors.notesBottom(context),
+            color: context.theme.mainColors.notes,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12.0),
               bottomRight: Radius.circular(12.0),

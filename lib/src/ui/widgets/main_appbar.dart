@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -26,7 +26,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: AppBarColors.surface(context),
+      backgroundColor: context.theme.appBarColors.surface,
       title: TitleWidget(title: title, editButton: editButton),
       leading: backButton,
       actions: [
@@ -67,8 +67,8 @@ class TitleWidget extends StatelessWidget {
           ? AppSizes.appbarLarge
           : AppSizes.appbarBasic,
       color: editButton == null
-          ? AppBarColors.title(context)
-          : AppBarColors.text(context),
+          ? context.theme.appBarColors.title
+          : context.theme.appBarColors.text,
     );
 
     final TextPainter textPainter = TextPainter(

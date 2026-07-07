@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -59,7 +59,7 @@ class CategoryTile extends StatelessWidget {
                 Text(
                   MiscStrings.errorLoadingData,
                   style: TextStyle(
-                    color: CategoryTileColors.text(context),
+                    color: context.theme.categoryTileColors.text,
                     fontSize: AppSizes.titleSmall,
                   ),
                 ),
@@ -89,7 +89,7 @@ class CategoryTile extends StatelessWidget {
   BasicTile buildTile(Widget child, Key key, BuildContext context) {
     return BasicTile(
         key: key,
-        surfaceColor: CategoryTileColors.surface(context),
+        surfaceColor: context.theme.categoryTileColors.surface,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -100,7 +100,7 @@ class CategoryTile extends StatelessWidget {
                   title,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: CategoryTileColors.title(context),
+                    color: context.theme.categoryTileColors.title,
                     fontSize: AppSizes.titleLarge,
                     fontWeight: FontWeight.bold,
                   ),
@@ -108,7 +108,7 @@ class CategoryTile extends StatelessWidget {
                 Icon(
                   iconData,
                   size: iconSize,
-                  color: CategoryTileColors.leadingIcon(context),
+                  color: context.theme.categoryTileColors.leadingIcon,
                 ),
               ],
             ),
@@ -120,7 +120,7 @@ class CategoryTile extends StatelessWidget {
   }
 
 
-  Future<Widget?> _getOptions(AppDatabase db, context) async {
+  Future<Widget?> _getOptions(AppDatabase db, BuildContext context) async {
     EventRepository repo = EventRepository(db);
     List<EOption> options = await repo.getEventCategoryOptions(
       eventId: event.event.id,
@@ -139,7 +139,7 @@ class CategoryTile extends StatelessWidget {
             padding: AppInsets.optionsContainer,
             decoration: BoxDecoration(
               border: Border.all(
-                color: CategoryTileColors.border(context),
+                color: context.theme.categoryTileColors.border,
               ),
               borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
             ),

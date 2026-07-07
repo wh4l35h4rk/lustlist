@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -30,7 +30,7 @@ class _DatePickerState extends State<DatePicker> {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: AddEventColors.pickerSurface(context),
+        color: context.theme.addEventColors.pickerSurface,
         child: SafeArea(top: false, child: child),
       ),
     );
@@ -41,7 +41,7 @@ class _DatePickerState extends State<DatePicker> {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AddEventColors.border(context))
+              bottom: BorderSide(color: context.theme.addEventColors.border)
           )
       ),
       child: SizedBox(
@@ -63,7 +63,7 @@ class _DatePickerState extends State<DatePicker> {
             DateFormatter.dateWithDay(date),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AddEventColors.coloredText(context)
+                color: context.theme.addEventColors.coloredText
             ),
           ),
         ),

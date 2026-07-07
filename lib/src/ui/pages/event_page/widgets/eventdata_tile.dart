@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -89,7 +89,7 @@ class _EventDataTileState extends State<EventDataTile> {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: EventDataColors.surface(context),
+      surfaceColor: context.theme.eventDataColors.surface,
       margin: AppInsets.headerTile,
       child: buildTileBottom(context),
     );
@@ -131,15 +131,15 @@ class _EventDataTileState extends State<EventDataTile> {
       return ErrorTile(colorsInverted: true);
     } else if (_isLoading || didUseToys == null || didWatchPorn == null) {
       return ShimmerMstbSpecial(
-        baseColor: EventDataColors.shimmerBase(context),
-        highlightColor: EventDataColors.shimmerHighlight(context),
+        baseColor: context.theme.eventDataColors.shimmerBase,
+        highlightColor: context.theme.eventDataColors.shimmerHighlight,
         isDense: true,
       );
     }
 
     TextStyle style = TextStyle(
         fontSize: AppSizes.textBasic,
-        color: EventDataColors.text(context)
+        color: context.theme.eventDataColors.text
     );
 
     return Row(
@@ -157,7 +157,7 @@ class _EventDataTileState extends State<EventDataTile> {
                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                     child: Icon(
                       didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
-                      color: EventDataColors.text(context),
+                      color: context.theme.eventDataColors.text,
                     ),
                   ),
                   Text(
@@ -181,7 +181,7 @@ class _EventDataTileState extends State<EventDataTile> {
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                   child: Icon(
                     didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
-                    color: EventDataColors.text(context),
+                    color: context.theme.eventDataColors.text,
                   ),
                 ),
                 Text(

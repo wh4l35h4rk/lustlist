@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
@@ -111,7 +111,7 @@ class _EventsAnimatedListState extends AnimatedListBaseState<CalendarEvent, Even
                 Text(
                   MiscStrings.noEventsForDaySelected,
                   style: TextStyle(
-                    color: MainColors.defaultTile(context),
+                    color: context.theme.mainColors.defaultWidget,
                     fontSize: AppSizes.titleSmall,
                   ),
                 ),

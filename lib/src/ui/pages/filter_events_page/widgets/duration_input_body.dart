@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_duration_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/duration_picker.dart';
 
@@ -30,12 +30,12 @@ class DurationInputBody extends StatelessWidget {
                 Icon icon = Icon(
                   value ? AppIconData.equals : AppIconData.range,
                   size: 15,
-                  color: MainColors.surface(context),
+                  color: context.theme.mainColors.surface,
                 );
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: CircleAvatar(
-                    backgroundColor: MainColors.iconButtonSurface(context),
+                    backgroundColor: context.theme.mainColors.iconButton,
                     child: IconButton(
                       onPressed: () => {
                         controller.toggleMode()

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/theme_provider.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
@@ -104,23 +104,28 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
 
 
   List<PieChartSectionData> showingSections(bool isThemeLight) {
+    final chart = context.theme.chartColors;
+    final user = chart.user;
+    final partners = chart.partners;
+
+
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? AppSizes.titleLarge : AppSizes.textBasic;
       final radius = isTouched ? 65.0 : 55.0;
-      final fontColor = isThemeLight ? MainColors.surface(context) : MainColors.text(context);
+      final fontColor = isThemeLight ? context.theme.mainColors.surface : context.theme.mainColors.text;
       final shadows = [Shadow(color: Colors.black, blurRadius: 3)];
 
       return switch (i) {
         0 => PieChartSectionData(
-            color: ChartColors.female(context),
+            color: chart.female,
             value: widget.userAmount.toDouble(),
             title: widget.userAmount.toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              ChartColors.user(context),
-              ChartColors.userAccent(context)],
-            ),
+              user,
+              chart.colorAccent(user)
+            ]),
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -129,14 +134,14 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
             ),
         ),
         1 => PieChartSectionData(
-            color: ChartColors.male(context),
+            color: chart.male,
             value: widget.partnersAmount.toDouble(),
             title: widget.partnersAmount.toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              ChartColors.partners(context),
-              ChartColors.partnersAccent(context)],
-            ),
+              partners,
+              chart.colorAccent(partners)
+            ]),
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -157,14 +162,14 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
         Padding(
           padding: AppInsets.legendRow,
           child: LegendRow(
-            color: ChartColors.user(context),
+            color: context.theme.chartColors.user,
             text: ChartStrings.userOrgasms
           ),
         ),
         Padding(
           padding: AppInsets.legendRow,
           child: LegendRow(
-            color: ChartColors.partners(context),
+            color: context.theme.chartColors.partners,
             text: ChartStrings.partnersOrgasms
           ),
         )

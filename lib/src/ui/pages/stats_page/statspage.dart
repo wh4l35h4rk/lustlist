@@ -3,10 +3,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/enums/aggro_type.dart';
 import 'package:lustlist/src/config/enums/type.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/widgets/default_divider.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/domain/entities/events_amount_data.dart';
@@ -203,19 +203,19 @@ class _StatsPageState extends State<StatsPage> {
               TopOptionsChart(
                 optionsList: topPractices!,
                 title: ChartStrings.topPracticesChart,
-                barAccentColor: ChartColors.practicesAccent(),
+                barAccentColor: context.theme.chartColors.practicesBar,
               ),
               if (topPoses!.isNotEmpty) DefaultDivider(),
               if (topPoses!.isNotEmpty) TopOptionsChart(
                 optionsList: topPoses!,
                 title: ChartStrings.topPosesChart,
-                barAccentColor: ChartColors.posesAccent(),
+                barAccentColor: context.theme.chartColors.posesBar,
               ),
               if (topEjaculation!.isNotEmpty) DefaultDivider(),
               if (topEjaculation!.isNotEmpty) TopOptionsChart(
                 optionsList: topEjaculation!,
                 title: ChartStrings.topEjaculationChart,
-                barAccentColor: ChartColors.ejaculationAccent(),
+                barAccentColor: context.theme.chartColors.ejacBar,
               ),
               DefaultDivider(),
               OrgasmsRatioChart(
@@ -231,7 +231,7 @@ class _StatsPageState extends State<StatsPage> {
               TopOptionsChart(
                 optionsList: topSoloPractices!,
                 title: ChartStrings.topSoloPracticesChart,
-                barAccentColor: ChartColors.soloPracticesAccent(),
+                barAccentColor: context.theme.chartColors.soloBar,
               ),
               DefaultDivider(),
               SoloStats(pornStats: pornStats!, toysStats: toysStats!),

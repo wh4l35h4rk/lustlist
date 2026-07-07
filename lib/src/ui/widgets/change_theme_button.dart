@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+
 
 class ChangeThemeButton extends StatefulWidget{
   const ChangeThemeButton({super.key});
@@ -32,7 +33,7 @@ class _ChangeThemeButtonState extends State<ChangeThemeButton> {
           }
         },
         icon: Icon(isLight ? AppIconData.darkTheme : AppIconData.lightTheme),
-        color: MainColors.surface(context)
+        color: context.theme.mainColors.surface
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/bool_filter.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -30,8 +30,8 @@ class NotesFilterButton<T> extends StatelessWidget {
           return OutlinedButton(
               style: AppStyles.outlinedButton(
                   changesApplied
-                    ? MainColors.filterSurface(context)
-                    : MainColors.surface(context),
+                    ? context.theme.mainColors.filterSurface
+                    : context.theme.mainColors.surface,
                   context
               ),
               onPressed: _switchMode,

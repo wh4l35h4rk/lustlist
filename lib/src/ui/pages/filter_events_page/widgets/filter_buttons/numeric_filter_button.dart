@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_filter_controller_base.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/filter_settings_button.dart';
@@ -39,8 +39,8 @@ class NumericFilterButton extends StatelessWidget {
         return DroplistButton(
           title: title,
           backgroundColor: changesApplied
-              ? MainColors.filterSurface(context)
-              : MainColors.surface(context),
+              ? context.theme.mainColors.filterSurface
+              : context.theme.mainColors.surface,
           onPressed: () {
             buildBottomSheet(context);
           },
@@ -51,7 +51,7 @@ class NumericFilterButton extends StatelessWidget {
 
   Future<dynamic> buildBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-      backgroundColor: MainColors.surface(context),
+      backgroundColor: context.theme.mainColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -82,7 +82,7 @@ class NumericFilterButton extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: AppSizes.titleLarge,
-                                color: MainColors.title(context)),
+                                color: context.theme.mainColors.title),
                           ),
                         ),
                       ],
@@ -102,8 +102,8 @@ class NumericFilterButton extends StatelessWidget {
                                 controller.toggleEnabled()
                               },
                               backgroundColor: controller.isEnabled
-                                  ? MainColors.filterButton(context)
-                                  : MainColors.surface(context),
+                                  ? context.theme.mainColors.filterButton
+                                  : context.theme.mainColors.surface,
                               icon: Icon(controller.isEnabled
                                   ? AppIconData.selected
                                   : AppIconData.notSelected

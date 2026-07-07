@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
@@ -98,7 +98,7 @@ class _EditMedEventPageState extends State<EditMedEventPage> {
           return ListView(
             children: [
               BasicTile(
-                  surfaceColor: AddEventColors.surface(context),
+                  surfaceColor: context.theme.addEventColors.surface,
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10, bottom: 5),
                   child: AddMedEventDataColumn(
                       controller: _dataController

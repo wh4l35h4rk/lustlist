@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
@@ -8,7 +9,6 @@ import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.d
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/ui/widgets/shimmer_mstb_special.dart';
@@ -83,7 +83,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                 children: [
                   Icon(
                     iconData,
-                    color: AddEventColors.leadingIcon(context),
+                    color: context.theme.addEventColors.leadingIcon,
                   ),
                 ],
               ),
@@ -105,7 +105,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
             padding: EdgeInsets.only(right: size != null ? 6 : 0),
             child: Icon(
               iconData,
-              color: AddEventColors.icon(context),
+              color: context.theme.addEventColors.icon,
               size: size,
             ),
           ),
@@ -114,7 +114,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
             child: Text(
               "$title:",
               style: TextStyle(
-                  color: AddEventColors.title(context),
+                  color: context.theme.addEventColors.title,
                   fontWeight: FontWeight.bold,
                   fontSize: AppSizes.titleSmall
               ),
@@ -132,8 +132,8 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ShimmerMstbSpecial(
-              baseColor: AddEventColors.shimmerBase(context),
-              highlightColor: AddEventColors.shimmerHighlight(context),
+              baseColor: context.theme.addEventColors.shimmerBase,
+              highlightColor: context.theme.addEventColors.shimmerHighlight,
           );
         } else if (snapshot.hasError || !snapshot.hasData) {
           return ErrorTile();
@@ -156,7 +156,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                     iconData: AppIconData.sti,
                     iconSize: AppSizes.iconViruses,
                     child: Switch(
-                      inactiveThumbColor: AddEventColors.border(context),
+                      inactiveThumbColor: context.theme.addEventColors.border,
                       value: isSti,
                       onChanged: (bool value) {
                         setState(() {
@@ -172,7 +172,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                     title: categoriesMap['obgyn']!.name,
                     iconData: AppIconData.obgyn,
                     child: Switch(
-                      inactiveThumbColor: AddEventColors.border(context),
+                      inactiveThumbColor: context.theme.addEventColors.border,
                       value: isObgyn,
                       onChanged: (bool value) {
                         setState(() {

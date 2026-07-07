@@ -4,6 +4,7 @@ import 'package:fullscreen_image_viewer/fullscreen_image_viewer.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -16,7 +17,6 @@ import 'package:lustlist/src/ui/widgets/notes_tile.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_data_tile.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/edit_partner_page.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
@@ -61,7 +61,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(partnerChanged ? true : null),
             icon: Icon(AppIconData.backButton),
-            color: AppBarColors.icon(context),
+            color: context.theme.appBarColors.icon,
           ),
           editButton: IconButton(
             onPressed: () async {
@@ -79,7 +79,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               }
             },
             icon: Icon(AppIconData.edit),
-            color: AppBarColors.icon(context),
+            color: context.theme.appBarColors.icon,
           ),
           deleteButton: FutureBuilder(
             future: partnerEventsFuture,
@@ -93,7 +93,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               return IconButton(
                 onPressed: () => _showPopUp(context, events.isNotEmpty),
                 icon: Icon(AppIconData.delete),
-                color: AppBarColors.icon(context),
+                color: context.theme.appBarColors.icon,
               );
             }
           ),
@@ -151,13 +151,13 @@ class _PartnerProfileState extends State<PartnerProfile> {
                             events.length.toString(),
                             style: TextStyle(
                               fontSize: AppSizes.eventCounter,
-                              color: CategoryTileColors.title(context)
+                              color: context.theme.categoryTileColors.title
                             ),
                           ),
                           SizedBox(width: 3),
                           Icon(
                             AppIconData.sexOutlined,
-                            color: CategoryTileColors.leadingIcon(context),
+                            color: context.theme.categoryTileColors.leadingIcon,
                             size: AppSizes.eventCounter,
                           )
                         ]
@@ -258,7 +258,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                     Navigator.of(context).pop(true);
                     eventsUpdated.notifyUpdate();
                   },
-                  color: AppBarColors.surface(context),
+                  color: context.theme.appBarColors.surface,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppSizes.alertButtonRadius),
                   ),
@@ -266,7 +266,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                     ButtonStrings.delete,
                     style: TextStyle(
                         fontSize: AppSizes.alertButtonText,
-                        color: AppBarColors.text(context)
+                        color: context.theme.appBarColors.text
                     ),
                   ),
                 )

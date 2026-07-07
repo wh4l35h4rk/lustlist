@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 
@@ -30,14 +30,14 @@ class InfoRow extends StatelessWidget {
             iconData,
             size: iconData == Gender.nonbinary.iconData
                 ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
-            color: iconColor ?? EventDataColors.icon(context),
+            color: iconColor ?? context.theme.eventDataColors.icon,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Text(
               title,
               style: TextStyle(
-                  color: titleColor ?? EventDataColors.title(context),
+                  color: titleColor ?? context.theme.eventDataColors.title,
                   fontWeight: FontWeight.bold,
                   fontSize: AppSizes.titleSmall,
               ),

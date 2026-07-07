@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import '../controllers/home_navigation_controller.dart';
 
 
@@ -26,7 +26,7 @@ class MainBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(AppIconData.statistics), label: PageTitleStrings.statistics),
         BottomNavigationBarItem(icon: Icon(AppIconData.options), label: PageTitleStrings.options),
       ],
-      backgroundColor: MainColors.bnb(context),
+      backgroundColor: context.theme.mainColors.bnb,
       onTap: onTap ?? _onTap,
     );
   }

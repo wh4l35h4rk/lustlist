@@ -27,7 +27,7 @@ class MedEventInfo extends StatelessWidget {
       children: [
         EventDataTile(event: event),
         FutureBuilder(
-            future: getCategoryList(database, event.event),
+            future: getCategoryList(database),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -82,7 +82,7 @@ class MedEventInfo extends StatelessWidget {
     );
   }
 
-  Future<List<String>?> getCategoryList(AppDatabase db, context) async {
+  Future<List<String>?> getCategoryList(AppDatabase db) async {
     final categorySlugs = await db.getCategorySlugsOfEvent(event.event.id);
     return categorySlugs;
   }

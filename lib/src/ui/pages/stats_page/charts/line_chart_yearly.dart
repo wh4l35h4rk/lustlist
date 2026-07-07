@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -41,8 +41,8 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
 
   @override
   Widget build(BuildContext context) {
-    Color sexLineColor = ChartColors.sexLine(context);
-    Color mstbLineColor = ChartColors.mstbLine(context);
+    Color sexLineColor = context.theme.chartColors.sexLine;
+    Color mstbLineColor = context.theme.chartColors.mstbLine;
 
     return AspectRatio(
       aspectRatio: 1.15,
@@ -103,8 +103,8 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
                     mstbSpots: mstbSpots,
                     sexLineColor: sexLineColor,
                     mstbLineColor: mstbLineColor,
-                    surfaceColor: ChartColors.tooltipSurface(context),
-                    borderColor: MainColors.primary(context),
+                    surfaceColor: context.theme.chartColors.tooltipSurface,
+                    borderColor: context.theme.mainColors.primary,
                   ),
                 ),
               ),

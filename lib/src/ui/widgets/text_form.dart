@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 
 
 class TextForm extends StatefulWidget {
@@ -59,7 +59,7 @@ class _TextFormState extends State<TextForm> {
         return Text(
           "$currentLength/$maxLength",
           style: TextStyle(
-            color: AddEventColors.coloredText(context)
+            color: context.theme.addEventColors.coloredText
           ),
         );
       },
@@ -68,13 +68,13 @@ class _TextFormState extends State<TextForm> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AddEventColors.coloredText(context),
+            color: context.theme.addEventColors.coloredText,
             width: 1.5
           ),
           borderRadius: BorderRadius.circular(20),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AddEventColors.border(context)),
+          borderSide: BorderSide(color: context.theme.addEventColors.border),
           borderRadius: BorderRadius.circular(20),
         ),
         hintText: widget.hint

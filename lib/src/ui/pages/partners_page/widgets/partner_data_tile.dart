@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
@@ -22,7 +22,7 @@ class PartnerDataTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      surfaceColor: EventDataColors.surface(context),
+      surfaceColor: context.theme.eventDataColors.surface,
       margin: AppInsets.headerTile,
       child: IntrinsicHeight(
         child: Row(
@@ -64,7 +64,7 @@ class PartnerDataTile extends StatelessWidget {
               children: [
                 Icon(
                   AppIconData.partners,
-                  color: EventDataColors.leadingIcon(context),
+                  color: context.theme.eventDataColors.leadingIcon,
                 ),
               ],
             ),

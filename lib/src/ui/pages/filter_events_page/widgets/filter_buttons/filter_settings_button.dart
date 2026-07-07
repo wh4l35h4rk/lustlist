@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 
 
@@ -24,10 +24,10 @@ class FilterSettingsButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () => onPressed(),
         style: OutlinedButton.styleFrom(
-          backgroundColor: backgroundColor ?? MainColors.surface(context),
+          backgroundColor: backgroundColor ?? context.theme.mainColors.surface,
           side: BorderSide(
               width: 1.2,
-              color: AddEventColors.border(context)
+              color: context.theme.addEventColors.border
           ),
         ),
         child: Row(

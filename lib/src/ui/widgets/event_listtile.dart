@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 
 
 class EventListTile extends StatelessWidget {
@@ -49,7 +49,7 @@ class EventListTile extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(
-                          color: borderColor ?? MainColors.defaultTile(context),
+                          color: borderColor ?? context.theme.mainColors.defaultWidget,
                           width: 2.8
                         )
                       )

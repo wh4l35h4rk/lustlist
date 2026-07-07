@@ -3,11 +3,11 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/partner_data_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/age_textfield.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/birthday_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/name_form.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
@@ -36,8 +36,8 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
 
   @override
   Widget build(BuildContext context) {
-    Color iconColor = AddEventColors.icon(context);
-    Color titleColor = AddEventColors.title(context);
+    Color iconColor = context.theme.addEventColors.icon;
+    Color titleColor = context.theme.addEventColors.title;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,14 +49,14 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
               StringFormatter.colon(DataStrings.name),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AddEventColors.title(context),
+                color: context.theme.addEventColors.title,
                 fontSize: AppSizes.titleLarge,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Icon(
               AppIconData.partners,
-              color: AddEventColors.leadingIcon(context),
+              color: context.theme.addEventColors.leadingIcon,
             ),
           ],
         ),
@@ -79,8 +79,8 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                   value: selectedGender,
                   icon: const Icon(AppIconData.dropList),
                   alignment: Alignment.centerLeft,
-                  style: TextStyle(color: AddEventColors.text(context), fontSize: AppSizes.textBasic),
-                  underline: Container(height: 2, color: AddEventColors.border(context)),
+                  style: TextStyle(color: context.theme.addEventColors.text, fontSize: AppSizes.textBasic),
+                  underline: Container(height: 2, color: context.theme.addEventColors.border),
                   onChanged: (Gender? gender) {
                     setState(() {
                       selectedGender = gender!;
@@ -94,7 +94,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                           value.label,
                           style: TextStyle(
                             fontSize: AppSizes.textBasic,
-                            color: AddEventColors.coloredText(context)
+                            color: context.theme.addEventColors.coloredText
                           ),
                         ));
                   }).toList(),

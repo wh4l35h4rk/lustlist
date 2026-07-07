@@ -3,7 +3,7 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'text_form.dart';
@@ -51,7 +51,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: AddEventColors.surface(context),
+            color: context.theme.addEventColors.surface,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12.0),
               topRight: Radius.circular(12.0),
@@ -67,14 +67,14 @@ class _AddNotesTileState extends State<AddNotesTile> {
                     StringFormatter.colon(DataStrings.notes),
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: AddEventColors.title(context),
+                      color: context.theme.addEventColors.title,
                       fontSize: AppSizes.titleLarge,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     AppIconData.notes,
-                    color: AddEventColors.leadingIcon(context)
+                    color: context.theme.addEventColors.leadingIcon
                   ),
                 ],
               ),
@@ -91,9 +91,9 @@ class _AddNotesTileState extends State<AddNotesTile> {
           width: double.infinity,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: colorBlend(
-              AddEventColors.surface(context),
-              MainColors.surface(context),
+            color: Color.lerp(
+              context.theme.addEventColors.surface,
+              context.theme.mainColors.surface,
               0.5
             ),
             borderRadius: BorderRadius.only(

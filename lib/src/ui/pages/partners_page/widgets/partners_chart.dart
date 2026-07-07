@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
@@ -71,28 +71,30 @@ class _PartnersChartState extends State<PartnersChart> {
   }
 
   List<PieChartSectionData> showingSections() {
+    final chart = context.theme.chartColors;
+
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? AppSizes.titleLarge : AppSizes.textBasic;
       final radius = isTouched ? 80.0 : 65.0;
-      final fontColor = MainColors.surface(context);
+      final fontColor = context.theme.mainColors.surface;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
       final iconSize = AppSizes.iconBasic;
-      final iconColor = CategoryTileColors.icon(context);
+      final iconColor = context.theme.categoryTileColors.icon;
       final borderWidth = AppSizes.badgeBorderWidth;
       final offset = AppSizes.badgeOffset;
 
       return switch (i) {
         0 => PieChartSectionData(
-            color: ChartColors.female(context),
+            color: context.theme.chartColors.female,
             value: _getPartnersGenderAmount(widget.partners, Gender.female),
             title: _getPartnersGenderAmount(widget.partners, Gender.female).toInt().toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              ChartColors.female(context),
-              ChartColors.femaleAccent(context)],
-            ),
+              chart.female,
+              chart.colorAccent(chart.female)
+            ]),
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -100,34 +102,34 @@ class _PartnersChartState extends State<PartnersChart> {
               shadows: shadows,
             ),
             badgeWidget: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: ChartColors.female(context),
-                      width: borderWidth
-                  ),
-                  shape: BoxShape.circle,
-                  color: MainColors.surface(context),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: chart.female,
+                  width: borderWidth
                 ),
-                child: Padding(
-                  padding: AppInsets.chartIcon,
-                  child: Icon(
-                      Gender.female.iconData,
-                      size: iconSize,
-                      color: iconColor
-                  ),
-                )
+                shape: BoxShape.circle,
+                color: context.theme.mainColors.surface,
+              ),
+              child: Padding(
+                padding: AppInsets.chartIcon,
+                child: Icon(
+                  Gender.female.iconData,
+                  size: iconSize,
+                  color: iconColor
+                ),
+              )
             ),
             badgePositionPercentageOffset: offset
         ),
         1 => PieChartSectionData(
-            color: ChartColors.male(context),
+            color: chart.male,
             value: _getPartnersGenderAmount(widget.partners, Gender.male),
             title: _getPartnersGenderAmount(widget.partners, Gender.male).toInt().toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              ChartColors.male(context),
-              ChartColors.maleAccent(context)],
-            ),
+              chart.male,
+              chart.colorAccent(chart.male)
+            ]),
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -137,11 +139,11 @@ class _PartnersChartState extends State<PartnersChart> {
             badgeWidget: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: ChartColors.male(context),
+                    color: chart.male,
                     width: borderWidth,
                   ),
                   shape: BoxShape.circle,
-                  color: MainColors.surface(context),
+                  color: context.theme.mainColors.surface,
                 ),
                 child: Padding(
                   padding: AppInsets.chartIcon,
@@ -155,14 +157,14 @@ class _PartnersChartState extends State<PartnersChart> {
             badgePositionPercentageOffset: offset
         ),
         2 => PieChartSectionData(
-            color: ChartColors.nonbinary(context),
+            color: chart.nonbinary,
             value: _getPartnersGenderAmount(widget.partners, Gender.nonbinary),
             title: _getPartnersGenderAmount(widget.partners, Gender.nonbinary).toInt().toString(),
             radius: radius,
             gradient: LinearGradient(colors: [
-              ChartColors.nonbinary(context),
-              ChartColors.nonbinaryAccent(context)],
-            ),
+              chart.nonbinary,
+              chart.colorAccent(chart.nonbinary)
+            ]),
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -170,22 +172,22 @@ class _PartnersChartState extends State<PartnersChart> {
               shadows: shadows,
             ),
             badgeWidget: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                        color: ChartColors.nonbinary(context),
-                      width: borderWidth
-                  ),
-                  shape: BoxShape.circle,
-                  color: MainColors.surface(context),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: chart.nonbinary,
+                  width: borderWidth
                 ),
-                child: Padding(
-                  padding: AppInsets.chartIcon,
-                  child: Icon(
-                      Gender.nonbinary.iconData,
-                      size: iconSize,
-                      color: iconColor
-                  ),
-                )
+                shape: BoxShape.circle,
+                color: context.theme.mainColors.surface,
+              ),
+              child: Padding(
+                padding: AppInsets.chartIcon,
+                child: Icon(
+                  Gender.nonbinary.iconData,
+                  size: iconSize,
+                  color: iconColor
+                ),
+              )
             ),
             badgePositionPercentageOffset: offset
         ),
@@ -203,7 +205,7 @@ class _PartnersChartState extends State<PartnersChart> {
             Padding(
               padding: AppInsets.legendRow,
               child: LegendRow(
-                color: ChartColors.female(context),
+                color: context.theme.chartColors.female,
                 text: Gender.female.label
               ),
             ),
@@ -211,7 +213,7 @@ class _PartnersChartState extends State<PartnersChart> {
             Padding(
               padding: AppInsets.legendRow,
               child: LegendRow(
-                color: ChartColors.male(context),
+                color: context.theme.chartColors.male,
                 text: Gender.male.label,
               ),
             ),
@@ -219,7 +221,7 @@ class _PartnersChartState extends State<PartnersChart> {
             Padding(
               padding: AppInsets.legendRow,
               child: LegendRow(
-                color: ChartColors.nonbinary(context),
+                color: context.theme.chartColors.nonbinary,
                 text: Gender.nonbinary.label
               ),
             )

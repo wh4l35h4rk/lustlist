@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 
 class AppLicensePage extends StatelessWidget {
   const AppLicensePage({
@@ -11,9 +11,9 @@ class AppLicensePage extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         appBarTheme: AppBarTheme(
-          backgroundColor: AppBarColors.surface(context),
+          backgroundColor: context.theme.appBarColors.surface,
           centerTitle: true,
-          foregroundColor: AppBarColors.text(context),
+          foregroundColor: context.theme.appBarColors.text,
         ),
       ),
       child: LicensePage()

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
+
 
 class SelectableOptionTile extends StatelessWidget {
   const SelectableOptionTile({
@@ -22,7 +23,7 @@ class SelectableOptionTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(
-            color: AddEventColors.border(context),
+            color: context.theme.addEventColors.border,
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -34,14 +35,14 @@ class SelectableOptionTile extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                   fontSize: AppSizes.textBasic,
-                  color: AddEventColors.text(context)
+                  color: context.theme.addEventColors.text
               ),
             ),
             SizedBox(width: 5,),
             Icon(
               iconData,
               size: iconSize ?? AppSizes.iconMedium,
-              color: AddEventColors.coloredText(context),
+              color: context.theme.addEventColors.coloredText,
             )
           ],
         ),

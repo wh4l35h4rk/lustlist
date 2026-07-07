@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -48,12 +48,12 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
             backButton: IconButton(
                 onPressed: () => _showPopUp(context, null),
                 icon: Icon(AppIconData.backButton),
-                color: MainColors.surface(context)
+                color: context.theme.mainColors.surface
             ),
             editButton: IconButton(
                 onPressed: () async => widget.onPressedSave(),
                 icon: Icon(AppIconData.selected),
-                color: MainColors.surface(context)
+                color: context.theme.mainColors.surface
             ),
           ),
           body: widget.body,
@@ -103,7 +103,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                     Navigator.of(context).pop();
                   }
                 },
-                color: AppBarColors.surface(context),
+                color: context.theme.appBarColors.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -111,7 +111,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                   ButtonStrings.leave,
                   style: TextStyle(
                     fontSize: AppSizes.alertButtonText,
-                    color: AppBarColors.text(context)
+                    color: context.theme.appBarColors.text
                   ),
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
@@ -25,7 +25,7 @@ class PercentageStatsColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle numsStyle = TextStyle(
         fontSize: 35,
-        color: ChartColors.subtitle(context)
+        color: context.theme.chartColors.subtitle
     );
     TextStyle titleStyle = AppStyles.numStatsTitle(context);
     TextStyle basicStyle = AppStyles.numStatsSubtitle(context);
@@ -35,7 +35,7 @@ class PercentageStatsColumn extends StatelessWidget {
         children: [
           Icon(
             bgIconData,
-            color: ChartColors.bgIcon(context),
+            color: context.theme.chartColors.bgIcon,
             size: bgIconSize ?? 120,
           ),
           Column(

@@ -4,9 +4,9 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_listtile.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -53,7 +53,7 @@ class _PartnersPageState extends State<PartnersPage> {
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(partnersChanges ? true : null),
           icon: Icon(AppIconData.backButton),
-          color: AppBarColors.icon(context),
+          color: context.theme.appBarColors.icon,
         ),
       ),
       body: ValueListenableBuilder(
@@ -72,7 +72,7 @@ class _PartnersPageState extends State<PartnersPage> {
                       child: Text(
                         AlertStrings.noPartners,
                         style: TextStyle(
-                          color: MainColors.defaultTile(context),
+                          color: context.theme.mainColors.defaultWidget,
                           fontStyle: FontStyle.italic,
                           fontSize: AppSizes.textBasic
                         ),

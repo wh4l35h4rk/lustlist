@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -23,13 +23,13 @@ class MedicalData extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(AppIconData.medical, color: EventDataColors.icon(context)),
+        Icon(AppIconData.medical, color: context.theme.eventDataColors.icon),
         Padding(
           padding: AppInsets.dataIcon,
           child: Text(
             StringFormatter.colon(DataStrings.type),
             style: TextStyle(
-                color: EventDataColors.title(context),
+                color: context.theme.eventDataColors.title,
                 fontWeight: FontWeight.bold,
                 fontSize: AppSizes.titleSmall
             ),
@@ -44,7 +44,7 @@ class MedicalData extends StatelessWidget{
                   return Text(
                     MiscStrings.loading,
                     style: TextStyle(
-                      color: EventDataColors.text(context),
+                      color: context.theme.eventDataColors.text,
                       fontSize: AppSizes.textBasic,
                     ),
                   );
@@ -52,7 +52,7 @@ class MedicalData extends StatelessWidget{
                   return Text(
                     MiscStrings.errorLoadingData,
                     style: TextStyle(
-                      color: EventDataColors.text(context),
+                      color: context.theme.eventDataColors.text,
                       fontSize: AppSizes.textBasic,
                     ),
                   );
@@ -62,7 +62,7 @@ class MedicalData extends StatelessWidget{
                   return Text(
                     MiscStrings.noData,
                     style: TextStyle(
-                      color: EventDataColors.text(context),
+                      color: context.theme.eventDataColors.text,
                       fontSize: AppSizes.textBasic,
                     ),
                   );
@@ -75,7 +75,7 @@ class MedicalData extends StatelessWidget{
     );
   }
 
-  Future<Widget> getCategoryListText(AppDatabase db, context) async {
+  Future<Widget> getCategoryListText(AppDatabase db, BuildContext context) async {
     final categoryNames = await db.getCategoryNamesOfEvent(event.event.id);
     String categoryString;
     if (categoryNames != null && categoryNames.isNotEmpty) {
@@ -87,7 +87,7 @@ class MedicalData extends StatelessWidget{
       categoryString,
       style: TextStyle(
         fontSize: AppSizes.textBasic,
-        color: EventDataColors.text(context)
+        color: context.theme.eventDataColors.text
       ),
     );
   }

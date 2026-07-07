@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/add_partner_data_column.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/add_partner_data_controller.dart';
@@ -80,7 +80,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
             controller: _dataController
           ),
           BasicTile(
-            surfaceColor: AddEventColors.surface(context),
+            surfaceColor: context.theme.addEventColors.surface,
             margin: AppInsets.addDataMargin,
             child: AddEditPartnerDataColumn(
                 controller: _dataController

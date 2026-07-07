@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
@@ -11,7 +12,6 @@ import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/widgets/orgasms_picker.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
 import 'package:lustlist/src/ui/widgets/shimmer_mstb_special.dart';
@@ -53,8 +53,8 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
 
   @override
   Widget build(BuildContext context) {
-    Color iconColor = AddEventColors.icon(context);
-    Color titleColor = AddEventColors.title(context);
+    Color iconColor = context.theme.addEventColors.icon;
+    Color titleColor = context.theme.addEventColors.title;
 
     return Column(
       children: [
@@ -113,7 +113,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                 children: [
                   Icon(
                     iconData,
-                    color: AddEventColors.leadingIcon(context),
+                    color: context.theme.addEventColors.leadingIcon,
                   ),
                 ],
               ),
@@ -129,8 +129,8 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return ShimmerMstbSpecial(
-                baseColor: AddEventColors.shimmerBase(context),
-                highlightColor: AddEventColors.shimmerHighlight(context),
+                baseColor: context.theme.addEventColors.shimmerBase,
+                highlightColor: context.theme.addEventColors.shimmerHighlight,
               );
             } else if (snapshot.hasError
                 || snapshot.data == null || snapshot.data!.isEmpty

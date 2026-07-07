@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 
 const double _kItemExtent = 32.0;
@@ -32,7 +32,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        color: AddEventColors.pickerSurface(context),
+        color: context.theme.addEventColors.pickerSurface,
         child: SafeArea(
             top: false,
             child: CupertinoPicker(
@@ -60,7 +60,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AddEventColors.border(context))
+              bottom: BorderSide(color: context.theme.addEventColors.border)
           )
       ),
       child: SizedBox(
@@ -72,7 +72,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
             StringFormatter.orgasmsAmount(amount, true),
             style: TextStyle(
                 fontSize: AppSizes.textBasic,
-                color: AddEventColors.coloredText(context)
+                color: context.theme.addEventColors.coloredText
             ),
           ),
         ),

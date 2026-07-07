@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
@@ -66,12 +66,12 @@ class EventsBarChart extends StatelessWidget {
             spacing: 20,
             children: [
               LegendRow(
-                color: ChartColors.sexLine(context),
+                color: context.theme.chartColors.sexLine,
                 text: DataStrings.sex,
                 notExpanded: true,
               ),
               LegendRow(
-                color: ChartColors.mstbLine(context),
+                color: context.theme.chartColors.mstbLine,
                 text: DataStrings.mstb,
                 notExpanded: true,
               )
@@ -115,10 +115,10 @@ class EventsBarChart extends StatelessWidget {
         show: true,
         border: Border(
           bottom: BorderSide(
-            color: MainColors.divider(context),
+            color: context.theme.mainColors.divider,
           ),
           left: BorderSide(
-            color: MainColors.divider(context),
+            color: context.theme.mainColors.divider,
           ),
         )
     );
@@ -147,7 +147,7 @@ class EventsBarChart extends StatelessWidget {
           return BarTooltipItem(
             rod.toY.round().toString(),
             TextStyle(
-              color: ChartColors.text(context),
+              color: context.theme.chartColors.text,
               fontWeight: FontWeight.bold,
             ),
           );
@@ -177,8 +177,8 @@ class EventsBarChart extends StatelessWidget {
 
 
   LinearGradient _sexBarsGradient(BuildContext context) {
-    Color baseColor = ChartColors.softBarStart(ChartColors.sexLine(context), context);
-    Color mainColor = ChartColors.sexLine(context);
+    Color baseColor = context.theme.chartColors.softBarStart(context.theme.chartColors.sexLine);
+    Color mainColor = context.theme.chartColors.sexLine;
 
     return LinearGradient(
       colors: [
@@ -193,8 +193,8 @@ class EventsBarChart extends StatelessWidget {
   }
 
   LinearGradient _mstbBarsGradient(BuildContext context) {
-    Color baseColor = ChartColors.softBarStart(ChartColors.mstbLine(context), context);
-    Color mainColor = ChartColors.mstbLine(context);
+    Color baseColor = context.theme.chartColors.softBarStart(context.theme.chartColors.mstbLine);
+    Color mainColor = context.theme.chartColors.mstbLine;
 
     return LinearGradient(
       colors: [

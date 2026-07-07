@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 
@@ -9,8 +9,8 @@ class ShimmerCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: MainColors.shimmerBase(context),
-      highlightColor: MainColors.shimmerHighlight(context),
+      baseColor: context.theme.mainColors.shimmerBase,
+      highlightColor: context.theme.mainColors.shimmerHighlight,
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,

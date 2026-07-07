@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
@@ -36,7 +36,7 @@ class EventDataColumn extends StatelessWidget {
                       StringFormatter.duration(event.getDuration(), true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
-                        color: EventDataColors.text(context),
+                        color: context.theme.eventDataColors.text,
                       )
                   )
               ),
@@ -47,7 +47,7 @@ class EventDataColumn extends StatelessWidget {
                       StringFormatter.orgasmsAmount(event.data!.userOrgasms, true),
                       style: TextStyle(
                         fontSize: AppSizes.textBasic,
-                        color: EventDataColors.text(context),
+                        color: context.theme.eventDataColors.text,
                       )
                   )
               ),
@@ -59,7 +59,7 @@ class EventDataColumn extends StatelessWidget {
             children: [
               Icon(
                 event.type.iconData,
-                color: EventDataColors.leadingIcon(context),
+                color: context.theme.eventDataColors.leadingIcon,
               ),
             ],
           ),
@@ -69,7 +69,7 @@ class EventDataColumn extends StatelessWidget {
   }
 
 
-  Row _getRatingIcons(CalendarEvent event, context) {
+  Row _getRatingIcons(CalendarEvent event, BuildContext context) {
     final int rating = event.data!.rating;
     return Row(
       children: [
@@ -79,7 +79,7 @@ class EventDataColumn extends StatelessWidget {
               Icon(
                 AppIconData.rating,
                 size: AppSizes.iconMedium,
-                color: EventDataColors.text(context)
+                color: context.theme.eventDataColors.text
               )
           ]
         ),
@@ -89,7 +89,7 @@ class EventDataColumn extends StatelessWidget {
               Icon(
                 AppIconData.ratingEmpty,
                 size: AppSizes.iconMedium,
-                color: EventDataColors.text(context)
+                color: context.theme.eventDataColors.text
               )
           ],
         ),

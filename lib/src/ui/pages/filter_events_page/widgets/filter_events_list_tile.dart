@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/enums/type.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
@@ -72,10 +72,10 @@ class FilterEventsListTile extends StatelessWidget {
         case 5:
           return Colors.green;
         default:
-          return MainColors.defaultTile(context);
+          return context.theme.mainColors.defaultWidget;
       }
     } else {
-      return MainColors.defaultTile(context);
+      return context.theme.mainColors.defaultWidget;
     }
   }
 

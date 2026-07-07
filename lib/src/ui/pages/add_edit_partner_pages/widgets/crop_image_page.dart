@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -39,7 +39,7 @@ class _CropImagePageState extends State<CropImagePage> {
   Widget build(BuildContext context) {
     late final themeProvider = context.read<ThemeProvider>();
     late bool isLight = themeProvider.themeMode == ThemeMode.light;
-    Color itemsColor = isLight ? MainColors.surface(context) : MainColors.text(context);
+    Color itemsColor = isLight ? context.theme.mainColors.surface : context.theme.mainColors.text;
     
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +75,7 @@ class _CropImagePageState extends State<CropImagePage> {
           future: _imageData,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(color: MainColors.surface(context));
+              return CircularProgressIndicator(color: context.theme.mainColors.surface);
             } else if (snapshot.hasError || !snapshot.hasData) {
               return ErrorTile();
             }

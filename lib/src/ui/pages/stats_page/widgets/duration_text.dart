@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
@@ -28,7 +28,7 @@ class DurationText extends StatelessWidget {
 
     TextStyle numsStyle = TextStyle(
         fontSize: isMain ? 55 : 35,
-        color: ChartColors.subtitle(context)
+        color: context.theme.chartColors.subtitle
     );
     TextStyle subtextStyle = AppStyles.numStatsSubtitle(context);
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/controllers/int_controller.dart';
 
 
@@ -38,7 +38,7 @@ class _RatingRowState extends State<RatingRow> {
               icon: Icon(
                 index <= rating ? AppIconData.rating : AppIconData.ratingEmpty,
                 size: AppSizes.iconMedium,
-                color: AddEventColors.coloredText(context),
+                color: context.theme.addEventColors.coloredText,
               ),
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(),

@@ -3,11 +3,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:fullscreen_image_viewer/fullscreen_image_viewer.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/partner_data_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/crop_image_page.dart';
 
@@ -54,7 +54,7 @@ class _PicturePickerState extends State<PicturePicker> {
                       ? Icon(
                     Icons.person_outlined,
                     size: 100,
-                    color: MainColors.avatarIcon(context),
+                    color: context.theme.mainColors.avatarIcon,
                   )
                       : ClipOval(
                     child: Image.file(
@@ -150,7 +150,7 @@ class _SetPictureButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: onPressed,
-      style: AppStyles.outlinedButton(MainColors.surface(context), context),
+      style: AppStyles.outlinedButton(context.theme.mainColors.surface, context),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

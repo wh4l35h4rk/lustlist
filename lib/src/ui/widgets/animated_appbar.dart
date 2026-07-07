@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'change_theme_button.dart';
 import 'package:texture/texture.dart';
@@ -28,11 +28,11 @@ class AnimatedAppBar extends StatelessWidget{
       leading: hasBackButton ? IconButton(
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(AppIconData.backButton),
-        color: AppBarColors.icon(context)
+        color: context.theme.appBarColors.icon
       ) : null,
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
-      backgroundColor: AppBarColors.surface(context),
+      backgroundColor: context.theme.appBarColors.surface,
       flexibleSpace: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             final double currentHeight = constraints.maxHeight;
@@ -48,7 +48,7 @@ class AnimatedAppBar extends StatelessWidget{
                   title,
                   style: TextStyle(
                       fontSize: AppSizes.appbarAnimated,
-                      color: AppBarColors.title(context)
+                      color: context.theme.appBarColors.title
                   ),
                 ),
               ),
@@ -59,8 +59,8 @@ class AnimatedAppBar extends StatelessWidget{
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          AppBarColors.surface(context),
-                          AppBarColors.surfaceGradient(context),
+                          context.theme.appBarColors.surface,
+                          context.theme.appBarColors.surfaceGradient,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -71,7 +71,7 @@ class AnimatedAppBar extends StatelessWidget{
                     TexturesGet.bedgeGrunge,
                     fit: BoxFit.cover,
                     repeat: ImageRepeat.repeat,
-                    color: AppBarColors.surface(context).withValues(alpha: 0.8),
+                    color: context.theme.appBarColors.surface.withValues(alpha: 0.8),
                     colorBlendMode: BlendMode.modulate,
                   ),
                 ],
@@ -80,7 +80,7 @@ class AnimatedAppBar extends StatelessWidget{
           }
       ),
       titleTextStyle: TextStyle(
-        color: AppBarColors.title(context),
+        color: context.theme.appBarColors.title,
       ),
       actions: [
         ChangeThemeButton()

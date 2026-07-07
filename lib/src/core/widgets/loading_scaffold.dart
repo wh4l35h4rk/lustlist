@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
@@ -36,7 +36,7 @@ class _LoadingScaffoldState extends State<LoadingScaffold> {
         IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(AppIconData.arrowLeft),
-          color: AppBarColors.icon(context),
+          color: context.theme.appBarColors.icon,
         ) : null
       ),
       body: const Center(child: CircularProgressIndicator()),

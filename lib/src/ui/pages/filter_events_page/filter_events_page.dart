@@ -6,6 +6,7 @@ import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
@@ -20,7 +21,6 @@ import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/button_stub.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/date_filter_button.dart';
@@ -188,7 +188,7 @@ class _FilterEventsPageState extends State<FilterEventsPage> {
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(AppIconData.backButton),
-            color: AppBarColors.icon(context),
+            color: context.theme.appBarColors.icon,
           ),
         ),
         body: Stack(

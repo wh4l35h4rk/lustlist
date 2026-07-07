@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -112,8 +112,8 @@ class _CalendarState extends State<Calendar> {
                                     : events[index].type.iconData,
                                   size: 12,
                                   color: (day.month == _focusedDay.value.month) ?
-                                  CalendarColors.eventIcon(context) :
-                                  CalendarColors.eventOtherMonthIcon(context)
+                                  context.theme.calendarColors.eventIcon :
+                                  context.theme.calendarColors.eventOtherMonthIcon
                                 );
                               })
                             ),
@@ -172,7 +172,7 @@ class _CalendarState extends State<Calendar> {
                           Text(
                             MiscStrings.noDaySelected,
                             style: TextStyle(
-                                color: MainColors.defaultTile(context),
+                                color: context.theme.mainColors.defaultWidget,
                                 fontSize: AppSizes.titleSmall
                             ),
                           ),
@@ -192,18 +192,18 @@ class _CalendarState extends State<Calendar> {
 
   CalendarStyle get _calendarStyle =>
     CalendarStyle(
-      defaultTextStyle: TextStyle(color: CalendarColors.basicText(context)),
-      weekendTextStyle: TextStyle(color: CalendarColors.weekendText(context)),
-      disabledTextStyle: TextStyle(color: CalendarColors.disabledText(context)),
-      outsideTextStyle: TextStyle(color: CalendarColors.outsideText(context)),
+      defaultTextStyle: TextStyle(color: context.theme.calendarColors.basicText),
+      weekendTextStyle: TextStyle(color: context.theme.calendarColors.weekendText),
+      disabledTextStyle: TextStyle(color: context.theme.calendarColors.disabledText),
+      outsideTextStyle: TextStyle(color: context.theme.calendarColors.outsideText),
       selectedDecoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: CalendarColors.selectedEvent(context),
+        color: context.theme.calendarColors.selectedEvent,
       ),
-      todayTextStyle: TextStyle(color: CalendarColors.weekendText(context)),
+      todayTextStyle: TextStyle(color: context.theme.calendarColors.weekendText),
       todayDecoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: CalendarColors.todayEvent(context),
+        color: context.theme.calendarColors.todayEvent,
       ),
     );
 
@@ -243,7 +243,7 @@ class _CalendarState extends State<Calendar> {
               _selectedDay.value = null;
               _selectedEvents.value = [];
             },
-            color: CalendarColors.navigationIcon(context),
+            color: context.theme.calendarColors.navigationIcon,
           ),
           SizedBox(
             width: 170,
@@ -277,7 +277,7 @@ class _CalendarState extends State<Calendar> {
               _selectedDay.value = null;
               _selectedEvents.value = [];
             },
-            color: CalendarColors.navigationIcon(context),
+            color: context.theme.calendarColors.navigationIcon,
           ),
         ],
       ),
@@ -292,7 +292,7 @@ class _CalendarState extends State<Calendar> {
           title: Center(
               child: Text(
                 MiscStrings.selectMonth,
-                style: TextStyle(color: CalendarColors.title(context)),
+                style: TextStyle(color: context.theme.calendarColors.title),
               )),
           content: SizedBox(
             height: 100,
@@ -301,7 +301,7 @@ class _CalendarState extends State<Calendar> {
                   textTheme: CupertinoTextThemeData(
                     dateTimePickerTextStyle: TextStyle(
                         fontSize: AppSizes.titleSmall,
-                        color: MainColors.text(context)
+                        color: context.theme.mainColors.text
                     ),
                   )
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -20,7 +20,7 @@ class CreditsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var surfaceColor = MainColors.notesBottom(context)!;
+    var surfaceColor = context.theme.mainColors.notes;
     return Scaffold(
       body: CustomScrollView(
           slivers: [
@@ -38,7 +38,7 @@ class CreditsPage extends StatelessWidget {
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
-                          color: CategoryTileColors.text(context),
+                          color: context.theme.categoryTileColors.text,
                           letterSpacing: 0.4,
                         ),
                         children: <TextSpan>[
@@ -46,7 +46,7 @@ class CreditsPage extends StatelessWidget {
                           TextSpan(text: CreditsStrings.githubNickname,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: CategoryTileColors.leadingIcon(context),
+                              color: context.theme.categoryTileColors.leadingIcon,
                               letterSpacing: 0.4,
                             )
                           ),

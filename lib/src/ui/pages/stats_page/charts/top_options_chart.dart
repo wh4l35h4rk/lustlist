@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'dart:math';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -104,7 +104,7 @@ class _BarChart extends StatelessWidget {
         return BarTooltipItem(
           rod.toY.round().toString(),
           TextStyle(
-            color: ChartColors.text(context),
+            color: context.theme.chartColors.text,
             fontWeight: FontWeight.bold,
           ),
         );
@@ -115,7 +115,7 @@ class _BarChart extends StatelessWidget {
   
   Widget getTitles(double value, TitleMeta meta, BuildContext context) {
     final style = TextStyle(
-      color: ChartColors.subtitle(context),
+      color: context.theme.chartColors.subtitle,
       fontWeight: FontWeight.bold,
       fontSize: AppSizes.textBasic,
     );
@@ -160,7 +160,7 @@ class _BarChart extends StatelessWidget {
     return FlBorderData(
         show: true,
         border: Border(bottom: BorderSide(
-          color: MainColors.divider(context),
+          color: context.theme.mainColors.divider,
         ))
     );
   }
@@ -168,30 +168,30 @@ class _BarChart extends StatelessWidget {
   // chart bars
   LinearGradient _barsGradient(BuildContext context) {
     return LinearGradient(
-    colors: [
-      ChartColors.barStart(barAccentColor ?? MainColors.primary(context), context),
-      ChartColors.barEnd(barAccentColor ?? MainColors.primary(context), context),
-    ],
-    begin: Alignment.bottomCenter,
-    end: Alignment.topCenter,
-  );
-  }
+      colors: [
+        context.theme.chartColors.barStart(barAccentColor ?? context.theme.mainColors.primary),
+        context.theme.chartColors.barEnd(barAccentColor ?? context.theme.mainColors.primary),
+      ],
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+    );
+    }
 
-  List<BarChartGroupData> barGroups(BuildContext context){
-    return List<BarChartGroupData>.generate(
-    optionsList.length,
-      (i) => BarChartGroupData(
-        x: i,
-        barRods: [
-          BarChartRodData(
-            toY: optionsList[i].value.toDouble(),
-            width: AppSizes.defaultBarWidth,
-            gradient: _barsGradient(context),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(12))
-          )
-        ],
-        showingTooltipIndicators: [0],
-      )
-  );
+    List<BarChartGroupData> barGroups(BuildContext context){
+      return List<BarChartGroupData>.generate(
+      optionsList.length,
+        (i) => BarChartGroupData(
+          x: i,
+          barRods: [
+            BarChartRodData(
+              toY: optionsList[i].value.toDouble(),
+              width: AppSizes.defaultBarWidth,
+              gradient: _barsGradient(context),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12))
+            )
+          ],
+          showingTooltipIndicators: [0],
+        )
+    );
   }
 }

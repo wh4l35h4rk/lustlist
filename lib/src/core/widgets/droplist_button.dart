@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 
 
 class DroplistButton<T> extends StatelessWidget {
@@ -22,7 +22,7 @@ class DroplistButton<T> extends StatelessWidget {
           backgroundColor: backgroundColor,
           side: BorderSide(
               width: 1.2,
-              color: AddEventColors.border(context)
+              color: context.theme.addEventColors.border
           ),
         ),
         onPressed: onPressed,

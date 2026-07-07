@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 
 
 class AddPartnerButton extends StatefulWidget {
@@ -39,18 +39,18 @@ class _AddPartnerButtonState extends State<AddPartnerButton> {
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: isPressed
-                  ? AddEventColors.buttonOnTap(context)
-                  : AddEventColors.surface(context),
+                  ? context.theme.addEventColors.buttonOnTap
+                  : context.theme.addEventColors.surface,
               border: Border.all(
                 width: 1.2,
-                color: AddEventColors.border(context),
+                color: context.theme.addEventColors.border,
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               AppIconData.add,
               size: AppSizes.iconAdd,
-              color: AddEventColors.icon(context),
+              color: context.theme.addEventColors.icon,
             ),
           ),
         ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
-import 'package:lustlist/src/config/constants/colors.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 
 
@@ -48,7 +48,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: AddEventColors.border(context),
+                        color: context.theme.addEventColors.border,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -57,7 +57,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: AppSizes.textBasic,
-                          color: AddEventColors.text(context),
+                          color: context.theme.addEventColors.text,
                         )
                     ),
                   ),
@@ -73,7 +73,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               child: SizedBox(
                 height: 40,
                 child: Switch(
-                  inactiveThumbColor: AddEventColors.border(context),
+                  inactiveThumbColor: context.theme.addEventColors.border,
                   value: value,
                   onChanged: (bool value) {
                     setState(() {
@@ -101,8 +101,8 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
               value: selectedStatus,
               icon: Icon(AppIconData.dropList),
               alignment: Alignment.centerLeft,
-              style: TextStyle(color: AddEventColors.text(context), fontSize: AppSizes.textBasic),
-              underline: Container(height: 2, color: AddEventColors.border(context)),
+              style: TextStyle(color: context.theme.addEventColors.text, fontSize: AppSizes.textBasic),
+              underline: Container(height: 2, color: context.theme.addEventColors.border),
               onChanged: (TestStatus? status) {
                 setState(() {
                   selectedStatus = status!;
@@ -116,7 +116,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
             Text(
               MiscStrings.didNotTake,
               style: TextStyle(
-                  color: AddEventColors.text(context),
+                  color: context.theme.addEventColors.text,
                   fontSize: AppSizes.textBasic,
               ),
             ),
