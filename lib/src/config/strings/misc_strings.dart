@@ -66,6 +66,6 @@ class MiscStrings {
   static String get applyFilter => "Apply filter";
   static String get clear => "Clear";
 
-  static String get visibilityText => "You can find that some categories of options do not apply to you. Here you can disable visibility of such categories when adding new event or editing an old one. For events that already contain features of such categories, they will still be visible.";
+  static String get visibilityText => "You may find that some categories of options do not apply to you. Here you can disable visibility of such categories when adding new event or editing an old one. For events that already contain features of such categories, they will still be visible.";
 
 }

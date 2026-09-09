@@ -5,6 +5,7 @@ class PageTitleStrings {
     options,
     partners,
     allEvents,
+    visibility,
   ];
 
   static const String loading = "Loading page...";

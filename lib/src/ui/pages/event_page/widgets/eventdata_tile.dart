@@ -180,7 +180,7 @@ class _EventDataTileState extends State<EventDataTile> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                   child: Icon(
-                    didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
+                    didUseToys! ? AppIconData.selected : AppIconData.notSelected,
                     color: context.theme.eventDataColors.text,
                   ),
                 ),

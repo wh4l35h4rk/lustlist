@@ -61,11 +61,11 @@ class RowData {
   ];
 
   List<String> get placeOptionNames => [
-    "Bed", "Bathroom", "Table", "Chair", "Car", "Pool", "Office", "Hotel", "Beach", "Rooftop", "Forest", "Field",
+    "Bed", "Sofa", "Bathroom", "Table", "Chair", "Car", "Pool", "Office", "Hotel", "Beach", "Rooftop", "Forest", "Field",
     "School", "University", "My place", "Partner's place", "Public space"
   ];
   List<String> get placeOptionSlugs => [
-    "bed", "bathroom", "table", "chair", "car", "pool", "office", "hotel", "beach", "rooftop", "forest", "field",
+    "bed", "sofa", "bathroom", "table", "chair", "car", "pool", "office", "hotel", "beach", "rooftop", "forest", "field",
     "school", "university", "my place", "partner's place", "public space"
   ];
 
