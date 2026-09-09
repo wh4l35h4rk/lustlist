@@ -23,7 +23,7 @@ class DateFilterButton extends StatelessWidget {
           controller.rangeNotifier
         ]),
         builder: (context, _) {
-          bool changesApplied = controller.hasValue;
+          bool changesApplied = controller.isEnabled;
 
           return DroplistButton(
             title: title,

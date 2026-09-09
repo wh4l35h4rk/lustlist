@@ -4,11 +4,13 @@ import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/enums/partners_amount.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/domain/entities/date_filter_data.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/numeric_filter_data.dart';
 
 class FilterQuery {
+  final DateFilterData date;
   final SelectableFilterData<EventType> types;
   final SelectableFilterData<int> rating;
   final SelectableFilterData<Partner> partners;
@@ -29,6 +31,7 @@ class FilterQuery {
   final SelectableFilterData<PartnersAmount> partnerAmount;
 
   FilterQuery({
+    required this.date,
     required this.types,
     required this.rating,
     required this.partners,
@@ -51,6 +54,11 @@ class FilterQuery {
 
   List<CalendarEventWithOptions> filter(List<CalendarEventWithOptions> events) {
     return events.where((event) =>
+        (!date.isEnabled || _inRange(
+            event.calendarEvent.event.date.millisecondsSinceEpoch,
+            date.value?.start.millisecondsSinceEpoch,
+            date.value?.end.millisecondsSinceEpoch,
+        )) &&
         (!types.isEnabled || types.values.contains(event.calendarEvent.type)) &&
         (!partners.isEnabled || _containsAny(event.calendarEvent.getPartners(), partners.values)) &&
         (!contraception.isEnabled || _containsAny(event.options, contraception.values)) &&

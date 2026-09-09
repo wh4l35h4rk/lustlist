@@ -6,7 +6,7 @@ class DateFilterController{
   DateFilterController();
 
   DateTimeRange? get range => rangeNotifier.value;
-  bool get hasValue => range != null;
+  bool get isEnabled => range != null;
 
   void set(DateTimeRange? newValue) {
     rangeNotifier.value = newValue;

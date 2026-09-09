@@ -8,6 +8,7 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/domain/entities/date_filter_data.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
@@ -455,6 +456,7 @@ class _FilterEventsPageState extends State<FilterEventsPage> {
   ];
 
   List<Listenable?> get filterListenables => [
+      _dateFilterController.rangeNotifier,
       _typeFilterController.selectedValues,
       _typeFilterController.enabled,
       _partnersFilterController.selectedValues,
@@ -496,6 +498,10 @@ class _FilterEventsPageState extends State<FilterEventsPage> {
     ];
 
   FilterQuery get buildFilterQuery => FilterQuery(
+      date: DateFilterData(
+        value: _dateFilterController.range,
+        isEnabled: _dateFilterController.isEnabled
+      ),
       types: SelectableFilterData(
         values: _typeFilterController.values,
         isEnabled: _typeFilterController.isEnabled
