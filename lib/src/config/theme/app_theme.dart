@@ -83,10 +83,12 @@ extension AppThemeExtension on ThemeData {
 
   ChartColorsExtension get chartColors =>
       extension<ChartColorsExtension>() ?? ChartColorsExtension.fromScheme(lightColorScheme);
-
 }
 
 extension ThemeGetter on BuildContext {
   // usage example: `context.theme`
   ThemeData get theme => Theme.of(this);
+  Brightness get themeBrightness => Theme.of(this).brightness;
+
+
 }

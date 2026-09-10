@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'lustlist',
             themeMode: themeProvider.themeMode,
             theme: AppTheme.light,

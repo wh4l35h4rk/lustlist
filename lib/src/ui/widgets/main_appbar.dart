@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
@@ -25,6 +26,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      systemOverlayStyle: SystemUiOverlayStyle(
+        systemNavigationBarColor: context.theme.mainColors.bnb,
+      ),
       centerTitle: true,
       backgroundColor: context.theme.appBarColors.surface,
       title: TitleWidget(title: title, editButton: editButton),

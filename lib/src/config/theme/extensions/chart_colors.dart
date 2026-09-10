@@ -86,7 +86,7 @@ class ChartColorsExtension extends ThemeExtension<ChartColorsExtension> {
       sexLine: Color.lerp(blend, scheme.primary, 0.7)!,
       mstbLine: Color.lerp(
           Color.lerp(scheme.inversePrimary,blend, 0.7)!,
-          scheme.primaryFixed, 0.2
+          scheme.primaryFixed, 0.05
       )!,
       practicesBar: Color.fromRGBO(80, 220, 200, 1),
       posesBar: Color.fromRGBO(90, 200, 240, 1),

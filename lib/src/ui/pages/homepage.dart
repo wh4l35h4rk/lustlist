@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
-
 import 'package:lustlist/src/ui/pages/options_page/options_page.dart';
 import 'package:lustlist/src/ui/pages/stats_page/statspage.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/calendar_page.dart';

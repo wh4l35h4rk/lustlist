@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
@@ -22,6 +23,9 @@ class AnimatedAppBar extends StatelessWidget{
     final double collapsedHeight = kToolbarHeight;
 
     return SliverAppBar(
+      systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor: context.theme.mainColors.bnb
+      ),
       pinned: true,
       snap: false,
       floating: false,
