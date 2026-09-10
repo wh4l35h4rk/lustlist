@@ -67,9 +67,11 @@ class AppIconData {
   static const IconData customizeTags = Icons.tag;
   static const IconData importExport = Icons.import_export;
   static const IconData info = Icons.info_outline;
+  static const IconData appearance = Icons.brush;
 
   static const IconData lightTheme = Icons.light_mode;
   static const IconData darkTheme = Icons.dark_mode;
+  static const IconData systemTheme = Icons.auto_mode;
 
   static const IconData selected = Icons.check;
   static const IconData notSelected = Icons.close;

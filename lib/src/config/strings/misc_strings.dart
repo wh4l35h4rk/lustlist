@@ -50,6 +50,7 @@ class MiscStrings {
   static const String visibilitySubtitle = "Disable unused categories' visibility.";
   static const String dataExportSubtitle = "Export your data in machine-readable format.";
   static const String creditsSubtitle = "Feedback form, source code, licenses.";
+  static const String appearanceSubtitle = "Set app theme and scaling.";
 
   static String get didUse => "Did use";
   static String get didNotUse => "Did not use";

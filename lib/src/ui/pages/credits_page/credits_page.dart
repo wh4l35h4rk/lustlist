@@ -140,9 +140,7 @@ class _CreditsTile extends StatelessWidget {
       ),
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Icon(
-          iconData
-        ),
+        child: Icon(iconData),
       ),
       subtitle: Text(subtitle),
       trailing: Icon(trailingIconData ?? AppIconData.arrowRight),

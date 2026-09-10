@@ -32,6 +32,9 @@ class DataStrings {
   static const String license = "License";
   static const String feedback = "Feedback";
 
+  static const String theme = "Theme";
+  static const String scale = "Scaling";
+
   static String get toys => "Toys";
 
   static String get sexFilter => "Sexual events options";

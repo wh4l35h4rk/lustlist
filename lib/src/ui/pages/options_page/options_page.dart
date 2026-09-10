@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/ui/pages/appearance_page/appearance_page.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/filter_events_page.dart';
 import 'package:lustlist/src/ui/pages/credits_page/credits_page.dart';
 import 'package:lustlist/src/ui/pages/partners_page/partners_page.dart';
@@ -48,6 +49,12 @@ class OptionsPage extends StatelessWidget {
             //     iconData: AppIconData.importExport,
             //     page: null
             // ),
+            OptionsListTile(
+                title: PageTitleStrings.appearance,
+                subtitle: MiscStrings.appearanceSubtitle,
+                iconData: AppIconData.appearance,
+                page: AppearancePage()
+            ),
             OptionsListTile(
                 title: PageTitleStrings.credits,
                 subtitle: MiscStrings.creditsSubtitle,

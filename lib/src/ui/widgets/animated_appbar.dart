@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
-import 'change_theme_button.dart';
 import 'package:texture/texture.dart';
 
 
@@ -86,9 +85,6 @@ class AnimatedAppBar extends StatelessWidget{
       titleTextStyle: TextStyle(
         color: context.theme.appBarColors.title,
       ),
-      actions: [
-        ChangeThemeButton()
-      ],
     );
   }
 }
