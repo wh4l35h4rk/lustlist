@@ -122,28 +122,25 @@ class AppDatabase extends _$AppDatabase {
 
   Future<Map<DateTime, int>> getEventsAmountAfterDateGroupByDay(EventType type, DateTime date) async {
     final amountOfEvents = events.id.count();
-    final eventsYear = events.date.year;
-    final eventsMonth = events.date.month;
-    final eventsDay = events.date.day;
+    final eventsDate = events.date;
 
-    final query = selectOnly(events)
+    var query = selectOnly(events)
       ..where(events.type.equals(type.index))
       ..where(events.date.isBiggerThanValue(date));
     
     query
-      ..addColumns([eventsYear, eventsMonth, eventsDay, amountOfEvents])
-      ..groupBy([events.type, eventsYear, eventsMonth, eventsDay]);
+      ..addColumns([eventsDate, amountOfEvents])
+      ..groupBy([eventsDate]);
 
-    final result = await query.get();
+    var result = await query.get();
 
     Map<DateTime, int> resultMap = {};
     for (final row in result) {
-      int? amount = row.read(amountOfEvents);
-      int? year = row.read(eventsYear);
-      int? month = row.read(eventsMonth);
-      int? day = row.read(eventsDay);
-      if (year != null && month != null && day != null && amount != null) {
-        DateTime date = DateTime(year, month, day);
+      final amount = row.read(amountOfEvents);
+      final rowDate = row.read(eventsDate);
+
+      if (rowDate != null && amount != null) {
+        DateTime date = DateTime(rowDate.year, rowDate.month, rowDate.day);
         resultMap[date] = amount;
       }
     }
@@ -158,14 +155,15 @@ class AppDatabase extends _$AppDatabase {
       ..where(events.type.equals(type.index));
     query
       ..addColumns([eventsYear, amountOfEvents])
-      ..groupBy([events.type, eventsYear]);
+      ..groupBy([eventsYear]);
 
     final result = await query.get();
 
     Map<DateTime, int> resultMap = {};
     for (final row in result) {
-      int? amount = row.read(amountOfEvents);
-      int? year = row.read(eventsYear);
+      final amount = row.read(amountOfEvents);
+      final year = row.read(eventsYear);
+
       if (year != null && amount != null) {
         DateTime date = DateTime(year);
         resultMap[date] = amount;
