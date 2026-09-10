@@ -68,6 +68,8 @@ class NumericTextInputBody extends StatelessWidget {
 
               return Flex(
                 direction: isHorizontal ? Axis.horizontal : Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: width,

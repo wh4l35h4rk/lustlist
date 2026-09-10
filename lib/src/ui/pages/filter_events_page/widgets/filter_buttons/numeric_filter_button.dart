@@ -79,9 +79,10 @@ class NumericFilterButton extends StatelessWidget {
                           child: Text(
                             title,
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: AppSizes.titleLarge,
-                                color: context.theme.mainColors.title),
+                              fontWeight: FontWeight.bold,
+                              fontSize: AppSizes.titleLarge,
+                              color: context.theme.mainColors.title
+                            ),
                           ),
                         ),
                       ],

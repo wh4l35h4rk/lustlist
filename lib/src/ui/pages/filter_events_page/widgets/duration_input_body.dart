@@ -65,6 +65,8 @@ class DurationInputBody extends StatelessWidget {
               return Flex(
                 key: const ValueKey(1),
                 direction: isHorizontal ? Axis.horizontal : Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   DurationPicker(
                     label: MiscStrings.start,
