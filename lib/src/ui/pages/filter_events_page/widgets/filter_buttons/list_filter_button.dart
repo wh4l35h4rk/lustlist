@@ -5,7 +5,6 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
@@ -69,24 +68,22 @@ class ListFilterButton<T> extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    Expanded(
+                      child:
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30.0,
                               vertical: 8
                           ),
                           child: Text(
-                            StringFormatter.colon(title),
+                            title,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: AppSizes.titleLarge,
-                                color: context.theme.mainColors.title),
+                                color: context.theme.mainColors.title
+                            ),
                           ),
                         ),
-                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),

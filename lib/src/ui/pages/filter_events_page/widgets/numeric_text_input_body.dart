@@ -61,33 +61,38 @@ class NumericTextInputBody extends StatelessWidget {
             ),
           );
 
-          Widget rangeModeWidget = Row(
-            key: const ValueKey(1),
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                  width: width,
-                  child: IntTextFieldForm(
-                    isEnabled: isEnabled,
-                    controller: controller.startController,
-                    hint: MiscStrings.start,
-                  )
-              ),
-              SizedBox(width: 15),
-              SizedBox(
-                  width: width,
-                  child: IntTextFieldForm(
-                    isEnabled: isEnabled,
-                    controller: controller.endController,
-                    hint: MiscStrings.end,
-                  )
-              ),
-            ],
+          Widget rangeModeWidget = LayoutBuilder(
+            builder: (context, constraints) {
+              final requiredWidth = width * 2 + 45;
+              final isHorizontal = constraints.maxWidth >= requiredWidth;
+
+              return Flex(
+                direction: isHorizontal ? Axis.horizontal : Axis.vertical,
+                children: [
+                  SizedBox(
+                    width: width,
+                    child: IntTextFieldForm(
+                      isEnabled: isEnabled,
+                      controller: controller.startController,
+                      hint: MiscStrings.start,
+                    )
+                  ),
+                  SizedBox(width: isHorizontal ? 15 : 0),
+                  SizedBox(
+                    width: width,
+                    child: IntTextFieldForm(
+                      isEnabled: isEnabled,
+                      controller: controller.endController,
+                      hint: MiscStrings.end,
+                    )
+                  ),
+                ],
+              );
+            },
           );
 
           return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: AnimatedSwitcher(
@@ -97,7 +102,10 @@ class NumericTextInputBody extends StatelessWidget {
                   child: isSingleMode ? singleModeWidget : rangeModeWidget,
                 ),
               ),
-              changeModeButton
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: changeModeButton,
+              )
             ],
           );
         }

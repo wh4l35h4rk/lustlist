@@ -48,6 +48,11 @@ class _AppearancePageState extends State<AppearancePage> {
                 trailing: buildThemeDropdownButton(),
               ),
               Divider(),
+              ListTile(
+                leading: Icon(_themeMode.iconData),
+                title: Text(DataStrings.scale),
+                trailing: buildThemeDropdownButton(),
+              )
             ]
         ),
       ),

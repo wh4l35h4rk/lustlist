@@ -56,23 +56,30 @@ class DurationInputBody extends StatelessWidget {
             ),
           );
 
-          Widget rangeModeWidget = Row(
-            key: const ValueKey(1),
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DurationPicker(
-                label: MiscStrings.start,
-                controller: controller.startController,
-                enabled: isEnabled,
-              ),
-              SizedBox(width: 15),
-              DurationPicker(
-                label: MiscStrings.end,
-                controller: controller.endController,
-                enabled: isEnabled,
-              ),
-            ],
+          Widget rangeModeWidget = LayoutBuilder(
+            builder: (context, constraints) {
+              double width = 150;
+              final requiredWidth = width * 2 + 45;
+              final isHorizontal = constraints.maxWidth >= requiredWidth;
+
+              return Flex(
+                key: const ValueKey(1),
+                direction: isHorizontal ? Axis.horizontal : Axis.vertical,
+                children: [
+                  DurationPicker(
+                    label: MiscStrings.start,
+                    controller: controller.startController,
+                    enabled: isEnabled,
+                  ),
+                  SizedBox(width: isHorizontal ? 15 : 0),
+                  DurationPicker(
+                    label: MiscStrings.end,
+                    controller: controller.endController,
+                    enabled: isEnabled,
+                  ),
+                ],
+              );
+            },
           );
 
           return Row(
