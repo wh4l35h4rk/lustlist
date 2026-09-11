@@ -7,7 +7,7 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
-import 'package:lustlist/src/ui/theme_provider.dart';
+import 'package:lustlist/src/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 

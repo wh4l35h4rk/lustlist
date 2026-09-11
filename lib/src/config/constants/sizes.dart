@@ -16,7 +16,7 @@ class AppSizes {
 
   static const double iconHelper = 30;
   static const double iconBasic = 24;
-  static const double iconAdd = 20;
+  static const double iconAdd = iconBasic - 4;
   static const double iconMedium = 16;
   static const double iconSmall = 15;
 
@@ -34,7 +34,7 @@ class AppSizes {
   static const double chartSideTitlesSpace = 30;
   static const double tooltipBorder = 1.5;
   static const double chartBorder = 3;
-  
+
   static const double dividerMinimal = 0;
 
   static const double listTileBorderRadius = 12;
