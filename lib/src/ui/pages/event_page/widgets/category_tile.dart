@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
@@ -53,29 +54,23 @@ class CategoryTile extends StatelessWidget {
                 key: ValueKey('empty'),
               );
             }
-
             if (snapshot.hasError) {
+              print(snapshot.error);
               return buildTile(
-                Text(
-                  MiscStrings.errorLoadingData,
-                  style: TextStyle(
-                    color: context.theme.categoryTileColors.text,
-                    fontSize: context.sizes.titleSmall,
-                  ),
-                ),
+                ErrorTile(),
                 const ValueKey('error'),
                 context,
               );
             }
-
             if (!snapshot.hasData) {
               return const SizedBox(
                 key: ValueKey('empty'),
               );
             }
 
+            Widget optionTiles = _buildOptions(snapshot.data!, context);
             return buildTile(
-              snapshot.data!,
+              optionTiles,
               const ValueKey('data'),
               context,
             );
@@ -120,7 +115,7 @@ class CategoryTile extends StatelessWidget {
   }
 
 
-  Future<Widget?> _getOptions(AppDatabase db, BuildContext context) async {
+  Future<List<EOption>?> _getOptions(AppDatabase db, BuildContext context) async {
     EventRepository repo = EventRepository(db);
     List<EOption> options = await repo.getEventCategoryOptions(
       eventId: event.event.id,
@@ -131,26 +126,31 @@ class CategoryTile extends StatelessWidget {
     if (options.isEmpty){
       return null;
     } else {
-      return Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [for (var option in options)
-          Container(
-            padding: AppInsets.optionsContainer,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: context.theme.categoryTileColors.border,
-              ),
-              borderRadius: BorderRadius.circular(context.sizes.containerTileRadius),
-            ),
-            child: Text(
-              option.name,
-              style: TextStyle(fontSize: context.sizes.textBasic),
-            ),
-          ),
-        ],
-      );
+      return options;
     }
+  }
+
+
+  Widget _buildOptions(List<EOption> options, BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [for (var option in options)
+        Container(
+          padding: AppInsets.optionsContainer,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: context.theme.categoryTileColors.border,
+            ),
+            borderRadius: BorderRadius.circular(context.sizes.containerTileRadius),
+          ),
+          child: Text(
+            option.name,
+            style: TextStyle(fontSize: context.sizes.textBasic),
+          ),
+        ),
+      ],
+    );
   }
 }
 

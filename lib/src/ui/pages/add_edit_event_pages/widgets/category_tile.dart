@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
@@ -95,12 +95,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return ShimmerOptions();
                 } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
-                  return Text(MiscStrings.errorLoadingData,
-                    style: TextStyle(
-                      fontSize: context.sizes.textBasic,
-                      color: context.theme.addEventColors.coloredText,
-                    ),
-                  );
+                  return ErrorTile();
                 } else {
                   return Center(
                     child: Wrap(
