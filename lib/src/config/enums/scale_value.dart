@@ -1,9 +1,9 @@
 enum ScaleValue {
-  xsm(0.7, "70%"),
-  sm(0.85, "85%"),
+  xsm(0.75, "75%"),
+  sm(0.9, "90%"),
   def(1, "100%"),
-  lg(1.15, "115%"),
-  xlg(1.3, "130%");
+  lg(1.1, "110%"),
+  xlg(1.25, "125%");
 
   const ScaleValue(this.value, this.label);
 

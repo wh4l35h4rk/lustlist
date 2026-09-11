@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class CategoryTile extends StatelessWidget {
@@ -17,7 +17,7 @@ class CategoryTile extends StatelessWidget {
     required this.title,
     required this.categorySlug,
     required this.iconData,
-    this.iconSize = AppSizes.iconBasic,
+    this.iconSize,
     this.onNoResultsText = MiscStrings.notStated,
     this.removeMstbSpecial = false
   });
@@ -26,7 +26,7 @@ class CategoryTile extends StatelessWidget {
   final String title;
   final String categorySlug;
   final IconData iconData;
-  final double iconSize;
+  final double? iconSize;
   final String onNoResultsText;
   final bool removeMstbSpecial;
 
@@ -60,7 +60,7 @@ class CategoryTile extends StatelessWidget {
                   MiscStrings.errorLoadingData,
                   style: TextStyle(
                     color: context.theme.categoryTileColors.text,
-                    fontSize: AppSizes.titleSmall,
+                    fontSize: context.sizes.titleSmall,
                   ),
                 ),
                 const ValueKey('error'),
@@ -101,13 +101,13 @@ class CategoryTile extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: context.theme.categoryTileColors.title,
-                    fontSize: AppSizes.titleLarge,
+                    fontSize: context.sizes.titleLarge,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Icon(
                   iconData,
-                  size: iconSize,
+                  size: iconSize ?? context.sizes.iconBasic,
                   color: context.theme.categoryTileColors.leadingIcon,
                 ),
               ],
@@ -141,9 +141,12 @@ class CategoryTile extends StatelessWidget {
               border: Border.all(
                 color: context.theme.categoryTileColors.border,
               ),
-              borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
+              borderRadius: BorderRadius.circular(context.sizes.containerTileRadius),
             ),
-            child: Text(option.name),
+            child: Text(
+              option.name,
+              style: TextStyle(fontSize: context.sizes.textBasic),
+            ),
           ),
         ],
       );

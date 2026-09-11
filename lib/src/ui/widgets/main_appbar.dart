@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:marquee/marquee.dart';
 
 
@@ -65,8 +65,8 @@ class TitleWidget extends StatelessWidget {
   Widget _buildTitle(BuildContext context, double maxWidth) {
     final TextStyle style = TextStyle(
       fontSize: PageTitleStrings.mainPages.contains(title)
-          ? AppSizes.appbarLarge
-          : AppSizes.appbarBasic,
+          ? context.sizes.appbarLarge
+          : context.sizes.appbarBasic,
       color: editButton == null
           ? context.theme.appBarColors.title
           : context.theme.appBarColors.text,

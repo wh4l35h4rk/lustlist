@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/notes_tile.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/eventdata_tile.dart';
@@ -35,14 +35,14 @@ class SexEventInfo extends StatelessWidget {
           title: StringFormatter.colon(DataStrings.practices),
           categorySlug: "practices",
           iconData: AppIconData.practices,
-          iconSize: AppSizes.iconPractices,
+          iconSize: context.sizes.iconPractices,
         ),
         CategoryTile(
           event: event,
           title: StringFormatter.colon(DataStrings.poses),
           categorySlug: "poses",
           iconData: AppIconData.poses,
-          iconSize: AppSizes.iconPoses,
+          iconSize: context.sizes.iconPoses,
         ),
         CategoryTile(
           event: event,

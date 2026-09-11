@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/eventdata_tile.dart';
 import 'package:lustlist/src/ui/widgets/notes_tile.dart';
@@ -67,7 +67,7 @@ class MedEventInfo extends StatelessWidget {
                       title: StringFormatter.colon(DataStrings.obgyn),
                       categorySlug: "obgyn",
                       iconData: AppIconData.obgyn,
-                      iconSize: AppSizes.iconObgyn,
+                      iconSize: context.sizes.iconObgyn,
                     ),
                     NotesTile(event: event),
                   ],

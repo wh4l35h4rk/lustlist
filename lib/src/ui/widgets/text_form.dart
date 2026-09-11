@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class TextForm extends StatefulWidget {
@@ -50,7 +50,7 @@ class _TextFormState extends State<TextForm> {
     return TextFormField(
       controller: controller,
       validator: (value) => widget.validator(value),
-      style: TextStyle(fontSize: AppSizes.textBasic),
+      style: TextStyle(fontSize: context.sizes.textBasic),
       maxLength: maxLength,
       minLines: 1,
       maxLines: null,

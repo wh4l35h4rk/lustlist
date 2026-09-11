@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/partner_data_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/age_textfield.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/birthday_picker.dart';
@@ -50,12 +50,13 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: context.theme.addEventColors.title,
-                fontSize: AppSizes.titleLarge,
+                fontSize: context.sizes.titleLarge,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Icon(
               AppIconData.partners,
+              size: context.sizes.iconBasic,
               color: context.theme.addEventColors.leadingIcon,
             ),
           ],
@@ -77,9 +78,12 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                 DropdownButton<Gender>(
                   isDense: true,
                   value: selectedGender,
-                  icon: const Icon(AppIconData.dropList),
+                  icon: Icon(
+                    AppIconData.dropList,
+                    size: context.sizes.iconBasic,
+                  ),
                   alignment: Alignment.centerLeft,
-                  style: TextStyle(color: context.theme.addEventColors.text, fontSize: AppSizes.textBasic),
+                  style: TextStyle(color: context.theme.addEventColors.text, fontSize: context.sizes.textBasic),
                   underline: Container(height: 2, color: context.theme.addEventColors.border),
                   onChanged: (Gender? gender) {
                     setState(() {
@@ -93,7 +97,7 @@ class _AddEditPartnerDataColumnState extends State<AddEditPartnerDataColumn> {
                         child: Text(
                           value.label,
                           style: TextStyle(
-                            fontSize: AppSizes.textBasic,
+                            fontSize: context.sizes.textBasic,
                             color: context.theme.addEventColors.coloredText
                           ),
                         ));

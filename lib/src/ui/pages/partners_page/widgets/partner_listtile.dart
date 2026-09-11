@@ -7,9 +7,9 @@ import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class PartnerListTile extends StatelessWidget {
@@ -36,14 +36,17 @@ class PartnerListTile extends StatelessWidget {
               Text(
                 partner.name,
                 style: TextStyle(
-                  fontSize: AppSizes.titleLarge,
+                  fontSize: context.sizes.titleLarge,
                   fontWeight: FontWeight.bold
                 ),
               )
             ],
           ),
           subtitle: _getSubtitle(context),
-          trailing: Icon(AppIconData.arrowRight)
+          trailing: Icon(
+            AppIconData.arrowRight,
+            size: context.sizes.iconBasic,
+          )
       ),
     );
   }
@@ -66,13 +69,13 @@ class PartnerListTile extends StatelessWidget {
             MiscStrings.lastTimeTogether,
             style: TextStyle(
               fontStyle: FontStyle.italic,
-              fontSize: AppSizes.textBasic,
+              fontSize: context.sizes.textBasic,
             ),
           ),
           Text(
             _getLastEventText(),
             style: TextStyle(
-              fontSize: AppSizes.textBasic,
+              fontSize: context.sizes.textBasic,
             ),
           )
         ]);
@@ -87,17 +90,17 @@ class PartnerListTile extends StatelessWidget {
         child: Icon(
           partner.gender.iconData,
           size: partner.gender == Gender.nonbinary
-              ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
+              ? context.sizes.iconNoninaryBasic : context.sizes.iconBasic,
           color: context.theme.categoryTileColors.icon,
         ),
       );
     } else {
       return CircleAvatar(
-        radius: 17,
+        radius: context.sizes.avatarRadiusSmall,
         child: ClipOval(
           child: Image.file(
-            width: 200,
-            height: 200,
+            width: context.sizes.avatarSize,
+            height: context.sizes.avatarSize,
             File(picturePath),
             fit: BoxFit.cover,
           ),

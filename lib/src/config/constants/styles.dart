@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class AppStyles{
   static TextStyle noDataText(BuildContext context) {
     return TextStyle(
-        fontSize: AppSizes.textBasic,
+        fontSize: context.sizes.textBasic,
         fontStyle: FontStyle.italic,
         color: context.theme.mainColors.defaultWidget
     );
@@ -14,28 +14,28 @@ class AppStyles{
 
   static TextStyle basicText(BuildContext context) {
     return TextStyle(
-        fontSize: AppSizes.textBasic,
+        fontSize: context.sizes.textBasic,
         color: context.theme.mainColors.text
     );
   }
 
   static TextStyle addEventBasicText(BuildContext context) {
     return TextStyle(
-        fontSize: AppSizes.textBasic,
+        fontSize: context.sizes.textBasic,
         color: context.theme.addEventColors.text
     );
   }
 
   static TextStyle eventDataBasicText(BuildContext context) {
     return TextStyle(
-        fontSize: AppSizes.textBasic,
+        fontSize: context.sizes.textBasic,
         color: context.theme.eventDataColors.text
     );
   }
 
   static TextStyle largeTitleText(BuildContext context) {
     return TextStyle(
-        fontSize: AppSizes.titleLarge,
+        fontSize: context.sizes.titleLarge,
         fontWeight: FontWeight.bold
     );
   }
@@ -78,8 +78,8 @@ class AppStyles{
   static TextStyle numStatsTitle(BuildContext context){
     return TextStyle(
       color: context.theme.chartColors.title,
-      fontSize: AppSizes.titleSmall,
-      letterSpacing: AppSizes.chartTitleSpacing,
+      fontSize: context.sizes.titleSmall,
+      letterSpacing: context.sizes.chartTitleSpacing,
       fontWeight: FontWeight.bold,
     );
   }
@@ -91,9 +91,9 @@ class AppStyles{
   static TextStyle chartTitle(BuildContext context){
     return TextStyle(
       color: context.theme.chartColors.title,
-      fontSize: AppSizes.titleLarge,
+      fontSize: context.sizes.titleLarge,
       fontWeight: FontWeight.bold,
-      letterSpacing: AppSizes.chartTitleSpacing,
+      letterSpacing: context.sizes.chartTitleSpacing,
     );
   }
 
@@ -101,7 +101,7 @@ class AppStyles{
     return TextStyle(
       color: context.theme.chartColors.subtitle,
       fontWeight: FontWeight.bold,
-      fontSize: AppSizes.textBasic,
+      fontSize: context.sizes.textBasic,
     );
   }
 

@@ -4,11 +4,12 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'dart:math';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/option_rank.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
+import 'package:lustlist/src/providers/scales.dart';
 
 class TopOptionsChart extends StatelessWidget {
   final List<OptionRank> optionsList;
@@ -76,7 +77,7 @@ class _BarChart extends StatelessWidget {
     return BarChart(
       BarChartData(
         barGroups: barGroups(context),
-        barTouchData: barTouchData(context),
+        barTouchData: barTouchData(context, context.sizes),
         titlesData: titlesData(context),
         borderData: borderData(context),
         gridData: const FlGridData(show: false),
@@ -88,7 +89,7 @@ class _BarChart extends StatelessWidget {
     );
   }
 
-  BarTouchData barTouchData(BuildContext context){
+  BarTouchData barTouchData(BuildContext context, AppScales sizes){
     return BarTouchData(
     enabled: false,
     touchTooltipData: BarTouchTooltipData(
@@ -105,6 +106,7 @@ class _BarChart extends StatelessWidget {
           rod.toY.round().toString(),
           TextStyle(
             color: context.theme.chartColors.text,
+            fontSize: sizes.textBasic,
             fontWeight: FontWeight.bold,
           ),
         );
@@ -117,7 +119,7 @@ class _BarChart extends StatelessWidget {
     final style = TextStyle(
       color: context.theme.chartColors.subtitle,
       fontWeight: FontWeight.bold,
-      fontSize: AppSizes.textBasic,
+      fontSize: context.sizes.textBasic,
     );
     String text = optionsList[value.round()].displayedName;
     return SideTitleWidget(
@@ -185,7 +187,7 @@ class _BarChart extends StatelessWidget {
           barRods: [
             BarChartRodData(
               toY: optionsList[i].value.toDouble(),
-              width: AppSizes.defaultBarWidth,
+              width: context.sizes.defaultBarWidth,
               gradient: _barsGradient(context),
               borderRadius: BorderRadius.vertical(top: Radius.circular(12))
             )

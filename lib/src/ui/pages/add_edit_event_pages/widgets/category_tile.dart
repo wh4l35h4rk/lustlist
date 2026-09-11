@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 import 'package:lustlist/src/ui/notifiers/list_notifier.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
@@ -17,7 +17,7 @@ class AddCategoryTile extends StatefulWidget {
   final Category category;
   final AddCategoryController controller;
   final IconData iconData;
-  final double iconSize;
+  final double? iconSize;
   final Widget? body;
   final bool isSoloPractices;
 
@@ -26,7 +26,7 @@ class AddCategoryTile extends StatefulWidget {
     required this.category,
     required this.controller,
     required this.iconData,
-    this.iconSize = AppSizes.iconBasic,
+    this.iconSize,
     this.isSoloPractices = false,
     this.body,
   });
@@ -43,7 +43,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
   ListNotifier<EOption> get _selectedOptions => widget.controller.selectedOptions;
   Category get category => widget.category;
   IconData get iconData => widget.iconData;
-  double get iconSize => widget.iconSize;
+  double? get iconSize => widget.iconSize;
   Widget? get body => widget.body;
 
   late bool anySelectedAtInit = _selectedOptions.value.any(
@@ -77,13 +77,13 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: context.theme.addEventColors.title,
-                  fontSize: AppSizes.titleLarge,
+                  fontSize: context.sizes.titleLarge,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Icon(
                 iconData,
-                size: iconSize,
+                size: iconSize ?? context.sizes.iconBasic,
                 color: context.theme.addEventColors.leadingIcon,
               ),
             ],
@@ -97,7 +97,7 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
                 } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
                   return Text(MiscStrings.errorLoadingData,
                     style: TextStyle(
-                      fontSize: AppSizes.textBasic,
+                      fontSize: context.sizes.textBasic,
                       color: context.theme.addEventColors.coloredText,
                     ),
                   );
@@ -146,13 +146,15 @@ class _AddCategoryTileState  extends State<AddCategoryTile> {
             _selectedOptions.value.contains(option)
                 ? Padding(
                 padding: const EdgeInsets.only(right: 5),
-                child: Icon(AppIconData.selected),
-                ) : SizedBox(),
+                child: Icon(
+                  AppIconData.selected,
+                  size: context.sizes.iconBasic,
+                )) : SizedBox(),
             Text(
               option.name,
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontSize: AppSizes.textBasic,
+                fontSize: context.sizes.textBasic,
                 color: context.theme.addEventColors.text
               ),
             ),

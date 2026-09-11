@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_list/implicitly_animated_list.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_events_list_tile.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/domain/entities/event_with_options.dart';
@@ -22,7 +22,7 @@ class AllEventsList extends StatelessWidget {
         Padding(
           padding: AppInsets.divider,
           child: Divider(
-            height: AppSizes.dividerMinimal,
+            height: context.sizes.dividerMinimal,
           ),
         ),
         ImplicitlyAnimatedList(
@@ -38,7 +38,7 @@ class AllEventsList extends StatelessWidget {
                 Padding(
                   padding: AppInsets.divider,
                   child: Divider(
-                    height: AppSizes.dividerMinimal,
+                    height: context.sizes.dividerMinimal,
                   ),
                 )
               ],

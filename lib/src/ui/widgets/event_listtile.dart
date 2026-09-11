@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class EventListTile extends StatelessWidget {
@@ -10,7 +11,7 @@ class EventListTile extends StatelessWidget {
     required this.subtitleWidget,
     required this.iconData,
     required this.onTap,
-    this.titleSize = AppSizes.titleLarge,
+    this.titleSize,
     this.hasBorder = false,
     this.borderColor,
     super.key,
@@ -21,7 +22,7 @@ class EventListTile extends StatelessWidget {
   final Widget subtitleWidget;
   final IconData? iconData;
   final bool hasBorder;
-  final double titleSize;
+  final double? titleSize;
   final Color? borderColor;
 
 
@@ -29,47 +30,64 @@ class EventListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 4.0,
-          ),
-          child: ListTile(
-              onTap: onTap,
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 4.0,
+            ),
+            padding: AppInsets.eventListTile,
+            child: IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Icon(
-                    iconData
+                    iconData,
+                    size: context.sizes.iconBasic
                   ),
                   SizedBox(width: 15),
                   if (hasBorder) Container(
-                    height: double.infinity,
                     width: 1,
                     decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(
-                          color: borderColor ?? context.theme.mainColors.defaultWidget,
-                          width: 2.8
+                            color: borderColor ?? context.theme.mainColors.defaultWidget,
+                            width: 2.8
                         )
                       )
                     ),
-                  )
-                ],
-              ),
-              title: Wrap(
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: titleSize,
-                      fontWeight: FontWeight.bold
+                  ),
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Wrap(
+                            children: [
+                              Text(
+                                title,
+                                style: TextStyle(
+                                  fontSize: titleSize ?? context.sizes.titleLarge,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              )
+                            ],
+                          ),
+                          subtitleWidget
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  SizedBox(width: 15),
+                  Icon(AppIconData.arrowRight, size: context.sizes.iconBasic)
                 ],
               ),
-              subtitle: subtitleWidget,
-              trailing: Icon(AppIconData.arrowRight)
+            ),
           ),
         ),
       ],

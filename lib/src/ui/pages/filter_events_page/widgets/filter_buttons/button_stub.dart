@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class ButtonStub<T> extends StatelessWidget {
   const ButtonStub({
@@ -25,7 +26,10 @@ class ButtonStub<T> extends StatelessWidget {
       return OutlinedButton(
         style: AppStyles.outlinedButton(context.theme.mainColors.surface, context),
         onPressed: null,
-        child: Text(title),
+        child: Text(
+          title,
+          style: TextStyle(fontSize: context.sizes.textBasic),
+        ),
       );
     }
   }

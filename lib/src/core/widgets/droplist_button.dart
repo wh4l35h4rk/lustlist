@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class DroplistButton<T> extends StatelessWidget {
@@ -30,8 +31,14 @@ class DroplistButton<T> extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 6,
           children: [
-            Text(title),
-            Icon(AppIconData.dropList)
+            Text(
+              title,
+              style: TextStyle(fontSize: context.sizes.textBasic)
+            ),
+            Icon(
+              AppIconData.dropList,
+              size: context.sizes.iconBasic,
+            )
           ],
         )
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
@@ -9,6 +8,7 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/event_listtile.dart';
 
 
@@ -96,31 +96,30 @@ class FilterEventsListTile extends StatelessWidget {
       title: _getTitle(),
       subtitleWidget: type == EventType.medical
           ? FutureBuilder<String>(
-        future: _getSubtitleMedical(database),
-        builder: (context, snapshot) {
-          String string;
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            string = MiscStrings.loading;
-          } else if (snapshot.hasError) {
-            string = MiscStrings.errorLoadingData;
-          } else {
-            string = snapshot.data ?? MiscStrings.noData;
-          }
-          return Text(
-              string,
-              style: AppStyles.basicText(context)
-          );
-        },
-      )
-          : Text(
-          _getSubtitle(),
-          style: AppStyles.basicText(context)
-      ),
+            future: _getSubtitleMedical(database),
+            builder: (context, snapshot) {
+              String string;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                string = MiscStrings.loading;
+              } else if (snapshot.hasError) {
+                string = MiscStrings.errorLoadingData;
+              } else {
+                string = snapshot.data ?? MiscStrings.noData;
+              }
+              return Text(
+                string,
+                style: AppStyles.basicText(context)
+              );
+            },
+          ) : Text(
+            _getSubtitle(),
+            style: AppStyles.basicText(context)
+          ),
       iconData: multiplePartners() ? AppIconData.sexMultiplePartners : type.iconData,
       onTap: onTap,
       hasBorder: true,
       borderColor: _getBorderColor(context),
-      titleSize: AppSizes.titleSmall,
+      titleSize: context.sizes.titleSmall,
     );
   }
 }

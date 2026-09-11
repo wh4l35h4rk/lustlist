@@ -6,9 +6,9 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/events_animated_list.dart';
 import 'package:table_calendar/table_calendar.dart' hide normalizeDate;
 import 'package:lustlist/main.dart';
@@ -110,10 +110,10 @@ class _CalendarState extends State<Calendar> {
                                   index == maxCalendarEventsAmount - 1 && events.length > maxCalendarEventsAmount
                                     ? AppIconData.add
                                     : events[index].type.iconData,
-                                  size: 12,
-                                  color: (day.month == _focusedDay.value.month) ?
-                                  context.theme.calendarColors.eventIcon :
-                                  context.theme.calendarColors.eventOtherMonthIcon
+                                  size: context.sizes.iconCalendarEvent,
+                                  color: (day.month == _focusedDay.value.month)
+                                    ? context.theme.calendarColors.eventIcon
+                                    : context.theme.calendarColors.eventOtherMonthIcon
                                 );
                               })
                             ),
@@ -123,6 +123,17 @@ class _CalendarState extends State<Calendar> {
                       },
                     ),
                     calendarStyle: _calendarStyle,
+                    daysOfWeekStyle: DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(
+                        color: context.theme.calendarColors.weekdayText,
+                        fontSize: context.sizes.textBasic,
+                      ),
+                      weekendStyle: TextStyle(
+                        color: context.theme.calendarColors.weekdayText,
+                        fontSize: context.sizes.textBasic,
+                      ),
+                    ),
+                    daysOfWeekHeight: context.sizes.calendarWeekdaysHeight,
                     pageJumpingEnabled: true,
                     headerVisible: false,
                     eventLoader: _getEventsForDay,
@@ -146,7 +157,7 @@ class _CalendarState extends State<Calendar> {
                 Padding(
                   padding: AppInsets.divider,
                   child: Divider(
-                    height: AppSizes.dividerMinimal,
+                    height: context.sizes.dividerMinimal,
                   ),
                 ),
               ValueListenableBuilder(
@@ -173,7 +184,7 @@ class _CalendarState extends State<Calendar> {
                             MiscStrings.noDaySelected,
                             style: TextStyle(
                                 color: context.theme.mainColors.defaultWidget,
-                                fontSize: AppSizes.titleSmall
+                                fontSize: context.sizes.titleSmall
                             ),
                           ),
                         ],
@@ -192,10 +203,10 @@ class _CalendarState extends State<Calendar> {
 
   CalendarStyle get _calendarStyle =>
     CalendarStyle(
-      defaultTextStyle: TextStyle(color: context.theme.calendarColors.basicText),
-      weekendTextStyle: TextStyle(color: context.theme.calendarColors.weekendText),
-      disabledTextStyle: TextStyle(color: context.theme.calendarColors.disabledText),
-      outsideTextStyle: TextStyle(color: context.theme.calendarColors.outsideText),
+      defaultTextStyle: TextStyle(color: context.theme.calendarColors.basicText, fontSize: context.sizes.textCalendar),
+      weekendTextStyle: TextStyle(color: context.theme.calendarColors.weekendText, fontSize: context.sizes.textCalendar),
+      disabledTextStyle: TextStyle(color: context.theme.calendarColors.disabledText, fontSize: context.sizes.textCalendar),
+      outsideTextStyle: TextStyle(color: context.theme.calendarColors.outsideText, fontSize: context.sizes.textCalendar),
       selectedDecoration: BoxDecoration(
         shape: BoxShape.circle,
         color: context.theme.calendarColors.selectedEvent,
@@ -234,7 +245,10 @@ class _CalendarState extends State<Calendar> {
         children: [
           const SizedBox(width: 16.0),
           IconButton(
-            icon: Icon(Icons.chevron_left),
+            icon: Icon(
+              Icons.chevron_left,
+              size: context.sizes.iconBasic,
+            ),
             onPressed: () {
               _pageController.previousPage(
                 duration: Duration(milliseconds: calendarDuration),
@@ -251,13 +265,16 @@ class _CalendarState extends State<Calendar> {
               onPressed: () => _showPopUp(),
               child: Text(
                 headerText,
-                style: TextStyle(fontSize: AppSizes.titleLarge),
+                style: TextStyle(fontSize: context.sizes.titleLarge),
               ),
             ),
           ),
           const Spacer(),
           IconButton(
-            icon: Icon(Icons.calendar_today, size: AppSizes.iconMedium),
+            icon: Icon(
+              Icons.calendar_today,
+              size: context.sizes.iconMedium
+            ),
             visualDensity: VisualDensity.compact,
             onPressed: () {
               setState(() {
@@ -268,7 +285,10 @@ class _CalendarState extends State<Calendar> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.chevron_right),
+            icon: Icon(
+              Icons.chevron_right,
+              size: context.sizes.iconBasic,
+            ),
             onPressed: () {
               _pageController.nextPage(
                 duration: Duration(milliseconds: calendarDuration),
@@ -292,7 +312,10 @@ class _CalendarState extends State<Calendar> {
           title: Center(
               child: Text(
                 MiscStrings.selectMonth,
-                style: TextStyle(color: context.theme.calendarColors.title),
+                style: TextStyle(
+                  color: context.theme.calendarColors.title,
+                  fontSize: context.sizes.textBasic
+                ),
               )),
           content: SizedBox(
             height: 100,
@@ -300,7 +323,7 @@ class _CalendarState extends State<Calendar> {
               data: CupertinoThemeData(
                   textTheme: CupertinoTextThemeData(
                     dateTimePickerTextStyle: TextStyle(
-                        fontSize: AppSizes.titleSmall,
+                        fontSize: context.sizes.titleSmall,
                         color: context.theme.mainColors.text
                     ),
                   )
@@ -318,7 +341,10 @@ class _CalendarState extends State<Calendar> {
           ),
           actions: [
             MaterialButton(
-              child: const Text(ButtonStrings.ok),
+              child: Text(
+                ButtonStrings.ok,
+                style: TextStyle(fontSize: context.sizes.textBasic),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 _focusedDay.value = _selectedDay.value!;

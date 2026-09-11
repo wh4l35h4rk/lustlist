@@ -19,6 +19,7 @@ class AppScales {
   double get titleSmall => AppSizes.titleSmall * factor;
   double get textBasic => AppSizes.textBasic * factor;
   double get textSmall => AppSizes.textSmall * factor;
+  double get textCalendar => AppSizes.textCalendar * factor;
 
   double get eventCounter => AppSizes.eventCounter * factor;
 
@@ -27,11 +28,18 @@ class AppScales {
   double get iconAdd => AppSizes.iconAdd * factor;
   double get iconMedium => AppSizes.iconMedium * factor;
   double get iconSmall => AppSizes.iconSmall * factor;
+  double get iconCalendarEvent => AppSizes.iconCalendarEvent * factor;
 
   double get iconViruses => AppSizes.iconViruses * factor;
   double get iconPractices => AppSizes.iconPractices * factor;
   double get iconPoses => AppSizes.iconPoses * factor;
   double get iconObgyn => AppSizes.iconObgyn * factor;
+
+  double get iconNoninaryBasic => AppSizes.iconNonbinaryBasic * factor;
+  double get iconNoninaryMedium => AppSizes.iconNonbinaryMedium * factor;
+
+  double get iconMinMax => AppSizes.iconMinMax * factor;
+  double get statsIconPadding => AppSizes.statsIconPadding * factor;
 
   double get roundChartSize => AppSizes.roundChartSize * factor;
   double get badgeOffset => AppSizes.badgeOffset * factor;
@@ -44,6 +52,7 @@ class AppScales {
   double get chartBorder => AppSizes.chartBorder * factor;
 
   double get dividerMinimal => AppSizes.dividerMinimal * factor;
+  double get calendarWeekdaysHeight => AppSizes.calendarWeekdaysHeight * factor;
 
   double get listTileBorderRadius => AppSizes.listTileBorderRadius * factor;
   double get containerTileRadius => AppSizes.containerTileRadius * factor;
@@ -54,4 +63,10 @@ class AppScales {
   double get defaultBarWidth => AppSizes.defaultBarWidth * factor;
   double get mediumBarWidth => AppSizes.mediumBarWidth * factor;
   double get narrowBarWidth => AppSizes.narrowBarWidth * factor;
+
+  double get avatarRadiusSmall => AppSizes.avatarRadiusSmall * factor;
+  double get avatarSize => AppSizes.avatarSize * factor;
+
+  double get bnbLabelSelected => AppSizes.bnbLabelSelected * factor;
+  double get bnbLabel => AppSizes.bnbLabel * factor;
 }

@@ -5,10 +5,10 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class MedicalData extends StatelessWidget{
@@ -23,15 +23,19 @@ class MedicalData extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(AppIconData.medical, color: context.theme.eventDataColors.icon),
+        Icon(
+          AppIconData.medical,
+          color: context.theme.eventDataColors.icon,
+          size: context.sizes.iconBasic,
+        ),
         Padding(
           padding: AppInsets.dataIcon,
           child: Text(
             StringFormatter.colon(DataStrings.type),
             style: TextStyle(
-                color: context.theme.eventDataColors.title,
-                fontWeight: FontWeight.bold,
-                fontSize: AppSizes.titleSmall
+              color: context.theme.eventDataColors.title,
+              fontWeight: FontWeight.bold,
+              fontSize: context.sizes.titleSmall
             ),
           ),
         ),
@@ -45,7 +49,7 @@ class MedicalData extends StatelessWidget{
                     MiscStrings.loading,
                     style: TextStyle(
                       color: context.theme.eventDataColors.text,
-                      fontSize: AppSizes.textBasic,
+                      fontSize: context.sizes.textBasic,
                     ),
                   );
                 } else if (snapshot.hasError) {
@@ -53,7 +57,7 @@ class MedicalData extends StatelessWidget{
                     MiscStrings.errorLoadingData,
                     style: TextStyle(
                       color: context.theme.eventDataColors.text,
-                      fontSize: AppSizes.textBasic,
+                      fontSize: context.sizes.textBasic,
                     ),
                   );
                 } else if (snapshot.hasData) {
@@ -63,7 +67,7 @@ class MedicalData extends StatelessWidget{
                     MiscStrings.noData,
                     style: TextStyle(
                       color: context.theme.eventDataColors.text,
-                      fontSize: AppSizes.textBasic,
+                      fontSize: context.sizes.textBasic,
                     ),
                   );
                 }
@@ -86,7 +90,7 @@ class MedicalData extends StatelessWidget{
     return Text(
       categoryString,
       style: TextStyle(
-        fontSize: AppSizes.textBasic,
+        fontSize: context.sizes.textBasic,
         color: context.theme.eventDataColors.text
       ),
     );

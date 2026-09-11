@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 
@@ -62,7 +62,7 @@ class _DatePickerState extends State<DatePicker> {
           child: Text(
             DateFormatter.dateWithDay(date),
             style: TextStyle(
-                fontSize: AppSizes.textBasic,
+                fontSize: context.sizes.textBasic,
                 color: context.theme.addEventColors.coloredText
             ),
           ),

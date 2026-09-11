@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:fullscreen_image_viewer/fullscreen_image_viewer.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
@@ -60,7 +61,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
           title: partner.name,
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(partnerChanged ? true : null),
-            icon: Icon(AppIconData.backButton),
+            icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
             color: context.theme.appBarColors.icon,
           ),
           editButton: IconButton(
@@ -78,7 +79,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                 setState(() {});
               }
             },
-            icon: Icon(AppIconData.edit),
+            icon: Icon(AppIconData.edit, size: context.sizes.iconBasic),
             color: context.theme.appBarColors.icon,
           ),
           deleteButton: FutureBuilder(
@@ -92,7 +93,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
               
               return IconButton(
                 onPressed: () => _showPopUp(context, events.isNotEmpty),
-                icon: Icon(AppIconData.delete),
+                icon: Icon(AppIconData.delete, size: context.sizes.iconBasic),
                 color: context.theme.appBarColors.icon,
               );
             }
@@ -111,8 +112,8 @@ class _PartnerProfileState extends State<PartnerProfile> {
                   radius: 100,
                   child: ClipOval(
                     child: Image.file(
-                      width: 200,
-                      height: 200,
+                      width: AppSizes.avatarSize,
+                      height: AppSizes.avatarSize,
                       File(partner.picturePath!),
                       fit: BoxFit.cover,
                     ),
@@ -150,7 +151,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                           Text(
                             events.length.toString(),
                             style: TextStyle(
-                              fontSize: AppSizes.eventCounter,
+                              fontSize: context.sizes.eventCounter,
                               color: context.theme.categoryTileColors.title
                             ),
                           ),
@@ -158,7 +159,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                           Icon(
                             AppIconData.sexOutlined,
                             color: context.theme.categoryTileColors.leadingIcon,
-                            size: AppSizes.eventCounter,
+                            size: context.sizes.eventCounter,
                           )
                         ]
                       ),
@@ -169,7 +170,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                         child: Text(
                           MiscStrings.noPartnerEvents,
                           style: AppStyles.noDataText(context)
-                          ),
+                        ),
                       )
                       : SizedBox.shrink(),
                     ListView.builder(
@@ -197,7 +198,7 @@ class _PartnerProfileState extends State<PartnerProfile> {
                             index != events.length - 1 ? Padding(
                               padding: AppInsets.divider,
                               child: Divider(
-                                height: AppSizes.dividerMinimal,
+                                height: context.sizes.dividerMinimal,
                               ),
                             ) : SizedBox.shrink(),
                           ],
@@ -234,17 +235,17 @@ class _PartnerProfileState extends State<PartnerProfile> {
           child: AlertDialog(
             content: Text(
               hasEvents ? AlertStrings.noDeletePartner : AlertStrings.deletePartner,
-              style: TextStyle(fontSize: AppSizes.alertBody),
+              style: TextStyle(fontSize: context.sizes.alertBody),
               textAlign: TextAlign.justify,
             ),
             actions: [
               MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.alertButtonRadius),
+                  borderRadius: BorderRadius.circular(context.sizes.alertButtonRadius),
                 ),
-                child: const Text(
+                child: Text(
                   ButtonStrings.partnerReturn,
-                  style: TextStyle(fontSize: AppSizes.alertButtonText),
+                  style: TextStyle(fontSize: context.sizes.alertButtonText),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -260,12 +261,12 @@ class _PartnerProfileState extends State<PartnerProfile> {
                   },
                   color: context.theme.appBarColors.surface,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSizes.alertButtonRadius),
+                    borderRadius: BorderRadius.circular(context.sizes.alertButtonRadius),
                   ),
                   child: Text(
                     ButtonStrings.delete,
                     style: TextStyle(
-                        fontSize: AppSizes.alertButtonText,
+                        fontSize: context.sizes.alertButtonText,
                         color: context.theme.appBarColors.text
                     ),
                   ),

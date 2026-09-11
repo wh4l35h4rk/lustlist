@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/enums/type.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class AddEventFloatingButton extends StatelessWidget {
   final Function onEventTap;
@@ -24,7 +25,10 @@ class AddEventFloatingButton extends StatelessWidget {
               controller.open();
             }
           },
-          child: const Icon(AppIconData.add),
+          child: Icon(
+            AppIconData.add,
+            size: context.sizes.iconBasic,
+          ),
         );
       },
       alignmentOffset: AppInsets.floatingButtonOffset,
@@ -41,7 +45,10 @@ class AddEventFloatingButton extends StatelessWidget {
           onPressed: () {
             onEventTap(index);
           },
-          child: Icon(EventType.entries[index].iconData)
+          child: Icon(
+            EventType.entries[index].iconData,
+            size: context.sizes.iconBasic,
+          )
         ),
       ),
     );

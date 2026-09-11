@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/partners_page/widgets/partner_listtile.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
@@ -52,7 +52,7 @@ class _PartnersPageState extends State<PartnersPage> {
         title: PageTitleStrings.partners,
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(partnersChanges ? true : null),
-          icon: Icon(AppIconData.backButton),
+          icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
           color: context.theme.appBarColors.icon,
         ),
       ),
@@ -74,7 +74,7 @@ class _PartnersPageState extends State<PartnersPage> {
                         style: TextStyle(
                           color: context.theme.mainColors.defaultWidget,
                           fontStyle: FontStyle.italic,
-                          fontSize: AppSizes.textBasic
+                          fontSize: context.sizes.textBasic
                         ),
                       ),
                     );
@@ -89,7 +89,7 @@ class _PartnersPageState extends State<PartnersPage> {
                       Padding(
                         padding: AppInsets.divider,
                         child: Divider(
-                          height: AppSizes.dividerMinimal,
+                          height: context.sizes.dividerMinimal,
                         ),
                       ),
                       ImplicitlyAnimatedList(
@@ -106,7 +106,7 @@ class _PartnersPageState extends State<PartnersPage> {
                               Padding(
                                 padding: AppInsets.divider,
                                 child: Divider(
-                                  height: AppSizes.dividerMinimal,
+                                  height: context.sizes.dividerMinimal,
                                 ),
                               )
                             ],

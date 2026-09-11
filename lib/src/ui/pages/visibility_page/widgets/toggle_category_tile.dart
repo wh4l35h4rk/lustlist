@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/main.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class ToggleCategoryTile extends StatefulWidget{
   final Category category;
   final IconData iconData;
-  final double iconSize;
+  final double? iconSize;
 
   const ToggleCategoryTile({
     super.key,
     required this.category,
     required this.iconData,
-    this.iconSize = AppSizes.iconBasic
+    this.iconSize
   });
 
   @override
@@ -45,17 +45,18 @@ class _ToggleCategoryTileState extends State<ToggleCategoryTile> {
         title: Text(
           title(),
           style: TextStyle(
-            fontSize: AppSizes.titleSmall,
+            fontSize: context.sizes.titleSmall,
             color: isSelected ? context.theme.mainColors.text : inactiveColor
           ),
         ),
         leading: Icon(
           widget.iconData,
-          size: widget.iconSize,
+          size: widget.iconSize ?? context.sizes.iconBasic,
           color: isSelected ? context.theme.mainColors.icon : inactiveColor,
         ),
         trailing: Icon(
           isSelected ? AppIconData.checkboxSelected : AppIconData.checkboxNotSelected,
+          size: context.sizes.iconBasic,
           color: isSelected ? context.theme.mainColors.icon : inactiveColor,
         ),
       ),

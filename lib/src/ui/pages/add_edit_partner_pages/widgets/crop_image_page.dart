@@ -4,9 +4,9 @@ import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +49,7 @@ class _CropImagePageState extends State<CropImagePage> {
           onPressed: () => Navigator.pop(context),
           icon: Icon(
             AppIconData.arrowLeft,
+            size: context.sizes.iconBasic,
             color: itemsColor,
           )
         ),
@@ -57,6 +58,7 @@ class _CropImagePageState extends State<CropImagePage> {
             onPressed: () => _cropController.crop(),
             icon: Icon(
               AppIconData.selected,
+              size: context.sizes.iconBasic,
               color: itemsColor,
             )
           ),
@@ -65,7 +67,7 @@ class _CropImagePageState extends State<CropImagePage> {
           PageTitleStrings.uploadPicture,
           style: TextStyle(
             color: itemsColor,
-            fontSize: AppSizes.appbarBasic,
+            fontSize: context.sizes.appbarBasic,
           )
         ),
       ),

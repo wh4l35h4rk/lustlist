@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:texture/texture.dart';
 
 
@@ -30,7 +30,7 @@ class AnimatedAppBar extends StatelessWidget{
       floating: false,
       leading: hasBackButton ? IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: Icon(AppIconData.backButton),
+        icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
         color: context.theme.appBarColors.icon
       ) : null,
       expandedHeight: expandedHeight,
@@ -50,7 +50,7 @@ class AnimatedAppBar extends StatelessWidget{
                 child: Text(
                   title,
                   style: TextStyle(
-                      fontSize: AppSizes.appbarAnimated,
+                      fontSize: context.sizes.appbarAnimated,
                       color: context.theme.appBarColors.title
                   ),
                 ),

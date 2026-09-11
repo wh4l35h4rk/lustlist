@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 
 class SwitchController extends ValueNotifier<bool> {
@@ -54,7 +54,7 @@ class MstbSwitch extends StatelessWidget {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         color: context.theme.addEventColors.text,
-                        fontSize: AppSizes.textBasic
+                        fontSize: context.sizes.textBasic
                     ),
                   ),
                 ],

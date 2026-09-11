@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import '../controllers/home_navigation_controller.dart';
 
 
@@ -21,13 +22,26 @@ class MainBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(AppIconData.calendar), label: PageTitleStrings.calendar),
-        BottomNavigationBarItem(icon: Icon(AppIconData.statistics), label: PageTitleStrings.statistics),
-        BottomNavigationBarItem(icon: Icon(AppIconData.options), label: PageTitleStrings.options),
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            icon: Icon(
+              AppIconData.calendar,
+              size: context.sizes.iconBasic
+            ),
+            label: PageTitleStrings.calendar,
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(AppIconData.statistics, size: context.sizes.iconBasic),
+            label: PageTitleStrings.statistics),
+        BottomNavigationBarItem(
+            icon: Icon(AppIconData.options, size: context.sizes.iconBasic),
+            label: PageTitleStrings.options,
+        ),
       ],
       backgroundColor: context.theme.mainColors.bnb,
       onTap: onTap ?? _onTap,
+      selectedFontSize: context.sizes.bnbLabelSelected,
+      unselectedFontSize: context.sizes.bnbLabel,
     );
   }
 

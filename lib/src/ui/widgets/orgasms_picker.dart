@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 const double _kItemExtent = 32.0;
 List<int> _orgasmAmount = List.generate(12, (index) => index);
@@ -71,7 +71,7 @@ class OrgasmsAmountPicker extends StatelessWidget {
           child: Text(
             StringFormatter.orgasmsAmount(amount, true),
             style: TextStyle(
-                fontSize: AppSizes.textBasic,
+                fontSize: context.sizes.textBasic,
                 color: context.theme.addEventColors.coloredText
             ),
           ),

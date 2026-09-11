@@ -3,8 +3,8 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/ui/controllers/add_category_controller.dart';
 
@@ -56,7 +56,7 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
                         widget.option.name,
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          fontSize: AppSizes.textBasic,
+                          fontSize: context.sizes.textBasic,
                           color: context.theme.addEventColors.text,
                         )
                     ),
@@ -99,9 +99,12 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
             DropdownButton<TestStatus>(
               isDense: true,
               value: selectedStatus,
-              icon: Icon(AppIconData.dropList),
+              icon: Icon(
+                AppIconData.dropList,
+                size: context.sizes.iconBasic,
+              ),
               alignment: Alignment.centerLeft,
-              style: TextStyle(color: context.theme.addEventColors.text, fontSize: AppSizes.textBasic),
+              style: TextStyle(color: context.theme.addEventColors.text, fontSize: context.sizes.textBasic),
               underline: Container(height: 2, color: context.theme.addEventColors.border),
               onChanged: (TestStatus? status) {
                 setState(() {
@@ -110,14 +113,19 @@ class _StiOptionListTileState extends State<StiOptionListTile> {
                 });
               },
               items: TestStatus.entries.map<DropdownMenuItem<TestStatus>>((TestStatus value) {
-                return DropdownMenuItem<TestStatus>(value: value, child: Text(value.label));
+                return DropdownMenuItem<TestStatus>(
+                  value: value,
+                  child: Text(
+                    value.label,
+                    style: TextStyle(fontSize: context.sizes.textBasic),
+                  ));
               }).toList(),
             ) :
             Text(
               MiscStrings.didNotTake,
               style: TextStyle(
-                  color: context.theme.addEventColors.text,
-                  fontSize: AppSizes.textBasic,
+                color: context.theme.addEventColors.text,
+                fontSize: context.sizes.textBasic,
               ),
             ),
           ),

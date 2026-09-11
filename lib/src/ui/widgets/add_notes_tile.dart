@@ -4,8 +4,8 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'text_form.dart';
 
 
@@ -68,12 +68,13 @@ class _AddNotesTileState extends State<AddNotesTile> {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: context.theme.addEventColors.title,
-                      fontSize: AppSizes.titleLarge,
+                      fontSize: context.sizes.titleLarge,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     AppIconData.notes,
+                    size: context.sizes.iconBasic,
                     color: context.theme.addEventColors.leadingIcon
                   ),
                 ],
@@ -108,7 +109,7 @@ class _AddNotesTileState extends State<AddNotesTile> {
                 controller: widget.controller.notesController,
                 maxLength: maxLength,
                 hint: MiscStrings.notesHint,
-                validator: (value) => _notesValidate(value)
+                validator: (value) => _notesValidate(value),
               )
           )
         ),

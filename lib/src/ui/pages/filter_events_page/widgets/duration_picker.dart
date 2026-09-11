@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.dart';
 
 
@@ -49,7 +48,7 @@ class _DurationPickerState extends TimePickerState<DurationPicker> {
                   true
                 ),
                 style: TextStyle(
-                  fontSize: AppSizes.textBasic,
+                  fontSize: context.sizes.textBasic,
                   color: enabled ? context.theme.mainColors.text : context.theme.mainColors.defaultWidget,
                   fontWeight: FontWeight.normal
                 ),
@@ -68,7 +67,7 @@ class _DurationPickerState extends TimePickerState<DurationPicker> {
                 widget.label,
                 style: TextStyle(
                     color: enabled ? context.theme.mainColors.text : context.theme.mainColors.defaultWidget,
-                    fontSize: AppSizes.textSmall
+                    fontSize: context.sizes.textSmall
                 ),
               ),
             ),

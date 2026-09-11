@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class CheckmarkLegendRow extends StatelessWidget {
   final IconData iconData;
@@ -27,7 +27,7 @@ class CheckmarkLegendRow extends StatelessWidget {
         InkWell(
           child: Icon(
             iconData,
-            size: AppSizes.iconBasic,
+            size: context.sizes.iconBasic,
             color: iconColor ?? context.theme.mainColors.icon,
           ),
           onTap: () => onTap(),
@@ -40,7 +40,7 @@ class CheckmarkLegendRow extends StatelessWidget {
           title,
           style: TextStyle(
             color: titleColor ?? context.theme.mainColors.text,
-            fontSize: AppSizes.textBasic,
+            fontSize: context.sizes.textBasic,
           ),
         )
       ],

@@ -6,28 +6,39 @@ class AppSizes {
   static const double appbarLarge = 25;
   static const double appbarAnimated = 22;
   static const double appbarBasic = 19.5;
+  static const double bnbLabel = 14;
+  static const double bnbLabelSelected = 15;
 
   static const double titleLarge = 18;
   static const double titleSmall = 16;
   static const double textBasic = 14;
   static const double textSmall = textBasic - 2;
+  static const double textCalendar = 15;
 
   static const double eventCounter = 25;
+  static const double calendarWeekdaysHeight = 20;
 
   static const double iconHelper = 30;
   static const double iconBasic = 24;
   static const double iconAdd = iconBasic - 4;
   static const double iconMedium = 16;
   static const double iconSmall = 15;
+  static const double iconCalendarEvent = 12;
 
   static const double iconViruses = 20;
   static const double iconPractices = 22;
   static const double iconPoses = 27;
   static const double iconObgyn = 29;
+  
+  static const double iconNonbinaryBasic = iconBasic - 3;
+  static const double iconNonbinaryMedium = iconMedium - 3;
 
   static const double roundChartSize = 200;
   static const double badgeOffset = 1.05;
   static const double badgeBorderWidth = 2;
+
+  static const double iconMinMax = 120;
+  static const double statsIconPadding = 12;
 
   static const double chartTitleSpacing = 1.3;
   static const double chartLineWidth = 3;
@@ -46,4 +57,7 @@ class AppSizes {
   static const double defaultBarWidth = 20;
   static const double mediumBarWidth = 16;
   static const double narrowBarWidth = 12;
+
+  static const double avatarRadiusSmall = 17;
+  static const double avatarSize = 200;
 }

@@ -7,6 +7,8 @@ import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/events_amount_data.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
+import 'package:lustlist/src/providers/scales.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/fixed_axis_bar_chart.dart';
 import 'package:lustlist/src/ui/pages/stats_page/charts/scrollable_axis_bar_chart.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
@@ -30,6 +32,7 @@ class EventsBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppScales sizes = context.sizes;
     Widget titleWidget = Text(
       StringFormatter.colon(title),
       style: AppStyles.chartTitle(context),
@@ -78,13 +81,13 @@ class EventsBarChart extends StatelessWidget {
             ],
           ),
           if (!isWeekly) SizedBox(height: 10,),
-          getBarChartType(context)
+          getBarChartType(context, sizes)
         ],
       ),
     );
   }
 
-  Widget getBarChartType(BuildContext context){
+  Widget getBarChartType(BuildContext context, AppScales sizes){
     return isWeekly
     ? FixedAxisBarChart(
       eventAmountList: eventAmountList,
@@ -92,7 +95,7 @@ class EventsBarChart extends StatelessWidget {
       getLeftTitles: (value, meta, context) => getLeftTitles(value, meta, context),
       gridData: gridData,
       borderData: borderData(context),
-      barTouchData: barTouchData(context),
+      barTouchData: barTouchData(context, sizes),
       mstbBarsGradient: _mstbBarsGradient(context),
       sexBarsGradient: _sexBarsGradient(context),
       isWeekly: isWeekly,
@@ -102,7 +105,7 @@ class EventsBarChart extends StatelessWidget {
       getLeftTitles: (value, meta, context) => getLeftTitles(value, meta, context),
       gridData: gridData,
       borderData: borderData(context),
-      barTouchData: barTouchData(context),
+      barTouchData: barTouchData(context, sizes),
       mstbBarsGradient: _mstbBarsGradient(context),
       sexBarsGradient: _sexBarsGradient(context),
       isWeekly: isWeekly,
@@ -131,7 +134,7 @@ class EventsBarChart extends StatelessWidget {
     horizontalInterval: gridHorizontalInterval,
   );
 
-  BarTouchData barTouchData(BuildContext context){
+  BarTouchData barTouchData(BuildContext context, AppScales sizes){
     return BarTouchData(
       enabled: false,
       touchTooltipData: BarTouchTooltipData(
@@ -148,6 +151,7 @@ class EventsBarChart extends StatelessWidget {
             rod.toY.round().toString(),
             TextStyle(
               color: context.theme.chartColors.text,
+              fontSize: sizes.textBasic,
               fontWeight: FontWeight.bold,
             ),
           );

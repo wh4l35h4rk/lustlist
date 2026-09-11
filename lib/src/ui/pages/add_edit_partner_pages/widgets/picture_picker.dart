@@ -8,6 +8,7 @@ import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/controllers/partner_data_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_partner_pages/widgets/crop_image_page.dart';
 
@@ -66,8 +67,12 @@ class _PicturePickerState extends State<PicturePicker> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Wrap(
+                runAlignment: WrapAlignment.spaceEvenly,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                runSpacing: 8,
+                spacing: 6,
                 children: [
                   _SetPictureButton(
                     onPressed: () {
@@ -106,7 +111,7 @@ class _PicturePickerState extends State<PicturePicker> {
     final pickedFile = await picker.pickImage(source: source);
     if (pickedFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(MiscStrings.noPictureSelected)),
+        SnackBar(content: Text(MiscStrings.noPictureSelected, style: TextStyle(fontSize: context.sizes.textBasic))),
       );
       return;
     }
@@ -127,7 +132,10 @@ class _PicturePickerState extends State<PicturePicker> {
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(MiscStrings.noPictureSelected)),
+        SnackBar(content: Text(
+          MiscStrings.noPictureSelected,
+          style: TextStyle(fontSize: context.sizes.textBasic)
+        )),
       );
       return;
     }
@@ -154,9 +162,9 @@ class _SetPictureButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(iconData),
+          Icon(iconData, size: context.sizes.iconBasic),
           SizedBox(width: 6),
-          Text(title)
+          Text(title, style: TextStyle(fontSize: context.sizes.textBasic))
         ],
       )
     );

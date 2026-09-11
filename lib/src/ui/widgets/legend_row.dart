@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class LegendRow extends StatelessWidget {
   const LegendRow({
@@ -35,7 +35,7 @@ class LegendRow extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            fontSize: AppSizes.textBasic,
+            fontSize: context.sizes.textBasic,
             color: textColor,
           ),
           softWrap: true,
@@ -44,7 +44,7 @@ class LegendRow extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              fontSize: AppSizes.textBasic,
+              fontSize: context.sizes.textBasic,
               color: textColor,
             ),
             softWrap: true,

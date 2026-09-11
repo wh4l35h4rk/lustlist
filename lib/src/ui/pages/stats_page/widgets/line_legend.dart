@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class LineLegend extends StatelessWidget {
   final Color color;
@@ -29,7 +29,7 @@ class LineLegend extends StatelessWidget {
                 border: Border(
                     top: BorderSide(
                         color: color,
-                        width: AppSizes.chartLineWidth
+                        width: context.sizes.chartLineWidth
                     )
                 )
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class SwitchColumnBase extends StatelessWidget {
   const SwitchColumnBase({
@@ -32,7 +32,7 @@ class SwitchColumnBase extends StatelessWidget {
               child: Icon(
                 iconData,
                 color: invertedColors ? context.theme.eventDataColors.icon : context.theme.addEventColors.icon,
-                size: iconSize ?? AppSizes.iconBasic,
+                size: iconSize ?? context.sizes.iconBasic,
               ),
             ),
             Text(
@@ -40,7 +40,7 @@ class SwitchColumnBase extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: invertedColors ? context.theme.eventDataColors.title : context.theme.addEventColors.title,
-                fontSize: AppSizes.titleSmall,
+                fontSize: context.sizes.titleSmall,
                 fontWeight: FontWeight.bold,
               ),
             ),

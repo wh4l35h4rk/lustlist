@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/domain/entities/events_amount_data.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class ScrollableAxisBarChart extends StatefulWidget {
@@ -193,13 +193,13 @@ class _ScrollableAxisBarChartState extends State<ScrollableAxisBarChart> {
           barRods: [
             BarChartRodData(
                 toY: widget.eventAmountList[i].sexValue.toDouble(),
-                width: AppSizes.mediumBarWidth,
+                width: context.sizes.mediumBarWidth,
                 gradient: widget.sexBarsGradient,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))
             ),
             BarChartRodData(
                 toY: widget.eventAmountList[i].mstbValue.toDouble(),
-                width: AppSizes.mediumBarWidth,
+                width: context.sizes.mediumBarWidth,
                 gradient: widget.mstbBarsGradient,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))
             )

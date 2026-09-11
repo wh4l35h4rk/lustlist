@@ -3,6 +3,7 @@ import 'package:lustlist/src/config/constants/layout.dart';
 import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/entities/partner_dated.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
@@ -75,15 +76,15 @@ class _PartnersChartState extends State<PartnersChart> {
 
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? AppSizes.titleLarge : AppSizes.textBasic;
+      final fontSize = isTouched ? context.sizes.titleLarge : context.sizes.textBasic;
       final radius = isTouched ? 80.0 : 65.0;
       final fontColor = context.theme.mainColors.surface;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
-      final iconSize = AppSizes.iconBasic;
+      final iconSize = context.sizes.iconBasic;
       final iconColor = context.theme.categoryTileColors.icon;
-      final borderWidth = AppSizes.badgeBorderWidth;
-      final offset = AppSizes.badgeOffset;
+      final borderWidth = context.sizes.badgeBorderWidth;
+      final offset = context.sizes.badgeOffset;
 
       return switch (i) {
         0 => PieChartSectionData(

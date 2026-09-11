@@ -4,7 +4,9 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/date_filter_controller.dart';
+import 'package:provider/provider.dart';
 
 class DateFilterButton extends StatelessWidget {
   const DateFilterButton({
@@ -39,7 +41,9 @@ class DateFilterButton extends StatelessWidget {
   }
 
   void _show(BuildContext context) async {
-    final DateTimeRange? result = await showDateRangePicker(
+    final scale = context.read<ScaleProvider>();
+
+    final result = await showDateRangePicker(
       context: context,
       firstDate: kFirstDay,
       lastDate: kLastDay,
@@ -47,8 +51,15 @@ class DateFilterButton extends StatelessWidget {
       initialDateRange: controller.range,
       saveText: MiscStrings.applyFilter,
       cancelText: MiscStrings.clear,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(scale.value),
+          ),
+          child: child!,
+        );
+      },
     );
-
     controller.set(result);
   }
 }

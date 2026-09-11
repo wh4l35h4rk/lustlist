@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class OptionsListTile extends StatelessWidget {
@@ -24,15 +24,14 @@ class OptionsListTile extends StatelessWidget {
     return Container(
       margin: AppInsets.optionsListTile,
       decoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.circular(AppSizes.listTileBorderRadius),
-        border: Border.all(
-            color: context.theme.calendarColors.border
-        ),
+        borderRadius: BorderRadiusGeometry.circular(context.sizes.listTileBorderRadius),
+        border: Border.all(color: context.theme.calendarColors.border),
       ),
       child: ListTile(
           onTap: () => _onTap(page, context),
           leading: Icon(
             iconData,
+            size: context.sizes.iconBasic,
             color: context.theme.calendarColors.eventIcon,
           ),
           title: Wrap(
@@ -45,9 +44,7 @@ class OptionsListTile extends StatelessWidget {
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(
-              fontSize: AppSizes.textBasic,
-            )
+            style: TextStyle(fontSize: context.sizes.textBasic)
           )
       ),
     );

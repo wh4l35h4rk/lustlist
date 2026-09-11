@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/filter_settings_button.dart';
 import 'package:lustlist/src/core/widgets/droplist_button.dart';
@@ -79,7 +79,7 @@ class ListFilterButton<T> extends StatelessWidget {
                             title,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: AppSizes.titleLarge,
+                                fontSize: context.sizes.titleLarge,
                                 color: context.theme.mainColors.title
                             ),
                           ),
@@ -101,9 +101,11 @@ class ListFilterButton<T> extends StatelessWidget {
                                   backgroundColor: controller.isEnabled
                                       ? context.theme.mainColors.filterButton
                                       : context.theme.mainColors.surface,
-                                  icon: Icon(controller.isEnabled
+                                  icon: Icon(
+                                    controller.isEnabled
                                       ? AppIconData.selected
-                                      : AppIconData.notSelected
+                                      : AppIconData.notSelected,
+                                    size: context.sizes.iconBasic,
                                   ),
                                 );
                               }
@@ -192,7 +194,7 @@ class _ValuesListView<T> extends StatelessWidget {
                                 children: [
                                   Icon(
                                     getTileIconData(isEnabled, isSelected),
-                                    size: AppSizes.iconSmall,
+                                    size: context.sizes.iconSmall,
                                   ),
                                   const SizedBox(width: 12),
                                   valueWidget(value),

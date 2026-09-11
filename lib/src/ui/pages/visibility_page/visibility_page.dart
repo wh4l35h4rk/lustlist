@@ -8,6 +8,7 @@ import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/src/ui/pages/visibility_page/widgets/shimmer_categories.dart';
 import 'package:lustlist/src/ui/pages/visibility_page/widgets/toggle_category_tile.dart';
@@ -38,7 +39,7 @@ class _VisibilityPageState extends State<VisibilityPage> {
         title: PageTitleStrings.visibility,
         backButton: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(AppIconData.backButton),
+          icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
           color: context.theme.appBarColors.icon,
         ),
       ),

@@ -4,6 +4,7 @@ class CalendarColorsExtension extends ThemeExtension<CalendarColorsExtension> {
   CalendarColorsExtension({
     required this.title,
     required this.basicText,
+    required this.weekdayText,
     required this.weekendText,
     required this.disabledText,
     required this.outsideText,
@@ -17,6 +18,7 @@ class CalendarColorsExtension extends ThemeExtension<CalendarColorsExtension> {
 
   final Color title;
   final Color basicText;
+  final Color weekdayText;
   final Color weekendText;
   final Color disabledText;
   final Color outsideText;
@@ -38,6 +40,7 @@ class CalendarColorsExtension extends ThemeExtension<CalendarColorsExtension> {
     return CalendarColorsExtension(
         title: primary,
         basicText: onSurface,
+        weekdayText: Color.lerp(onSurface, surface, 0.3)!,
         weekendText: Color.lerp(onSurface, primary, 0.9)!,
         disabledText: Color.lerp(onSurface, surface, 0.8)!,
         outsideText: Color.lerp(onSurface, surface, 0.6)!,
@@ -55,6 +58,7 @@ class CalendarColorsExtension extends ThemeExtension<CalendarColorsExtension> {
   ThemeExtension<CalendarColorsExtension> copyWith({
     Color? title,
     Color? basicText,
+    Color? weekdayText,
     Color? weekendText,
     Color? disabledText,
     Color? outsideText,
@@ -68,6 +72,7 @@ class CalendarColorsExtension extends ThemeExtension<CalendarColorsExtension> {
     return CalendarColorsExtension(
       title: title ?? this.title,
       basicText: basicText ?? this.basicText,
+      weekdayText: weekdayText ?? this.weekdayText,
       weekendText: weekendText ?? this.weekendText,
       disabledText: disabledText ?? this.disabledText,
       outsideText: outsideText ?? this.outsideText,
@@ -93,6 +98,7 @@ class CalendarColorsExtension extends ThemeExtension<CalendarColorsExtension> {
       title: Color.lerp(title, other.title, t)!,
       basicText: Color.lerp(basicText, other.basicText, t)!,
       weekendText: Color.lerp(weekendText, other.weekendText, t)!,
+      weekdayText: Color.lerp(weekdayText, other.weekdayText, t)!,
       disabledText: Color.lerp(disabledText, other.disabledText, t)!,
       outsideText: Color.lerp(outsideText, other.outsideText, t)!,
       eventIcon: Color.lerp(eventIcon, other.eventIcon, t)!,

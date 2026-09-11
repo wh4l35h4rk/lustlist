@@ -10,6 +10,7 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/core/widgets/info_row.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class PartnerDataTile extends StatelessWidget {
   const PartnerDataTile({
@@ -64,6 +65,7 @@ class PartnerDataTile extends StatelessWidget {
               children: [
                 Icon(
                   AppIconData.partners,
+                  size: context.sizes.iconBasic,
                   color: context.theme.eventDataColors.leadingIcon,
                 ),
               ],

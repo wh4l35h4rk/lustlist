@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -10,6 +9,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/main.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/edit_event_pages/edit_med_page.dart';
@@ -52,7 +52,7 @@ class _EventPageState extends State<EventPage> {
         title: _getTitle(),
         backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(eventChanged ? true : null),
-            icon: Icon(AppIconData.backButton),
+            icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
             color: context.theme.appBarColors.icon,
         ),
         editButton: IconButton(
@@ -70,12 +70,12 @@ class _EventPageState extends State<EventPage> {
               setState(() {});
             }
           },
-          icon: Icon(AppIconData.edit),
+          icon: Icon(AppIconData.edit, size: context.sizes.iconBasic),
           color: context.theme.appBarColors.icon,
         ),
         deleteButton: IconButton(
           onPressed: () => _showPopUp(context),
-          icon: Icon(AppIconData.delete),
+          icon: Icon(AppIconData.delete, size: context.sizes.iconBasic),
           color: context.theme.appBarColors.icon,
         ),
       ),
@@ -136,7 +136,7 @@ class _EventPageState extends State<EventPage> {
           child: AlertDialog(
             content: Text(
               AlertStrings.deleteEvent,
-              style: TextStyle(fontSize: AppSizes.alertBody),
+              style: TextStyle(fontSize: context.sizes.alertBody),
               textAlign: TextAlign.justify,
             ),
             actions: [
@@ -144,9 +144,9 @@ class _EventPageState extends State<EventPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: const Text(
+                child: Text(
                   ButtonStrings.eventReturn,
-                  style: TextStyle(fontSize: AppSizes.alertButtonText),
+                  style: TextStyle(fontSize: context.sizes.alertButtonText),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -166,7 +166,7 @@ class _EventPageState extends State<EventPage> {
                 child: Text(
                   ButtonStrings.delete,
                   style: TextStyle(
-                    fontSize: AppSizes.alertButtonText,
+                    fontSize: context.sizes.alertButtonText,
                     color: context.theme.appBarColors.text
                   ),
                 ),

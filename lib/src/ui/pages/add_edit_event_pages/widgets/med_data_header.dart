@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/mstb_switch.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/time_picker.dart';
 import 'package:lustlist/src/database/database.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/ui/controllers/time_controller.dart';
 import 'package:lustlist/main.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
@@ -83,6 +83,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                 children: [
                   Icon(
                     iconData,
+                    size: context.sizes.iconBasic,
                     color: context.theme.addEventColors.leadingIcon,
                   ),
                 ],
@@ -116,7 +117,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
               style: TextStyle(
                   color: context.theme.addEventColors.title,
                   fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.titleSmall
+                  fontSize: context.sizes.titleSmall
               ),
             ),
           ),
@@ -154,7 +155,7 @@ class _AddMedEventDataColumnState extends State<AddMedEventDataColumn> {
                   child: SwitchColumnBase(
                     title: categoriesMap['sti']!.name,
                     iconData: AppIconData.sti,
-                    iconSize: AppSizes.iconViruses,
+                    iconSize: context.sizes.iconViruses,
                     child: Switch(
                       inactiveThumbColor: context.theme.addEventColors.border,
                       value: isSti,

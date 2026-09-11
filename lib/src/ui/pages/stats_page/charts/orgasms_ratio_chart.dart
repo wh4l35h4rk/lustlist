@@ -4,6 +4,7 @@ import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/chart_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/providers/theme_provider.dart';
 import 'package:lustlist/src/ui/widgets/legend_row.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
@@ -59,7 +60,7 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
                       Text(
                         sectionPercentage(isLight),
                         style: TextStyle(
-                          fontSize: AppSizes.titleSmall
+                          fontSize: context.sizes.titleSmall
                         ),
                       ),
                     PieChart(
@@ -111,7 +112,7 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
 
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? AppSizes.titleLarge : AppSizes.textBasic;
+      final fontSize = isTouched ? context.sizes.titleLarge : context.sizes.textBasic;
       final radius = isTouched ? 65.0 : 55.0;
       final fontColor = isThemeLight ? context.theme.mainColors.surface : context.theme.mainColors.text;
       final shadows = [Shadow(color: Colors.black, blurRadius: 3)];

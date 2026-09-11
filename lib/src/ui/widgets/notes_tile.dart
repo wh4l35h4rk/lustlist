@@ -5,9 +5,9 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class NotesTile extends StatelessWidget {
@@ -56,12 +56,13 @@ class NotesTile extends StatelessWidget {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: context.theme.categoryTileColors.title,
-                      fontSize: AppSizes.titleLarge,
+                      fontSize: context.sizes.titleLarge,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Icon(
                     AppIconData.notes,
+                    size: context.sizes.iconBasic,
                     color: context.theme.categoryTileColors.leadingIcon
                   ),
                 ],
@@ -109,7 +110,7 @@ class NotesTile extends StatelessWidget {
         Text(
           notes,
           style: TextStyle(
-            fontSize: AppSizes.textBasic,
+            fontSize: context.sizes.textBasic,
           ),
           textAlign: TextAlign.justify
       )]);

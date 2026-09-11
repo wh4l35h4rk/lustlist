@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
 import 'package:lustlist/src/ui/pages/filter_events_page/widgets/filter_buttons/list_filter_button.dart';
 
@@ -39,7 +39,7 @@ class RatingFilterButton extends StatelessWidget {
             for (var index = 0; index < rating; index++)
               Icon(
                 AppIconData.rating,
-                size: AppSizes.iconMedium,
+                size: context.sizes.iconMedium,
                 color: context.theme.mainColors.text
               )
           ]
@@ -49,7 +49,7 @@ class RatingFilterButton extends StatelessWidget {
             for (var index = 0; index < 5 - rating; index++)
               Icon(
                 AppIconData.ratingEmpty,
-                size: AppSizes.iconMedium,
+                size: context.sizes.iconMedium,
                 color: context.theme.mainColors.text
               )
           ],

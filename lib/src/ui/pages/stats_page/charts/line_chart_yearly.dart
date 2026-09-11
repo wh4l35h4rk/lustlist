@@ -10,6 +10,7 @@ import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/checkmark_legend_row.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/line_legend.dart';
 
@@ -60,35 +61,40 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
                       style: AppStyles.chartTitle(context),
                       textAlign: TextAlign.center,
                     ),
-                    CheckmarkLegendRow(
-                      title: DataStrings.sex,
-                      iconData: _showSex ?
-                        Icons.adjust :
-                        Icons.brightness_1_outlined,
-                      onTap: () {
-                        setState(() {
-                          _showSex = !_showSex;
-                          if (!_showMstb) {
-                            _showMstb = true;
-                          }
-                        });
-                      },
-                      marker: LineLegend(color: sexLineColor, hasDots: true),
-                    ),
-                    CheckmarkLegendRow(
-                      title: DataStrings.mstb,
-                      iconData: _showMstb ?
-                        Icons.adjust :
-                        Icons.brightness_1_outlined,
-                      onTap: () {
-                        setState(() {
-                          _showMstb = !_showMstb;
-                          if (!_showSex) {
-                            _showSex = true;
-                          }
-                        });
-                      },
-                      marker: LineLegend(color: mstbLineColor, hasDots: true),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CheckmarkLegendRow(
+                          title: DataStrings.sex,
+                          iconData: _showSex ?
+                            Icons.adjust :
+                            Icons.brightness_1_outlined,
+                          onTap: () {
+                            setState(() {
+                              _showSex = !_showSex;
+                              if (!_showMstb) {
+                                _showMstb = true;
+                              }
+                            });
+                          },
+                          marker: LineLegend(color: sexLineColor, hasDots: true),
+                        ),
+                        CheckmarkLegendRow(
+                          title: DataStrings.mstb,
+                          iconData: _showMstb ?
+                            Icons.adjust :
+                            Icons.brightness_1_outlined,
+                          onTap: () {
+                            setState(() {
+                              _showMstb = !_showMstb;
+                              if (!_showSex) {
+                                _showSex = true;
+                              }
+                            });
+                          },
+                          marker: LineLegend(color: mstbLineColor, hasDots: true),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -105,6 +111,7 @@ class LineChartMonthlyState extends State<LineChartMonthly> {
                     mstbLineColor: mstbLineColor,
                     surfaceColor: context.theme.chartColors.tooltipSurface,
                     borderColor: context.theme.mainColors.primary,
+                    textSize: context.sizes.textBasic,
                   ),
                 ),
               ),
@@ -131,6 +138,7 @@ class _LineChart extends StatelessWidget {
     required this.mstbLineColor,
     required this.surfaceColor,
     required this.borderColor,
+    required this.textSize,
   });
 
   final List<FlSpot> sexSpots;
@@ -139,6 +147,8 @@ class _LineChart extends StatelessWidget {
   final Color mstbLineColor;
   final Color surfaceColor;
   final Color borderColor;
+  final double textSize;
+
 
   final bool showSex;
   final bool showMstb;
@@ -188,12 +198,14 @@ class _LineChart extends StatelessWidget {
             index == 0 ? StringFormatter.endl(month) : MiscStrings.emptyString,
             TextStyle(
               color: borderColor,
+              fontSize: textSize,
               fontWeight: FontWeight.bold,
             ),
             children: [
               TextSpan(
                 text: flSpot.y.toInt().toString(),
                 style: TextStyle(
+                  fontSize: textSize,
                   color: flSpot.bar.color,
                 ),
               ),
@@ -248,7 +260,7 @@ class _LineChart extends StatelessWidget {
     getTitlesWidget: (value, meta) => leftTitleWidgets(value, meta, context),
     showTitles: true,
     interval: 1,
-    reservedSize: AppSizes.chartSideTitlesSpace,
+    reservedSize: context.sizes.chartSideTitlesSpace,
   );
 
 

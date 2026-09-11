@@ -13,6 +13,7 @@ import 'package:lustlist/src/domain/entities/event_with_options.dart';
 import 'package:lustlist/src/domain/entities/filter_data.dart';
 import 'package:lustlist/src/domain/entities/filter_query.dart';
 import 'package:lustlist/src/domain/entities/numeric_filter_data.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/bool_notes_controller.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/date_filter_controller.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/numeric_duration_filter_controller.dart';
@@ -188,7 +189,7 @@ class _FilterEventsPageState extends State<FilterEventsPage> {
           title: PageTitleStrings.allEvents,
           backButton: IconButton(
             onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(AppIconData.backButton),
+            icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
             color: context.theme.appBarColors.icon,
           ),
         ),
@@ -296,8 +297,8 @@ class _FilterEventsPageState extends State<FilterEventsPage> {
                     mainAxisSize: MainAxisSize.min,
                     spacing: 6,
                     children: [
-                      Icon(AppIconData.noFilter),
-                      Text(ButtonStrings.disableAllFilters),
+                      Icon(AppIconData.noFilter, size: context.sizes.iconBasic),
+                      Text(ButtonStrings.disableAllFilters, style: TextStyle(fontSize: context.sizes.textBasic)),
                     ],
                   ),
                 ),
@@ -346,8 +347,8 @@ class _FilterEventsPageState extends State<FilterEventsPage> {
                     mainAxisSize: MainAxisSize.min,
                     spacing: 6,
                     children: [
-                      Icon(AppIconData.noFilter),
-                      Text(ButtonStrings.disableAllFilters),
+                      Icon(AppIconData.noFilter, size: context.sizes.iconBasic),
+                      Text(ButtonStrings.disableAllFilters, style: TextStyle(fontSize: context.sizes.textBasic)),
                     ],
                   ),
                 ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class IntTextFieldForm extends StatefulWidget {
@@ -40,7 +40,7 @@ class _IntTextFieldFormState extends State<IntTextFieldForm> {
         enabled: widget.isEnabled,
         validator: (value) => _valueValidate(value),
         style: TextStyle(
-          fontSize: widget.textSize ?? AppSizes.textBasic
+          fontSize: widget.textSize ?? context.sizes.textBasic
         ),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
@@ -57,8 +57,8 @@ class _IntTextFieldFormState extends State<IntTextFieldForm> {
             hintText: MiscStrings.unknown,
             hintStyle: TextStyle(
               fontSize: widget.textSize != null
-                ? widget.textSize! - 2
-                : AppSizes.textBasic
+                ? context.sizes.textSmall
+                : context.sizes.textBasic
             ),
             labelText: widget.hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,

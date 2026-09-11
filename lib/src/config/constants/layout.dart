@@ -5,6 +5,12 @@ class AppInsets {
 
   // tiles
   static const EdgeInsets headerTile = EdgeInsets.all(10);
+  static const EdgeInsets eventListTile = EdgeInsets.only(
+    left: 22,
+    right: 15,
+    top: 11,
+    bottom: 11.0,
+  );
   static const EdgeInsets listTile = EdgeInsets.symmetric(
     horizontal: 12.0,
     vertical: 4.0,

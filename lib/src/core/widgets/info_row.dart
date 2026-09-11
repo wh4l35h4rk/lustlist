@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/gender.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 class InfoRow extends StatelessWidget {
   final IconData iconData;
@@ -29,7 +29,7 @@ class InfoRow extends StatelessWidget {
           Icon(
             iconData,
             size: iconData == Gender.nonbinary.iconData
-                ? AppSizes.iconBasic - 3 : AppSizes.iconBasic,
+                ? context.sizes.iconNoninaryBasic : context.sizes.iconBasic,
             color: iconColor ?? context.theme.eventDataColors.icon,
           ),
           Padding(
@@ -37,9 +37,9 @@ class InfoRow extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                  color: titleColor ?? context.theme.eventDataColors.title,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.titleSmall,
+                color: titleColor ?? context.theme.eventDataColors.title,
+                fontWeight: FontWeight.bold,
+                fontSize: context.sizes.titleSmall,
               ),
             ),
           ),

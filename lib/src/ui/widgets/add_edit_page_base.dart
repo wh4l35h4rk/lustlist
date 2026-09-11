@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/strings/button_strings.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/main_bnb.dart';
 import 'package:lustlist/src/ui/widgets/main_appbar.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
@@ -47,12 +47,12 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
             title: widget.title,
             backButton: IconButton(
                 onPressed: () => _showPopUp(context, null),
-                icon: Icon(AppIconData.backButton),
+                icon: Icon(AppIconData.backButton, size: context.sizes.iconBasic),
                 color: context.theme.mainColors.surface
             ),
             editButton: IconButton(
                 onPressed: () async => widget.onPressedSave(),
-                icon: Icon(AppIconData.selected),
+                icon: Icon(AppIconData.selected, size: context.sizes.iconBasic),
                 color: context.theme.mainColors.surface
             ),
           ),
@@ -77,7 +77,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
           child: AlertDialog(
             content: Text(
               widget.alertString,
-              style: TextStyle(fontSize: AppSizes.alertBody),
+              style: TextStyle(fontSize: context.sizes.alertBody),
               textAlign: TextAlign.justify,
             ),
             actions: [
@@ -87,7 +87,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                 ),
                 child: Text(
                   widget.alertButton,
-                  style:  const TextStyle(fontSize: AppSizes.alertButtonText)
+                  style: TextStyle(fontSize: context.sizes.alertButtonText)
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -110,7 +110,7 @@ class _AddEditPageBaseState extends State<AddEditPageBase> {
                 child: Text(
                   ButtonStrings.leave,
                   style: TextStyle(
-                    fontSize: AppSizes.alertButtonText,
+                    fontSize: context.sizes.alertButtonText,
                     color: context.theme.appBarColors.text
                   ),
                 ),

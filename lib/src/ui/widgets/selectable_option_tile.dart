@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class SelectableOptionTile extends StatelessWidget {
@@ -34,14 +34,14 @@ class SelectableOptionTile extends StatelessWidget {
               title,
               textAlign: TextAlign.left,
               style: TextStyle(
-                  fontSize: AppSizes.textBasic,
+                  fontSize: context.sizes.textBasic,
                   color: context.theme.addEventColors.text
               ),
             ),
             SizedBox(width: 5,),
             Icon(
               iconData,
-              size: iconSize ?? AppSizes.iconMedium,
+              size: iconSize ?? context.sizes.iconMedium,
               color: context.theme.addEventColors.coloredText,
             )
           ],

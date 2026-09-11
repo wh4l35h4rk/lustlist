@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class FilterGroupPanelList extends StatelessWidget {
@@ -67,13 +67,16 @@ class _FilterGroupPanelState extends State<FilterGroupPanel> {
               Text(
                 widget.header,
                 style: TextStyle(
-                  fontSize: AppSizes.titleSmall
+                  fontSize: context.sizes.titleSmall
                 ),
               ),
               AnimatedRotation(
                 turns: isExpanded ? 0.5 : 0,
                 duration: Duration(milliseconds: 200),
-                child: Icon(AppIconData.dropList),
+                child: Icon(
+                  AppIconData.dropList,
+                  size: context.sizes.iconBasic,
+                ),
               )
             ],
           ),

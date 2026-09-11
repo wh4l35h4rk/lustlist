@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
+
 
 class ErrorTile extends StatelessWidget {
   final IconData iconData;
@@ -27,7 +28,7 @@ class ErrorTile extends StatelessWidget {
           children: [
             Icon(
               iconData,
-              size: AppSizes.iconHelper,
+              size: context.sizes.iconHelper,
               color: colorsInverted ? context.theme.appBarColors.icon : context.theme.categoryTileColors.leadingIcon,
             ),
             SizedBox(width: 5),
@@ -35,7 +36,7 @@ class ErrorTile extends StatelessWidget {
               title,
               style: TextStyle(
                 color: colorsInverted ? context.theme.appBarColors.text : context.theme.categoryTileColors.text,
-                fontSize: AppSizes.textBasic
+                fontSize: context.sizes.textBasic
               ),
             )
           ],

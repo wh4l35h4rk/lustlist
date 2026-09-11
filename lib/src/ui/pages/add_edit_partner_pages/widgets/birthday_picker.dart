@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/date_controller.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
@@ -56,7 +56,7 @@ class _BirthdayPickerState extends State<BirthdayPicker> {
           : Text(
             MiscStrings.unknown,
             style: TextStyle(
-              fontSize: AppSizes.textBasic,
+              fontSize: context.sizes.textBasic,
               color: context.theme.addEventColors.coloredText
             ),
           )

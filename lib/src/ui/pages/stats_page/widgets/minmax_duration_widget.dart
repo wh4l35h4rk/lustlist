@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/domain/entities/event_duration.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/event_page/eventpage.dart';
 import 'package:lustlist/src/ui/pages/stats_page/widgets/duration_text.dart';
 
@@ -34,7 +34,7 @@ class MinMaxDurationColumn extends StatelessWidget {
         event?.data?.duration != null &&
         event!.data!.duration != 0;
 
-    double iconPadding = 12;
+    double iconPadding = context.sizes.statsIconPadding;
     TextStyle titleStyle = AppStyles.numStatsTitle(context);
 
     return Stack(
@@ -43,7 +43,7 @@ class MinMaxDurationColumn extends StatelessWidget {
         if (iconData != null) Icon(
           iconData,
           color: context.theme.chartColors.bgIcon,
-          size: 120
+          size: context.sizes.iconMinMax
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,20 +64,23 @@ class MinMaxDurationColumn extends StatelessWidget {
                   ),
                 );
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(width: AppSizes.iconSmall + iconPadding),
-                  DurationText(durationNullable: eventDuration, isMain: false,),
-                  Padding(
-                    padding: EdgeInsets.only(left: iconPadding),
-                    child: Icon(
-                      AppIconData.arrowRight,
-                      size: AppSizes.iconSmall,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(width: context.sizes.iconSmall + iconPadding),
+                    DurationText(durationNullable: eventDuration, isMain: false,),
+                    Padding(
+                      padding: EdgeInsets.only(left: iconPadding),
+                      child: Icon(
+                        AppIconData.arrowRight,
+                        size: context.sizes.iconSmall,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ) : DurationText(durationNullable: eventDuration, isMain: false,),
           ],

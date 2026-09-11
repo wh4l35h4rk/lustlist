@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/misc.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/domain/entities/events_amount_data.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class FixedAxisBarChart extends StatelessWidget {
@@ -95,13 +95,13 @@ class FixedAxisBarChart extends StatelessWidget {
           barRods: [
             BarChartRodData(
                 toY: eventAmountList[i].sexValue.toDouble(),
-                width: AppSizes.narrowBarWidth,
+                width: context.sizes.narrowBarWidth,
                 gradient: sexBarsGradient,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))
             ),
             BarChartRodData(
                 toY: eventAmountList[i].mstbValue.toDouble(),
-                width: AppSizes.narrowBarWidth,
+                width: context.sizes.narrowBarWidth,
                 gradient: mstbBarsGradient,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))
             )

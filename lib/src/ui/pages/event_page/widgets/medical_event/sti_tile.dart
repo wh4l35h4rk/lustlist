@@ -9,8 +9,8 @@ import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/config/enums/test_status.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/shimmer_sti.dart';
 
 
@@ -37,12 +37,13 @@ class StiTile extends StatelessWidget{
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: context.theme.categoryTileColors.title,
-                  fontSize: AppSizes.titleLarge,
+                  fontSize: context.sizes.titleLarge,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Icon(
                 AppIconData.sti,
+                size: context.sizes.iconBasic,
                 color: context.theme.categoryTileColors.leadingIcon,
               ),
             ],
@@ -74,12 +75,12 @@ class StiTile extends StatelessWidget{
                                   border: Border.all(
                                     color: context.theme.categoryTileColors.border,
                                   ),
-                                  borderRadius: BorderRadius.circular(AppSizes.containerTileRadius),
+                                  borderRadius: BorderRadius.circular(context.sizes.containerTileRadius),
                                 ),
                                 child: Text(
                                   option.name,
                                   style: TextStyle(
-                                    fontSize: AppSizes.textBasic,
+                                    fontSize: context.sizes.textBasic,
                                     color: context.theme.categoryTileColors.text
                                   ),
                                 ),
@@ -102,14 +103,14 @@ class StiTile extends StatelessWidget{
                                       children: [
                                         Icon(
                                           AppIconData.noData,
-                                          size: AppSizes.iconSmall,
+                                          size: context.sizes.iconSmall,
                                           color: context.theme.categoryTileColors.icon,
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.loading,
                                           style: TextStyle(
-                                            fontSize: AppSizes.textBasic,
+                                            fontSize: context.sizes.textBasic,
                                             color: context.theme.categoryTileColors.text,
                                           ),
                                         ),
@@ -121,14 +122,14 @@ class StiTile extends StatelessWidget{
                                       children: [
                                         Icon(
                                           AppIconData.noData,
-                                          size: AppSizes.iconSmall,
+                                          size: context.sizes.iconSmall,
                                           color: context.theme.categoryTileColors.icon
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,
                                           style: TextStyle(
-                                            fontSize: AppSizes.textBasic,
+                                            fontSize: context.sizes.textBasic,
                                             color: context.theme.categoryTileColors.text,
                                           ),
                                         ),
@@ -137,12 +138,12 @@ class StiTile extends StatelessWidget{
                                   } else if (snapshot.hasError){
                                     return Row(
                                       children: [
-                                        Icon(AppIconData.error, size: AppSizes.iconSmall),
+                                        Icon(AppIconData.error, size: context.sizes.iconSmall),
                                         const SizedBox(width: 5),
                                         Text(
                                           MiscStrings.noData,
                                           style: TextStyle(
-                                            fontSize: AppSizes.textBasic,
+                                            fontSize: context.sizes.textBasic,
                                             color: context.theme.categoryTileColors.text,
                                           ),
                                         ),
@@ -156,12 +157,12 @@ class StiTile extends StatelessWidget{
 
                                   return Row(
                                     children: [
-                                      Icon(iconData, size: AppSizes.iconSmall),
+                                      Icon(iconData, size: context.sizes.iconSmall),
                                       const SizedBox(width: 5),
                                       Text(
                                         label,
                                         style: TextStyle(
-                                          fontSize: AppSizes.textBasic,
+                                          fontSize: context.sizes.textBasic,
                                           color: context.theme.categoryTileColors.text,
                                         ),
                                       ),
@@ -172,11 +173,9 @@ class StiTile extends StatelessWidget{
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 );
-
               }
             },
           ),

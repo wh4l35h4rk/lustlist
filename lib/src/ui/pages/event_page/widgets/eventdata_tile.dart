@@ -3,7 +3,6 @@ import 'package:lustlist/main.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
@@ -12,6 +11,7 @@ import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/notifiers/event_notifier.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/partners_column.dart';
 import 'package:lustlist/src/ui/pages/event_page/widgets/sex_mstb_event/eventdata_column.dart';
@@ -138,8 +138,8 @@ class _EventDataTileState extends State<EventDataTile> {
     }
 
     TextStyle style = TextStyle(
-        fontSize: AppSizes.textBasic,
-        color: context.theme.eventDataColors.text
+      fontSize: context.sizes.textBasic,
+      color: context.theme.eventDataColors.text
     );
 
     return Row(
@@ -147,25 +147,26 @@ class _EventDataTileState extends State<EventDataTile> {
         Expanded(
           flex: 1,
           child: SwitchColumnBase(
-              title: DataStrings.porn,
-              iconData: AppIconData.porn,
-              invertedColors: true,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-                    child: Icon(
-                      didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
-                      color: context.theme.eventDataColors.text,
-                    ),
+            title: DataStrings.porn,
+            iconData: AppIconData.porn,
+            invertedColors: true,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                  child: Icon(
+                    didWatchPorn! ? AppIconData.selected : AppIconData.notSelected,
+                    size: context.sizes.iconBasic,
+                    color: context.theme.eventDataColors.text,
                   ),
-                  Text(
-                    didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
-                    style: style
-                  ),
-                ],
-              )
+                ),
+                Text(
+                  didWatchPorn! ? MiscStrings.didWatch : MiscStrings.didNotWatch,
+                  style: style
+                ),
+              ],
+            )
           ),
         ),
         Expanded(
@@ -181,6 +182,7 @@ class _EventDataTileState extends State<EventDataTile> {
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                   child: Icon(
                     didUseToys! ? AppIconData.selected : AppIconData.notSelected,
+                    size: context.sizes.iconBasic,
                     color: context.theme.eventDataColors.text,
                   ),
                 ),

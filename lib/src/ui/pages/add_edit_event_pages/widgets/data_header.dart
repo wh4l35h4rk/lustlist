@@ -6,6 +6,7 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/widgets/error_tile.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/domain/repository.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/eventdata_controller_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/rating_row.dart';
 import 'package:lustlist/src/ui/widgets/date_picker.dart';
@@ -113,6 +114,7 @@ class _AddEditEventDataColumnState extends State<AddEditEventDataColumn> {
                 children: [
                   Icon(
                     iconData,
+                    size: context.sizes.iconBasic,
                     color: context.theme.addEventColors.leadingIcon,
                   ),
                 ],

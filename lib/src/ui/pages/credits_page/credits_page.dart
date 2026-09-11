@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/credits_strings.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/core/widgets/basic_tile.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/home_navigation_controller.dart';
 import 'package:lustlist/src/ui/pages/credits_page/app_license_page.dart';
 import 'package:lustlist/src/ui/widgets/animated_appbar.dart';
@@ -37,7 +37,7 @@ class CreditsPage extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(
                         style: TextStyle(
-                          fontSize: AppSizes.textBasic,
+                          fontSize: context.sizes.textBasic,
                           color: context.theme.categoryTileColors.text,
                           letterSpacing: 0.4,
                         ),
@@ -134,16 +134,25 @@ class _CreditsTile extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-          fontSize: AppSizes.titleLarge,
-            fontWeight: FontWeight.bold
+          fontSize: context.sizes.titleLarge,
+          fontWeight: FontWeight.bold
         ),
       ),
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Icon(iconData),
+        child: Icon(
+          iconData,
+          size: context.sizes.iconBasic,
+        ),
       ),
-      subtitle: Text(subtitle),
-      trailing: Icon(trailingIconData ?? AppIconData.arrowRight),
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(fontSize: context.sizes.textBasic),
+      ),
+      trailing: Icon(
+        trailingIconData ?? AppIconData.arrowRight,
+        size: context.sizes.iconBasic,
+      ),
       onTap: onTap,
     );
   }

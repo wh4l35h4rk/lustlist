@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/layout.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/domain/entities/calendar_event.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/pages/calendar_page/widgets/calendar_event_listtile.dart';
 import 'package:lustlist/src/core/widgets/animated_list_base.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -72,7 +72,7 @@ class _EventsAnimatedListState extends AnimatedListBaseState<CalendarEvent, Even
           Padding(
             padding: AppInsets.divider,
             child: Divider(
-              height: AppSizes.dividerMinimal,
+              height: context.sizes.dividerMinimal,
             ),
           )
         ],
@@ -112,7 +112,7 @@ class _EventsAnimatedListState extends AnimatedListBaseState<CalendarEvent, Even
                   MiscStrings.noEventsForDaySelected,
                   style: TextStyle(
                     color: context.theme.mainColors.defaultWidget,
-                    fontSize: AppSizes.titleSmall,
+                    fontSize: context.sizes.titleSmall,
                   ),
                 ),
               ],

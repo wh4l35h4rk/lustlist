@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 
 
 class AddPartnerButton extends StatefulWidget {
@@ -49,7 +49,7 @@ class _AddPartnerButtonState extends State<AddPartnerButton> {
             ),
             child: Icon(
               AppIconData.add,
-              size: AppSizes.iconAdd,
+              size: context.sizes.iconAdd,
               color: context.theme.addEventColors.icon,
             ),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/enums/type.dart';
 import 'package:lustlist/src/config/strings/page_title_strings.dart';
 import 'package:lustlist/src/config/strings/alert_strings.dart';
@@ -8,6 +7,7 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/core/formatters/datetime_formatters.dart';
 import 'package:lustlist/src/database/database.dart';
 import 'package:lustlist/src/core/utils/utils.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/add_edit_page_base.dart';
 import 'package:lustlist/src/ui/pages/add_edit_event_pages/widgets/category_tile.dart';
 import 'package:lustlist/src/ui/widgets/add_notes_tile.dart';
@@ -108,7 +108,7 @@ class _AddMedEventPageState extends State<AddMedEventPage> {
                     category: categoriesMap['obgyn']!,
                     controller: _obgynController,
                     iconData: AppIconData.obgyn,
-                    iconSize: AppSizes.iconObgyn,
+                    iconSize: context.sizes.iconObgyn,
                   ) : const SizedBox.shrink();
                 }
               ),

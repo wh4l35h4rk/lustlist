@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lustlist/src/config/theme/app_theme.dart';
-import 'package:lustlist/src/config/constants/sizes.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
 import 'package:lustlist/src/config/strings/misc_strings.dart';
 import 'package:lustlist/src/core/formatters/string_formatters.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/widgets/int_text_field_form.dart';
+
 
 class AgeTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -47,7 +48,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
             child: Text(
               age,
               style: TextStyle(
-                fontSize: AppSizes.textBasic,
+                fontSize: context.sizes.textBasic,
                 color: context.theme.addEventColors.coloredText
               ),
             ),
@@ -82,7 +83,7 @@ class _AgeTextFieldState extends State<AgeTextField> {
                       controller: widget.controller,
                       hint: DataStrings.age,
                       isEnabled: true,
-                      textSize: AppSizes.titleLarge,
+                      textSize: context.sizes.titleLarge,
                       onChanged: (_) => setState(() {}),
                     ),
                   ),

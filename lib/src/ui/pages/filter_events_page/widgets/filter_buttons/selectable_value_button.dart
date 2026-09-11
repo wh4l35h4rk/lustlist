@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lustlist/src/config/constants/icons.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/selectable_filter_controller.dart';
 
 
@@ -33,7 +34,10 @@ class SelectableValueButton<T> extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 5),
-              child: Icon(selectedValues.contains(value) ? AppIconData.selected : AppIconData.notSelected),
+              child: Icon(
+                selectedValues.contains(value) ? AppIconData.selected : AppIconData.notSelected,
+                size: context.sizes.iconBasic,
+              ),
             ),
             Text(
               title,

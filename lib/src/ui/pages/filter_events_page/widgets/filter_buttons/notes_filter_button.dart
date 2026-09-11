@@ -3,6 +3,7 @@ import 'package:lustlist/src/config/theme/app_theme.dart';
 import 'package:lustlist/src/config/constants/styles.dart';
 import 'package:lustlist/src/config/enums/bool_filter.dart';
 import 'package:lustlist/src/config/strings/data_strings.dart';
+import 'package:lustlist/src/providers/scale_provider.dart';
 import 'package:lustlist/src/ui/controllers/filter_controllers/bool_notes_controller.dart';
 
 
@@ -39,8 +40,8 @@ class NotesFilterButton<T> extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 spacing: 6,
                 children: [
-                  if (changesApplied) Icon(value.iconData),
-                  Text(title),
+                  if (changesApplied) Icon(value.iconData, size: context.sizes.iconBasic),
+                  Text(title, style: TextStyle(fontSize: context.sizes.textBasic)),
                 ],
               )
           );
