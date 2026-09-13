@@ -25,7 +25,7 @@ class _AppearancePageState extends State<AppearancePage> {
   late ThemeMode _themeMode = themeProvider.currentThemeMode;
 
   late final scaleProvider = context.read<ScaleProvider>();
-  late ScaleValue _scaleValue = scaleProvider.factor;
+  late ScaleValue _scaleValue = scaleProvider.currentScaleValue;
 
 
   @override
