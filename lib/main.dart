@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'lustlist',
-            themeMode: themeProvider.themeMode,
+            themeMode: themeProvider.currentThemeMode,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             home: const Homepage(),

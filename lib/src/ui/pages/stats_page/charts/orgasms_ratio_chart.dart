@@ -30,7 +30,7 @@ class _OrgasmsRatioChartState extends State<OrgasmsRatioChart> {
 
   @override
   Widget build(BuildContext context) {
-    final isLight = context.watch<ThemeProvider>().themeMode == ThemeMode.light;
+    final isLight = context.watch<ThemeProvider>().currentThemeMode == ThemeMode.light;
     bool haveData = widget.userAmount != 0 && widget.partnersAmount != 0;
 
     return Padding(

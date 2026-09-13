@@ -38,7 +38,7 @@ class _CropImagePageState extends State<CropImagePage> {
   @override
   Widget build(BuildContext context) {
     late final themeProvider = context.read<ThemeProvider>();
-    late bool isLight = themeProvider.themeMode == ThemeMode.light;
+    late bool isLight = themeProvider.currentThemeMode == ThemeMode.light;
     Color itemsColor = isLight ? context.theme.mainColors.surface : context.theme.mainColors.text;
     
     return Scaffold(

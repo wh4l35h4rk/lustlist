@@ -22,7 +22,7 @@ class AppearancePage extends StatefulWidget {
 
 class _AppearancePageState extends State<AppearancePage> {
   late final themeProvider = context.read<ThemeProvider>();
-  late ThemeMode _themeMode = themeProvider.themeMode;
+  late ThemeMode _themeMode = themeProvider.currentThemeMode;
 
   late final scaleProvider = context.read<ScaleProvider>();
   late ScaleValue _scaleValue = scaleProvider.factor;
